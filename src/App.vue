@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import NavBar from "@/components/NavBar/NavBar";
+import NavBar from "@/components/Header/NavBar";
 import Footer from "@/components/Footer/Footer";
 
 export default {
@@ -60,6 +60,8 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: "Consolas", "Inconsolata", monospace;
+  text-align: center;
+  justify-content: center;
 }
 
 #app {
