@@ -53,7 +53,7 @@ export default {
 
 body {
   margin: 0;
-  font-family: "Consolas,Inconsolata,monospace";
+  font-family: Consolas, "Inconsolata", monospace;
 }
 .header {
   border-bottom: 7px solid #aada18;
