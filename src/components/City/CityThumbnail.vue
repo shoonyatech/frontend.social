@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import TinyKeyValue from "@/components/TinyKeyValue";
+import TinyKeyValue from "@/components/common/TinyKeyValue";
 
 export default {
   components: {
