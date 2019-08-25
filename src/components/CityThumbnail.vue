@@ -60,6 +60,9 @@ export default {
   components: {
     TinyKeyValue
   },
+  props: {
+    city: { type: Object, required: true }
+  },
 
   methods: {}
 };

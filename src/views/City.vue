@@ -10,13 +10,13 @@
     </div>
     <div class="thumbnail-container">
       <city-thumbnail
-        v-for="city in this.allCities"
+        v-for="city in cities"
         :key="'city-id-' + city._id"
         :city="city"
         class="city-card"
       />
       <span
-        v-if="this.$store.state.noResultshow"
+        v-if="cities == null"
         class="noResult"
       >No result found!! Please try with different filter.</span>
     </div>
@@ -25,9 +25,16 @@
 
 <script>
 import CityThumbnail from "@/components/CityThumbnail";
+import cityService from "@/services/city.service";
+
 export default {
   components: {
     CityThumbnail
+  },
+  data() {
+    return {
+      cities: null
+    };
   },
   methods: {
     citySearch(e) {
@@ -36,7 +43,9 @@ export default {
         .replace(/^\s+/, "")
         .replace(/\s+$/, "");
       if (citySearchText !== "") {
-        this.$store.dispatch("GET_CITIES", citySearchText);
+        cityService.getCities(citySearchText).then(response => {
+          this.cities = response.data;
+        });
       }
     }
   }
