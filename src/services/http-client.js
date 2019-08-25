@@ -7,16 +7,16 @@ const httpClient = () => {
 };
 
 export default {
-  get(page) {
-    return httpClient().get(page);
+  get(url) {
+    return httpClient().get(url);
   },
-  post(page, data, auth) {
-    return httpClient().post(page, data, auth);
+  post(url, data) {
+    return httpClient().post(url, data);
   },
-  update(page, data, auth) {
-    return httpClient().put(page, data, auth);
+  update(url, data) {
+    return httpClient().put(url, data);
   },
-  delete(page, data, auth) {
-    return httpClient().put(page, data, auth);
+  delete(url, data) {
+    return httpClient().put(url, data);
   }
 };
