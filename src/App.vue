@@ -51,22 +51,22 @@ export default {
 <style lang="scss">
 @import "https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css";
 
+html {
+  font-size: 22px;
+}
+
 body {
   margin: 0;
-  font-family: Consolas, "Inconsolata", monospace;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Consolas", "Inconsolata", monospace;
 }
-.header {
-  border-bottom: 7px solid #aada18;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: white;
-}
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #aada18;
+  color: #2c3e50;
   .main {
     min-height: 70vh;
     margin-top: 87px;
@@ -74,5 +74,47 @@ body {
       margin-top: 70px;
     }
   }
+}
+
+.header {
+  border-bottom: 7px solid #aada18;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: white;
+  color: #aada18;
+}
+
+.icon-button {
+  background-color: #aada20;
+  border: 3px solid white;
+  height: 66px;
+  width: 66px;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.page {
+  min-height: 920px;
+}
+
+.text-sm {
+  font-size: 0.75rem;
+}
+
+.text-xs {
+  font-size: 0.6rem;
+}
+
+.left {
+  display: inline-block;
+  justify-content: left;
+  text-align: left;
+}
+
+.right {
+  display: inline-block;
+  justify-content: right;
+  text-align: right;
 }
 </style>
