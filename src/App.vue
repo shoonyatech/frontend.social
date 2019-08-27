@@ -60,8 +60,16 @@ body {
   padding: 0;
   box-sizing: border-box;
   font-family: "Consolas", "Inconsolata", monospace;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
   text-align: center;
   justify-content: center;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 #app {
@@ -118,5 +126,9 @@ body {
   display: inline-block;
   justify-content: right;
   text-align: right;
+}
+
+.inline-block {
+  display: inline-block;
 }
 </style>

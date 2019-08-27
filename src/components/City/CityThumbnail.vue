@@ -7,10 +7,16 @@
         src="/images/city-thumb.jpg"
       >
       <div class="details">
-        <div>{{ city.name }}, {{ city.country }}</div>
+        <div class="inline-block">
+          {{ city.name }}, {{ city.country }}
+        </div>
         <div class="text-sm">
-          <span class="left half-width">{{ city.devCount }} devs</span>
-          <span class="half-width">{{ city.designersCount }} designers</span>
+          <span
+            class="left half-width inline-block"
+          >{{ city.devCount }} devs</span>
+          <span
+            class="half-width inline-block"
+          >{{ city.designersCount }} designers</span>
         </div>
         <div class="text-xs tiny-details">
           <tiny-key-value
@@ -45,7 +51,7 @@
             class="half-width"
           />
         </div>
-        <div class="text-xs">
+        <div class="text-xs inline-block">
           ReactFoo 2019, JSFoo 2019
         </div>
       </div>

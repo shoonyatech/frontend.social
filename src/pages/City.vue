@@ -63,6 +63,7 @@ export default {
   margin: 2rem;
   display: inline-block;
 }
+
 .inputCityDiv {
   border: 3px solid #aada20;
   display: inline-block;
