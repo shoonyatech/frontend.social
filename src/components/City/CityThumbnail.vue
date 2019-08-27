@@ -93,6 +93,7 @@ export default {
 
 .details {
   padding: 0.5rem;
+  margin-top: -0.75rem;
   text-align: left;
 }
 
