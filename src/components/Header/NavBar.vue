@@ -2,7 +2,7 @@
   <nav>
     <div class="static-header">
       <div class="main-logo">
-        <img :src="require('../../assets/logo.jpg')">
+        <img src="/images/logo.jpg">
       </div>
       <div class="menu-icon">
         <i
