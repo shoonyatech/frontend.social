@@ -14,6 +14,11 @@ export default new Router({
       component: Home
     },
     {
+      path: "/city/:cityId",
+      name: "CityDetails",
+      component: () => import("./pages/CityDetails.vue")
+    },
+    {
       path: "/city",
       name: "city",
       component: () => import("./pages/City.vue")
