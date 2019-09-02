@@ -1,6 +1,6 @@
 <template>
   <!-- div for searching city -->
-  <router-link :to="'/city/' + city._id">
+  <router-link :to="'/city/' + city.name + '/' + city.country">
     <div class="thumbnail">
       <img
         class="photo"
