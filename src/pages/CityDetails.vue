@@ -38,8 +38,9 @@ export default {
     };
   },
   created() {
-    const cityId = this.$route.params.cityId;
-    cityService.getCityDetails(cityId).then(response => {
+    const cityName = this.$route.params.cityName;
+    const countryCode = this.$route.params.countryCode;
+    cityService.getCityDetails(cityName, countryCode).then(response => {
       this.selectedCity = response.data;
     });
   },
