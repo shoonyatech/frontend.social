@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    Welcome to Frontend social
+    Hangout with Frontend Developers and Designers..
   </div>
 </template>
 
