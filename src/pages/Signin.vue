@@ -1,16 +1,19 @@
 <template>
   <div class="sign-in">
     <h2>Sign in to see customized results for you</h2>
-    <!-- <facebook-login class="button" appId="311503802832589"></facebook-login> -->
+    <facebook-login
+      class="button"
+      app-id="311503802832589"
+    />
   </div>
 </template>
 
 <script>
-// import FacebookLogin from "@/components/FacebookLogin.vue"; // @ is an alias to /src
+import FacebookLogin from "@/components/Signin/FacebookLogin.vue";
 
 export default {
   components: {
-    // FacebookLogin
+    FacebookLogin
   },
   data() {
     return {
