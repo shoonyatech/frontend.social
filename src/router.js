@@ -21,7 +21,7 @@ export default new Router({
     {
       path: "/city",
       name: "city",
-      component: () => import("./pages/City.vue")
+      component: () => import("./pages/Cities.vue")
     },
     {
       path: "/jobs",
