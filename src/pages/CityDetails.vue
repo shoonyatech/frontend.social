@@ -13,10 +13,10 @@
               />
             </b-col>
             <b-col md="12">
-              Conf
-            </b-col>
-            <b-col md="12">
-              Meetups
+              <city-events
+                :upcoming-events="upcomingEvents"
+                :past-events="pastEvents"
+              />
             </b-col>
           </b-row>
         </b-col>
@@ -45,19 +45,23 @@
 
 <script>
 import CityBasicInfo from "@/components/City/CityBasicInfo";
+import CityEvents from "@/components/City/CityEvents";
 import CityUsers from "@/components/City/CityUsers";
 import cityService from "@/services/city.service";
 
 export default {
   components: {
     CityBasicInfo,
+    CityEvents,
     CityUsers
   },
   data() {
     return {
       selectedCity: null,
       developersFromCity: [],
-      designersFromCity: []
+      designersFromCity: [],
+      upcomingEvents: [],
+      pastEvents: []
     };
   },
   created() {
