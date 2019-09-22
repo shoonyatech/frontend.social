@@ -1,26 +1,37 @@
 <template>
   <!-- div for searching city -->
   <div class="city-container">
-    <city-basic-info
-      v-if="this.selectedCity"
-      :city="this.selectedCity"
-      class="city-card"
-    />
-
-    <div class="scroll">
-      <div class="mt-4 row devcountPdiv">
-        <div class="col-md-8 devcount">
-          <div class="row">
-            <div class />
-          </div>
-          <div class="row mt-4">
-            <div class="devcol col-md-7" />
-          </div>
-        </div>
-        <!-- get developers and desiners details -->
-        <div class="col-md-4 devdisp" />
-      </div>
-    </div>
+    <b-container class="bv-example-row">
+      <b-row>
+        <b-col md="6">
+          <b-row>
+            <b-col md="12">
+              <city-basic-info
+                v-if="this.selectedCity"
+                :city="this.selectedCity"
+                class="city-card"
+              />
+            </b-col>
+            <b-col md="12">
+              Conf
+            </b-col>
+            <b-col md="12">
+              Meetups
+            </b-col>
+          </b-row>
+        </b-col>
+        <b-col md="6">
+          <b-row>
+            <b-col md="12">
+              Developers
+            </b-col>
+            <b-col md="12">
+              Designers
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
