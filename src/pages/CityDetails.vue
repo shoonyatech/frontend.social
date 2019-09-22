@@ -7,8 +7,8 @@
           <b-row>
             <b-col md="12">
               <city-basic-info
-                v-if="this.selectedCity"
-                :city="this.selectedCity"
+                v-if="selectedCity"
+                :city="selectedCity"
                 class="city-card"
               />
             </b-col>
@@ -23,10 +23,18 @@
         <b-col md="6">
           <b-row>
             <b-col md="12">
-              Developers
+              <city-users
+                :city="selectedCity == null ? '' : selectedCity.name"
+                user-group="Developers"
+                :users="developersFromCity"
+              />
             </b-col>
             <b-col md="12">
-              Designers
+              <city-users
+                :city="selectedCity == null ? '' : selectedCity.name"
+                user-group="Designers"
+                :users="designersFromCity"
+              />
             </b-col>
           </b-row>
         </b-col>
@@ -37,15 +45,19 @@
 
 <script>
 import CityBasicInfo from "@/components/City/CityBasicInfo";
+import CityUsers from "@/components/City/CityUsers";
 import cityService from "@/services/city.service";
 
 export default {
   components: {
-    CityBasicInfo
+    CityBasicInfo,
+    CityUsers
   },
   data() {
     return {
-      selectedCity: null
+      selectedCity: null,
+      developersFromCity: [],
+      designersFromCity: []
     };
   },
   created() {
