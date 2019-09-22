@@ -2,8 +2,10 @@
   <footer>
     <div class="footer-content">
       <div class="messages">
-        We are building a one stop platform for frontend developers and designers.
-        <br>If you want to contribute to this community driven effort, please mail us
+        We are building a one stop platform for frontend developers and
+        designers.
+        <br>If you want to contribute to this community driven effort, please
+        mail us
         <b>contact@shoonya.ca</b>
         <br>
       </div>
@@ -53,12 +55,14 @@ footer {
     .social-links {
       display: flex;
       .social-link {
-        height: 66px;
-        width: 66px;
+        height: 50px;
+        width: 50px;
         display: flex;
         background-color: #aada18;
         margin-right: 10px;
-        border-radius: 15px;
+        border-radius: 50%;
+        padding: 8px;
+
         img {
           width: 100%;
           height: 100%;
