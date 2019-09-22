@@ -31,6 +31,17 @@
           />
         </div>
       </li>
+      <li
+        :key="'signin'"
+        class="nav-item right"
+      >
+        <div
+          class="nav-item-link"
+          @click="redirect('/signin')"
+        >
+          Sign in
+        </div>
+      </li>
     </ul>
   </nav>
 </template>
@@ -86,6 +97,7 @@ nav {
     align-items: center;
     justify-content: space-between;
     margin: 0;
+    width: 100%;
     figure {
       cursor: pointer;
       margin-right: 10px;
@@ -101,15 +113,13 @@ nav {
       font-size: 24px;
       cursor: pointer;
       .nav-item-link {
-        color: "#aada18";
+        color: #aada18;
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
       }
       &:hover {
-        background-color: #aada18;
-        color: white;
-        border-radius: 5px;
+        font-weight: bold;
       }
     }
   }
