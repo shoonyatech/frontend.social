@@ -109,6 +109,7 @@ body {
   width: 100%;
   background-color: white;
   color: #aada18;
+  z-index: 10;
 }
 
 .icon-button {
