@@ -1,39 +1,46 @@
 <template>
   <footer>
-    <div class="footer-content">
-      <div class="messages">
-        We are building a one stop platform for frontend developers and
-        designers.
-        <br>If you want to contribute to this community driven effort, please
-        mail us
-        <b>contact@shoonya.ca</b>
-        <br>
-      </div>
-      <div class="social-links">
-        <div class="social-link">
-          <img
-            src="https://www.frontend.social/images/slack.png"
-            alt="slack"
-          >
+    <b-row>
+      <b-col md="8">
+        <div class="messages">
+          We are building a one stop platform for frontend developers and
+          designers.
+          <br>If you want to contribute to this community driven effort,
+          please mail us
+          <b>contact@shoonya.ca</b>
+          <br>
         </div>
-        <div class="social-link">
-          <img
-            src="https://www.frontend.social/images/twitter.png"
-            alt="twitter"
-          >
+      </b-col>
+      <b-col md="4">
+        <div class="social-links">
+          <div class="social-link">
+            <img
+              src="https://www.frontend.social/images/slack.png"
+              alt="slack"
+            >
+          </div>
+          <div class="social-link">
+            <img
+              src="https://www.frontend.social/images/twitter.png"
+              alt="twitter"
+            >
+          </div>
+          <div class="social-link">
+            <img
+              src="https://www.frontend.social/images/github.png"
+              alt="github"
+            >
+          </div>
         </div>
-        <div class="social-link">
-          <img
-            src="https://www.frontend.social/images/github.png"
-            alt="github"
-          >
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col md="12">
+        <div class="copyright-text">
+          {{ copyrightText }}
         </div>
-      </div>
-    </div>
-
-    <div class="copyright-text">
-      {{ copyrightText }}
-    </div>
+      </b-col>
+    </b-row>
   </footer>
 </template>
 
@@ -46,29 +53,11 @@ export default {
 <style scoped lang="scss">
 footer {
   .footer-content {
-    font-size: 22px;
     text-align: left;
     color: #2c3e50;
     padding: 10px;
     display: flex;
     justify-content: space-between;
-    .social-links {
-      display: flex;
-      .social-link {
-        height: 50px;
-        width: 50px;
-        display: flex;
-        background-color: #aada18;
-        margin-right: 10px;
-        border-radius: 50%;
-        padding: 8px;
-
-        img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-    }
   }
   border-top: 2px solid #aada18;
 
@@ -79,16 +68,28 @@ footer {
     padding: 11px;
     text-align: center;
   }
-}
 
-@media screen and (max-width: 759px) {
-  .footer-content {
-    flex-direction: column;
-    .messages {
-      margin-bottom: 10px;
-    }
-    .social-links {
-      justify-content: center;
+  .messages {
+    text-align: left;
+  }
+
+  .social-links {
+    display: flex;
+    flex-direction: row;
+    .social-link {
+      flex: 0 1 auto;
+      height: 50px;
+      width: 50px;
+      display: flex;
+      background-color: #aada18;
+      margin-right: 10px;
+      border-radius: 50%;
+      padding: 8px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 }
