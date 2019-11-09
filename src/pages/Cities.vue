@@ -18,7 +18,8 @@
       <span
         v-if="cities == null || cities.length === 0"
         class="noResult"
-      >No result found!! Please try with different filter.</span>
+      >
+        No result found!! Please try with different filter.</span>
     </div>
   </div>
 </template>
@@ -42,9 +43,7 @@ export default {
       const citySearchText = e.target.value
         .replace(/^\s+/, "")
         .replace(/\s+$/, "");
-      cityService.getCities(citySearchText).then(response => {
-        this.cities = response.data;
-      });
+      this.cities = cityService.getCities(citySearchText);
     }
   }
 };

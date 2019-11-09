@@ -3,7 +3,7 @@
   <div class="city-container">
     <b-container class="bv-example-row">
       <b-row>
-        <b-col md="6">
+        <b-col md="4">
           <b-row>
             <b-col md="12">
               <city-basic-info
@@ -20,7 +20,7 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col md="6">
+        <b-col md="8">
           <b-row>
             <b-col md="12">
               <city-users
@@ -67,9 +67,13 @@ export default {
   created() {
     const cityName = this.$route.params.cityName;
     const countryCode = this.$route.params.countryCode;
-    cityService.getCityDetails(cityName, countryCode).then(response => {
-      this.selectedCity = response.data;
-    });
+    this.selectedCity = cityService.getCityDetails(cityName, countryCode);
+    let cityEvents = cityService.getConferencesInCity(cityName, countryCode);
+    this.upcomingEvents = cityEvents.upcoming;
+    this.pastEvents = cityEvents.past;
+    let cityUsers = cityService.getUsersFromCity(cityName, countryCode);
+    this.developersFromCity = cityUsers.developers;
+    this.designersFromCity = cityUsers.designers;
   },
 
   methods: {}
@@ -83,7 +87,7 @@ export default {
 }
 
 .city-card {
-  margin: 2rem;
+  margin: 0.5rem 0 1rem 0;
   display: inline-block;
 }
 
