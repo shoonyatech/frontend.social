@@ -1,6 +1,6 @@
 <template>
   <div class="sign-in">
-    <h2>Sign in to see customized results for you</h2>
+    <div>Sign in to see customized results for you</div>
     <facebook-login
       class="button"
       app-id="311503802832589"
