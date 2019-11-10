@@ -9,7 +9,12 @@
           >
         </b-col>
         <b-col md="9">
-          <div>Social links</div>
+          <KeyValue
+            v-for="item in social"
+            :key="item.label"
+            :label="item.label"
+            :value="item.value"
+          />
         </b-col>
       </b-row>
     </b-container>
@@ -18,18 +23,21 @@
 
 <script>
 import userService from "@/services/user.service";
+import KeyValue from "@/components/common/KeyValue";
 
 export default {
-  components: {},
+  components: { KeyValue },
   data() {
     return {
-      profilePhoto: ""
+      profilePhoto: "",
+      social: []
     };
   },
   created() {
     const profile = userService.getUserProfile();
     console.log(profile);
     this.profilePic = profile.profilePic;
+    this.social = profile.social;
   },
   methods: {}
 };
@@ -38,7 +46,7 @@ export default {
 
 <style scoped>
 .profile-photo {
-  height: 250px;
+  height: 200px;
   background-color: #aada18;
   margin-right: 10px;
   text-align: "left";
