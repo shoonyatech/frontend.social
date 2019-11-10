@@ -2,9 +2,7 @@
   <section class="section">
     <div class="container has-text-centered">
       <div class="column is-4 is-offset-4">
-        <a
-          href="https://www.facebook.com/v2.11/dialog/oauth?&response_type=token&client_id=311503802832589&redirect_uri=https://www.frontend.social/"
-        >
+        <a :href="redirectUrl">
           <button class="fb">Sign in with Facebook</button>
         </a>
         <div
@@ -27,6 +25,8 @@ export default {
   components: {},
   data() {
     return {
+      redirectUrl:
+        "https://www.facebook.com/v2.11/dialog/oauth?&response_type=token&client_id=311503802832589&redirect_uri=http://localhost:8080/signin/fb",
       authWindow: null,
       failed: false,
       error: "",
