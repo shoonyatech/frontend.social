@@ -20,9 +20,9 @@ export default {
     const accessToken = accessTokenParam.substr(
       accessTokenParam.indexOf("=") + 1
     );
-    console.log(accessToken);
     userService.fbSignin(accessToken).then(res => {
-      localStorage.setItem("profile", res.data);
+      localStorage.setItem("profile", JSON.stringify(res.data));
+      window.location.href = "/me";
     });
   },
   methods: {}

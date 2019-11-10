@@ -41,14 +41,17 @@ export default new Router({
     {
       path: "/signin",
       name: "signin",
-      component: () =>
-        import(/* webpackChunkName: "signin" */ "./pages/Signin.vue")
+      component: () => import("./pages/Signin.vue")
     },
     {
       path: "/signin/fb",
       name: "signinfb",
-      component: () =>
-        import(/* webpackChunkName: "signin" */ "./pages/HandleFBResponse.vue")
+      component: () => import("./pages/HandleFBResponse.vue")
+    },
+    {
+      path: "/me",
+      name: "me",
+      component: () => import("./pages/Profile.vue")
     }
   ]
 });
