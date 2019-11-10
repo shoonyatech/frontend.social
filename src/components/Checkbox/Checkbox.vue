@@ -1,12 +1,11 @@
 <template>
-  <div class="filter">
+  <div>
     <input
       :id="id"
-      :type="type"
-      :value="value"
-      :name="name"
-      :checked="isSelected"
-      @input="onClick(id)"
+      type="checkbox"
+      :checked="isChecked"
+      :value="id"
+      @click="onClick(id)"
     >
     <label :for="id">{{ label }}</label>
   </div>
@@ -18,29 +17,17 @@ export default {
   props: {
     label: {
       type: String,
-      default:""
-    },
-    name: {
-      type: String,
       default: ""
     },
     onClick: {
       type: Function,
       default: () => {}
     },
-    type: {
-      type: String,
-      default: "checkbox"
-    },
-    value: {
-      type: String,
-      default: ""
-    },
     id: {
       type: String,
-      default: ""
+      required: true
     },
-    isSelected: {
+    isChecked: {
       type: Boolean,
       default: false
     }
@@ -49,7 +36,4 @@ export default {
 </script>
 
 <style scoped>
-.filter > label {
-  margin-left: 5px;
-}
 </style>
