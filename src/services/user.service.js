@@ -4,7 +4,7 @@ export default {
   fbSignin: accessToken => {
     return httpClient.post(`fb-signin`, { accessToken: accessToken });
   },
-  getUserProfile: () => {
+  getLoggedInUserProfile: () => {
     const profile = localStorage.getItem("profile");
     if (profile) {
       return JSON.parse(profile);
