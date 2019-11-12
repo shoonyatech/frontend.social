@@ -131,4 +131,22 @@ body {
 .inline-block {
   display: inline-block;
 }
+
+label {
+  display: inline-block;
+  color: #aada18;
+}
+
+button {
+  background-color: #aada18;
+  color: white;
+  padding: 0 20px;
+  border: 0;
+  height: 2rem;
+  margin: 10px;
+}
+
+button:hover {
+  background-color: #c5dd7d;
+}
 </style>

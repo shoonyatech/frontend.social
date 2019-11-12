@@ -14,6 +14,7 @@
             :key="item.label"
             :label="item.label"
             :value="item.value"
+            :is-editable="editMode"
           />
         </b-col>
       </b-row>
@@ -35,6 +36,14 @@
           <div />
         </b-col>
         <b-col md="9">
+          <label class="skills-label">Skills</label>
+        </b-col>
+      </b-row>
+      <b-row class="row">
+        <b-col md="3">
+          <div />
+        </b-col>
+        <b-col md="9">
           <KeyValue
             label="Conferences"
             :value="confDetails"
@@ -43,6 +52,30 @@
             label="Meetups"
             :value="mettupDetails"
           />
+        </b-col>
+      </b-row>
+      <b-row class="row">
+        <b-col md="12">
+          <div class="buttons">
+            <button
+              v-if="!editMode"
+              @click="edit"
+            >
+              Edit
+            </button>
+            <button
+              v-if="editMode"
+              @click="save"
+            >
+              Save
+            </button>
+            <button
+              v-if="editMode"
+              @click="cancel"
+            >
+              Cancel
+            </button>
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -61,11 +94,12 @@ export default {
       social: [],
       skills: [],
       confDetails: "",
-      mettupDetails: ""
+      mettupDetails: "",
+      editMode: false
     };
   },
   created() {
-    const profile = userService.getUserProfile();
+    const profile = userService.getLoggedInUserProfile();
     console.log(profile);
     this.profilePic = profile.profilePic;
     this.social = profile.social;
@@ -77,7 +111,17 @@ export default {
         ", "
       )} (Past: ${profile.meetupAttended.join(", ")})`);
   },
-  methods: {}
+  methods: {
+    edit: function(event) {
+      this.editMode = true;
+    },
+    save: function(event) {
+      this.editMode = false;
+    },
+    cancel: function(event) {
+      this.editMode = false;
+    }
+  }
 };
 </script>
 
@@ -93,5 +137,16 @@ export default {
 
 .row {
   margin-top: 20px;
+}
+
+.skills-label {
+  width: 100%;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.buttons {
+  width: 100%;
+  text-align: right;
 }
 </style>
