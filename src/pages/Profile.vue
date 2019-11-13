@@ -37,6 +37,27 @@
         </b-col>
         <b-col md="9">
           <label class="skills-label">Skills</label>
+          <RangeSlider
+            label="React"
+            :value="4"
+            :max="5"
+            :is-editable="editMode"
+          />
+          <RangeSlider
+            label="React"
+            :value="4"
+            :max="5"
+            :is-editable="editMode"
+          />
+          <RangeSlider
+            label="React"
+            :value="4"
+            :max="5"
+            :is-editable="editMode"
+          />
+          <button class="skills-add">
+            +
+          </button>
         </b-col>
       </b-row>
       <b-row class="row">
@@ -85,9 +106,10 @@
 <script>
 import userService from "@/services/user.service";
 import KeyValue from "@/components/common/KeyValue";
+import RangeSlider from "@/components/common/RangeSlider";
 
 export default {
-  components: { KeyValue },
+  components: { KeyValue, RangeSlider },
   data() {
     return {
       profilePhoto: "",
@@ -147,6 +169,10 @@ export default {
 
 .buttons {
   width: 100%;
+  text-align: right;
+}
+
+.skills-add {
   text-align: right;
 }
 </style>
