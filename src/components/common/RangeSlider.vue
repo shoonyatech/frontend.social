@@ -2,16 +2,12 @@
   <div class="host">
     <span class="label">{{ label }}</span>
     <input
-      v-if="isEditable"
+      :disabled="!isEditable"
       type="range"
       :value="value"
       :max="max"
       class="editable-value"
     >
-    <span
-      v-else
-      class="value"
-    >{{ value }}</span>
   </div>
 </template>
 
