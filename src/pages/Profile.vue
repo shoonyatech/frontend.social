@@ -38,20 +38,10 @@
         <b-col md="9">
           <label class="skills-label">Skills</label>
           <RangeSlider
-            label="React"
-            :value="4"
-            :max="5"
-            :is-editable="editMode"
-          />
-          <RangeSlider
-            label="React"
-            :value="4"
-            :max="5"
-            :is-editable="editMode"
-          />
-          <RangeSlider
-            label="React"
-            :value="4"
+            v-for="skill in skills"
+            :key="skill.name"
+            :label="skill.name"
+            :value="skill.rating"
             :max="5"
             :is-editable="editMode"
           />
@@ -65,13 +55,15 @@
           <div />
         </b-col>
         <b-col md="9">
-          <KeyValue
+          <KeyMultiValue
             label="Conferences"
-            :value="confDetails"
+            :value="confAttended"
+            :is-editable="editMode"
           />
-          <KeyValue
+          <KeyMultiValue
             label="Meetups"
-            :value="mettupDetails"
+            :value="mettupAttended"
+            :is-editable="editMode"
           />
         </b-col>
       </b-row>
@@ -106,17 +98,18 @@
 <script>
 import userService from "@/services/user.service";
 import KeyValue from "@/components/common/KeyValue";
+import KeyMultiValue from "@/components/common/KeyMultiValue";
 import RangeSlider from "@/components/common/RangeSlider";
 
 export default {
-  components: { KeyValue, RangeSlider },
+  components: { KeyValue, KeyMultiValue, RangeSlider },
   data() {
     return {
       profilePhoto: "",
       social: [],
       skills: [],
-      confDetails: "",
-      mettupDetails: "",
+      confAttended: [],
+      mettupAttended: [],
       editMode: false
     };
   },

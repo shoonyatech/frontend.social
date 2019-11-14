@@ -2,9 +2,17 @@
   <div class="host">
     <span class="label">{{ label }}</span>
     <EditableValue
+      v-for="value in values"
+      :key="value"
       :value="value"
       :is-editable="isEditable"
     />
+    <button
+      class="skills-add"
+      @click="add"
+    >
+      +
+    </button>
   </div>
 </template>
 
@@ -18,13 +26,18 @@ export default {
       type: String,
       default: ""
     },
-    value: {
-      type: String,
-      default: ""
+    values: {
+      type: Array,
+      default: () => [""]
     },
     isEditable: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    add: function(event) {
+      this.values.push("");
     }
   }
 };
