@@ -132,6 +132,22 @@ body {
   display: inline-block;
 }
 
+h1 {
+  font-size: 1.2rem;
+  text-align: left;
+  width: 100%;
+  border-bottom: 1px solid #aada18;
+}
+
+a {
+  color: rgb(35, 180, 173) !important;
+  cursor: pointer;
+}
+
+a:hover {
+  background-color: #aada1834;
+}
+
 label {
   display: inline-block;
   color: #aada18;
