@@ -23,19 +23,6 @@
           <div />
         </b-col>
         <b-col md="9">
-          <KeyValue
-            v-for="skill in skills"
-            :key="skill.name"
-            :label="skill.name"
-            :value="skill.rating"
-          />
-        </b-col>
-      </b-row>
-      <b-row class="row">
-        <b-col md="3">
-          <div />
-        </b-col>
-        <b-col md="9">
           <label class="skills-label">Skills</label>
           <RangeSlider
             v-for="skill in skills"
@@ -45,7 +32,11 @@
             :max="5"
             :is-editable="editMode"
           />
-          <button class="skills-add">
+          <button
+            v-if="editMode"
+            class="skills-add"
+            @click="addSkill"
+          >
             +
           </button>
         </b-col>
@@ -107,7 +98,7 @@ export default {
     return {
       profilePhoto: "",
       social: [],
-      skills: [],
+      skills: [{}],
       confAttended: [],
       mettupAttended: [],
       editMode: false
@@ -127,6 +118,9 @@ export default {
       )} (Past: ${profile.meetupAttended.join(", ")})`);
   },
   methods: {
+    addSkill: function(event) {
+      this.skills.push({});
+    },
     edit: function(event) {
       this.editMode = true;
     },
@@ -167,5 +161,6 @@ export default {
 
 .skills-add {
   text-align: right;
+  flex: 1 1 auto;
 }
 </style>

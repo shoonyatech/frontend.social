@@ -1,13 +1,17 @@
 <template>
   <div class="host">
     <span class="label">{{ label }}</span>
-    <EditableValue
-      v-for="value in values"
-      :key="value"
-      :value="value"
-      :is-editable="isEditable"
-    />
+    <div class="value-list">
+      <EditableValue
+        v-for="value in values"
+        :key="value"
+        :value="value"
+        :is-editable="isEditable"
+        class="value"
+      />
+    </div>
     <button
+      v-if="isEditable"
       class="skills-add"
       @click="add"
     >
@@ -45,7 +49,7 @@ export default {
 
 <style scoped>
 .host {
-  display: inline-block;
+  display: flex;
   width: 100%;
   padding-left: 10px;
   text-align: left;
@@ -53,7 +57,17 @@ export default {
 
 .label {
   color: #aada18;
-  width: 150px;
-  display: inline-block;
+  width: 7rem;
+  min-width: 7rem;
+}
+
+.value-list {
+  flex: 1 1 auto;
+}
+
+.skills-add {
+  flex: 0 0 auto;
+  margin: 2px 10px 0 10px;
+  height: 1.5rem;
 }
 </style>
