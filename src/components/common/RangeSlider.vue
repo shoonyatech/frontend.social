@@ -1,6 +1,11 @@
 <template>
   <div class="host">
-    <span class="label">{{ label }}</span>
+    <span class="label">
+      <EditableValue
+        :value="label"
+        :is-editable="isEditable"
+      />
+    </span>
     <input
       :disabled="!isEditable"
       type="range"
@@ -12,8 +17,10 @@
 </template>
 
 <script>
+import EditableValue from "@/components/common/EditableValue";
+
 export default {
-  components: {},
+  components: { EditableValue },
   props: {
     label: {
       type: String,
@@ -37,28 +44,23 @@ export default {
 
 <style scoped>
 .host {
-  display: inline-block;
+  display: flex;
   width: 100%;
   padding-left: 10px;
   text-align: left;
 }
 
 .label {
-  color: #aada18;
-  width: 150px;
-  display: inline-block;
-}
-
-.value {
-  display: inline-block;
+  flex: 0 0 auto;
+  width: 6rem;
+  margin-right: 1rem;
 }
 
 .editable-value {
   border: 3px solid #aada20;
-  display: inline-block;
+  flex: 1 1 auto;
   margin: 2px auto;
-  min-width: 15rem;
-  width: 24rem;
+  width: 100%;
   font-size: inherit;
   line-height: inherit;
   height: 1.5rem;

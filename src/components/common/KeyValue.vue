@@ -4,6 +4,7 @@
     <EditableValue
       :value="value"
       :is-editable="isEditable"
+      class="value"
     />
   </div>
 </template>
@@ -32,7 +33,7 @@ export default {
 
 <style scoped>
 .host {
-  display: inline-block;
+  display: flex;
   width: 100%;
   padding-left: 10px;
   text-align: left;
@@ -40,7 +41,11 @@ export default {
 
 .label {
   color: #aada18;
-  width: 150px;
-  display: inline-block;
+  width: 7rem;
+  min-width: 7rem;
+}
+
+.value {
+  flex: 1 1 auto;
 }
 </style>

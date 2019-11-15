@@ -142,8 +142,6 @@ button {
   color: white;
   padding: 0 20px;
   border: 0;
-  height: 2rem;
-  margin: 10px;
 }
 
 button:hover {
