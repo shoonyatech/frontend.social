@@ -4,11 +4,11 @@
       <b-row>
         <b-col md="3">
           <img
-            :src="profile.profilePic"
+            :src="profilePhoto"
             class="profile-photo"
           >
           <div class="user-name">
-            {{ profile.name }}
+            {{ fullName }}
           </div>
         </b-col>
         <b-col md="9">
@@ -99,7 +99,8 @@ export default {
   components: { KeyValue, KeyMultiValue, RangeSlider },
   data() {
     return {
-      profile: {},
+      profilePhoto: "",
+      fullName: "",
       social: [],
       skills: [{}],
       confAttended: [],
@@ -108,7 +109,9 @@ export default {
     };
   },
   created() {
-    this.profile = userService.getLoggedInUserProfile();
+    const profile = userService.getLoggedInUserProfile();
+    this.profilePhoto = profile.profilePic;
+    this.fullName = profile.name;
     this.social = profile.social;
     this.skills = profile.skills;
     (this.confDetails = `${profile.confUpcoming.join(
