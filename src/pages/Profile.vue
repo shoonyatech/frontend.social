@@ -4,9 +4,12 @@
       <b-row>
         <b-col md="3">
           <img
-            :src="profilePic"
+            :src="profile.profilePic"
             class="profile-photo"
           >
+          <div class="user-name">
+            {{ profile.name }}
+          </div>
         </b-col>
         <b-col md="9">
           <KeyValue
@@ -96,7 +99,7 @@ export default {
   components: { KeyValue, KeyMultiValue, RangeSlider },
   data() {
     return {
-      profilePhoto: "",
+      profile: {},
       social: [],
       skills: [{}],
       confAttended: [],
@@ -105,9 +108,7 @@ export default {
     };
   },
   created() {
-    const profile = userService.getLoggedInUserProfile();
-    console.log(profile);
-    this.profilePic = profile.profilePic;
+    this.profile = userService.getLoggedInUserProfile();
     this.social = profile.social;
     this.skills = profile.skills;
     (this.confDetails = `${profile.confUpcoming.join(
@@ -142,6 +143,10 @@ export default {
   margin-right: 10px;
   text-align: "left";
   padding: 8px;
+}
+
+.user-name {
+  font-weight: 700;
 }
 
 .row {
