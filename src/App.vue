@@ -90,6 +90,7 @@ body {
   border-bottom: 7px solid #aada18;
   position: fixed;
   top: 0;
+  z-index: 100;
   width: 100%;
   background-color: white;
   color: #aada18;
