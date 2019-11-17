@@ -1,9 +1,12 @@
 <template>
   <nav>
     <div class="static-header">
-      <div class="main-logo">
+      <a
+        class="main-logo"
+        href="/"
+      >
         <img src="/images/logo.jpg">
-      </div>
+      </a>
       <div class="menu-icon">
         <i
           class="ion-ios-menu"
