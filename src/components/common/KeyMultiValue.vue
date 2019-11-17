@@ -12,7 +12,7 @@
     </div>
     <button
       v-if="isEditable"
-      class="skills-add"
+      class="add"
       @click="add"
     >
       +
@@ -65,9 +65,9 @@ export default {
   flex: 1 1 auto;
 }
 
-.skills-add {
+.add {
   flex: 0 0 auto;
-  margin: 2px 10px 0 10px;
+  margin: 2px 0 0 10px;
   height: 1.5rem;
 }
 </style>
