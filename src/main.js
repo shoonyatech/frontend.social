@@ -1,4 +1,5 @@
 import Vue from "vue";
+import Vuex from "vuex";
 import BootstrapVue from "bootstrap-vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
@@ -13,6 +14,7 @@ import authOptions from "./config/authOptions";
 
 Vue.config.productionTip = false;
 
+Vue.use(Vuex);
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
 Vue.use(VueAuthenticate, authOptions);
