@@ -26,22 +26,28 @@
           <div />
         </b-col>
         <b-col md="9">
-          <label class="skills-label">Skills</label>
-          <RangeSlider
-            v-for="skill in skills"
-            :key="skill.name"
-            :label="skill.name"
-            :value="skill.rating"
-            :max="5"
-            :is-editable="editMode"
-          />
-          <button
-            v-if="editMode"
-            class="skills-add"
-            @click="addSkill"
-          >
-            +
-          </button>
+          <div class="skills">
+            <label class="skills-label">Skills</label>
+            <div class="skill-list">
+              <SkillLevel
+                v-for="skill in skills"
+                :key="skill.name"
+                :label="skill.name"
+                :value="skill.rating"
+                :max="5"
+                :is-editable="editMode"
+              />
+            </div>
+          </div>
+          <div class="skills-actions">
+            <button
+              v-if="editMode"
+              class="skills-add"
+              @click="addSkill"
+            >
+              +
+            </button>
+          </div>
         </b-col>
       </b-row>
       <b-row class="row">
@@ -93,16 +99,16 @@
 import userService from "@/services/user.service";
 import KeyValue from "@/components/common/KeyValue";
 import KeyMultiValue from "@/components/common/KeyMultiValue";
-import RangeSlider from "@/components/common/RangeSlider";
+import SkillLevel from "@/components/Profile/SkillLevel";
 
 export default {
-  components: { KeyValue, KeyMultiValue, RangeSlider },
+  components: { KeyValue, KeyMultiValue, SkillLevel },
   data() {
     return {
       profilePhoto: "",
       fullName: "",
       social: [],
-      skills: [{}],
+      skills: [],
       confAttended: [],
       mettupAttended: [],
       editMode: false
@@ -114,6 +120,9 @@ export default {
     this.fullName = profile.name;
     this.social = profile.social;
     this.skills = profile.skills;
+    if (!this.skills.length) {
+      this.skills.push({});
+    }
     (this.confDetails = `${profile.confUpcoming.join(
       ", "
     )} (Past: ${profile.confAttended.join(", ")})`),
@@ -141,10 +150,10 @@ export default {
 
 <style scoped>
 .profile-photo {
-  height: 200px;
+  height: 220px;
   background-color: #aada18;
   margin-right: 10px;
-  text-align: "left";
+  text-align: left;
   padding: 8px;
 }
 
@@ -157,7 +166,7 @@ export default {
 }
 
 .skills-label {
-  width: 100%;
+  width: 7rem;
   padding-left: 10px;
   text-align: left;
 }
@@ -167,8 +176,19 @@ export default {
   text-align: right;
 }
 
+.skills-actions {
+  width: 100%;
+}
+
 .skills-add {
-  text-align: right;
+  float: right;
+}
+
+.skills {
+  display: flex;
+}
+
+.skill-list {
   flex: 1 1 auto;
 }
 </style>
