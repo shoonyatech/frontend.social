@@ -21,14 +21,14 @@ export default {
       accessTokenParam.indexOf("=") + 1
     );
     userService.fbSignin(accessToken).then(res => {
-      localStorage.setItem("profile", JSON.stringify(res.data));
-      window.location.href = "/me";
+      const user = res.data;
+      localStorage.setItem("profile", JSON.stringify(user));
+      this.$store.commit("signInUser", user);
+      this.$router.push("/me");
     });
   },
   methods: {}
 };
 </script>
 
-
-<style scoped>
-</style>
+<style scoped></style>
