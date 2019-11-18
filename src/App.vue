@@ -13,12 +13,14 @@
 <script>
 import NavBar from "@/components/Header/NavBar";
 import Footer from "@/components/Footer/Footer";
+import store from "@/vuex/store";
 
 export default {
   components: {
     NavBar,
     Footer
   },
+  store,
   data: () => ({
     navLinks: [
       {
