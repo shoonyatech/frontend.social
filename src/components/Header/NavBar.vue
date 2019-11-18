@@ -39,10 +39,18 @@
         class="nav-item right"
       >
         <div
+          v-if="!isSignedIn"
           class="nav-item-link"
           @click="redirect('/signin')"
         >
           Sign in
+        </div>
+        <div
+          v-else
+          class="nav-item-link"
+          @click="redirect('/me')"
+        >
+          Hi
         </div>
       </li>
     </ul>
@@ -50,11 +58,18 @@
 </template>
 
 <script>
+import store from "@/vuex/store";
+
 export default {
   props: {
     navLinks: {
       type: Array,
       required: true
+    }
+  },
+  computed: {
+    isSignedIn() {
+      return this.$store.state.signedInUser != null;
     }
   },
   methods: {
