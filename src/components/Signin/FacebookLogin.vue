@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       redirectUrl:
-        "https://www.facebook.com/v2.11/dialog/oauth?&response_type=token&client_id=311503802832589&redirect_uri=https://www.frontend.social/signin/fb",
+        "https://www.facebook.com/v5.0/dialog/oauth?&response_type=token&client_id=311503802832589&redirect_uri=https://www.frontend.social/signin/fb",
       authWindow: null,
       failed: false,
       error: "",

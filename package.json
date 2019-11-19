@@ -21,6 +21,7 @@
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
     "vue": "^2.6.10",
+    "vue-authenticate": "^1.4.1",
     "vue-router": "^3.0.3",
     "vuex": "^3.1.2"
   },
