@@ -12,7 +12,10 @@
       <b-col md="3">
         <div class="join-box">
           <span class="join-label">Join for Free</span>
-          <button @click="authenticate('facebook')">
+          <button
+            class="social-button fb"
+            @click="authenticate('facebook')"
+          >
             Sign in with Facebook
           </button>
         </div>
@@ -116,10 +119,5 @@ export default {
   margin-bottom: 20px;
   width: 100%;
   display: inline-block;
-}
-
-.social-button {
-  font-size: 0.75rem;
-  padding: 0 !important;
 }
 </style>
