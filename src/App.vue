@@ -166,4 +166,18 @@ button {
 button:hover {
   background-color: #c5dd7d;
 }
+
+.social-button {
+  font-size: 0.75rem;
+  padding: 5px 10px !important;
+}
+
+.fb {
+  background-color: #3c5a99;
+  color: #fff;
+}
+
+.fb:hover {
+  background-color: #3c5999cc;
+}
 </style>
