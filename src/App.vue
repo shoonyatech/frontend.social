@@ -170,6 +170,8 @@ button:hover {
 .social-button {
   font-size: 0.75rem;
   padding: 5px 10px !important;
+  width: 95%;
+  margin-bottom: 0.25rem;
 }
 
 .fb {
@@ -179,5 +181,14 @@ button:hover {
 
 .fb:hover {
   background-color: #3c5999cc;
+}
+
+.github {
+  background-color: #000;
+  color: #fff;
+}
+
+.github:hover {
+  background-color: #000;
 }
 </style>

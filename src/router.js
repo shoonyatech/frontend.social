@@ -49,6 +49,11 @@ export default new Router({
       component: () => import("./pages/HandleFBResponse.vue")
     },
     {
+      path: "/signin/gh",
+      name: "signingh",
+      component: () => import("./pages/HandleFBResponse.vue")
+    },
+    {
       path: "/me",
       name: "me",
       component: () => import("./pages/Profile.vue")
