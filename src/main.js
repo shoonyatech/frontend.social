@@ -34,8 +34,17 @@ Vue.use(VueAuthenticate, {
       clientSecret: ""
     },
     github: {
+      name: "github",
+      url: "/github-signin",
+      authorizationEndpoint: "https://github.com/login/oauth/authorize",
+      redirectUri: "http://localhost:8080/signin/gh",
+      optionalUrlParams: ["scope"],
+      scope: ["user:email"],
+      scopeDelimiter: " ",
+      oauthType: "2.0",
+      popupOptions: { width: 1020, height: 618 },
       clientId: "",
-      redirectUri: "http://localhost:8080/auth/callback" // Your client app URL
+      clientSecret: ""
     }
   }
 });

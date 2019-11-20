@@ -18,6 +18,12 @@
           >
             Sign in with Facebook
           </button>
+          <button
+            class="social-button github"
+            @click="authenticate('github')"
+          >
+            Sign in with Github
+          </button>
         </div>
       </b-col>
     </b-row>
