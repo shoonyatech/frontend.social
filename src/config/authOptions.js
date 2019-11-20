@@ -37,21 +37,6 @@ export default {
       clientSecret: ""
     },
 
-    google: {
-      name: "google",
-      url: "/auth/google",
-      authorizationEndpoint: "https://accounts.google.com/o/oauth2/auth",
-      redirectUri: getRedirectUri(),
-      requiredUrlParams: ["scope"],
-      optionalUrlParams: ["display"],
-      scope: ["profile", "email"],
-      scopePrefix: "openid",
-      scopeDelimiter: " ",
-      display: "popup",
-      oauthType: "2.0",
-      popupOptions: { width: 452, height: 633 }
-    },
-
     github: {
       name: "github",
       url: "/auth/github",
@@ -64,18 +49,6 @@ export default {
       popupOptions: { width: 1020, height: 618 },
       clientId: "",
       clientSecret: ""
-    },
-
-    instagram: {
-      name: "instagram",
-      url: "/auth/instagram",
-      authorizationEndpoint: "https://api.instagram.com/oauth/authorize",
-      redirectUri: getRedirectUri(),
-      requiredUrlParams: ["scope"],
-      scope: ["basic"],
-      scopeDelimiter: "+",
-      oauthType: "2.0",
-      popupOptions: { width: null, height: null }
     },
 
     twitter: {
@@ -110,51 +83,6 @@ export default {
       state: "STATE",
       oauthType: "2.0",
       popupOptions: { width: 527, height: 582 }
-    },
-
-    live: {
-      name: "live",
-      url: "/auth/live",
-      authorizationEndpoint: "https://login.live.com/oauth20_authorize.srf",
-      redirectUri: getRedirectUri(),
-      requiredUrlParams: ["display", "scope"],
-      scope: ["wl.emails"],
-      scopeDelimiter: " ",
-      display: "popup",
-      oauthType: "2.0",
-      popupOptions: { width: 500, height: 560 }
-    },
-
-    oauth1: {
-      name: null,
-      url: "/auth/oauth1",
-      authorizationEndpoint: null,
-      redirectUri: getRedirectUri(),
-      oauthType: "1.0",
-      popupOptions: null
-    },
-
-    oauth2: {
-      name: null,
-      url: "/auth/oauth2",
-      clientId: null,
-      redirectUri: getRedirectUri(),
-      authorizationEndpoint: null,
-      defaultUrlParams: ["response_type", "client_id", "redirect_uri"],
-      requiredUrlParams: null,
-      optionalUrlParams: null,
-      scope: null,
-      scopePrefix: null,
-      scopeDelimiter: null,
-      state: null,
-      oauthType: "2.0",
-      popupOptions: null,
-      responseType: "code",
-      responseParams: {
-        code: "code",
-        clientId: "clientId",
-        redirectUri: "redirectUri"
-      }
     }
   }
 };
