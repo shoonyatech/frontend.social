@@ -2,7 +2,7 @@ import axios from "axios";
 
 const httpClient = () => {
   return axios.create({
-    baseURL: "https://frontend-social-api.herokuapp.com/" //`http://localhost:3333/`
+    baseURL: process.env.API_URL || `http://localhost:3000/`
   });
 };
 
