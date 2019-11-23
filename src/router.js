@@ -44,13 +44,8 @@ export default new Router({
       component: () => import("./pages/Signin.vue")
     },
     {
-      path: "/signin/fb",
+      path: "/signin/callback",
       name: "signinfb",
-      component: () => import("./pages/HandleFBResponse.vue")
-    },
-    {
-      path: "/signin/gh",
-      name: "signingh",
       component: () => import("./pages/HandleFBResponse.vue")
     },
     {

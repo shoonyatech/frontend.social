@@ -24,6 +24,12 @@
           >
             Sign in with Github
           </button>
+          <button
+            class="social-button github"
+            @click="authenticate('twitter')"
+          >
+            Sign in with Twitter
+          </button>
         </div>
       </b-col>
     </b-row>
