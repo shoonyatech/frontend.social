@@ -25,7 +25,7 @@
             Sign in with Github
           </button>
           <button
-            class="social-button github"
+            class="social-button twitter"
             @click="authenticate('twitter')"
           >
             Sign in with Twitter

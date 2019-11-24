@@ -189,6 +189,15 @@ button:hover {
 }
 
 .github:hover {
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.664);
+}
+
+.twitter {
+  background-color: #55acee;
+  color: #fff;
+}
+
+.twitter:hover {
+  background-color: rgba(85, 172, 238, 0.726);
 }
 </style>
