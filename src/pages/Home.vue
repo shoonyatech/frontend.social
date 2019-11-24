@@ -60,7 +60,7 @@ export default {
       this.$auth
         .authenticate(provider)
         .then(function(authResponse) {
-          this_.isAuthenticated = this_.$auth.isAuthenticated();
+          this_.isSignedIn = this_.$auth.isAuthenticated();
 
           if (provider === "github") {
             this_.$http
@@ -74,18 +74,13 @@ export default {
                 params: { access_token: this_.$auth.getToken() }
               })
               .then(function(response) {
-                this_.response = response;
-              });
-          } else if (provider === "google") {
-            this_.$http
-              .get("https://www.googleapis.com/plus/v1/people/me/openIdConnect")
-              .then(function(response) {
-                this_.response = response;
+                const user = response.data;
+                localStorage.setItem("profile", JSON.stringify(user));
+                this_.$store.commit("signInUser", user);
+                this_.$router.push("/me");
               });
           } else if (provider === "twitter") {
             this_.response = authResponse.body.profile;
-          } else if (provider === "instagram") {
-            this_.response = authResponse;
           } else if (provider === "bitbucket") {
             this_.$http
               .get("https://api.bitbucket.org/2.0/user")
@@ -93,8 +88,6 @@ export default {
                 this_.response = response;
               });
           } else if (provider === "linkedin") {
-            this_.response = authResponse;
-          } else if (provider === "live") {
             this_.response = authResponse;
           }
         })
