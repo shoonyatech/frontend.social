@@ -45,7 +45,7 @@ export default new Router({
     },
     {
       path: "/signin/callback",
-      name: "signinfb",
+      name: "signincallback",
       component: () => import("./pages/HandleFBResponse.vue")
     },
     {
