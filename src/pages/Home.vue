@@ -62,17 +62,20 @@ export default {
         .then(function(authResponse) {
           this_.isSignedIn = this_.$auth.isAuthenticated();
 
-          if (provider === "github") {
-            this_.$http
-              .get("https://api.github.com/user")
-              .then(function(response) {
-                this_.response = response;
-              });
-          } else if (provider === "facebook") {
+          if (provider === "facebook") {
             this_.$http
               .get("https://graph.facebook.com/v5.0/me", {
                 params: { access_token: this_.$auth.getToken() }
               })
+              .then(function(response) {
+                const user = response.data;
+                localStorage.setItem("profile", JSON.stringify(user));
+                this_.$store.commit("signInUser", user);
+                this_.$router.push("/me");
+              });
+          } else if (provider === "github") {
+            this_.$http
+              .get("https://api.github.com/user")
               .then(function(response) {
                 const user = response.data;
                 localStorage.setItem("profile", JSON.stringify(user));
