@@ -35,8 +35,7 @@ export default {
       display: "popup",
       oauthType: "2.0",
       popupOptions: { width: 580, height: 400 },
-      clientId: config.auth.facebook.clientId,
-      clientSecret: config.auth.facebook.clientSecret
+      clientId: config.auth.facebook.clientId
     },
 
     github: {
@@ -49,8 +48,7 @@ export default {
       scopeDelimiter: " ",
       oauthType: "2.0",
       popupOptions: { width: 1020, height: 618 },
-      clientId: config.auth.github.clientId,
-      clientSecret: config.auth.github.clientSecret
+      clientId: config.auth.github.clientId
     },
 
     twitter: {
@@ -60,8 +58,7 @@ export default {
       redirectUri: getRedirectUri("/signin/callback"),
       oauthType: "1.0",
       popupOptions: { width: 495, height: 645 },
-      clientId: config.auth.twitter.clientId,
-      clientSecret: config.auth.twitter.clientSecret
+      clientId: config.auth.twitter.clientId
     },
 
     bitbucket: {
