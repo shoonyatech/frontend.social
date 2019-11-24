@@ -68,14 +68,10 @@ export default {
             this_.$store.commit("signInUser", user);
             this_.$router.push("/me");
           } else if (provider === "github") {
-            this_.$http
-              .get("https://api.github.com/user")
-              .then(function(response) {
-                const user = response.data;
-                localStorage.setItem("profile", JSON.stringify(user));
-                this_.$store.commit("signInUser", user);
-                this_.$router.push("/me");
-              });
+            const user = authResponse.data;
+            localStorage.setItem("profile", JSON.stringify(user));
+            this_.$store.commit("signInUser", user);
+            this_.$router.push("/me");
           } else if (provider === "twitter") {
             const user = authResponse.data.profile;
             localStorage.setItem("profile", JSON.stringify(user));
