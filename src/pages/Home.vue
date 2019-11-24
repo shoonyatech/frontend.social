@@ -83,7 +83,10 @@ export default {
                 this_.$router.push("/me");
               });
           } else if (provider === "twitter") {
-            this_.response = authResponse.body.profile;
+            const user = authResponse.data.profile;
+            localStorage.setItem("profile", JSON.stringify(user));
+            this_.$store.commit("signInUser", user);
+            this_.$router.push("/me");
           } else if (provider === "bitbucket") {
             this_.$http
               .get("https://api.bitbucket.org/2.0/user")
