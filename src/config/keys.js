@@ -1,14 +1,14 @@
 export default {
   facebook: {
-    clientId: "",
+    clientId: "311503802832589",
     clientSecret: ""
   },
   github: {
-    clientId: "",
+    clientId: "a2c46d9414bce6b94446",
     clientSecret: ""
   },
   twitter: {
-    clientId: "",
+    clientId: "2YOn8ooOfNkcN553xERjeLnRA",
     clientSecret: ""
   },
   bitbucket: {
