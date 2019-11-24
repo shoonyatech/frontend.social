@@ -19,7 +19,7 @@ export function getRedirectUri(uri) {
 }
 
 export default {
-  baseUrl: "http://localhost:3000",
+  baseUrl: config.api,
   tokenName: "access_token",
   tokenPrefix: "vueauth",
   storageType: "cookieStorage",
