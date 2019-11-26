@@ -39,7 +39,7 @@
         class="nav-item right"
       >
         <div
-          v-if="!isSignedIn"
+          v-if="signedInUser == null"
           class="nav-item-link"
           @click="redirect('/signin')"
         >
@@ -50,7 +50,7 @@
           class="nav-item-link"
           @click="redirect('/me')"
         >
-          Hi
+          <Avatar :profile-pic="signedInUser.profilePic" />
         </div>
       </li>
     </ul>
@@ -59,8 +59,10 @@
 
 <script>
 import store from "@/vuex/store";
+import Avatar from "@/components/Header/Avatar";
 
 export default {
+  components: { Avatar },
   props: {
     navLinks: {
       type: Array,
@@ -68,8 +70,8 @@ export default {
     }
   },
   computed: {
-    isSignedIn() {
-      return this.$store.state.signedInUser != null;
+    signedInUser() {
+      return this.$store.state.signedInUser;
     }
   },
   methods: {
