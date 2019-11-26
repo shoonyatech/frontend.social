@@ -4,7 +4,7 @@
       <b-row>
         <b-col md="3">
           <img
-            :src="profilePhoto"
+            :src="profilePic"
             class="profile-photo"
           >
           <div class="user-name">
@@ -105,7 +105,7 @@ export default {
   components: { KeyValue, KeyMultiValue, SkillLevel },
   data() {
     return {
-      profilePhoto: "",
+      profilePic: "",
       fullName: "",
       social: [],
       skills: [],
@@ -116,7 +116,7 @@ export default {
   },
   created() {
     const profile = userService.getLoggedInUserProfile();
-    this.profilePhoto = profile.profilePic;
+    this.profilePic = profile.profilePic;
     this.fullName = profile.name;
     this.social = profile.social;
     this.skills = profile.skills;
@@ -146,7 +146,6 @@ export default {
   }
 };
 </script>
-
 
 <style scoped>
 .profile-photo {
