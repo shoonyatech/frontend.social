@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import userService from "@/services/user.service";
 import NavBar from "@/components/Header/NavBar";
 import Footer from "@/components/Footer/Footer";
 import store from "@/vuex/store";
@@ -46,7 +47,11 @@ export default {
     ],
     copyrightText:
       "Powered by Shoonya Technologies Ltd. © 2019 All Rights Reserved."
-  })
+  }),
+  created() {
+    const user = userService.getLoggedInUserProfile();
+    this.$store.commit("signInUser", user);
+  }
 };
 </script>
 
