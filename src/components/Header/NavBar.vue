@@ -5,7 +5,7 @@
         class="main-logo"
         href="/"
       >
-        <img src="/images/logo.jpg">
+        <!-- <img src="/images/logo.jpg" /> -->
       </a>
       <div class="menu-icon">
         <i
@@ -48,7 +48,6 @@
         <div
           v-else
           class="nav-item-link"
-          @click="redirect('/me')"
         >
           <Avatar :profile-pic="signedInUser.profilePic" />
         </div>
