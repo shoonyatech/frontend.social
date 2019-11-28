@@ -1,21 +1,12 @@
 <template>
   <div class="buttons-box">
-    <button
-      class="social-button fb"
-      @click="authenticate('facebook')"
-    >
+    <button class="social-button fb" @click="authenticate('facebook')">
       Sign in with Facebook
     </button>
-    <button
-      class="social-button github"
-      @click="authenticate('github')"
-    >
+    <button class="social-button github" @click="authenticate('github')">
       Sign in with Github
     </button>
-    <button
-      class="social-button twitter"
-      @click="authenticate('twitter')"
-    >
+    <button class="social-button twitter" @click="authenticate('twitter')">
       Sign in with Twitter
     </button>
   </div>
