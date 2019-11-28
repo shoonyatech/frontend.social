@@ -1,19 +1,18 @@
 <template>
   <div class="sign-in">
     <div>Sign in to see customized results for you</div>
-    <facebook-login
-      class="button"
-      app-id="311503802832589"
-    />
+    <div class="join-box">
+      <SignInButtons />
+    </div>
   </div>
 </template>
 
 <script>
-import FacebookLogin from "@/components/Signin/FacebookLogin.vue";
+import SignInButtons from "@/components/Signin/SignInButtons";
 
 export default {
   components: {
-    FacebookLogin
+    SignInButtons
   },
   data() {
     return {
@@ -29,4 +28,7 @@ export default {
 
 
 <style scoped>
+.join-box {
+  width: 100%;
+}
 </style>
