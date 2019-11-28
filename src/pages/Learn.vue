@@ -2,23 +2,18 @@
   <div class="learn">
     <b-container>
       <b-row>
-        <h1>Latest articles on Frontend</h1>
-        <div class="articles">
-          <a
-            v-for="article in articles"
-            :key="article.url"
-            :href="article.url"
-          >{{ article.title }}</a>
-        </div>
+        <LatestArticles />
       </b-row>
     </b-container>
   </div>
 </template>
 
 <script>
+import LatestArticles from "@/components/Learn/LatestArticles";
+
 export default {
   name: "Learn",
-  components: {},
+  components: { LatestArticles },
   data() {
     return {
       articles: []
@@ -31,7 +26,4 @@ export default {
 
 
 <style scoped>
-.articles {
-  margin: 0 10px;
-}
 </style>

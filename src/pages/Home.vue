@@ -8,6 +8,7 @@
           and designers in your city meetups, learn from online courses and find
           jobs matching your skills!!
         </div>
+        <LatestArticles />
       </b-col>
       <b-col md="3">
         <div class="join-box">
@@ -23,10 +24,11 @@
 
 <script>
 import SignInButtons from "@/components/Signin/SignInButtons";
+import LatestArticles from "@/components/Learn/LatestArticles";
 
 export default {
   name: "Home",
-  components: { SignInButtons },
+  components: { SignInButtons, LatestArticles },
   data() {
     return {
       isSignedIn: false
@@ -42,6 +44,7 @@ export default {
 <style scoped>
 .home {
   text-align: left;
+  margin-bottom: 40px;
 }
 
 .join-box {
