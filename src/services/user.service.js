@@ -1,5 +1,4 @@
 import httpClient from "./http-client";
-import store from "@/vuex/store";
 
 export default {
   fbSignin: accessToken => {
@@ -15,6 +14,5 @@ export default {
 
   signout: () => {
     localStorage.removeItem("profile");
-    this.$store.commit("signInUser", null);
   }
 };

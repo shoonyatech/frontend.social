@@ -23,6 +23,7 @@
 
 <script>
 import userService from "@/services/user.service";
+import store from "@/vuex/store";
 
 export default {
   components: {},
@@ -41,6 +42,8 @@ export default {
     },
     signout() {
       userService.signout();
+      this.$store.commit("signInUser", null);
+
       this.redirect("/");
     },
     redirect(path) {
