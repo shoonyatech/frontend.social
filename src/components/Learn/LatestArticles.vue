@@ -21,11 +21,16 @@
 </template>
 
 <script>
+import learnService from "@/services/learn.service";
+
 export default {
   data() {
     return {
       articles: []
     };
+  },
+  created() {
+    this.articles = learnService.getLatestArticles();
   }
 };
 </script>
