@@ -30,7 +30,9 @@ export default {
     };
   },
   created() {
-    this.articles = learnService.getLatestArticles();
+    learnService.getLatestArticles().then(response => {
+      this.articles = response.data;
+    });
   }
 };
 </script>
