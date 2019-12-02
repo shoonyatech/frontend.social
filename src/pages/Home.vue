@@ -4,9 +4,9 @@
       <b-col md="9">
         <h1>Find out What's new!</h1>
         <div class="home">
-          Hangout with Frontend Developers and Designers. Meet fellow developers
-          and designers in your city meetups, learn from online courses and find
-          jobs matching your skills!!
+          This is a platform for Frontend Developers and Designers. Meet fellow
+          developers and designers in your city meetups, see latest blogs and
+          videos, learn from online courses and find jobs matching your skills!!
         </div>
         <LatestArticles />
       </b-col>
