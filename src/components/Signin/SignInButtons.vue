@@ -37,29 +37,31 @@ export default {
         .then(function(authResponse) {
           this_.isSignedIn = this_.$auth.isAuthenticated();
 
-          if (provider === "facebook") {
-            const user = authResponse.data;
-            localStorage.setItem("profile", JSON.stringify(user));
-            this_.$store.commit("signInUser", user);
-            this_.$router.push("/me");
-          } else if (provider === "github") {
-            const user = authResponse.data;
-            localStorage.setItem("profile", JSON.stringify(user));
-            this_.$store.commit("signInUser", user);
-            this_.$router.push("/me");
-          } else if (provider === "twitter") {
-            const user = authResponse.data.profile;
-            localStorage.setItem("profile", JSON.stringify(user));
-            this_.$store.commit("signInUser", user);
-            this_.$router.push("/me");
-          } else if (provider === "bitbucket") {
-            this_.$http
-              .get("https://api.bitbucket.org/2.0/user")
-              .then(function(response) {
-                this_.response = response;
-              });
-          } else if (provider === "linkedin") {
-            this_.response = authResponse;
+          if (this_.isSignedIn) {
+            if (provider === "facebook") {
+              const user = authResponse.data;
+              localStorage.setItem("profile", JSON.stringify(user));
+              this_.$store.commit("signInUser", user);
+              this_.$router.push("/me");
+            } else if (provider === "github") {
+              const user = authResponse.data;
+              localStorage.setItem("profile", JSON.stringify(user));
+              this_.$store.commit("signInUser", user);
+              this_.$router.push("/me");
+            } else if (provider === "twitter") {
+              const user = authResponse.data.profile;
+              localStorage.setItem("profile", JSON.stringify(user));
+              this_.$store.commit("signInUser", user);
+              this_.$router.push("/me");
+            } else if (provider === "bitbucket") {
+              this_.$http
+                .get("https://api.bitbucket.org/2.0/user")
+                .then(function(response) {
+                  this_.response = response;
+                });
+            } else if (provider === "linkedin") {
+              this_.response = authResponse;
+            }
           }
         })
         .catch(function(err) {

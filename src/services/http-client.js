@@ -9,7 +9,6 @@ const httpClient = () => {
 
 export default {
   get(url) {
-    return httpClient().get(url);
     const profile = JSON.parse(localStorage.getItem("profile"));
     let options = {};
     if (profile && profile.authToken) {
@@ -18,7 +17,7 @@ export default {
       };
     }
 
-    return httpClient().post(url, data, {
+    return httpClient().get(url, {
       headers: {
         Authorization: `Bearer ${profile.authToken}`
       }
