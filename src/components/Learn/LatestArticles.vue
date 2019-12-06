@@ -8,7 +8,10 @@
         class="article"
       >
         <div>
-          <a :href="article.url">{{ article.title }}</a>
+          <a
+            :href="article.url"
+            target="_blank"
+          >{{ article.title }}</a>
           <span> by {{ article.author }}</span>
         </div>
         <div>{{ article.details }}</div>
