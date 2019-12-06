@@ -6,14 +6,11 @@ export default {
   },
 
   getLoggedInUserProfile: () => {
-    const profile = localStorage.getItem("profile");
-    if (profile) {
-      return JSON.parse(profile);
-    }
+    return httpClient.get("me");
   },
 
   updateUserProfile: profile => {
-    httpClient.put("me", profile);
+    return httpClient.put("me", profile);
   },
 
   signout: () => {
