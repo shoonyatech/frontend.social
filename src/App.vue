@@ -49,8 +49,9 @@ export default {
       "Powered by Shoonya Technologies Ltd. © 2019 All Rights Reserved."
   }),
   created() {
-    const user = userService.getLoggedInUserProfile();
-    this.$store.commit("signInUser", user);
+    userService.getLoggedInUserProfile().then(user => {
+      this.$store.commit("signInUser", user);
+    });
   }
 };
 </script>
