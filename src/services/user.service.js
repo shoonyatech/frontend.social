@@ -12,6 +12,10 @@ export default {
     }
   },
 
+  updateUserProfile: profile => {
+    httpClient.put("me", profile);
+  },
+
   signout: () => {
     localStorage.removeItem("profile");
   }
