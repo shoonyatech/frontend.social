@@ -4,11 +4,18 @@
       <b-row>
         <b-col md="3">
           <img
-            :src="profilePic"
+            :src="profile.profilePic"
             class="profile-photo"
           >
-          <div class="user-name">
-            {{ fullName }}
+          <input
+            v-if="editMode"
+            v-model="profile.name"
+          >
+          <div
+            v-else
+            class="user-name"
+          >
+            {{ profile.name }}
           </div>
         </b-col>
         <b-col md="9">
@@ -105,6 +112,7 @@ export default {
   components: { KeyValue, KeyMultiValue, SkillLevel },
   data() {
     return {
+      profile: {},
       profilePic: "",
       fullName: "",
       social: [],
@@ -115,20 +123,21 @@ export default {
     };
   },
   created() {
-    const profile = userService.getLoggedInUserProfile();
-    this.profilePic = profile.profilePic;
-    this.fullName = profile.name;
-    this.social = profile.social;
-    this.skills = profile.skills;
-    if (!this.skills.length) {
-      this.skills.push({});
-    }
-    (this.confDetails = `${profile.confUpcoming.join(
-      ", "
-    )} (Past: ${profile.confAttended.join(", ")})`),
-      (this.mettupDetails = `${profile.meetupUpcoming.join(
-        ", "
-      )} (Past: ${profile.meetupAttended.join(", ")})`);
+    userService.getLoggedInUserProfile().then(user => {
+      this.profile = user;
+    });
+
+    // this.social = profile.social;
+    // this.skills = profile.skills;
+    // if (!this.skills.length) {
+    //   this.skills.push({});
+    // }
+    // (this.confDetails = `${profile.confUpcoming.join(
+    //   ", "
+    // )} (Past: ${profile.confAttended.join(", ")})`),
+    //   (this.mettupDetails = `${profile.meetupUpcoming.join(
+    //     ", "
+    //   )} (Past: ${profile.meetupAttended.join(", ")})`);
   },
   methods: {
     addSkill: function(event) {
@@ -139,6 +148,7 @@ export default {
     },
     save: function(event) {
       this.editMode = false;
+      userService.updateUserProfile(this.profile);
     },
     cancel: function(event) {
       this.editMode = false;
