@@ -10,14 +10,54 @@ const httpClient = () => {
 export default {
   get(url) {
     return httpClient().get(url);
+    const profile = JSON.parse(localStorage.getItem("profile"));
+    let options = {};
+    if (profile && profile.authToken) {
+      options.headers = {
+        Authorization: `Bearer ${profile.authToken}`
+      };
+    }
+
+    return httpClient().post(url, data, {
+      headers: {
+        Authorization: `Bearer ${profile.authToken}`
+      }
+    });
   },
   post(url, data) {
-    return httpClient().post(url, data);
+    const profile = JSON.parse(localStorage.getItem("profile"));
+    if (profile && profile.authToken) {
+      return httpClient().post(url, data, {
+        headers: {
+          Authorization: `Bearer ${profile.authToken}`
+        }
+      });
+    }
+
+    console.error("Auth Token not found");
   },
-  update(url, data) {
-    return httpClient().put(url, data);
+  put(url, data) {
+    const profile = JSON.parse(localStorage.getItem("profile"));
+    if (profile && profile.authToken) {
+      return httpClient().put(url, data, {
+        headers: {
+          Authorization: `Bearer ${profile.authToken}`
+        }
+      });
+    }
+
+    console.error("Auth Token not found");
   },
   delete(url, data) {
-    return httpClient().put(url, data);
+    const profile = JSON.parse(localStorage.getItem("profile"));
+    if (profile && profile.authToken) {
+      return httpClient().delete(url, data, {
+        headers: {
+          Authorization: `Bearer ${profile.authToken}`
+        }
+      });
+    }
+
+    console.error("Auth Token not found");
   }
 };
