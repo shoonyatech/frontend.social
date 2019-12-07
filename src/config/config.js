@@ -1,7 +1,7 @@
 import keys from "./keys";
 
 export default {
-  api: process.env.API_URL || "http://localhost:3000",
+  api: process.env.VUE_APP_API_URL,
   auth: {
     facebook: {
       clientId: keys.facebook.clientId,
