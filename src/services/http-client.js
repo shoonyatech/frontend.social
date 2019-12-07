@@ -30,11 +30,11 @@ export default {
 };
 
 function getOptions() {
-  const profile = JSON.parse(localStorage.getItem("profile"));
+  const authToken = JSON.parse(localStorage.getItem("authToken"));
   let options = {};
-  if (profile && profile.authToken) {
+  if (authToken) {
     options.headers = {
-      Authorization: `Bearer ${profile.authToken}`
+      Authorization: `Bearer ${authToken}`
     };
   }
   return options;

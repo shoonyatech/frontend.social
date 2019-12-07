@@ -14,6 +14,6 @@ export default {
   },
 
   signout: () => {
-    localStorage.removeItem("profile");
+    localStorage.removeItem("authToken");
   }
 };

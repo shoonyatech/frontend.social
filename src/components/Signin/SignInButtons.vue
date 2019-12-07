@@ -40,17 +40,17 @@ export default {
           if (this_.isSignedIn) {
             if (provider === "facebook") {
               const user = authResponse.data;
-              localStorage.setItem("profile", JSON.stringify(user));
+              localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
               this_.$router.push("/me");
             } else if (provider === "github") {
               const user = authResponse.data;
-              localStorage.setItem("profile", JSON.stringify(user));
+              localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
               this_.$router.push("/me");
             } else if (provider === "twitter") {
               const user = authResponse.data.profile;
-              localStorage.setItem("profile", JSON.stringify(user));
+              localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
               this_.$router.push("/me");
             } else if (provider === "bitbucket") {

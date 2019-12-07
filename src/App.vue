@@ -49,9 +49,16 @@ export default {
       "Powered by Shoonya Technologies Ltd. © 2019 All Rights Reserved."
   }),
   created() {
-    userService.getLoggedInUserProfile().then(user => {
-      this.$store.commit("signInUser", user);
-    });
+    if (localStorage.getItem("authToken")) {
+      userService
+        .getLoggedInUserProfile()
+        .then(user => {
+          this.$store.commit("signInUser", user);
+        })
+        .catch(e => {
+          userService.signout();
+        });
+    }
   }
 };
 </script>
