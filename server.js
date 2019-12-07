@@ -4,7 +4,6 @@ var express = require("express"),
 require("dotenv").config();
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + "/dist"));
-app.use(logUrl);
 
 app.use(logUrl);
 function logUrl(req, res, next) {

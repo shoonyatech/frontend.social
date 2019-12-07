@@ -37,62 +37,7 @@ export default {
   created() {
     this.isSignedIn = false;
   },
-  methods: {
-    authenticate: function(provider) {
-      if (this.$auth.isAuthenticated()) {
-        this.$auth.logout();
-      }
-
-      this.response = null;
-
-      var this_ = this;
-      this.$auth
-        .authenticate(provider)
-        .then(function(authResponse) {
-          this_.isAuthenticated = this_.$auth.isAuthenticated();
-
-          if (provider === "github") {
-            this_.$http
-              .get("https://api.github.com/user")
-              .then(function(response) {
-                this_.response = response;
-              });
-          } else if (provider === "facebook") {
-            this_.$http
-              .get("https://graph.facebook.com/v5.0/me", {
-                params: { access_token: this_.$auth.getToken() }
-              })
-              .then(function(response) {
-                this_.response = response;
-              });
-          } else if (provider === "google") {
-            this_.$http
-              .get("https://www.googleapis.com/plus/v1/people/me/openIdConnect")
-              .then(function(response) {
-                this_.response = response;
-              });
-          } else if (provider === "twitter") {
-            this_.response = authResponse.body.profile;
-          } else if (provider === "instagram") {
-            this_.response = authResponse;
-          } else if (provider === "bitbucket") {
-            this_.$http
-              .get("https://api.bitbucket.org/2.0/user")
-              .then(function(response) {
-                this_.response = response;
-              });
-          } else if (provider === "linkedin") {
-            this_.response = authResponse;
-          } else if (provider === "live") {
-            this_.response = authResponse;
-          }
-        })
-        .catch(function(err) {
-          this_.isAuthenticated = this_.$auth.isAuthenticated();
-          this_.response = err;
-        });
-    }
-  }
+  methods: {}
 };
 </script>
 
