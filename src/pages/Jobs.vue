@@ -55,7 +55,6 @@ export default {
     },
     onSearchParamsChange(param = "", key, value) {
       this.currentQuery = param;
-      debugger;
       const queryParams = new URLSearchParams(window.location.search);
       queryParams.set(key, value);
       jobService.getJobsOnSearchParamsChange(param).then(response => {
