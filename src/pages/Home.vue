@@ -49,8 +49,8 @@ export default {
 
 .join-box {
   border: 2px solid #aada20;
-  height: 200px;
   margin: 0 auto;
+  padding-bottom: 5px;
 }
 
 .join-box .msg {
