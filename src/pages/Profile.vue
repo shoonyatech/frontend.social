@@ -123,8 +123,14 @@ export default {
     };
   },
   created() {
-    userService.getLoggedInUserProfile().then(user => {
+    userService
+      .getLoggedInUserProfile()
+      .then(user => {
       this.profile = user;
+      })
+      .catch(e => {
+        userService.signout();
+        this.$router.push("/");
     });
 
     // this.social = profile.social;
