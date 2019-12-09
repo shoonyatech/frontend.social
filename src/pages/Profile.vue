@@ -74,8 +74,9 @@
           />
           <KeyMultiValue
             label="Meetups"
-            :values="profile.meetupAttended"
+            :values="profile.meetups"
             :is-editable="editMode"
+            @change="onMeetupChange"
           />
         </b-col>
       </b-row>
@@ -160,6 +161,9 @@ export default {
     },
     onConfChange: function(confs) {
       this.profile.conferences = confs;
+    },
+    onMeetupChange: function(meetups) {
+      this.profile.meetups = meetups;
     },
     edit: function(event) {
       this.editMode = true;
