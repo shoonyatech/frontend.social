@@ -13,24 +13,36 @@
       </b-col>
       <b-col md="4">
         <div class="social-links">
-          <div class="social-link">
+          <a
+            class="social-link"
+            href="https://shoonya-tech.slack.com/archives/CJ6KZLC9M"
+            target="_blank"
+          >
             <img
               src="https://www.frontend.social/images/slack.png"
               alt="slack"
             >
-          </div>
-          <div class="social-link">
+          </a>
+          <a
+            class="social-link"
+            href="https://twitter.com/frontendsocial"
+            target="_blank"
+          >
             <img
               src="https://www.frontend.social/images/twitter.png"
               alt="twitter"
             >
-          </div>
-          <div class="social-link">
+          </a>
+          <a
+            class="social-link"
+            href="https://github.com/shoonyatech/frontend.social/"
+            target="_blank"
+          >
             <img
               src="https://www.frontend.social/images/github.png"
               alt="github"
             >
-          </div>
+          </a>
         </div>
       </b-col>
     </b-row>
@@ -74,6 +86,7 @@ footer {
   }
 
   .social-links {
+    margin-top: 1rem;
     display: flex;
     flex-direction: row;
     .social-link {
@@ -85,7 +98,7 @@ footer {
       margin-right: 10px;
       border-radius: 50%;
       padding: 8px;
-
+      cursor: pointer;
       img {
         width: 100%;
         height: 100%;
