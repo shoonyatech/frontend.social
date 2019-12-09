@@ -14,18 +14,10 @@ export default {
   components: {
     SignInButtons
   },
-  data() {
-    return {
-      isSignedIn: false
-    };
-  },
-  created() {
-    this.isSignedIn = false;
-  },
+  created() {},
   methods: {}
 };
 </script>
-
 
 <style scoped>
 .join-box {
