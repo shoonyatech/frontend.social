@@ -2,15 +2,26 @@
   <div class="host">
     <span class="label">{{ label }}</span>
     <div class="value-list">
-      <EditableValue
+      <span
         v-for="(value, index) in values"
         :key="index"
-        :value="value"
-        :is-editable="isEditable"
         class="value"
-        :index="index"
-        @change="onChange"
-      />
+      >
+        <EditableValue
+          :value="value"
+          :is-editable="isEditable"
+          :index="index"
+          @change="onChange"
+        />
+        <button
+          v-if="isEditable"
+          class="delete"
+          :data-index="index"
+          @click="deleteItem"
+        >
+          X
+        </button>
+      </span>
     </div>
     <button
       v-if="isEditable"
@@ -45,6 +56,11 @@ export default {
     add: function(event) {
       this.values.push("");
     },
+    deleteItem: function(event) {
+      const index = event.target.dataset.index;
+      this.values.splice(index, 1);
+      this.$emit("change", this.values);
+    },
     onChange: function({ val, index }) {
       if (index < this.values.length) {
         this.values[index] = val;
@@ -71,6 +87,10 @@ export default {
   min-width: 7rem;
 }
 
+.value {
+  display: flex;
+}
+
 .value-list {
   flex: 1 1 auto;
 }
@@ -79,5 +99,12 @@ export default {
   flex: 0 0 auto;
   margin: 2px 0 0 10px;
   height: 1.5rem;
+}
+
+.delete {
+  flex: 0 0 auto;
+  margin: 2px 0 0 10px;
+  height: 1.5rem;
+  background-color: rgb(212, 68, 68);
 }
 </style>
