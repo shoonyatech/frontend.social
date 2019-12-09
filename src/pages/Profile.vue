@@ -20,7 +20,7 @@
         </b-col>
         <b-col md="9">
           <KeyValue
-            v-for="item in social"
+            v-for="item in profile.social"
             :key="item.label"
             :label="item.label"
             :value="item.value"
@@ -37,7 +37,7 @@
             <label class="skills-label">Skills</label>
             <div class="skill-list">
               <SkillLevel
-                v-for="skill in skills"
+                v-for="skill in profile.skills"
                 :key="skill.name"
                 :label="skill.name"
                 :value="skill.rating"
@@ -64,12 +64,12 @@
         <b-col md="9">
           <KeyMultiValue
             label="Conferences"
-            :value="confAttended"
+            :value="profile.confAttended"
             :is-editable="editMode"
           />
           <KeyMultiValue
             label="Meetups"
-            :value="mettupAttended"
+            :value="profile.meetupAttended"
             :is-editable="editMode"
           />
         </b-col>
@@ -85,6 +85,7 @@
             </button>
             <button
               v-if="editMode"
+              class="save-button"
               @click="save"
             >
               Save
@@ -132,22 +133,10 @@ export default {
         userService.signout();
         this.$router.push("/");
       });
-
-    // this.social = profile.social;
-    // this.skills = profile.skills;
-    // if (!this.skills.length) {
-    //   this.skills.push({});
-    // }
-    // (this.confDetails = `${profile.confUpcoming.join(
-    //   ", "
-    // )} (Past: ${profile.confAttended.join(", ")})`),
-    //   (this.mettupDetails = `${profile.meetupUpcoming.join(
-    //     ", "
-    //   )} (Past: ${profile.meetupAttended.join(", ")})`);
   },
   methods: {
     addSkill: function(event) {
-      this.skills.push({});
+      this.profile.skills.push({});
     },
     edit: function(event) {
       this.editMode = true;
@@ -205,5 +194,13 @@ export default {
 
 .skill-list {
   flex: 1 1 auto;
+}
+
+.buttons {
+  margin-bottom: 10px;
+}
+
+.save-button {
+  margin-right: 10px;
 }
 </style>
