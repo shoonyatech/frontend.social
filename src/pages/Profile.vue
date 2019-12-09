@@ -156,6 +156,15 @@ export default {
       userService.updateUserProfile(this.profile);
     },
     cancel: function(event) {
+      userService
+        .getLoggedInUserProfile()
+        .then(user => {
+          this.profile = user;
+        })
+        .catch(e => {
+          userService.signout();
+          this.$router.push("/");
+        });
       this.editMode = false;
     }
   }
