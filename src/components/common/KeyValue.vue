@@ -2,9 +2,10 @@
   <div class="host">
     <span class="label">{{ label }}</span>
     <EditableValue
-      :value="value"
+      v-model="value"
       :is-editable="isEditable"
       class="value"
+      @change="onChange"
     />
   </div>
 </template>
@@ -26,6 +27,11 @@ export default {
     isEditable: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    onChange: function(val) {
+      this.$emit("change", { label: this.label, value: val });
     }
   }
 };

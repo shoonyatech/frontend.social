@@ -3,6 +3,7 @@
     v-if="isEditable"
     :value="value"
     class="editable-value"
+    @change="$emit('change', $event.target.value)"
   >
   <span
     v-else
