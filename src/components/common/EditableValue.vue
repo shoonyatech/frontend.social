@@ -3,6 +3,7 @@
     v-if="isEditable"
     :value="value"
     class="editable-value"
+    :placeholder="placeholder"
     @change="$emit('change', $event.target.value)"
   >
   <span
@@ -16,6 +17,10 @@ export default {
   components: {},
   props: {
     value: {
+      type: String,
+      default: ""
+    },
+    placeholder: {
       type: String,
       default: ""
     },

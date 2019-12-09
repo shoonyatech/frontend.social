@@ -38,12 +38,15 @@
             <label class="skills-label">Skills</label>
             <div class="skill-list">
               <SkillLevel
-                v-for="skill in profile.skills"
+                v-for="(skill, index) in profile.skills"
                 :key="skill.name"
-                :label="skill.name"
-                :value="skill.rating"
+                :name="skill.name"
+                :no-of-years="skill.noOfYears"
+                :rating="skill.rating"
                 :max="5"
                 :is-editable="editMode"
+                :index="index"
+                @change="onSkillChange"
               />
             </div>
           </div>
@@ -137,12 +140,18 @@ export default {
   },
   methods: {
     onSocialChange: function(social) {
-      console.log(social);
       let updatedSocial = this.profile.social.find(
         s => s.label == social.label
       );
       if (updatedSocial) {
         updatedSocial.value = social.value;
+      }
+    },
+    onSkillChange: function({ index, skill }) {
+      if (index < this.profile.skills.length) {
+        this.profile.skills[index] = skill;
+      } else {
+        this.profile.skills.push(skill);
       }
     },
     addSkill: function(event) {
