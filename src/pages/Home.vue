@@ -11,7 +11,10 @@
         <LatestArticles />
       </b-col>
       <b-col md="3">
-        <div class="join-box">
+        <div
+          v-if="!isSignedIn"
+          class="join-box"
+        >
           <span class="join-label">Join for Free</span>
           <div class="buttons">
             <SignInButtons />
@@ -29,14 +32,12 @@ import LatestArticles from "@/components/Learn/LatestArticles";
 export default {
   name: "Home",
   components: { SignInButtons, LatestArticles },
-  data() {
-    return {
-      isSignedIn: false
-    };
+  computed: {
+    isSignedIn() {
+      return this.$store.state.signedInUser != null;
+    }
   },
-  created() {
-    this.isSignedIn = false;
-  },
+  created() {},
   methods: {}
 };
 </script>
