@@ -37,17 +37,29 @@
           <div class="skills">
             <label class="skills-label">Skills</label>
             <div class="skill-list">
-              <SkillLevel
+              <span
                 v-for="(skill, index) in profile.skills"
-                :key="skill.name"
-                :name="skill.name"
-                :no-of-years="skill.noOfYears"
-                :rating="skill.rating"
-                :max="5"
-                :is-editable="editMode"
-                :index="index"
-                @change="onSkillChange"
-              />
+                :key="index"
+                class="skill-control"
+              >
+                <SkillLevel
+                  :name="skill.name"
+                  :no-of-years="skill.noOfYears"
+                  :rating="skill.rating"
+                  :max="5"
+                  :is-editable="editMode"
+                  :index="index"
+                  @change="onSkillChange"
+                />
+                <button
+                  v-if="editMode"
+                  class="skills-delete"
+                  :data-index="index"
+                  @click="deleteSkill"
+                >
+                  X
+                </button>
+              </span>
             </div>
           </div>
           <div class="skills-actions">
@@ -159,6 +171,10 @@ export default {
     addSkill: function(event) {
       this.profile.skills.push({});
     },
+    deleteSkill: function(event) {
+      const index = event.target.dataset.index;
+      this.profile.skills.splice(index, 1);
+    },
     onConfChange: function(confs) {
       this.profile.conferences = confs;
     },
@@ -238,12 +254,23 @@ export default {
   float: right;
 }
 
+.skills-delete {
+  flex: 0 0 auto;
+  margin: 2px 0 0 10px;
+  height: 1.5rem;
+  background-color: rgb(212, 68, 68);
+}
+
 .skills {
   display: flex;
 }
 
 .skill-list {
   flex: 1 1 auto;
+}
+
+.skill-control {
+  display: flex;
 }
 
 .buttons {
