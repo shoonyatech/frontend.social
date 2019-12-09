@@ -70,6 +70,7 @@
             label="Conferences"
             :value="profile.confAttended"
             :is-editable="editMode"
+            @change="onConfChange"
           />
           <KeyMultiValue
             label="Meetups"
@@ -156,6 +157,9 @@ export default {
     },
     addSkill: function(event) {
       this.profile.skills.push({});
+    },
+    onConfChange: function(confs) {
+      this.profile.conferences = confs;
     },
     edit: function(event) {
       this.editMode = true;

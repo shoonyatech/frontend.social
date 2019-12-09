@@ -3,11 +3,13 @@
     <span class="label">{{ label }}</span>
     <div class="value-list">
       <EditableValue
-        v-for="value in values"
-        :key="value"
+        v-for="(value, index) in values"
+        :key="index"
         :value="value"
         :is-editable="isEditable"
         class="value"
+        :index="index"
+        @change="onChange"
       />
     </div>
     <button
@@ -42,6 +44,14 @@ export default {
   methods: {
     add: function(event) {
       this.values.push("");
+    },
+    onChange: function({ val, index }) {
+      if (index < this.values.length) {
+        this.values[index] = val;
+      } else {
+        this.values.push(val);
+      }
+      this.$emit("change", this.values);
     }
   }
 };
