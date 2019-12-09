@@ -68,13 +68,13 @@
         <b-col md="9">
           <KeyMultiValue
             label="Conferences"
-            :value="profile.confAttended"
+            :values="profile.conferences"
             :is-editable="editMode"
             @change="onConfChange"
           />
           <KeyMultiValue
             label="Meetups"
-            :value="profile.meetupAttended"
+            :values="profile.meetupAttended"
             :is-editable="editMode"
           />
         </b-col>
@@ -123,8 +123,8 @@ export default {
       fullName: "",
       social: [],
       skills: [],
-      confAttended: [],
-      mettupAttended: [],
+      conferences: [],
+      meetups: [],
       editMode: false
     };
   },
