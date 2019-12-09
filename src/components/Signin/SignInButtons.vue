@@ -1,12 +1,21 @@
 <template>
   <div class="buttons-box">
-    <button class="social-button fb" @click="authenticate('facebook')">
+    <button
+      class="social-button fb"
+      @click="authenticate('facebook')"
+    >
       Sign in with Facebook
     </button>
-    <button class="social-button github" @click="authenticate('github')">
+    <button
+      class="social-button github"
+      @click="authenticate('github')"
+    >
       Sign in with Github
     </button>
-    <button class="social-button twitter" @click="authenticate('twitter')">
+    <button
+      class="social-button twitter"
+      @click="authenticate('twitter')"
+    >
       Sign in with Twitter
     </button>
   </div>
@@ -33,17 +42,17 @@ export default {
               const user = authResponse.data;
               localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
-              this_.$router.push("/me");
+              this_.$router.push("/");
             } else if (provider === "github") {
               const user = authResponse.data;
               localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
-              this_.$router.push("/me");
+              this_.$router.push("/");
             } else if (provider === "twitter") {
               const user = authResponse.data.profile;
               localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
-              this_.$router.push("/me");
+              this_.$router.push("/");
             } else if (provider === "bitbucket") {
               this_.$http
                 .get("https://api.bitbucket.org/2.0/user")
