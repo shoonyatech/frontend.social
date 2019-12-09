@@ -6,7 +6,7 @@ export default {
   },
 
   getLoggedInUserProfile: () => {
-    return httpClient.get("me");
+    return httpClient.get("me").then(response => response.data);
   },
 
   updateUserProfile: profile => {
