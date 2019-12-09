@@ -4,7 +4,7 @@
     :value="value"
     class="editable-value"
     :placeholder="placeholder"
-    @change="$emit('change', $event.target.value)"
+    @change="onChange"
   >
   <span
     v-else
@@ -24,9 +24,22 @@ export default {
       type: String,
       default: ""
     },
+    index: {
+      type: Number,
+      default: -1
+    },
     isEditable: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    onChange: function(e) {
+      if (this.index === -1) {
+        this.$emit("change", e.target.value);
+      } else {
+        this.$emit("change", { val: e.target.value, index: this.index });
+      }
     }
   }
 };
