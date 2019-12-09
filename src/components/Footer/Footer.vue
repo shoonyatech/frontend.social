@@ -83,10 +83,11 @@ footer {
 
   .messages {
     text-align: left;
+    margin: 0.5rem 1rem;
   }
 
   .social-links {
-    margin-top: 1rem;
+    margin: 1rem;
     display: flex;
     flex-direction: row;
     .social-link {
