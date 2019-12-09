@@ -55,9 +55,7 @@ export default {
         .then(response => {
           this.$store.commit("signInUser", response.data);
         })
-        .catch(e => {
-          userService.signout();
-        });
+        .catch(e => {});
     }
   }
 };
