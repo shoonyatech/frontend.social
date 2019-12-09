@@ -37,6 +37,19 @@
           <div class="skills">
             <label class="skills-label">Skills</label>
             <div class="skill-list">
+              <div class="skill-header">
+                <span class="skill-name" />
+                <span class="skill-years">yrs</span>
+                <span class="skill-rating">
+                  <span class="skill-rating-icon">🤒</span>
+                  <span class="skill-rating-icon">🤔</span>
+                  <span class="skill-rating-icon">🙂</span>
+                  <span class="skill-rating-icon">🤓</span>
+                  <span class="skill-rating-icon">💯</span>
+                </span>
+                <span class="skills-delete-placeholder" />
+              </div>
+
               <span
                 v-for="(skill, index) in profile.skills"
                 :key="index"
@@ -46,10 +59,14 @@
                   :name="skill.name"
                   :no-of-years="skill.noOfYears"
                   :rating="skill.rating"
-                  :max="5"
+                  :max="4"
                   :is-editable="editMode"
                   :index="index"
                   @change="onSkillChange"
+                />
+                <span
+                  v-if="!editMode"
+                  class="skills-delete-placeholder"
                 />
                 <button
                   v-if="editMode"
@@ -246,6 +263,38 @@ export default {
   text-align: right;
 }
 
+.skill-header {
+  display: flex;
+  width: 100%;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.skill-name {
+  flex: 0 0 auto;
+  width: 6rem;
+  margin-right: 1rem;
+}
+
+.skill-years {
+  flex: 0 0 auto;
+  width: 2rem;
+  margin-right: 1rem;
+}
+
+.skill-rating {
+  flex: 1 1 auto;
+  margin: 2px auto;
+  width: 100%;
+}
+
+.skill-rating-icon {
+  flex: 1 1 auto;
+  width: 20%;
+  display: inline-block;
+  text-align: center;
+}
+
 .skills-actions {
   width: 100%;
 }
@@ -259,6 +308,14 @@ export default {
   margin: 2px 0 0 10px;
   height: 1.5rem;
   background-color: rgb(212, 68, 68);
+}
+
+.skills-delete-placeholder {
+  flex: 0 0 auto;
+  display: inline-block;
+  margin: 2px 0 0 10px;
+  height: 1.5rem;
+  width: 51px;
 }
 
 .skills {
