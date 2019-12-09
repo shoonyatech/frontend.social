@@ -150,9 +150,23 @@ export default {
     },
     edit: function(event) {
       this.editMode = true;
+      if (!this.profile.skills.length) {
+        this.profile.skills.push({
+          name: "",
+          noOfYears: "",
+          expertiseLevel: 0
+        });
+      }
     },
     save: function(event) {
       this.editMode = false;
+      if (
+        this.profile.skills.length === 1 &&
+        !this.profile.skills[0].name.length
+      ) {
+        this.profile.skills = [];
+      }
+
       userService.updateUserProfile(this.profile);
     },
     cancel: function(event) {
