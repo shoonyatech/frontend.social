@@ -2,22 +2,27 @@
   <div class="host">
     <span class="skill-name">
       <EditableValue
-        :value="label"
+        :value="name"
         :is-editable="isEditable"
+        :placeholder="'React'"
+        @change="onNameChange"
       />
     </span>
     <span class="skill-years">
       <EditableValue
-        :value="label"
+        :value="noOfYears"
         :is-editable="isEditable"
+        :placeholder="'2'"
+        @change="onYearChange"
       />
     </span>
     <input
       :disabled="!isEditable"
       type="range"
-      :value="value"
+      :value="rating"
       :max="max"
       class="editable-value"
+      @change="onRatingChange"
     >
   </div>
 </template>
@@ -28,21 +33,55 @@ import EditableValue from "@/components/common/EditableValue";
 export default {
   components: { EditableValue },
   props: {
-    label: {
+    name: {
       type: String,
       default: ""
     },
-    value: {
-      type: Number,
-      default: 0
+    noOfYears: {
+      type: String,
+      default: ""
+    },
+    rating: {
+      type: String,
+      default: "0"
     },
     max: {
       type: Number,
       default: 10
     },
+    index: {
+      type: Number,
+      default: 0
+    },
     isEditable: {
       type: Boolean,
       default: false
+    }
+  },
+  data() {
+    return {
+      skill: {}
+    };
+  },
+  created() {
+    this.skill = {
+      name: this.name,
+      noOfYears: this.noOfYears,
+      rating: this.rating
+    };
+  },
+  methods: {
+    onNameChange: function(val) {
+      this.skill.name = val;
+      this.$emit("change", { index: this.index, skill: this.skill });
+    },
+    onYearChange: function(val) {
+      this.skill.noOfYears = val;
+      this.$emit("change", { index: this.index, skill: this.skill });
+    },
+    onRatingChange: function(e) {
+      this.skill.rating = e.target.value;
+      this.$emit("change", { index: this.index, skill: this.skill });
     }
   }
 };
