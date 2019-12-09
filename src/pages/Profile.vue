@@ -25,6 +25,7 @@
             :label="item.label"
             :value="item.value"
             :is-editable="editMode"
+            @change="onSocialChange"
           />
         </b-col>
       </b-row>
@@ -135,6 +136,15 @@ export default {
       });
   },
   methods: {
+    onSocialChange: function(social) {
+      console.log(social);
+      let updatedSocial = this.profile.social.find(
+        s => s.label == social.label
+      );
+      if (updatedSocial) {
+        updatedSocial.value = social.value;
+      }
+    },
     addSkill: function(event) {
       this.profile.skills.push({});
     },
