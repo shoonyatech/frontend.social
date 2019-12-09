@@ -126,12 +126,12 @@ export default {
     userService
       .getLoggedInUserProfile()
       .then(user => {
-      this.profile = user;
+        this.profile = user;
       })
       .catch(e => {
         userService.signout();
         this.$router.push("/");
-    });
+      });
 
     // this.social = profile.social;
     // this.skills = profile.skills;

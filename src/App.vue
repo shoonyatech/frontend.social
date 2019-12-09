@@ -52,8 +52,8 @@ export default {
     if (localStorage.getItem("authToken")) {
       userService
         .getLoggedInUserProfile()
-        .then(response => {
-          this.$store.commit("signInUser", response.data);
+        .then(user => {
+          this.$store.commit("signInUser", user);
         })
         .catch(e => {});
     }
