@@ -1,7 +1,18 @@
 <template>
   <footer>
-    <b-row>
+    <b-row class="content">
       <b-col md="8">
+        <div>
+          <a
+            href="/privacy"
+            class="static-links"
+          >Privacy Policy</a>
+          <a
+            href="/terms"
+            class="static-links"
+          >Terms of Use</a>
+        </div>
+
         <div class="messages">
           We are building a one stop platform for frontend developers and
           designers.
@@ -64,6 +75,20 @@ export default {
 
 <style scoped lang="scss">
 footer {
+  .content {
+    padding: 0.5rem 1rem;
+  }
+
+  .static-links {
+    font-size: 0.75rem;
+    margin-right: 0.5rem;
+    display: block;
+  }
+
+  .messages {
+    font-size: 0.75rem;
+  }
+
   .footer-content {
     text-align: left;
     color: #2c3e50;
@@ -79,11 +104,6 @@ footer {
     font-size: 13px;
     padding: 11px;
     text-align: center;
-  }
-
-  .messages {
-    text-align: left;
-    margin: 0.5rem 1rem;
   }
 
   .social-links {
