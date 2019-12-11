@@ -76,8 +76,8 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  text-align: center;
-  justify-content: center;
+  text-align: left;
+  justify-content: left;
 }
 
 * {
@@ -88,7 +88,7 @@ body {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
   color: #2c3e50;
   .main {
     min-height: 70vh;
