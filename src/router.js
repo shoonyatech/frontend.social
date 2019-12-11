@@ -57,6 +57,16 @@ export default new Router({
       path: "/me",
       name: "me",
       component: () => import("./pages/Profile.vue")
+    },
+    {
+      path: "/privacy",
+      name: "privacy",
+      component: () => import("./pages/PrivacyPolicy.vue")
+    },
+    {
+      path: "/terms",
+      name: "terms",
+      component: () => import("./pages/TermsOfUse.vue")
     }
   ]
 });
