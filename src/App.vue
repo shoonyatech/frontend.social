@@ -147,11 +147,27 @@ body {
   display: inline-block;
 }
 
+.page-heading {
+  margin-top: 1rem;
+}
+
 h1 {
   font-size: 1.2rem;
   text-align: left;
   width: 100%;
   border-bottom: 1px solid #aada18;
+}
+
+h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: left;
+  width: 100%;
+}
+
+ol {
+  padding-left: 0.5rem;
+  margin: 0.8rem 0.7rem 0.8rem 1.9em !important;
 }
 
 a {
