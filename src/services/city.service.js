@@ -2,35 +2,36 @@ import httpClient from "./http-client";
 
 export default {
   getCities: searchText => {
-    // return httpClient.get(
-    //   "city?searchText=" + searchText + "&pageNo=0&itemsPerPage=20"
-    // );
-    return [
-      {
-        name: "name",
-        description: "description",
-        photo: "photo",
-        country: "country",
-        lat: 10,
-        lng: 12
-      },
-      {
-        name: "name",
-        description: "description",
-        photo: "photo",
-        country: "country",
-        lat: 10,
-        lng: 12
-      },
-      {
-        name: "name",
-        description: "description",
-        photo: "photo",
-        country: "country",
-        lat: 10,
-        lng: 12
-      }
-    ];
+    searchText = searchText || "an";
+    return httpClient
+      .get("city?searchText=" + searchText)
+      .then(response => response.data);
+    // return [
+    //   {
+    //     name: "name",
+    //     description: "description",
+    //     photo: "photo",
+    //     country: "country",
+    //     lat: 10,
+    //     lng: 12
+    //   },
+    //   {
+    //     name: "name",
+    //     description: "description",
+    //     photo: "photo",
+    //     country: "country",
+    //     lat: 10,
+    //     lng: 12
+    //   },
+    //   {
+    //     name: "name",
+    //     description: "description",
+    //     photo: "photo",
+    //     country: "country",
+    //     lat: 10,
+    //     lng: 12
+    //   }
+    // ];
   },
   getCityDetails: (cityName, countryCode) => {
     // return httpClient.get(`city/${cityName}/${countryCode}`);

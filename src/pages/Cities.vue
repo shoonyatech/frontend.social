@@ -10,8 +10,8 @@
     </div>
     <div class="thumbnail-container">
       <city-thumbnail
-        v-for="city in cities"
-        :key="'city-id-' + city._id"
+        v-for="(city, index) in cities"
+        :key="index"
         :city="city"
         class="city-card"
       />
@@ -34,8 +34,11 @@ export default {
   },
   data() {
     return {
-      cities: null
+      cities: []
     };
+  },
+  created() {
+    cityService.getCities().then(cities => (this.cities = cities));
   },
   methods: {
     citySearch(e) {
@@ -43,7 +46,9 @@ export default {
       const citySearchText = e.target.value
         .replace(/^\s+/, "")
         .replace(/\s+$/, "");
-      this.cities = cityService.getCities(citySearchText);
+      cityService
+        .getCities(citySearchText)
+        .then(cities => (this.cities = cities));
     }
   }
 };
