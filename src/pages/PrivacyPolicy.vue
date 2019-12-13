@@ -185,7 +185,9 @@
               </li>
             </ol>
             <div>
-              <h2>Data Storage</h2>
+              <h2 class="term">
+                Data Storage
+              </h2>
               Frontend Social uses third-party vendors and hosting partners for
               hardware, software, networking, storage, and related technology we
               need to run Frontend Social. By using Frontend Social Services,
@@ -195,7 +197,9 @@
               are required to meet our data protection standards.
             </div>
             <div>
-              <h2>Site monitoring</h2>
+              <h2 class="term">
+                Site monitoring
+              </h2>
               Frontend Social uses a variety of third-party services to diagnose
               errors and improve the performance of our site. We aim to minimize
               the amount of personal information shared, but the information may
@@ -204,13 +208,17 @@
               data protection standards.
             </div>
             <div>
-              <h2>Payment processing</h2>
+              <h2 class="term">
+                Payment processing
+              </h2>
               Frontend Social does not process payments directly — we rely on
               third-party services such as Stripe, Shopify, and Paypal to
               receive payments and store any payment information.
             </div>
             <div>
-              <h2>Third-Party Embeds</h2>
+              <h2 class="term">
+                Third-Party Embeds
+              </h2>
               Some of the content that you see displayed on Frontend Social is
               not hosted by Frontend Social. These “embeds” are hosted by a
               third-party and embedded in Frontend Social. For example: YouTube
@@ -226,7 +234,9 @@
               Be mindful when interacting with these services.
             </div>
             <div>
-              <h2>Facebook (visitor action pixel)</h2>
+              <h2 class="term">
+                Facebook (visitor action pixel)
+              </h2>
               We use the “visitor action pixels” from Facebook Inc on our
               website. This allows user behavior to be tracked after they have
               been redirected to our website by clicking on a Facebook ad. This
@@ -243,7 +253,7 @@
               https://www.facebook.com/settings?tab=ads.
             </div>
             <div>
-              <h2>
+              <h2 class="term">
                 Tracking & Cookies
               </h2>
               We use browser cookies and similar technologies to recognize you
@@ -271,7 +281,9 @@
               properly.
             </div>
             <div>
-              <h2>Data Security</h2>
+              <h2 class="term">
+                Data Security
+              </h2>
               We use encryption (HTTPS/TLS) to protect data transmitted to and
               from our site. However, no data transmission over the Internet is
               100% secure, so we can’t guarantee security. You use the Service
@@ -279,7 +291,9 @@
               measures to secure your account.
             </div>
             <div>
-              <h2>Administrative Emails from Frontend Social</h2>
+              <h2 class="term">
+                Administrative Emails from Frontend Social
+              </h2>
               Sometimes we’ll send you emails about your account, service
               changes or new policies. You can’t opt out of this type of
               “transactional” email (unless you delete your account). <br>When
@@ -288,7 +302,7 @@
               email), we may receive information about that interaction.
             </div>
             <div>
-              <h2>
+              <h2 class="term">
                 Non-administrative Emails from Frontend Social
               </h2>
               Upon creating a Frontend Social account, you will be opted into
@@ -306,7 +320,7 @@
               that interaction.
             </div>
             <div>
-              <h2>
+              <h2 class="term">
                 Deleting Your Personal Information
               </h2>
               You may request deletion of your personal information and account
@@ -317,26 +331,34 @@
               unrecoverable after that time.
             </div>
             <div>
-              <h2>Data Portability</h2>
+              <h2 class="term">
+                Data Portability
+              </h2>
               If you would like to request a copy of your user data, please
               email contact@shoonya.ca.
             </div>
             <div>
-              <h2>Business Transfers</h2>
+              <h2 class="term">
+                Business Transfers
+              </h2>
               If we are involved in a merger, acquisition, bankruptcy,
               reorganization or sale of assets such that your information would
               be transferred or become subject to a different privacy policy,
               we’ll notify you in advance of any such change.
             </div>
             <div>
-              <h2>Changes to this Policy</h2>
+              <h2 class="term">
+                Changes to this Policy
+              </h2>
               We reserve the right to revise this Privacy Policy at any time. If
               we change this Privacy Policy in the future, we will post the
               revised Privacy Policy and update the “Effective Date,” above, to
               reflect the date of the changes.
             </div>
             <div>
-              <h2>Questions</h2>
+              <h2 class="term">
+                Questions
+              </h2>
               We welcome feedback about this policy at contact@shoonya.ca.
             </div>
           </div>
