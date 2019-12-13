@@ -7,7 +7,7 @@
         </h1>
         <div class="terms">
           <div>
-            Effective May 25, 2018
+            Effective December 12, 2019
           </div>
           This policy covers Shoonya Technologies Ltd. ("Shoonya" or "Company")
           and https://www.frontend.social website("Frontend Social" or
