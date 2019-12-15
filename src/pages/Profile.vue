@@ -24,12 +24,15 @@
               <input v-model="profile.city">
               <input v-model="profile.country">
             </div>
-            <div v-else>
+            <a
+              v-else
+              :href="`/city/${profile.city}/${profile.country}`"
+            >
               <span class="user-city"> {{ profile.city }}</span>,
               <span class="user-country">
                 {{ profile.country }}
               </span>
-            </div>
+            </a>
           </div>
         </b-col>
         <b-col md="9">
