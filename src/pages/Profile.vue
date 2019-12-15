@@ -7,15 +7,29 @@
             :src="profile.profilePic"
             class="profile-photo"
           >
-          <input
-            v-if="editMode"
-            v-model="profile.name"
-          >
-          <div
-            v-else
-            class="user-name"
-          >
-            {{ profile.name }}
+          <div>
+            <input
+              v-if="editMode"
+              v-model="profile.name"
+            >
+            <div
+              v-else
+              class="user-name"
+            >
+              {{ profile.name }}
+            </div>
+          </div>
+          <div>
+            <div v-if="editMode">
+              <input v-model="profile.city">
+              <input v-model="profile.country">
+            </div>
+            <div v-else>
+              <span class="user-city"> {{ profile.city }}</span>,
+              <span class="user-country">
+                {{ profile.country }}
+              </span>
+            </div>
           </div>
         </b-col>
         <b-col md="9">
