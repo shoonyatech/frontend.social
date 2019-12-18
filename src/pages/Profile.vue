@@ -21,6 +21,37 @@
           </div>
           <div>
             <div v-if="editMode">
+              <span class="radio">
+                <input
+                  v-model="profile.category"
+                  class="radio-input"
+                  type="radio"
+                  value="dev"
+                >
+                <span class="radio-label"> Dev</span>
+              </span>
+              <span class="radio">
+                <input
+                  v-model="profile.category"
+                  class="radio-input"
+                  type="radio"
+                  value="designer"
+                >
+                <span class="radio-label"> Designer</span>
+              </span>
+            </div>
+            <div
+              v-else
+              class="user-name"
+            >
+              <span class="light-text">I am a </span>
+              <span>{{
+                profile.category == "dev" ? "Developer" : "Designer"
+              }}</span>
+            </div>
+          </div>
+          <div>
+            <div v-if="editMode">
               <input v-model="profile.city">
               <input v-model="profile.country">
             </div>
