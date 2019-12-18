@@ -10,22 +10,30 @@ const httpClient = () => {
 export default {
   get(url) {
     let options = getOptions();
-    return httpClient().get(url, options);
+    return httpClient()
+      .get(url, options)
+      .then(response => response.data);
   },
 
   post(url, data) {
     let options = getOptions();
-    return httpClient().post(url, data, options);
+    return httpClient()
+      .post(url, data, options)
+      .then(response => response.data);
   },
 
   put(url, data) {
     let options = getOptions();
-    return httpClient().put(url, data, options);
+    return httpClient()
+      .put(url, data, options)
+      .then(response => response.data);
   },
 
   delete(url, data) {
     let options = getOptions();
-    return httpClient().delete(url, data, options);
+    return httpClient()
+      .delete(url, data, options)
+      .then(response => response.data);
   }
 };
 
