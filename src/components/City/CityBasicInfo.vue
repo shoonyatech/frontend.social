@@ -4,7 +4,7 @@
     <div class="basic-info">
       <img
         class="photo"
-        src="/images/city-thumb.jpg"
+        :src="`/images/cities/${city.name}-${city.country}.jpg`"
       >
       <div class="details">
         <div>{{ city.name }}, {{ city.country }}</div>

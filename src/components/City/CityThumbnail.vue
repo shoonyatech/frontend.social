@@ -4,7 +4,7 @@
     <div class="thumbnail">
       <img
         class="photo"
-        src="/images/city-thumb.jpg"
+        :src="`/images/cities/${city.name}-${city.country}.jpg`"
       >
       <div class="details">
         <div class="inline-block">
