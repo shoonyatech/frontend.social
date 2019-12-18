@@ -41,24 +41,24 @@ export default {
     };
   },
   mounted() {
-    jobService.getJobs("").then(response => {
-      this.jobs = response.data;
+    jobService.getJobs("").then(jobs => {
+      this.jobs = jobs;
     });
     this.scroll(this.jobs);
   },
   methods: {
     searchJobsWithSearchTerm(searchText = "") {
       searchText.replace(/^\s+/, "").replace(/\s+$/, "");
-      jobService.getJobs(searchText).then(response => {
-        this.jobs = response.data;
+      jobService.getJobs(searchText).then(jobs => {
+        this.jobs = jobs;
       });
     },
     onSearchParamsChange(param = "", key, value) {
       this.currentQuery = param;
       const queryParams = new URLSearchParams(window.location.search);
       queryParams.set(key, value);
-      jobService.getJobsOnSearchParamsChange(param).then(response => {
-        this.jobs = response.data;
+      jobService.getJobsOnSearchParamsChange(param).then(jobs => {
+        this.jobs = jobs;
       });
     },
     setInitialQuery(initialQuery) {
@@ -73,8 +73,8 @@ export default {
         if (bottomOfWindow) {
           jobService
             .fetchDataForNextPage(this.currentQuery, this.totalPages)
-            .then(response => {
-              this.jobs.push(response.data);
+            .then(jobs => {
+              this.jobs.push(jobs);
             });
         }
       };

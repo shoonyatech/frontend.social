@@ -33,8 +33,8 @@ export default {
     };
   },
   created() {
-    learnService.getLatestArticles().then(response => {
-      this.articles = response.data;
+    learnService.getLatestArticles().then(articles => {
+      this.articles = articles;
     });
   }
 };

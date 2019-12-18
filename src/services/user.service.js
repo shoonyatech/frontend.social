@@ -6,11 +6,11 @@ export default {
   },
 
   getLoggedInUserProfile: () => {
-    return httpClient.get("me").then(response => response.data);
+    return httpClient.get("me");
   },
 
   getUserProfile: username => {
-    return httpClient.get("user/" + username).then(response => response.data);
+    return httpClient.get("user/" + username);
   },
 
   updateUserProfile: profile => {
