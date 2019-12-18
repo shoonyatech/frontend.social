@@ -205,8 +205,18 @@ button:hover {
 
 .radio-input {
   display: inline-block;
-  height: 33px;
+  height: 29px;
   margin-right: 10px;
+}
+
+input {
+  border: 3px solid #aada20;
+  display: inline-block;
+  margin: 2px 0;
+  font-size: inherit;
+  line-height: inherit;
+  height: 1.5rem;
+  padding: 0 10px;
 }
 
 .social-button {
