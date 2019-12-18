@@ -1,7 +1,10 @@
 <template>
   <div class="avatar">
     <a :href="`/user/${user.username}`">
-      <img :src="user.photo">
+      <img
+        :src="user.profilePic"
+        class="profile-photo"
+      >
     </a>
   </div>
 </template>
@@ -20,11 +23,17 @@ export default {
 
 <style scoped>
 .avatar {
-  height: 45px;
-  width: 45px;
   background-color: #aada18;
-  margin-right: 10px;
   border-radius: 50%;
-  padding: 8px;
+  margin-right: 10px;
+}
+
+.profile-photo {
+  height: 50px;
+  width: 50px;
+  background-color: #aada18;
+  text-align: left;
+  padding: 2px;
+  border-radius: 999px;
 }
 </style>

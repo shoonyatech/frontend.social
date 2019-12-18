@@ -1,55 +1,50 @@
 <template>
   <!-- div for searching city -->
-  <router-link :to="'/city/' + city._id">
-    <div class="basic-info">
-      <img
-        class="photo"
-        :src="`/images/cities/${city.name}-${city.country}.jpg`"
-      >
-      <div class="details">
-        <div>{{ city.name }}, {{ city.country }}</div>
-        <div class="text-sm">
-          <span class="left half-width">{{ city.devCount }} devs</span><span class="half-width">{{ city.designersCount }} designers</span>
-        </div>
-        <div class="text-xs tiny-details">
-          <tiny-key-value
-            label="React"
-            value="60"
-            class="half-width pr-2"
-          /><tiny-key-value
-            label="Web"
-            value="60"
-            class="half-width"
-          />
-        </div>
-        <div class="text-xs tiny-details">
-          <tiny-key-value
-            label="Angular"
-            value="160"
-            class="half-width pr-2"
-          /><tiny-key-value
-            label="Android"
-            value="260"
-            class="half-width"
-          />
-        </div>
-        <div class="text-xs tiny-details">
-          <tiny-key-value
-            label="Vue"
-            value="6000"
-            class="half-width pr-2"
-          /><tiny-key-value
-            label="iOS"
-            value="1060"
-            class="half-width"
-          />
-        </div>
-        <div class="text-xs">
-          ReactFoo 2019, JSFoo 2019
-        </div>
+  <div class="basic-info">
+    <img
+      class="photo"
+      :src="`/images/cities/${city.name}-${city.country}.jpg`"
+    >
+    <div class="details">
+      <div>{{ city.name }}, {{ city.country }}</div>
+      <div class="text-sm title">
+        {{ city.title }}
+      </div>
+      <div class="text-xs tiny-details">
+        <tiny-key-value
+          label="React"
+          value="60"
+          class="half-width pr-2"
+        /><tiny-key-value
+          label="Web"
+          value="60"
+          class="half-width"
+        />
+      </div>
+      <div class="text-xs tiny-details">
+        <tiny-key-value
+          label="Angular"
+          value="160"
+          class="half-width pr-2"
+        /><tiny-key-value
+          label="Android"
+          value="260"
+          class="half-width"
+        />
+      </div>
+      <div class="text-xs tiny-details">
+        <tiny-key-value
+          label="Vue"
+          value="6000"
+          class="half-width pr-2"
+        /><tiny-key-value
+          label="iOS"
+          value="1060"
+          class="half-width"
+        />
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
@@ -96,5 +91,9 @@ export default {
 
 .pr-2 {
   padding-right: 10px;
+}
+
+.title {
+  margin-bottom: 10px;
 }
 </style>
