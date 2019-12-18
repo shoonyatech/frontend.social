@@ -40,28 +40,6 @@ export default {
   },
 
   getUsersFromCity: (cityName, countryCode) => {
-    // return httpClient.get(`city/${cityName}/${countryCode}`);
-    return {
-      developers: [
-        {
-          username: "souvikbasu",
-          photo: "reactfoo.com"
-        },
-        {
-          username: "souvikbasu2",
-          photo: "reactfoo.com"
-        }
-      ],
-      designers: [
-        {
-          username: "souvikbasu1",
-          photo: "reactfoo.com"
-        },
-        {
-          username: "souvikbasu3",
-          photo: "reactfoo.com"
-        }
-      ]
-    };
+    return httpClient.get(`user/from/${cityName}/${countryCode}`);
   }
 };

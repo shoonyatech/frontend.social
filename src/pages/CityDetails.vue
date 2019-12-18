@@ -72,12 +72,14 @@ export default {
       .getCityDetails(cityName, countryCode)
       .then(city => (this.selectedCity = city));
 
+    cityService.getUsersFromCity(cityName, countryCode).then(users => {
+      this.developersFromCity = users.filter(u => u.category === "dev");
+      this.designersFromCity = users.filter(u => u.category === "designer");
+    });
+
     let cityEvents = cityService.getConferencesInCity(cityName, countryCode);
     this.upcomingEvents = cityEvents.upcoming;
     this.pastEvents = cityEvents.past;
-    let cityUsers = cityService.getUsersFromCity(cityName, countryCode);
-    this.developersFromCity = cityUsers.developers;
-    this.designersFromCity = cityUsers.designers;
   },
 
   methods: {}
