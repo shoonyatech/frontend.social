@@ -11,6 +11,7 @@
             <input
               v-if="editMode"
               v-model="profile.name"
+              class="left-input"
             >
             <div
               v-else
@@ -52,8 +53,14 @@
           </div>
           <div>
             <div v-if="editMode">
-              <input v-model="profile.city">
-              <input v-model="profile.country">
+              <input
+                v-model="profile.city"
+                class="left-input"
+              >
+              <input
+                v-model="profile.country"
+                class="left-input"
+              >
             </div>
             <a
               v-else
@@ -285,11 +292,10 @@ export default {
 
 <style scoped>
 .profile-photo {
-  height: 220px;
+  max-width: 100%;
   background-color: #aada18;
-  margin-right: 10px;
   text-align: left;
-  padding: 8px;
+  padding: 5px;
 }
 
 .user-name {
@@ -384,5 +390,9 @@ export default {
 
 .save-button {
   margin-right: 10px;
+}
+
+.left-input {
+  width: 100%;
 }
 </style>
