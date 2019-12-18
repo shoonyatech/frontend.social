@@ -195,6 +195,20 @@ button:hover {
   background-color: #c5dd7d;
 }
 
+.light-text {
+  opacity: 0.5;
+}
+
+.radio {
+  display: flex;
+}
+
+.radio-input {
+  display: inline-block;
+  height: 33px;
+  margin-right: 10px;
+}
+
 .social-button {
   font-size: 0.75rem;
   padding: 5px 10px !important;
