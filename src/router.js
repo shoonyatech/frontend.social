@@ -54,11 +54,6 @@ export default new Router({
       component: () => import("./pages/HandleFBResponse.vue")
     },
     {
-      path: "/me",
-      name: "me",
-      component: () => import("./pages/Profile.vue")
-    },
-    {
       path: "/privacy",
       name: "privacy",
       component: () => import("./pages/PrivacyPolicy.vue")
@@ -67,6 +62,16 @@ export default new Router({
       path: "/terms",
       name: "terms",
       component: () => import("./pages/TermsOfUse.vue")
+    },
+    {
+      path: "/me",
+      name: "me",
+      component: () => import("./pages/Profile.vue")
+    },
+    {
+      path: "/user/:username",
+      name: "profile",
+      component: () => import("./pages/Profile.vue")
     }
   ]
 });
