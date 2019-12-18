@@ -62,15 +62,19 @@
                 class="left-input"
               >
             </div>
-            <a
-              v-else
-              :href="`/city/${profile.city}/${profile.country}`"
-            >
-              <span class="user-city"> {{ profile.city }}</span>,
-              <span class="user-country">
-                {{ profile.country }}
-              </span>
-            </a>
+            <div v-else>
+              <div v-if="profile.city">
+                <a :href="`/city/${profile.city}/${profile.country}`">
+                  <span class="user-city"> {{ profile.city }}</span>,
+                  <span class="user-country">
+                    {{ profile.country }}
+                  </span>
+                </a>
+              </div>
+              <div v-else>
+                [Add your city]
+              </div>
+            </div>
           </div>
         </b-col>
         <b-col md="9">
