@@ -218,6 +218,10 @@ export default {
     };
   },
   created() {
+    const username = this.$route.params.username;
+    console.log(username);
+
+    if(username == null) {
     userService
       .getLoggedInUserProfile()
       .then(user => {
@@ -227,6 +231,16 @@ export default {
         userService.signout();
         this.$router.push("/");
       });
+    } else {
+      userService
+      .getUserProfile(username)
+      .then(user => {
+        this.profile = user;
+      })
+      .catch(e => {
+        alert('User ' + username + ' not found')
+      });
+    }
   },
   methods: {
     onSocialChange: function(social) {

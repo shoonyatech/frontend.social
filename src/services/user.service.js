@@ -9,6 +9,10 @@ export default {
     return httpClient.get("me").then(response => response.data);
   },
 
+  getUserProfile: username => {
+    return httpClient.get("user/" + username).then(response => response.data);
+  },
+
   updateUserProfile: profile => {
     return httpClient.put("me", profile);
   },
