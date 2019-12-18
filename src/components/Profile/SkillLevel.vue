@@ -38,12 +38,12 @@ export default {
       default: ""
     },
     noOfYears: {
-      type: String,
-      default: ""
+      type: Number,
+      default: 0
     },
     rating: {
-      type: String,
-      default: "0"
+      type: Number,
+      default: 0
     },
     max: {
       type: Number,
@@ -76,11 +76,11 @@ export default {
       this.$emit("change", { index: this.index, skill: this.skill });
     },
     onYearChange: function(val) {
-      this.skill.noOfYears = val;
+      this.skill.noOfYears = Number(val);
       this.$emit("change", { index: this.index, skill: this.skill });
     },
     onRatingChange: function(e) {
-      this.skill.rating = e.target.value;
+      this.skill.rating = Number(e.target.value);
       this.$emit("change", { index: this.index, skill: this.skill });
     }
   }

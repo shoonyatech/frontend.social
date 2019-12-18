@@ -17,7 +17,7 @@ export default {
   components: {},
   props: {
     value: {
-      type: String,
+      type: [String, Number],
       default: ""
     },
     placeholder: {
