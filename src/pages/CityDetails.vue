@@ -67,7 +67,11 @@ export default {
   created() {
     const cityName = this.$route.params.cityName;
     const countryCode = this.$route.params.countryCode;
-    this.selectedCity = cityService.getCityDetails(cityName, countryCode);
+
+    cityService
+      .getCityDetails(cityName, countryCode)
+      .then(city => (this.selectedCity = city));
+
     let cityEvents = cityService.getConferencesInCity(cityName, countryCode);
     this.upcomingEvents = cityEvents.upcoming;
     this.pastEvents = cityEvents.past;

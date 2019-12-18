@@ -2,21 +2,15 @@ import httpClient from "./http-client";
 
 export default {
   getCities: searchText => {
-    searchText = searchText || "an";
-    return httpClient
-      .get("city?searchText=" + searchText)
-      .then(response => response.data);
+    if (searchText) {
+      return httpClient.get("city?searchText=" + searchText);
+    } else {
+      return httpClient.get("city");
+    }
   },
+
   getCityDetails: (cityName, countryCode) => {
-    // return httpClient.get(`city/${cityName}/${countryCode}`);
-    return {
-      name: "Bangalore",
-      description: "Some description about city",
-      photo: "photo",
-      country: "IN",
-      lat: 10,
-      lng: 12
-    };
+    return httpClient.get(`city/${cityName}/${countryCode}`);
   },
 
   getConferencesInCity: (cityName, countryCode) => {
@@ -54,17 +48,17 @@ export default {
           photo: "reactfoo.com"
         },
         {
-          username: "souvikbasu",
+          username: "souvikbasu2",
           photo: "reactfoo.com"
         }
       ],
       designers: [
         {
-          username: "souvikbasu",
+          username: "souvikbasu1",
           photo: "reactfoo.com"
         },
         {
-          username: "souvikbasu",
+          username: "souvikbasu3",
           photo: "reactfoo.com"
         }
       ]
