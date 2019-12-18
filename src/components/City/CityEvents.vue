@@ -2,25 +2,33 @@
   <div>
     <div>Upcoming events</div>
     <div class="city-events">
-      <a
-        v-for="event in upcomingEvents"
-        :key="event.name"
-        class="city-event"
-        :href="event.url"
+      <div
+        v-for="(event, index) in upcomingEvents"
+        :key="index"
+        class="event-line"
       >
-        {{ event.name }}
-      </a>
+        <a
+          class="city-event"
+          :href="event.url"
+        >
+          {{ event.name }}
+        </a>
+      </div>
     </div>
     <div>Past events</div>
     <div class="city-events">
-      <a
-        v-for="event in pastEvents"
-        :key="event.name"
-        class="city-event"
-        :href="event.url"
+      <div
+        v-for="(event, index) in pastEvents"
+        :key="index"
+        class="event-line"
       >
-        {{ event.name }}
-      </a>
+        <a
+          class="city-event"
+          :href="event.url"
+        >
+          {{ event.name }}
+        </a>
+      </div>
     </div>
   </div>
 </template>
@@ -40,13 +48,17 @@ export default {
 
 <style scoped>
 .city-events {
-  display: flex;
-  flex-direction: row;
 }
 
 .city-event {
   flex: 0 1 auto;
   font-size: 0.8rem;
   margin: 10px;
+}
+
+.event-line {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 </style>

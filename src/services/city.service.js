@@ -14,29 +14,7 @@ export default {
   },
 
   getConferencesInCity: (cityName, countryCode) => {
-    // return httpClient.get(`city/${cityName}/${countryCode}`);
-    return {
-      upcoming: [
-        {
-          name: "ReactFoo",
-          url: "reactfoo.com"
-        },
-        {
-          name: "ng India",
-          url: "reactfoo.com"
-        }
-      ],
-      past: [
-        {
-          name: "GIDS",
-          url: "reactfoo.com"
-        },
-        {
-          name: "ng India",
-          url: "reactfoo.com"
-        }
-      ]
-    };
+    return httpClient.get(`conference/city/${cityName}/${countryCode}`);
   },
 
   getUsersFromCity: (cityName, countryCode) => {
