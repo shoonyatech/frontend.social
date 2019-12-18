@@ -77,9 +77,14 @@ export default {
       this.designersFromCity = users.filter(u => u.category === "designer");
     });
 
-    let cityEvents = cityService.getConferencesInCity(cityName, countryCode);
-    this.upcomingEvents = cityEvents.upcoming;
-    this.pastEvents = cityEvents.past;
+    cityService.getConferencesInCity(cityName, countryCode).then(cityEvents => {
+      this.upcomingEvents = cityEvents.filter(
+        e => new Date(e.dateFrom) > new Date()
+      );
+      this.pastEvents = cityEvents.filter(
+        e => new Date(e.dateFrom) < new Date()
+      );
+    });
   },
 
   methods: {}
