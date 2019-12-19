@@ -20,7 +20,8 @@
           />
         </div>
         <div class="text-xs inline-block">
-          ReactFoo 2019, JSFoo 2019
+          <span>{{ city.latestConf != null ? city.latestConf.join(", ") : "" }}
+          </span>
         </div>
       </div>
     </div>
