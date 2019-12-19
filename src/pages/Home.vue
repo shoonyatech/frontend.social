@@ -9,6 +9,7 @@
           videos, learn from online courses and find jobs matching your skills!!
         </div>
         <LatestArticles />
+        <UpcomingEvents />
       </b-col>
       <b-col md="3">
         <div
@@ -28,10 +29,11 @@
 <script>
 import SignInButtons from "@/components/Signin/SignInButtons";
 import LatestArticles from "@/components/Learn/LatestArticles";
+import UpcomingEvents from "@/components/Events/UpcomingEvents";
 
 export default {
   name: "Home",
-  components: { SignInButtons, LatestArticles },
+  components: { SignInButtons, LatestArticles, UpcomingEvents },
   computed: {
     isSignedIn() {
       return this.$store.state.signedInUser != null;
