@@ -5,7 +5,7 @@
         class="main-logo"
         href="/"
       >
-        <!-- <img src="/images/logo.jpg" /> -->
+        <img src="/images/logo.jpg">
       </a>
       <div class="menu-icon">
         <i
