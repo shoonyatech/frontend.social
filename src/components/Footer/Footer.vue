@@ -17,7 +17,7 @@
           We are building a one stop platform for frontend developers and
           designers.
           <br>If you want to contribute to this community driven effort,
-          please mail us
+          please mail us at
           <b>contact@shoonya.ca</b>
           <br>
         </div>
