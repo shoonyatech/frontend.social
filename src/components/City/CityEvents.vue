@@ -11,7 +11,11 @@
           class="city-event"
           :href="event.url"
         >
-          {{ event.name }}
+          <span>{{ event.name }}</span>
+          <div class="event-date">
+            <span>{{ event.dateFrom | moment("DD MMM YYYY") }} - </span>
+            <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span>
+          </div>
         </a>
       </div>
     </div>
@@ -26,7 +30,11 @@
           class="city-event"
           :href="event.url"
         >
-          {{ event.name }}
+          <span>{{ event.name }}</span>
+          <div class="event-date">
+            <span>{{ event.dateFrom | moment("DD MMM YYYY") }} - </span>
+            <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span>
+          </div>
         </a>
       </div>
     </div>
@@ -60,5 +68,10 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.event-date {
+  font-size: 0.65rem;
+  color: #2c3e50;
 }
 </style>

@@ -15,6 +15,7 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
 Vue.use(VueAuthenticate, authOptions);
+Vue.use(require("vue-moment"));
 
 new Vue({
   router,
