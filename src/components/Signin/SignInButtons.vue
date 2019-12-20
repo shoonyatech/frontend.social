@@ -73,7 +73,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .buttons-box {
   padding-right: 10px;
 }

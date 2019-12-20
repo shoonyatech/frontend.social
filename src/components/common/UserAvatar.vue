@@ -21,7 +21,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .avatar {
   background-color: #aada18;
   border-radius: 50%;

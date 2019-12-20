@@ -37,7 +37,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .host {
   display: flex;
   width: 100%;

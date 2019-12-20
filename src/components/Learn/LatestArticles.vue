@@ -40,7 +40,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .host {
   width: 100%;
 }

@@ -48,7 +48,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .filter > label {
   margin-left: 5px;
 }

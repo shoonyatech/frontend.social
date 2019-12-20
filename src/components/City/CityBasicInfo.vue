@@ -39,7 +39,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* style for city basic-info */
 .basic-info {
   border: solid #aada18 2px;

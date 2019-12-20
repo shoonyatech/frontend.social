@@ -54,7 +54,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .city-event {
   flex: 0 1 auto;
   font-size: 0.8rem;

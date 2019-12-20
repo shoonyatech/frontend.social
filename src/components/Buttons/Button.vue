@@ -27,7 +27,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 button {
   padding: 5px;
   width: 100%;

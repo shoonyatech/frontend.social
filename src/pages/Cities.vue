@@ -54,7 +54,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .thumbnail-container {
   display: flex;
   flex-wrap: wrap;

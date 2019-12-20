@@ -45,7 +45,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .value {
   border-bottom: 1px solid #aada20;
   flex: 1 1 auto;
