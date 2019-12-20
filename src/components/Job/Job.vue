@@ -75,7 +75,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .job {
   width: 90%;
   border-bottom: 1px solid;

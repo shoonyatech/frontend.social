@@ -43,7 +43,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* style for city thumbnail */
 .thumbnail {
   border: solid #aada18 2px;

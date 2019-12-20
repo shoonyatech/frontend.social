@@ -308,7 +308,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .profile-photo {
   max-width: 100%;
   background-color: #aada18;
