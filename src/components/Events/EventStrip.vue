@@ -51,7 +51,7 @@ export default {
 <style scoped lang="scss">
 .event-strip {
   flex: 0 1 auto;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   margin: 10px;
   width: 95%;
   height: 80px;
