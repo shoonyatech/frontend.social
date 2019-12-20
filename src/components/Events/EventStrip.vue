@@ -1,21 +1,39 @@
 <template>
-  <div class="host">
-    <a
-      class="city-event"
-      :href="event.url"
-    >
+  <div class="event-strip">
+    <a :href="event.url">
       <span>{{ event.name }}</span>
-      <div class="event-date">
-        <span>{{ event.dateFrom | moment("DD MMM YYYY") }} - </span>
-        <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span>
-        <span class="city"> in {{ event.city }}, {{ event.country }}</span>
-      </div>
+      <span class="event-type">
+        {{ event.conferenceOrMeetup === "c" ? "conference" : "meetup" }}</span>
     </a>
+    <div class="event-date">
+      <span>{{ event.dateFrom | moment("DD MMM YYYY") }} - </span>
+      <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span>
+      <span class="city"> in {{ event.city }}, {{ event.country }}</span>
+    </div>
+    <div class="links icon-links">
+      <icon-link
+        icon="/images/web.svg"
+        :url="event.website"
+      />
+      <icon-link
+        icon="/images/twitter.svg"
+        :url="event.twitter"
+      />
+      <icon-link
+        icon="/images/youtube.svg"
+        :url="event.youtube"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+import IconLink from "@/components/common/IconLink";
+
 export default {
+  components: {
+    IconLink
+  },
   props: {
     event: {
       type: Object
@@ -24,17 +42,17 @@ export default {
 };
 </script>
 
-<style scoped>
-.host {
-  width: 100%;
-  display: flex;
-}
-
-.city-event {
+<style scoped lang="scss">
+.event-strip {
   flex: 0 1 auto;
   font-size: 0.8rem;
   margin: 10px;
-  width: 100%;
+  width: 95%;
+  height: 80px;
+  position: relative;
+  border-bottom: dotted 1px #aada20;
+  padding-bottom: 10px;
+  margin-right: 20px;
 }
 
 .event-line {
@@ -43,8 +61,25 @@ export default {
   width: 100%;
 }
 
+.event-type {
+  font-size: 0.65rem;
+  color: #2c3e50;
+  float: right;
+}
+
 .event-date {
   font-size: 0.65rem;
   color: #2c3e50;
+}
+
+.links {
+  position: absolute;
+  right: 10px;
+  top: 20px;
+}
+
+.icon-links {
+  display: flex;
+  flex-direction: row;
 }
 </style>
