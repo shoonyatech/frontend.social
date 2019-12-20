@@ -10,16 +10,22 @@
       <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span>
       <span class="city"> in {{ event.city }}, {{ event.country }}</span>
     </div>
+    <div class="event-skills">
+      {{ event.relatedSkills.join(", ") }}
+    </div>
     <div class="links icon-links">
       <icon-link
+        v-if="event.website"
         icon="/images/web.svg"
         :url="event.website"
       />
       <icon-link
+        v-if="event.twitter"
         icon="/images/twitter.svg"
         :url="event.twitter"
       />
       <icon-link
+        v-if="event.youtube"
         icon="/images/youtube.svg"
         :url="event.youtube"
       />
@@ -65,6 +71,11 @@ export default {
   font-size: 0.65rem;
   color: #2c3e50;
   float: right;
+}
+
+.event-skills {
+  font-size: 0.65rem;
+  color: #2c3e50;
 }
 
 .event-date {
