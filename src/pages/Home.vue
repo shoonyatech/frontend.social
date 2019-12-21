@@ -8,8 +8,8 @@
           developers and designers in your city meetups, see latest blogs and
           videos, learn from online courses and find jobs matching your skills!!
         </div>
-        <LatestArticles />
         <UpcomingEvents />
+        <LatestArticles />
       </b-col>
       <b-col md="3">
         <div
