@@ -2,31 +2,21 @@
   <div class="host">
     <h1>Latest articles on Frontend</h1>
     <div class="articles">
-      <div
-        v-for="article in articles"
-        :key="article.url"
-        class="article"
-      >
-        <div>
-          <a
-            :href="article.url"
-            target="_blank"
-          >{{ article.title }}</a>
-          <span> by {{ article.author }}</span>
-        </div>
-        <div>{{ article.details }}</div>
-        <div class="courtesy">
-          courtesy {{ article.courtesy }}
-        </div>
-      </div>
+      <article-strip
+        v-for="(article, index) in articles"
+        :key="index"
+        :article="article"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import ArticleStrip from "@/components/Learn/ArticleStrip";
 import learnService from "@/services/learn.service";
 
 export default {
+  components: { ArticleStrip },
   data() {
     return {
       articles: []
