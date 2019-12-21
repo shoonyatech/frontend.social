@@ -13,8 +13,8 @@ export default {
     return httpClient.get(`city/${cityName}/${countryCode}`);
   },
 
-  getConferencesInCity: (cityName, countryCode) => {
-    return httpClient.get(`conference/city/${cityName}/${countryCode}`);
+  getEventsInCity: (cityName, countryCode) => {
+    return httpClient.get(`event/city/${cityName}/${countryCode}`);
   },
 
   getUsersFromCity: (cityName, countryCode) => {

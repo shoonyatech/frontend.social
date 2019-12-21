@@ -20,7 +20,7 @@
           />
         </div>
         <div class="text-xs inline-block">
-          <span>{{ city.latestConf != null ? city.latestConf.join(", ") : "" }}
+          <span>{{ city.latestEvent != null ? city.latestEvent.join(", ") : "" }}
           </span>
         </div>
       </div>

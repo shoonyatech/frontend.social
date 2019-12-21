@@ -3,7 +3,7 @@
     <a :href="event.url">
       <span>{{ event.name }}</span>
       <span class="event-type">
-        {{ event.conferenceOrMeetup === "c" ? "conference" : "meetup" }}</span>
+        {{ event.type === "c" ? "event" : "meetup" }}</span>
     </a>
     <div class="event-date">
       <span>{{ event.dateFrom | moment("DD MMM YYYY") }} - </span>

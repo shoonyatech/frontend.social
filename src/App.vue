@@ -35,8 +35,8 @@ export default {
         icon: "ion-ios-briefcase"
       },
       {
-        text: "Conferences",
-        path: "/conferences",
+        text: "Events",
+        path: "/events",
         icon: "ion-ios-megaphone"
       },
       {

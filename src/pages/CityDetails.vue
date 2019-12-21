@@ -77,7 +77,7 @@ export default {
       this.designersFromCity = users.filter(u => u.category === "designer");
     });
 
-    cityService.getConferencesInCity(cityName, countryCode).then(cityEvents => {
+    cityService.getEventsInCity(cityName, countryCode).then(cityEvents => {
       this.upcomingEvents = cityEvents.filter(
         e => new Date(e.dateFrom) > new Date()
       );
