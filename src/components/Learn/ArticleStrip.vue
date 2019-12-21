@@ -61,7 +61,7 @@ export default {
 <style scoped lang="scss">
 .layout {
   display: flex;
-  flex-direction: row;
+  flex-direction: columns;
 }
 
 .article-strip {
