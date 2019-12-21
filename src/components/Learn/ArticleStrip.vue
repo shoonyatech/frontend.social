@@ -62,6 +62,7 @@ export default {
 .layout {
   display: flex;
   flex-direction: columns;
+  border-bottom: dotted 1px #aada20;
 }
 
 .article-strip {
@@ -70,7 +71,6 @@ export default {
   margin: 10px;
   width: 95%;
   position: relative;
-  border-bottom: dotted 1px #aada20;
   padding-bottom: 10px;
   margin-right: 20px;
 }
