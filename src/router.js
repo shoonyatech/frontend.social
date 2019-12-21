@@ -34,9 +34,9 @@ export default new Router({
       component: () => import("./pages/Jobs.vue")
     },
     {
-      path: "/conferences",
-      name: "conferences",
-      component: () => import("./pages/Conferences.vue")
+      path: "/events",
+      name: "events",
+      component: () => import("./pages/Events.vue")
     },
     {
       path: "/learn",

@@ -155,16 +155,10 @@
         </b-col>
         <b-col md="9">
           <KeyMultiValue
-            label="Conferences"
-            :values="profile.conferences"
+            label="Events"
+            :values="profile.events"
             :is-editable="editMode"
-            @change="onConfChange"
-          />
-          <KeyMultiValue
-            label="Meetups"
-            :values="profile.meetups"
-            :is-editable="editMode"
-            @change="onMeetupChange"
+            @change="onEventChange"
           />
         </b-col>
       </b-row>
@@ -212,8 +206,7 @@ export default {
       fullName: "",
       social: [],
       skills: [],
-      conferences: [],
-      meetups: [],
+      events: [],
       editMode: false
     };
   },
@@ -221,25 +214,25 @@ export default {
     const username = this.$route.params.username;
     console.log(username);
 
-    if(username == null) {
-    userService
-      .getLoggedInUserProfile()
-      .then(user => {
-        this.profile = user;
-      })
-      .catch(e => {
-        userService.signout();
-        this.$router.push("/");
-      });
+    if (username == null) {
+      userService
+        .getLoggedInUserProfile()
+        .then(user => {
+          this.profile = user;
+        })
+        .catch(e => {
+          userService.signout();
+          this.$router.push("/");
+        });
     } else {
       userService
-      .getUserProfile(username)
-      .then(user => {
-        this.profile = user;
-      })
-      .catch(e => {
-        alert('User ' + username + ' not found')
-      });
+        .getUserProfile(username)
+        .then(user => {
+          this.profile = user;
+        })
+        .catch(e => {
+          alert("User " + username + " not found");
+        });
     }
   },
   methods: {
@@ -265,11 +258,8 @@ export default {
       const index = event.target.dataset.index;
       this.profile.skills.splice(index, 1);
     },
-    onConfChange: function(confs) {
-      this.profile.conferences = confs;
-    },
-    onMeetupChange: function(meetups) {
-      this.profile.meetups = meetups;
+    onEventChange: function(confs) {
+      this.profile.events = confs;
     },
     edit: function(event) {
       this.editMode = true;
