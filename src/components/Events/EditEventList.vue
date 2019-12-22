@@ -56,7 +56,7 @@ export default {
       type: String,
       default: ""
     },
-    eventids: {
+    eventIds: {
       type: Array,
       default: () => []
     },
@@ -73,8 +73,8 @@ export default {
     };
   },
   created() {
-    if (this.eventids && this.eventids.length) {
-      eventService.getEventWithIds(this.eventids).then(events => {
+    if (this.eventIds && this.eventIds.length) {
+      eventService.getEventWithIds(this.eventIds).then(events => {
         this.events = events;
       });
     }
@@ -82,13 +82,13 @@ export default {
   methods: {
     add: function(event) {
       this.events.push(event);
-      this.eventids.push(event._id);
-      this.$emit("change", this.eventids);
+      this.eventIds.push(event._id);
+      this.$emit("change", this.eventIds);
     },
     deleteItem: function(event) {
       const index = event.target.dataset.index;
       this.events.splice(index, 1);
-      this.$emit("change", this.eventids);
+      this.$emit("change", this.eventIds);
     },
     onSearchTextChange: function(e) {
       eventService.searchEvents(this.searchText).then(events => {

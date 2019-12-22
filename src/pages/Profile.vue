@@ -157,7 +157,7 @@
           <EditEventList
             v-if="profile.eventIds"
             label="Events"
-            :eventids="profile.eventIds"
+            :event-ids="profile.eventIds"
             :is-editable="editMode"
             @change="onEventChange"
           />
@@ -259,8 +259,8 @@ export default {
       const index = event.target.dataset.index;
       this.profile.skills.splice(index, 1);
     },
-    onEventChange: function(eventids) {
-      this.profile.eventids = eventids;
+    onEventChange: function(eventIds) {
+      this.profile.eventIds = eventIds;
     },
     edit: function(event) {
       this.editMode = true;
