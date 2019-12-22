@@ -16,6 +16,7 @@ Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
 Vue.use(VueAuthenticate, authOptions);
 Vue.use(require("vue-moment"));
+Vue.use(require("vue-country-region-select"));
 
 new Vue({
   router,
