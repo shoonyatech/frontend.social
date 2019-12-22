@@ -9,6 +9,11 @@
           :event="event"
         />
       </div>
+      <EditableValue
+        :is-editable="isEditable"
+        placeholder="Search conference or meetup name"
+        @change="onSearchTextChange"
+      />
       <span
         v-for="(value, index) in events"
         :key="index"
@@ -16,13 +21,6 @@
       >
         <!-- <EventStrip :key="index" :event="value" /> -->
 
-        <EditableValue
-          :value="value"
-          :is-editable="isEditable"
-          :index="index"
-          placeholder="Search conference or meetup name"
-          @change="onChange"
-        />
         <!-- <button
           v-if="isEditable"
           class="delete"
@@ -43,6 +41,8 @@
 import EditableValue from "@/components/common/EditableValue";
 import EventStrip from "@/components/Events/EventStrip";
 
+import eventService from "@/services/event.service";
+
 export default {
   components: { EditableValue, EventStrip },
   props: {
@@ -50,9 +50,9 @@ export default {
       type: String,
       default: ""
     },
-    eventIds: {
+    eventids: {
       type: Array,
-      default: () => [""]
+      default: () => []
     },
     isEditable: {
       type: Boolean,
@@ -64,6 +64,13 @@ export default {
       events: []
     };
   },
+  created() {
+    if (this.eventids && this.eventids.length) {
+      eventService.getEventWithIds(this.eventids).then(events => {
+        this.events = events;
+      });
+    }
+  },
   methods: {
     add: function(event) {
       this.events.push("");
@@ -72,6 +79,11 @@ export default {
       const index = event.target.dataset.index;
       this.events.splice(index, 1);
       this.$emit("change", this.events);
+    },
+    onSearchTextChange: function(searchText) {
+      eventService.searchEvents(searchText).then(events => {
+        this.options = events;
+      });
     },
     onChange: function({ val, index }) {
       if (index < this.events.length) {
