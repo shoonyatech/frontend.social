@@ -2,18 +2,20 @@
   <div class="host">
     <span class="label">{{ label }}</span>
     <div class="value-list">
-      <div class="events">
+      <div
+        v-for="(event, index) in events"
+        :key="index"
+        class="events"
+      >
         <EventStrip
-          v-for="(event, index) in events"
-          :key="index"
           :event="event"
+          class="event-strip-selected"
         />
-
         <button
           v-if="isEditable"
           class="delete"
           :data-index="index"
-          @click="deleteItem"
+          @click="deleteItem(event)"
         >
           X
         </button>
@@ -85,8 +87,8 @@ export default {
       this.$emit("change", this.eventIds);
     },
     deleteItem: function(event) {
-      const index = event.target.dataset.index;
-      this.events.splice(index, 1);
+      this.events.splice(this.events.indexOf(event), 1);
+      this.eventIds.splice(this.eventIds.indexOf(event._id), 1);
       this.$emit("change", this.eventIds);
     },
     onSearchTextChange: function(e) {
@@ -126,8 +128,17 @@ export default {
   height: 1.5rem;
 }
 
+.events {
+  display: flex;
+  width: 100%;
+}
+
+.event-strip-selected {
+  flex: 1 1 auto;
+}
+
 .delete {
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   margin: 2px 0 0 10px;
   height: 1.5rem;
   background-color: rgb(212, 68, 68);
