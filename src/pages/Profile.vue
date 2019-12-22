@@ -55,6 +55,7 @@
             :edit-mode="editMode"
             :city="profile.city"
             :country="profile.country"
+            @change="onCityChange"
           />
         </b-col>
         <b-col md="9">
@@ -242,6 +243,10 @@ export default {
     },
     onEventChange: function(eventIds) {
       this.profile.eventIds = eventIds;
+    },
+    onCityChange: function(city) {
+      this.profile.city = city.name;
+      this.profile.country = city.country;
     },
     edit: function(event) {
       this.editMode = true;

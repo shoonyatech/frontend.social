@@ -12,6 +12,7 @@
           v-for="(searchedCity, index) in options"
           :key="index"
           class="city-option"
+          @click="selectCity(searchedCity)"
         >
           {{ searchedCity.name }}, {{ searchedCity.country }}
         </div>
@@ -20,6 +21,7 @@
         v-model="editedCountry"
         :country="editedCountry"
         class="left-input"
+        @input="onSearchCityChange"
       />
     </div>
     <div v-else>
@@ -69,6 +71,16 @@ export default {
       cityService.getCities(this.editedCity).then(cities => {
         this.options = cities;
       });
+      this.$emit("change", {
+        name: this.editedCity,
+        country: this.editedCountry
+      });
+    },
+    selectCity: function(searchedCity) {
+      this.options = [];
+      this.editedCity = searchedCity.name;
+      this.editedCountry = searchedCity.country;
+      this.$emit("change", searchedCity);
     }
   }
 };
