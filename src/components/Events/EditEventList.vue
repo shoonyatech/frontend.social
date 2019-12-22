@@ -13,6 +13,7 @@
         v-if="isEditable"
         v-model="searchText"
         placeholder="Search conference or meetup name"
+        class="search-box"
         @input="onSearchTextChange"
       >
       <span
@@ -24,10 +25,7 @@
           class="select-event"
           @click="add(event)"
         >
-          <EventStrip
-            :key="index"
-            :event="event"
-          />
+          <EventStrip :event="event" />
         </div>
 
         <!-- <button
@@ -143,5 +141,9 @@ export default {
   &:hover {
     background-color: #aada186c;
   }
+}
+
+.search-box {
+  width: 100%;
 }
 </style>
