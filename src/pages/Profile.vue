@@ -156,7 +156,7 @@
         <b-col md="9">
           <EditEventList
             label="Events"
-            :events="profile.events"
+            :event-ids="profile.eventsIds"
             :is-editable="editMode"
             @change="onEventChange"
           />
