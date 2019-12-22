@@ -9,17 +9,21 @@
           :event="event"
         />
       </div>
-      <EditableValue
-        :is-editable="isEditable"
+      <input
+        v-if="isEditable"
+        v-model="searchText"
         placeholder="Search conference or meetup name"
-        @change="onSearchTextChange"
-      />
+        @input="onSearchTextChange"
+      >
       <span
-        v-for="(value, index) in events"
+        v-for="(event, index) in options"
         :key="index"
         class="value"
       >
-        <!-- <EventStrip :key="index" :event="value" /> -->
+        <EventStrip
+          :key="index"
+          :event="event"
+        />
 
         <!-- <button
           v-if="isEditable"
@@ -38,13 +42,12 @@
 </template>
 
 <script>
-import EditableValue from "@/components/common/EditableValue";
 import EventStrip from "@/components/Events/EventStrip";
 
 import eventService from "@/services/event.service";
 
 export default {
-  components: { EditableValue, EventStrip },
+  components: { EventStrip },
   props: {
     label: {
       type: String,
@@ -61,7 +64,9 @@ export default {
   },
   data() {
     return {
-      events: []
+      events: [],
+      options: [],
+      searchText: ""
     };
   },
   created() {
@@ -80,8 +85,8 @@ export default {
       this.events.splice(index, 1);
       this.$emit("change", this.events);
     },
-    onSearchTextChange: function(searchText) {
-      eventService.searchEvents(searchText).then(events => {
+    onSearchTextChange: function(e) {
+      eventService.searchEvents(this.searchText).then(events => {
         this.options = events;
       });
     },

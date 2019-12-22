@@ -11,7 +11,7 @@
       <span class="city"> in {{ event.city }}, {{ event.country }}</span>
     </div>
     <div class="event-skills">
-      {{ event.relatedSkills.join(", ") }}
+      {{ event.relatedSkills ? event.relatedSkills.join(", ") : "" }}
     </div>
     <div class="links icon-links">
       <icon-link
