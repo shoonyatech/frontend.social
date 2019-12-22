@@ -259,8 +259,8 @@ export default {
       const index = event.target.dataset.index;
       this.profile.skills.splice(index, 1);
     },
-    onEventChange: function(events) {
-      this.profile.events = events;
+    onEventChange: function(eventids) {
+      this.profile.eventids = eventids;
     },
     edit: function(event) {
       this.editMode = true;
