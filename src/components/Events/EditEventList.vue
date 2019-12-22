@@ -20,10 +20,15 @@
         :key="index"
         class="value"
       >
-        <EventStrip
-          :key="index"
-          :event="event"
-        />
+        <div
+          class="select-event"
+          @click="add(event)"
+        >
+          <EventStrip
+            :key="index"
+            :event="event"
+          />
+        </div>
 
         <!-- <button
           v-if="isEditable"
@@ -78,25 +83,19 @@ export default {
   },
   methods: {
     add: function(event) {
-      this.events.push("");
+      this.events.push(event);
+      this.eventids.push(event._id);
+      this.$emit("change", this.eventids);
     },
     deleteItem: function(event) {
       const index = event.target.dataset.index;
       this.events.splice(index, 1);
-      this.$emit("change", this.events);
+      this.$emit("change", this.eventids);
     },
     onSearchTextChange: function(e) {
       eventService.searchEvents(this.searchText).then(events => {
         this.options = events;
       });
-    },
-    onChange: function({ val, index }) {
-      if (index < this.events.length) {
-        this.events[index] = val;
-      } else {
-        this.events.push(val);
-      }
-      this.$emit("change", this.events);
     }
   }
 };
@@ -135,5 +134,14 @@ export default {
   margin: 2px 0 0 10px;
   height: 1.5rem;
   background-color: rgb(212, 68, 68);
+}
+
+.select-event {
+  width: 100%;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #aada186c;
+  }
 }
 </style>
