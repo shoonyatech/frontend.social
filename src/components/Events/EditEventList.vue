@@ -8,39 +8,38 @@
           :key="index"
           :event="event"
         />
-      </div>
-      <input
-        v-if="isEditable"
-        v-model="searchText"
-        placeholder="Search conference or meetup name"
-        class="search-box"
-        @input="onSearchTextChange"
-      >
-      <span
-        v-for="(event, index) in options"
-        :key="index"
-        class="value"
-      >
-        <div
-          class="select-event"
-          @click="add(event)"
-        >
-          <EventStrip :event="event" />
-        </div>
 
-        <!-- <button
+        <button
           v-if="isEditable"
           class="delete"
           :data-index="index"
           @click="deleteItem"
         >
           X
-        </button> -->
-      </span>
+        </button>
+      </div>
+      <div v-if="isEditable">
+        <input
+          v-if="isEditable"
+          v-model="searchText"
+          placeholder="Search conference or meetup name"
+          class="search-box"
+          @input="onSearchTextChange"
+        >
+        <span
+          v-for="(event, index) in options"
+          :key="index"
+          class="value"
+        >
+          <div
+            class="select-event"
+            @click="add(event)"
+          >
+            <EventStrip :event="event" />
+          </div>
+        </span>
+      </div>
     </div>
-    <!-- <button v-if="isEditable" class="add" @click="add">
-      +
-    </button> -->
   </div>
 </template>
 
