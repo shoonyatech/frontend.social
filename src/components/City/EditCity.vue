@@ -36,13 +36,16 @@ export default {
   props: {
     editMode: {
       type: Boolean
+    },
+    city: {
+      type: String
+    },
+    country: {
+      type: String
     }
   },
   data() {
-    return {
-      city: null,
-      country: null
-    };
+    return {};
   }
 };
 </script>
