@@ -155,8 +155,9 @@
         </b-col>
         <b-col md="9">
           <EditEventList
+            v-if="profile.eventIds"
             label="Events"
-            :event-ids="profile.eventsIds"
+            :eventids="profile.eventIds"
             :is-editable="editMode"
             @change="onEventChange"
           />
