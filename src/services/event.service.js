@@ -9,7 +9,7 @@ export default {
     return httpClient.get("event/withIds?ids=" + ids.join(","));
   },
 
-  searchEvents: ids => {
-    return httpClient.get("event/withIds?ids=" + ids.join(","));
+  searchEvents: searchText => {
+    return httpClient.get("event?searchText=" + searchText);
   }
 };
