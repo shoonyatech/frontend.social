@@ -1,10 +1,18 @@
 <template>
   <div class="event-strip">
-    <a :href="event.url">
+    <a
+      v-if="!isReadOnly"
+      :href="event.url"
+    >
       <span>{{ event.name }}</span>
       <span class="event-type">
         {{ event.type === "c" ? "conference" : "meetup" }}</span>
     </a>
+    <div v-else>
+      <span>{{ event.name }}</span>
+      <span class="event-type">
+        {{ event.type === "c" ? "conference" : "meetup" }}</span>
+    </div>
     <div class="event-date">
       <span>{{ event.dateFrom | moment("DD MMM YYYY") }} - </span>
       <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span>
@@ -13,7 +21,10 @@
     <div class="event-skills">
       {{ event.relatedSkills ? event.relatedSkills.join(", ") : "" }}
     </div>
-    <div class="links icon-links">
+    <div
+      v-if="!isReadOnly"
+      class="links icon-links"
+    >
       <icon-link
         v-if="event.website"
         icon="/images/web.svg"
@@ -44,6 +55,9 @@ export default {
   props: {
     event: {
       type: Object
+    },
+    isReadOnly: {
+      type: Boolean
     }
   }
 };

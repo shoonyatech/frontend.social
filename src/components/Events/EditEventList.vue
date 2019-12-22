@@ -37,7 +37,10 @@
             class="select-event"
             @click="add(event)"
           >
-            <EventStrip :event="event" />
+            <EventStrip
+              :event="event"
+              :is-read-only="true"
+            />
           </div>
         </span>
       </div>
