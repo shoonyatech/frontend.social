@@ -51,31 +51,11 @@
               }}</span>
             </div>
           </div>
-          <div>
-            <div v-if="editMode">
-              <input
-                v-model="profile.city"
-                class="left-input"
-              >
-              <input
-                v-model="profile.country"
-                class="left-input"
-              >
-            </div>
-            <div v-else>
-              <div v-if="profile.city">
-                <a :href="`/city/${profile.city}/${profile.country}`">
-                  <span class="user-city"> {{ profile.city }}</span>,
-                  <span class="user-country">
-                    {{ profile.country }}
-                  </span>
-                </a>
-              </div>
-              <div v-else>
-                [Add your city]
-              </div>
-            </div>
-          </div>
+          <edit-city
+            :edit-mode="editMode"
+            :city="profile.city"
+            :country="profile.country"
+          />
         </b-col>
         <b-col md="9">
           <KeyValue
@@ -196,10 +176,11 @@
 import userService from "@/services/user.service";
 import KeyValue from "@/components/common/KeyValue";
 import EditEventList from "@/components/Events/EditEventList";
+import EditCity from "@/components/City/EditCity";
 import SkillLevel from "@/components/Profile/SkillLevel";
 
 export default {
-  components: { KeyValue, EditEventList, SkillLevel },
+  components: { KeyValue, EditEventList, EditCity, SkillLevel },
   data() {
     return {
       profile: {},
