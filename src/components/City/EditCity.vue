@@ -4,11 +4,13 @@
       <input
         v-model="city"
         class="left-input"
+        placeholder="City"
       >
-      <input
+      <country-select
         v-model="country"
+        :country="country"
         class="left-input"
-      >
+      />
     </div>
     <div v-else>
       <div v-if="city">
@@ -27,8 +29,10 @@
 </template>
 
 <script>
+import { CountrySelect } from "vue-country-region-select";
 export default {
   name: "EditCity",
+  components: { CountrySelect },
   props: {
     editMode: {
       type: Boolean
@@ -44,48 +48,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.event-strip {
-  flex: 0 1 auto;
-  font-size: 0.9rem;
-  margin: 10px;
-  width: 95%;
-  height: 80px;
-  position: relative;
-  border-bottom: dotted 1px #aada20;
-  padding-bottom: 10px;
-  margin-right: 20px;
-}
-
-.event-line {
-  display: flex;
-  flex-direction: column;
+.left-input {
   width: 100%;
-}
-
-.event-type {
-  font-size: 0.65rem;
-  color: #2c3e50;
-  float: right;
-}
-
-.event-skills {
-  font-size: 0.65rem;
-  color: #2c3e50;
-}
-
-.event-date {
-  font-size: 0.65rem;
-  color: #2c3e50;
-}
-
-.links {
-  position: absolute;
-  right: 10px;
-  top: 20px;
-}
-
-.icon-links {
-  display: flex;
-  flex-direction: row;
 }
 </style>
