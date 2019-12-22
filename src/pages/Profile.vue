@@ -154,9 +154,9 @@
           <div />
         </b-col>
         <b-col md="9">
-          <KeyMultiValue
+          <EditEventList
             label="Events"
-            :values="profile.events"
+            :events="profile.events"
             :is-editable="editMode"
             @change="onEventChange"
           />
@@ -194,11 +194,11 @@
 <script>
 import userService from "@/services/user.service";
 import KeyValue from "@/components/common/KeyValue";
-import KeyMultiValue from "@/components/common/KeyMultiValue";
+import EditEventList from "@/components/Events/EditEventList";
 import SkillLevel from "@/components/Profile/SkillLevel";
 
 export default {
-  components: { KeyValue, KeyMultiValue, SkillLevel },
+  components: { KeyValue, EditEventList, SkillLevel },
   data() {
     return {
       profile: {},
@@ -258,8 +258,8 @@ export default {
       const index = event.target.dataset.index;
       this.profile.skills.splice(index, 1);
     },
-    onEventChange: function(confs) {
-      this.profile.events = confs;
+    onEventChange: function(events) {
+      this.profile.events = events;
     },
     edit: function(event) {
       this.editMode = true;

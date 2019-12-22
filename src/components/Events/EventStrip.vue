@@ -37,6 +37,7 @@
 import IconLink from "@/components/common/IconLink";
 
 export default {
+  name: "EventStrip",
   components: {
     IconLink
   },
