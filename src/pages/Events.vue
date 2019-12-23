@@ -13,7 +13,9 @@
           </div>
         </b-col>
         <b-col md="3">
-          <event-filters />
+          <div class="filters-wrapper">
+            <event-filters />
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -55,5 +57,15 @@ export default {
 .courtesy {
   font-size: 0.75rem;
   text-align: right;
+}
+
+.filters-wrapper {
+  height: 100%;
+  border-left: 2px solid #aada18;
+  flex-direction: column;
+  display: flex;
+  text-align: start;
+  padding: 10px;
+  cursor: pointer;
 }
 </style>

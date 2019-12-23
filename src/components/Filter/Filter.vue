@@ -18,7 +18,7 @@ export default {
   props: {
     label: {
       type: String,
-      default:""
+      default: ""
     },
     name: {
       type: String,
@@ -49,7 +49,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.filter {
+  display: flex;
+}
+
 .filter > label {
-  margin-left: 5px;
+  margin-left: 10px;
+  margin-bottom: 0;
 }
 </style>
