@@ -1,23 +1,33 @@
 <template>
   <div class="events">
-    <h1>Frontend Conference and Meetups</h1>
-    <div class="events">
-      <EventStrip
-        v-for="(event, index) in events"
-        :key="index"
-        :event="event"
-      />
-    </div>
+    <b-container>
+      <b-row>
+        <b-col md="9">
+          <h1>Frontend Conference and Meetups</h1>
+          <div class="events">
+            <EventStrip
+              v-for="(event, index) in events"
+              :key="index"
+              :event="event"
+            />
+          </div>
+        </b-col>
+        <b-col md="3">
+          <event-filters />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
 import eventService from "@/services/event.service";
 import EventStrip from "@/components/Events/EventStrip";
+import EventFilters from "@/components/Events/EventFilters";
 
 export default {
   name: "Events",
-  components: { EventStrip },
+  components: { EventStrip, EventFilters },
   data() {
     return {
       events: []
