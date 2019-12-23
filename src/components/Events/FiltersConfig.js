@@ -26,6 +26,13 @@ const filtersSet = {
     type: "MULTISELECT",
     selected: false,
     query: "Web Components"
+  },
+  graphQL: {
+    name: "GraphQL",
+    id: "graphql",
+    type: "MULTISELECT",
+    selected: false,
+    query: "GraphQL"
   }
 };
 
