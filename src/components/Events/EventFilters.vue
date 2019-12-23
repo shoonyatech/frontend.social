@@ -50,27 +50,13 @@ export default {
     }
   },
   data: function() {
-    const {
-      react,
-      angular,
-      vue,
-      webComponents,
-      fullTime,
-      partTime,
-      contract,
-      permanent,
-      beginner,
-      expert,
-      intermediate
-    } = filtersSet;
+    const { react, angular, vue, webComponents, graphQL } = filtersSet;
     return {
       filterTypes: {
         CHECKBOX: "checkbox",
         RADIO: "radio"
       },
-      skills: [react, angular, vue, webComponents],
-      jobTypes: [fullTime, partTime, contract, permanent],
-      expertiseLevel: [beginner, intermediate, expert],
+      skills: [react, angular, vue, webComponents, graphQL],
       skillsSelected: [],
       selectedLevel: 0,
       showFilters: true
@@ -94,13 +80,6 @@ export default {
       const searchQuery = this.getAppliedFacetsQuery();
       this.onSearchParamsChange(searchQuery, "skills", "React");
     },
-    handleLevelSelection(id) {
-      if (this.selectedLevel !== filtersSet[id].level) {
-        this.selectedLevel = filtersSet[id].level;
-      }
-      const searchQuery = this.getAppliedFacetsQuery();
-      this.onSearchParamsChange(searchQuery, "level", this.selectedLevel);
-    },
     getAppliedFacetsQuery: function() {
       let selectedSkills = [];
       let queryString = "";
@@ -115,22 +94,6 @@ export default {
         queryString = `&skills=React`;
       }
 
-      const selectedJobTypes = [];
-      this.jobTypes.forEach(item => {
-        if (item.selected) {
-          selectedJobTypes.push(item.query);
-        }
-      });
-      if (selectedJobTypes.length) {
-        queryString += selectedJobTypes;
-      }
-
-      const selectedlevel =
-        this.expertiseLevel.find(item => item.level === this.selectedLevel) ||
-        {};
-      if (selectedlevel.query) {
-        queryString += selectedlevel.query;
-      }
       return queryString;
     }
   }
@@ -175,16 +138,6 @@ export default {
 }
 @media screen and (min-width: 360px) and (max-width: 759px) {
   .skills-filter,
-  .job-type-time {
-    display: flex;
-    flex-wrap: wrap;
-    padding-bottom: 5px;
-    border-bottom: 1px solid;
-  }
-  .expertise-level-filters {
-    padding-bottom: 5px;
-    border-bottom: none;
-  }
   .filter-label {
     width: 100%;
   }
