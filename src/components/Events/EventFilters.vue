@@ -1,5 +1,11 @@
 <template>
   <div class="filters">
+    <edit-city
+      :edit-mode="true"
+      :city="profile.city"
+      :country="profile.country"
+      @change="onCityChange"
+    />
     <div
       class="skills-filter-wrapper"
       :class="{ active: showFilters }"
@@ -27,13 +33,17 @@
 </template>
 
 <script>
+import userService from "@/services/user.service";
+
 import Facet from "../Filter/Filter";
 import { filtersSet } from "./FiltersConfig";
+import EditCity from "@/components/City/EditCity";
 
 export default {
   name: "EventFilters",
   components: {
-    Facet
+    Facet,
+    EditCity
   },
   props: {
     onSearchInputChange: {
@@ -83,16 +93,30 @@ export default {
     getAppliedFacetsQuery: function() {
       let selectedSkills = [];
       let queryString = "";
+
+      if (this.city) {
+        queryString += `&city=${this.city}`;
+      }
+      if (this.country) {
+        queryString += `&country=${this.country}`;
+      }
+
       this.skills.forEach(item => {
         if (item.selected) {
           selectedSkills.push(item.query);
         }
       }) || [];
       if (selectedSkills.length) {
-        queryString = `&relatedSkills=${selectedSkills.join(",")}`;
+        queryString += `&relatedSkills=${selectedSkills.join(",")}`;
       }
 
       return queryString;
+    },
+    onCityChange: function(city) {
+      this.city = city.name;
+      this.country = city.country;
+      const searchQuery = this.getAppliedFacetsQuery();
+      this.onSearchParamsChange(searchQuery);
     }
   }
 };
