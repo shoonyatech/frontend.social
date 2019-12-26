@@ -14,6 +14,7 @@ export default {
   },
 
   searchEventsBy: query => {
+    query = query || "";
     return httpClient.get("event?" + query);
   }
 };
