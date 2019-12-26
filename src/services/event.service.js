@@ -11,5 +11,9 @@ export default {
 
   searchEvents: searchText => {
     return httpClient.get("event?searchText=" + searchText);
+  },
+
+  searchEventsBy: query => {
+    return httpClient.get("event?" + query);
   }
 };

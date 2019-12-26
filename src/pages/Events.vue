@@ -14,7 +14,7 @@
         </b-col>
         <b-col md="3">
           <div class="filters-wrapper">
-            <event-filters />
+            <event-filters :on-search-params-change="onSearchParamsChange" />
           </div>
         </b-col>
       </b-row>
@@ -39,6 +39,13 @@ export default {
     eventService.getUpcomingEvents().then(events => {
       this.events = events;
     });
+  },
+  methods: {
+    onSearchParamsChange(param = "") {
+      eventService.searchEventsBy(param).then(events => {
+        this.events = events;
+      });
+    }
   }
 };
 </script>
@@ -61,7 +68,7 @@ export default {
 
 .filters-wrapper {
   height: 100%;
-  border-left: 2px solid #aada18;
+  border-left: 1px solid #aada18;
   flex-direction: column;
   display: flex;
   text-align: start;

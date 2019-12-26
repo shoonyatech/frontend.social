@@ -52,6 +52,7 @@ export default {
   data: function() {
     const { react, angular, vue, webComponents, graphQL } = filtersSet;
     return {
+      profile: {},
       filterTypes: {
         CHECKBOX: "checkbox",
         RADIO: "radio"
@@ -65,20 +66,19 @@ export default {
   mounted() {
     const initialQuery = this.getAppliedFacetsQuery();
     this.setInitialQuery(initialQuery);
+
+    userService.getLoggedInUserProfile().then(user => {
+      this.profile = user;
+    });
   },
   methods: {
-    handleInputChange(e) {
-      const searchText = e.target.value || "";
-      const searchQuery = `searchText=${searchText}${this.getAppliedFacetsQuery()}`;
-      this.onSearchParamsChange(searchQuery, "searchText", searchText);
-    },
     toggleFilterViewVisibilityInMobile() {
       this.showFilters = !this.showFilters;
     },
     handleSkillSelection(id) {
       filtersSet[id].selected = !filtersSet[id].selected;
       const searchQuery = this.getAppliedFacetsQuery();
-      this.onSearchParamsChange(searchQuery, "skills", "React");
+      this.onSearchParamsChange(searchQuery);
     },
     getAppliedFacetsQuery: function() {
       let selectedSkills = [];
@@ -89,9 +89,7 @@ export default {
         }
       }) || [];
       if (selectedSkills.length) {
-        queryString = `&skills=${selectedSkills.join(",")}`;
-      } else {
-        queryString = `&skills=React`;
+        queryString = `&relatedSkills=${selectedSkills.join(",")}`;
       }
 
       return queryString;
