@@ -36,7 +36,7 @@ export default {
     };
   },
   created() {
-    eventService.getUpcomingEvents().then(events => {
+    eventService.searchEventsBy().then(events => {
       this.events = events;
     });
   },
