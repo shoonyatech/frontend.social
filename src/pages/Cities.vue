@@ -4,7 +4,7 @@
     <div class="mt-4 row">
       <input
         class="inputCityDiv"
-        placeholder="  City.."
+        placeholder="City.."
         @input="citySearch"
       >
     </div>
@@ -19,7 +19,7 @@
         v-if="cities == null || cities.length === 0"
         class="noResult"
       >
-        No result found!! Please try with different filter.</span>
+        No city found. Please try again..</span>
     </div>
   </div>
 </template>
@@ -83,6 +83,7 @@ export default {
 }
 
 .noResult {
+  text-align: center;
   width: 100%;
 }
 </style>
