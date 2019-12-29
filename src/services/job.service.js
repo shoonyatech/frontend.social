@@ -5,7 +5,7 @@ const getQueryForNextPage = (currentQuery, totalPages) => {
   const searchParams = new URLSearchParams(paramsString);
   const pageNo = searchParams.get("pageNo");
   let searchQuery;
-  if (pageNo < totalPages) {
+  if (pageNo && pageNo < totalPages) {
     searchParams.set("pageNo", pageNo + 1);
     searchQuery = searchParams.toString();
   }
@@ -14,7 +14,8 @@ const getQueryForNextPage = (currentQuery, totalPages) => {
 
 export default {
   getJobs: (searchText = "") => {
-    const jobQuery = `job?searchText=${searchText}&skills=React&pageNo=1&itemsPerPage=20`;
+    const searchQuery = searchText.length ? `searchText=${searchText}` : "";
+    const jobQuery = `job?${searchQuery}&pageNo=1&itemsPerPage=20`;
     return httpClient.get(jobQuery);
   },
   getJobsOnSearchParamsChange: query => {
@@ -29,7 +30,6 @@ export default {
     }
   },
   addJob: payload => {
-    console.log("Payload is", payload);
     httpClient
       .post("job", payload)
       .then(response => {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <input
       :id="id"
       type="radio"
@@ -37,12 +37,18 @@ export default {
       default: ""
     },
     value: {
-      type: String,
-      default: "0"
+      type: Number,
+      default: 0
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
+.wrapper {
+  display: flex;
+  label {
+    padding-left: 5px;
+  }
+}
 </style>

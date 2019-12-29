@@ -37,7 +37,7 @@
           :value="jobType.name"
           :is-selected="jobType.selected"
           :label="jobType.name"
-          :on-click="handleSkillSelection"
+          :on-click="handleJobSelection"
         />
       </div>
       <div class="expertise-level-filters">
@@ -70,6 +70,25 @@
 import Facet from "../Filter/Filter";
 import { filtersSet } from "./FiltersConfig";
 
+const getSelectedFilters = (filters = []) => {
+  let selectedSkills = [];
+  filters.forEach(item => {
+    if (item.selected) {
+      selectedSkills.push(item.name);
+    }
+  });
+  return selectedSkills;
+};
+
+const resetFilters = (queryString = "") => {
+  const filters = ["skills", "level", "jobTypes"];
+  let queryParams = queryString.split("&");
+  const queryParamWithoutFilters = queryParams.filter(item => {
+    const [key] = item.split("=");
+    return queryParams.includes(key);
+  });
+  return queryParamWithoutFilters.join("&");
+};
 export default {
   name: "Filters",
   components: {
@@ -87,33 +106,27 @@ export default {
     setInitialQuery: {
       type: Function,
       default: () => {}
+    },
+    skills: {
+      type: Array,
+      required: true
+    },
+    jobTypes: {
+      type: Array,
+      required: true
     }
   },
   data: function() {
-    const {
-      react,
-      angular,
-      vue,
-      webComponents,
-      fullTime,
-      partTime,
-      contract,
-      permanent,
-      beginner,
-      expert,
-      intermediate
-    } = filtersSet;
+    const { beginner, expert, intermediate } = filtersSet;
+    let selectedLevel;
     return {
       filterTypes: {
         CHECKBOX: "checkbox",
         RADIO: "radio"
       },
-      skills: [react, angular, vue, webComponents],
-      jobTypes: [fullTime, partTime, contract, permanent],
       expertiseLevel: [beginner, intermediate, expert],
-      skillsSelected: [],
-      selectedLevel: 0,
-      showFilters: true
+      showFilters: true,
+      selectedLevel
     };
   },
   mounted() {
@@ -123,16 +136,26 @@ export default {
   methods: {
     handleInputChange(e) {
       const searchText = e.target.value || "";
-      const searchQuery = `searchText=${searchText}${this.getAppliedFacetsQuery()}`;
-      this.onSearchParamsChange(searchQuery, "searchText", searchText);
+      const searchTextQuery = searchText.length
+        ? `searchText=${searchText}`
+        : "";
+      const searchQuery = `${searchTextQuery}${this.getAppliedFacetsQuery()}`;
+      this.onSearchParamsChange(searchQuery);
     },
     toggleFilterViewVisibilityInMobile() {
       this.showFilters = !this.showFilters;
     },
     handleSkillSelection(id) {
-      filtersSet[id].selected = !filtersSet[id].selected;
+      let currentSkill = this.skills.find(item => item.id === id);
+      currentSkill.selected = !currentSkill.selected;
       const searchQuery = this.getAppliedFacetsQuery();
-      this.onSearchParamsChange(searchQuery, "skills", "React");
+      this.onSearchParamsChange(searchQuery);
+    },
+    handleJobSelection(id) {
+      let currentJob = this.jobTypes.find(item => item.id === id);
+      currentJob.selected = !currentJob.selected;
+      const searchQuery = this.getAppliedFacetsQuery();
+      this.onSearchParamsChange(searchQuery);
     },
     handleLevelSelection(id) {
       if (this.selectedLevel !== filtersSet[id].level) {
@@ -142,27 +165,16 @@ export default {
       this.onSearchParamsChange(searchQuery, "level", this.selectedLevel);
     },
     getAppliedFacetsQuery: function() {
-      let selectedSkills = [];
-      let queryString = "";
-      this.skills.forEach(item => {
-        if (item.selected) {
-          selectedSkills.push(item.query);
-        }
-      }) || [];
-      if (selectedSkills.length) {
-        queryString = `&skills=${selectedSkills.join(",")}`;
-      } else {
-        queryString = `&skills=React`;
-      }
+      let [, currentQuery = ""] = window.location.search.split("?");
 
-      const selectedJobTypes = [];
-      this.jobTypes.forEach(item => {
-        if (item.selected) {
-          selectedJobTypes.push(item.query);
-        }
-      });
+      let queryString = resetFilters(currentQuery);
+      const selectedSkills = getSelectedFilters(this.skills);
+      if (selectedSkills.length) {
+        queryString += `&skills=${selectedSkills.join(",")}`;
+      }
+      const selectedJobTypes = getSelectedFilters(this.jobTypes);
       if (selectedJobTypes.length) {
-        queryString += selectedJobTypes;
+        queryString += `&jobTypes=${selectedJobTypes.join(",")}`;
       }
 
       const selectedlevel =

@@ -6,7 +6,7 @@
     </div>
     <div class="form-container">
       <form
-        id="AddJobForm"
+        id="addJobForm"
         @submit.prevent="processForm"
       >
         <div class="job-title form-field">
@@ -14,8 +14,8 @@
             Title
           </div>
           <input
+            v-model="title"
             type="text"
-            :v-model="title"
             required
           >
         </div>
@@ -23,11 +23,11 @@
           <div class="form-label">
             Description
           </div>
-          <input
+          <textarea
+            v-model="description"
             type="text"
-            :v-model="description"
             required
-          >
+          />
         </div>
         <div class="skills form-field">
           <div class="form-label">
@@ -37,22 +37,22 @@
             <Checkbox
               id="react"
               label="React"
-              :on-click="handleSkillSelection"
+              :on-click="toggleSkillSelection"
             />
             <Checkbox
               id="angular"
               label="Angular"
-              :on-click="handleSkillSelection"
+              :on-click="toggleSkillSelection"
             />
             <Checkbox
               id="vue"
               label="Vue"
-              :on-click="handleSkillSelection"
+              :on-click="toggleSkillSelection"
             />
             <Checkbox
               id="webComponents"
               label="Web Components"
-              :on-click="handleSkillSelection"
+              :on-click="toggleSkillSelection"
             />
           </div>
         </div>
@@ -61,8 +61,8 @@
             Company
           </div>
           <input
+            v-model="company"
             type="text"
-            :v-model="company"
             required
           >
         </div>
@@ -130,8 +130,8 @@
             Tags
           </div>
           <input
+            v-model="tags"
             type="text"
-            :v-model="tags"
           >
         </div>
         <div class="link-and-submit-btn">
@@ -140,15 +140,15 @@
               Link
             </div>
             <input
+              v-model="link"
               type="text"
-              :v-model="link"
             >
           </div>
-          <div class="btn-add-job">
-            <button type="submit">
-              Add Job
-            </button>
-          </div>
+        </div>
+        <div class="btn-add-job">
+          <button type="submit">
+            Add Job
+          </button>
         </div>
       </form>
     </div>
@@ -168,7 +168,6 @@ export default {
     return {
       title: "",
       description: "",
-      city: "",
       company: "",
       tags: "",
       link: "",
@@ -177,7 +176,7 @@ export default {
       isPartTime: false,
       isPermanent: false,
       isContract: false,
-      level: "0",
+      level: 0,
       skillsMap: {
         react: false,
         angular: false,
@@ -191,15 +190,14 @@ export default {
       const payload = {
         title: this.title,
         description: this.description,
-        skils: this.selectedSkills,
+        skills: this.getSelectedSkills(),
         company: this.company,
-        city: this.city,
         isFullTime: this.isFullTime,
         isPartTime: this.isPartTime,
         isPermanent: this.isPermanent,
         isContract: this.isContract,
         level: this.level,
-        tags: this.tags.split(","),
+        tags: this.getTags(),
         link: this.link
       };
 
@@ -211,80 +209,98 @@ export default {
     setLevel(level) {
       this.level = level;
     },
-    handleSkillSelection(id) {
-      const currentSkill = this.skillsMap[id];
-      if (currentSkill !== undefined) {
-        this.skillsMap[id] = !this.skillsMap[id];
-      }
+    toggleSkillSelection(id) {
+      this.skillsMap[id] = !this.skillsMap[id];
     },
     getSelectedSkills() {
-      //code will be refactored here
-      const skills = [];
-      const skillsIds = Object.values(skillsMap);
-      skillsIds.forEach(skill => {
-        if (skillsMap[skill]) {
-          skills.push(skill);
-        }
-      });
-      return skills;
+      return Object.keys(this.skillsMap).filter(item => this.skillsMap[item]);
+    },
+    getTags() {
+      const tags = this.tags.split(",");
+      return tags ? tags : [];
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.add-job-title {
+  text-align: center;
+  font-weight: bold;
+}
 .form-container {
   display: flex;
   justify-content: center;
-  #AddJobForm {
+  #addJobForm {
     width: 80%;
-  }
-  .form-field {
-    display: flex;
-    margin-bottom: 10px;
-    input[type="text"] {
-      flex: 1;
-      border: 2px solid #aada18;
-    }
-    .multiple-selection {
+    @media screen and (max-width: 1024px) {
       width: 100%;
+      padding: 10px;
+    }
+    .form-field {
       display: flex;
-      align-items: center;
-      padding-left: 20px;
-      flex-wrap: wrap;
-      input {
-        flex: 0;
+      margin-bottom: 10px;
+      input[type="text"] {
+        flex: 1;
+        border: 3px solid #aada18;
       }
-      div {
-        margin-right: 20px;
+      textarea {
+        flex: 1;
+        border: 3px solid #aada18;
+      }
+      .multiple-selection {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
+        flex-wrap: wrap;
+        input {
+          flex: 0;
+        }
+        div {
+          margin-right: 20px;
+        }
       }
     }
-  }
-  .link-and-submit-btn {
-    display: flex;
-    margin-bottom: 20px;
-    .link.form-field {
-      flex: 1;
-      margin-bottom: 0;
-      input {
-        font-size: 1.2rem;
+    .link-and-submit-btn {
+      display: flex;
+      margin-bottom: 20px;
+      .link.form-field {
+        flex: 1;
+        margin-bottom: 0;
+        input {
+          font-size: 1.2rem;
+        }
       }
     }
     .btn-add-job {
       border: 2px solid #aada18;
+      background-color: #aada18;
       width: 150px;
-      border-radius: 15px;
+      border-radius: 10px;
       padding: 5px;
-      margin-left: 10px;
+      margin: 0 auto 10px auto;
       button {
         border: none;
         background-color: transparent;
         appearance: none;
       }
     }
+    .form-label {
+      width: 150px;
+    }
   }
-  .form-label {
-    width: 150px;
+}
+
+@media screen and (min-width: 320px) and (max-width: 760px) {
+  .form-field {
+    flex-direction: column;
+    .form-label {
+      font-weight: bold;
+    }
+  }
+  .multiple-selection {
+    justify-content: space-between;
   }
 }
 </style>

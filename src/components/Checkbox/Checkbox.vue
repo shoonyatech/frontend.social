@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="wrapper">
     <input
       :id="id"
       type="checkbox"
@@ -36,4 +36,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.wrapper {
+  display: flex;
+
+  label {
+    padding-left: 5px;
+  }
+}
 </style>
