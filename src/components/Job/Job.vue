@@ -62,7 +62,8 @@ export default {
       default: "Job Description"
     },
     requiredSkills: {
-      type: Array
+      type: Array,
+      required: true
     }
   },
   data() {

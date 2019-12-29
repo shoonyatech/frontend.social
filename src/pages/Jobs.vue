@@ -8,7 +8,7 @@
         :role="job.title"
         :job-description="job.description"
         :expertise="job.level"
-        :required-skills="job.skils"
+        :required-skills="job.skills"
       />
     </div>
     <div class="filters-wrapper">
@@ -16,6 +16,8 @@
         :on-search-input-change="searchJobsWithSearchTerm"
         :on-search-params-change="onSearchParamsChange"
         :set-initial-query="setInitialQuery"
+        :skills="skills"
+        :job-types="jobTypes"
       />
     </div>
   </div>
@@ -37,13 +39,75 @@ export default {
       jobs: [],
       appliedFilters: [],
       currentQuery: "",
-      totalPages: 5
+      totalPages: 5,
+      skills: [],
+      jobTypes: []
     };
   },
   mounted() {
     jobService.getJobs("").then(jobs => {
       this.jobs = jobs;
     });
+    this.jobTypes = [
+      {
+        name: "Full Time",
+        id: "fullTime",
+        selected: false,
+        group: "jobType",
+        groupName: "Job Type",
+        type: "MULTISELECT"
+      },
+      {
+        name: "Part Time",
+        id: "partTime",
+        selected: false,
+        type: "MULTISELECT",
+        group: "jobType",
+        groupName: "Job Type"
+      },
+      {
+        name: "Contract",
+        id: "contract",
+        selected: false,
+        type: "MULTISELECT",
+        group: "jobType",
+        groupName: "Job Type"
+      },
+      {
+        name: "Permanent",
+        id: "permanent",
+        selected: false,
+        type: "MULTISELECT",
+        group: "jobType",
+        groupName: "Job Type"
+      }
+    ];
+    this.skills = [
+      {
+        name: "React",
+        id: "react",
+        type: "MULTISELECT",
+        selected: false
+      },
+      {
+        name: "Angular",
+        id: "angular",
+        type: "MULTISELECT",
+        selected: false
+      },
+      {
+        name: "Vue",
+        id: "vue",
+        type: "MULTISELECT",
+        selected: false
+      },
+      {
+        name: "Web Components",
+        id: "webComponents",
+        type: "MULTISELECT",
+        selected: false
+      }
+    ];
     this.scroll(this.jobs);
   },
   methods: {
