@@ -21,6 +21,19 @@
             </div>
           </div>
           <div>
+            <input
+              v-if="editMode"
+              v-model="profile.username"
+              class="left-input"
+            >
+            <div
+              v-else
+              class="user-username"
+            >
+              @{{ profile.username }}
+            </div>
+          </div>
+          <div>
             <div v-if="editMode">
               <span class="radio">
                 <input
@@ -195,7 +208,6 @@ export default {
   },
   created() {
     const username = this.$route.params.username;
-    console.log(username);
 
     if (username == null) {
       userService
@@ -267,7 +279,11 @@ export default {
         this.profile.skills = [];
       }
 
-      userService.updateUserProfile(this.profile);
+      try {
+        userService.updateUserProfile(this.profile);
+      } catch (e) {
+        alert(e.message);
+      }
     },
     cancel: function(event) {
       userService
