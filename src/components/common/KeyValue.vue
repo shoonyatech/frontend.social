@@ -5,6 +5,8 @@
       v-model="value"
       :is-editable="isEditable"
       class="value"
+      :placeholder="placeholder"
+      :multiline="multiline"
       @change="onChange"
     />
   </div>
@@ -16,11 +18,19 @@ import EditableValue from "@/components/common/EditableValue";
 export default {
   components: { EditableValue },
   props: {
+    multiline: {
+      type: Boolean,
+      default: false
+    },
     label: {
       type: String,
       default: ""
     },
     value: {
+      type: String,
+      default: ""
+    },
+    placeholder: {
       type: String,
       default: ""
     },
