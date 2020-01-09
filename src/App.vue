@@ -158,6 +158,14 @@ h1 {
   border-bottom: 1px solid #aada18;
 }
 
+h1 span {
+}
+
+h1 button {
+  margin: 2px;
+  float: right;
+}
+
 h2 {
   font-size: 1.1rem;
   font-weight: 700;
