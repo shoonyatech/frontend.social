@@ -3,14 +3,22 @@
     <b-container>
       <b-row>
         <b-col md="9">
-          <h1>Frontend Conference and Meetups</h1>
-          <div class="events">
+          <h1>
+            <span>Frontend Conference and Meetups</span><button @click="showAddEventDialog = !showAddEventDialog">
+              + Add Event
+            </button>
+          </h1>
+          <div
+            v-if="showAddEventDialog"
+            class="events"
+          >
             <EventStrip
               v-for="(event, index) in events"
               :key="index"
               :event="event"
             />
           </div>
+          <AddEvent v-else />
         </b-col>
         <b-col md="3">
           <div class="filters-wrapper">
@@ -25,14 +33,16 @@
 <script>
 import eventService from "@/services/event.service";
 import EventStrip from "@/components/Events/EventStrip";
+import AddEvent from "@/components/Events/AddEvent";
 import EventFilters from "@/components/Events/EventFilters";
 
 export default {
   name: "Events",
-  components: { EventStrip, EventFilters },
+  components: { EventStrip, EventFilters, AddEvent },
   data() {
     return {
-      events: []
+      events: [],
+      showAddEventDialog: false
     };
   },
   created() {
