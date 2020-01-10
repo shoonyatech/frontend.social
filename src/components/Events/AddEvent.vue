@@ -49,13 +49,13 @@
       <input
         type="date"
         class="editable-value"
-        @change="onChange"
+        @change="onStartDateChange"
       >
       <span class="end-date">End date</span>
       <input
         type="date"
         class="editable-value"
-        @change="onChange"
+        @change="onEndDateChange"
       >
     </div>
 
@@ -66,17 +66,20 @@
     <KeyValue
       label="Website"
       :is-editable="true"
-      @change="onTitleChange"
+      placeholder="Optional"
+      @change="onWebsiteChange"
     />
     <KeyValue
       label="Twitter"
       :is-editable="true"
-      @change="onTitleChange"
+      placeholder="Optional"
+      @change="onTwitterChange"
     />
     <KeyValue
       label="Youtube"
       :is-editable="true"
-      @change="onTitleChange"
+      placeholder="Optional"
+      @change="onYoutubeChange"
     />
 
     <div class="action-buttons">
@@ -108,14 +111,50 @@ export default {
   data() {
     return {
       event: {
-        type: "c"
+        title: "",
+        description: "",
+        type: "c",
+        city: null,
+        country: null,
+        dateFrom: null,
+        dateTo: null
       }
     };
   },
   methods: {
-    onTitleChange() {},
-    onDescriptionChange() {},
-    onCityChange() {}
+    onTitleChange(e) {
+      this.event.title = e.value;
+    },
+    onDescriptionChange(e) {
+      this.event.description = e.value;
+    },
+    onCityChange(city) {
+      this.city = city.name;
+      this.country = city.country;
+    },
+    onStartDateChange(date) {
+      this.event.dateFrom = date;
+    },
+    onEndDateChange(date) {
+      this.event.dateTo = date;
+    },
+    onWebsiteChange(e) {
+      this.event.website = e.value;
+    },
+    onTwitterChange(e) {
+      this.event.twitter = e.value;
+    },
+    onYoutubeChange(e) {
+      this.event.youtube = e.value;
+    },
+    save() {
+      if (!this.event.title.length) {
+        alert("Please specify event title");
+      } else if (!this.event.dateFrom) {
+        alert("Please specify start date of the event");
+      }
+    },
+    cancel() {}
   }
 };
 </script>
