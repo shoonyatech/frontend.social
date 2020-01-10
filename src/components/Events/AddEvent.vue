@@ -1,0 +1,197 @@
+<template>
+  <div>
+    <KeyValue
+      label="Event Title"
+      :is-editable="true"
+      @change="onTitleChange"
+    />
+    <KeyValue
+      label="Description"
+      placeholder="Optional"
+      :is-editable="true"
+      :multiline="true"
+      @change="onDescriptionChange"
+    />
+    <div class="event-row">
+      <span class="label">Event Type</span>
+      <span class="radio">
+        <input
+          v-model="event.type"
+          class="radio-input"
+          type="radio"
+          value="c"
+        >
+        <span class="radio-label"> Conference</span>
+      </span>
+      <span class="radio">
+        <input
+          v-model="event.type"
+          class="radio-input"
+          type="radio"
+          value="m"
+        >
+        <span class="radio-label"> Meetup</span>
+      </span>
+    </div>
+
+    <div class="event-row">
+      <span class="label">Location</span>
+      <edit-city
+        :edit-mode="true"
+        :city="event.city"
+        :country="event.country"
+        @change="onCityChange"
+      />
+    </div>
+
+    <div class="event-row">
+      <span class="label">Date</span>
+      <input
+        type="date"
+        class="editable-value"
+        @change="onChange"
+      >
+      <span class="end-date">End date</span>
+      <input
+        type="date"
+        class="editable-value"
+        @change="onChange"
+      >
+    </div>
+
+    <key-multi-value
+      label="Skills"
+      :is-editable="true"
+    />
+    <KeyValue
+      label="Website"
+      :is-editable="true"
+      @change="onTitleChange"
+    />
+    <KeyValue
+      label="Twitter"
+      :is-editable="true"
+      @change="onTitleChange"
+    />
+    <KeyValue
+      label="Youtube"
+      :is-editable="true"
+      @change="onTitleChange"
+    />
+
+    <div class="action-buttons">
+      <button
+        class="save-button"
+        @click="save"
+      >
+        Save
+      </button>
+      <button @click="cancel">
+        Cancel
+      </button>
+    </div>
+  </div>
+</template>
+
+<script>
+import KeyValue from "@/components/common/KeyValue";
+import KeyMultiValue from "@/components/common/KeyMultiValue";
+import EditCity from "@/components/City/EditCity";
+
+export default {
+  name: "AddEvent",
+  components: {
+    KeyValue,
+    KeyMultiValue,
+    EditCity
+  },
+  data() {
+    return {
+      event: {
+        type: "c"
+      }
+    };
+  },
+  methods: {
+    onTitleChange() {},
+    onDescriptionChange() {},
+    onCityChange() {}
+  }
+};
+</script>
+
+<style scoped lang="scss">
+.event-strip {
+  flex: 0 1 auto;
+  font-size: 0.9rem;
+  margin: 10px;
+  width: 95%;
+  height: 80px;
+  position: relative;
+  border-bottom: dotted 1px #aada20;
+  padding-bottom: 10px;
+  margin-right: 20px;
+}
+
+.event-line {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.event-skills {
+  font-size: 0.65rem;
+  color: #2c3e50;
+}
+
+.event-date {
+  font-size: 0.65rem;
+  color: #2c3e50;
+}
+
+.links {
+  position: absolute;
+  right: 10px;
+  top: 20px;
+}
+
+.icon-links {
+  display: flex;
+  flex-direction: row;
+}
+
+.event-row {
+  display: flex;
+  width: 100%;
+  padding-left: 10px;
+  text-align: left;
+}
+
+.label {
+  color: #aada18;
+  width: 7rem;
+  min-width: 7rem;
+}
+
+.radio {
+  margin-right: 1rem;
+}
+
+.end-date {
+  margin-left: 1.5rem;
+  margin-right: 0.5rem;
+  display: inline-block;
+}
+
+.action-buttons {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-top: 1rem;
+
+  button {
+    margin-left: 0.5rem;
+  }
+}
+</style>
