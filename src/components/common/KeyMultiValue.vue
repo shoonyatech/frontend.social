@@ -11,6 +11,7 @@
           :value="value"
           :is-editable="isEditable"
           :index="index"
+          class="value"
           @change="onChange"
         />
         <button
@@ -89,6 +90,7 @@ export default {
 
 .value {
   display: flex;
+  width: 100%;
 }
 
 .value-list {
