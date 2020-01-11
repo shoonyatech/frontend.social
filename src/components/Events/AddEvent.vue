@@ -53,6 +53,7 @@
       >
       <span class="end-date">End date</span>
       <input
+        v-model="event.dateTo"
         type="date"
         class="editable-value"
         @change="onEndDateChange"
@@ -153,20 +154,32 @@ export default {
     onYoutubeChange(e) {
       this.event.youtube = e.value;
     },
+    close: function(val) {
+      this.$emit("close", {});
+    },
     save() {
       if (!this.event.title.length) {
         alert("Please specify event title");
+        return;
       } else if (!this.event.dateFrom) {
         alert("Please specify start date of the event");
+        return;
+      } else if (!this.event.city || !this.event.country) {
+        alert("Please specify city and country");
+        return;
       }
 
       try {
         eventService.addEvent(this.event);
+        alert("Event added successfully!");
+        this.close();
       } catch (e) {
         alert(e.message);
       }
     },
-    cancel() {}
+    cancel() {
+      this.close();
+    }
   }
 };
 </script>
