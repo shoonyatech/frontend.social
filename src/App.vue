@@ -156,9 +156,7 @@ h1 {
   text-align: left;
   width: 100%;
   border-bottom: 1px solid #aada18;
-}
-
-h1 span {
+  padding-bottom: 7px;
 }
 
 h1 button {
