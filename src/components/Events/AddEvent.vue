@@ -62,6 +62,7 @@
     <key-multi-value
       label="Skills"
       :is-editable="true"
+      @change="onSkillsChange"
     />
     <KeyValue
       label="Website"
@@ -101,6 +102,8 @@ import KeyValue from "@/components/common/KeyValue";
 import KeyMultiValue from "@/components/common/KeyMultiValue";
 import EditCity from "@/components/City/EditCity";
 
+import eventService from "@/services/event.service";
+
 export default {
   name: "AddEvent",
   components: {
@@ -132,11 +135,15 @@ export default {
       this.city = city.name;
       this.country = city.country;
     },
-    onStartDateChange(date) {
-      this.event.dateFrom = date;
+    onStartDateChange(e) {
+      debugger;
+      this.event.dateFrom = e.currentTarget.valueAsDate;
     },
-    onEndDateChange(date) {
-      this.event.dateTo = date;
+    onEndDateChange(e) {
+      this.event.dateTo = e.currentTarget.valueAsDate;
+    },
+    onSkillsChange: function(skills) {
+      this.event.relatedSkills = skills;
     },
     onWebsiteChange(e) {
       this.event.website = e.value;
@@ -152,6 +159,12 @@ export default {
         alert("Please specify event title");
       } else if (!this.event.dateFrom) {
         alert("Please specify start date of the event");
+      }
+
+      try {
+        eventService.addEvent(this.event);
+      } catch (e) {
+        alert(e.message);
       }
     },
     cancel() {}
