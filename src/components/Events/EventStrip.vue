@@ -4,12 +4,12 @@
       v-if="!isReadOnly"
       :href="event.url"
     >
-      <span>{{ event.name }}</span>
+      <span>{{ event.title }}</span>
       <span class="event-type">
         {{ event.type === "c" ? "conference" : "meetup" }}</span>
     </a>
     <div v-else>
-      <span>{{ event.name }}</span>
+      <span>{{ event.title }}</span>
       <span class="event-type">
         {{ event.type === "c" ? "conference" : "meetup" }}</span>
     </div>
