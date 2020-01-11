@@ -132,11 +132,10 @@ export default {
       this.event.description = e.value;
     },
     onCityChange(city) {
-      this.city = city.name;
-      this.country = city.country;
+      this.event.city = city.name;
+      this.event.country = city.country;
     },
     onStartDateChange(e) {
-      debugger;
       this.event.dateFrom = e.currentTarget.valueAsDate;
     },
     onEndDateChange(e) {
