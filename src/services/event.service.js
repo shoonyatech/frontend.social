@@ -16,5 +16,9 @@ export default {
   searchEventsBy: query => {
     query = query || "";
     return httpClient.get("event?" + query);
+  },
+
+  addEvent: event => {
+    return httpClient.post("event", event);
   }
 };
