@@ -14,7 +14,8 @@
         {{ event.type === "c" ? "conference" : "meetup" }}</span>
     </div>
     <div class="event-date">
-      <span>{{ event.dateFrom | moment("DD MMM YYYY") }} - </span>
+      <span>{{ event.dateFrom | moment("DD MMM YYYY") }}</span>
+      <span v-if="event.dateTo"> - </span>
       <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span>
       <span class="city"> in {{ event.city }}, {{ event.country }}</span>
     </div>
