@@ -9,7 +9,7 @@
             </button>
           </h1>
           <div
-            v-if="showAddEventDialog"
+            v-if="!showAddEventDialog"
             class="events"
           >
             <EventStrip
@@ -18,7 +18,10 @@
               :event="event"
             />
           </div>
-          <AddEvent v-else />
+          <AddEvent
+            v-else
+            @close="showAddEventDialog = false"
+          />
         </b-col>
         <b-col md="3">
           <div class="filters-wrapper">
