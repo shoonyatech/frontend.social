@@ -12,12 +12,12 @@
     >
       Sign in with Github
     </button>
-    <button
+    <!-- <button
       class="social-button twitter"
       @click="authenticate('twitter')"
     >
       Sign in with Twitter
-    </button>
+    </button> -->
   </div>
 </template>
 

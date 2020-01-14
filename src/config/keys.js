@@ -8,7 +8,7 @@ export default {
     clientSecret: ""
   },
   twitter: {
-    clientId: "2YOn8ooOfNkcN553xERjeLnRA",
+    clientId: "gtq302zK8hjvczfzbHHJm5ChO",
     clientSecret: ""
   },
   bitbucket: {
