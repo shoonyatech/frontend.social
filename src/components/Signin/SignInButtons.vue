@@ -79,7 +79,7 @@ export default {
 }
 
 .social-button {
-  max-width: 200px;
+  max-width: 230px;
   margin: 5px 10px;
 }
 </style>
