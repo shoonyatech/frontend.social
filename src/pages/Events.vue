@@ -24,7 +24,10 @@
           />
         </b-col>
         <b-col md="3">
-          <div class="filters-wrapper">
+          <div
+            v-if="!showAddEventDialog"
+            class="filters-wrapper"
+          >
             <event-filters :on-search-params-change="onSearchParamsChange" />
           </div>
         </b-col>
