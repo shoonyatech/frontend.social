@@ -53,7 +53,6 @@
       >
       <span class="end-date">End date</span>
       <input
-        v-model="event.dateTo"
         type="date"
         class="editable-value"
         @change="onEndDateChange"
