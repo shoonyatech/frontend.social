@@ -20,7 +20,7 @@
           </div>
           <AddEvent
             v-else
-            @close="showAddEventDialog = false"
+            @close="refreshPage()"
           />
         </b-col>
         <b-col md="3">
@@ -59,6 +59,12 @@ export default {
   methods: {
     onSearchParamsChange(param = "") {
       eventService.searchEventsBy(param).then(events => {
+        this.events = events;
+      });
+    },
+    refreshPage() {
+      this.showAddEventDialog = false;
+      eventService.searchEventsBy().then(events => {
         this.events = events;
       });
     }
