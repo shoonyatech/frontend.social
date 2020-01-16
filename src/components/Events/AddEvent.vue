@@ -82,6 +82,30 @@
       placeholder="Optional"
       @change="onYoutubeChange"
     />
+    <KeyValue
+      label="Facebook"
+      :is-editable="true"
+      placeholder="Optional"
+      @change="onFacebookChange"
+    />
+    <KeyValue
+      label="instagram"
+      :is-editable="true"
+      placeholder="Optional"
+      @change="onInstagramChange"
+    />
+    <KeyValue
+      label="LinkedIn"
+      :is-editable="true"
+      placeholder="Optional"
+      @change="onLinkedinChange"
+    />
+    <KeyValue
+      label="Schedule"
+      :is-editable="true"
+      placeholder="Optional"
+      @change="onScheduleChange"
+    />
 
     <div class="action-buttons">
       <button
@@ -152,6 +176,18 @@ export default {
     },
     onYoutubeChange(e) {
       this.event.youtube = e.value;
+    },
+    onFacebookChange(e) {
+      this.event.facebook = e.value;
+    },
+    onInstagramChange(e) {
+      this.event.instagram = e.value;
+    },
+    onLinkedinChange(e) {
+      this.event.linkedin = e.value;
+    },
+    onScheduleChange(e) {
+      this.event.schedule = e.value;
     },
     close: function(val) {
       this.$emit("close", {});
