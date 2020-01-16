@@ -2,7 +2,8 @@
   <div class="event-strip">
     <a
       v-if="!isReadOnly"
-      :href="event.url"
+      :href="event.website"
+      target="_blank"
     >
       <span>{{ event.title }}</span>
       <span class="event-type">
@@ -16,8 +17,10 @@
     <div class="event-date">
       <span>{{ event.dateFrom | moment("DD MMM YYYY") }}</span>
       <span v-if="event.dateTo"> - </span>
-      <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span>
-      <span class="city"> in {{ event.city }}, {{ event.country }}</span>
+      <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span> in
+      <a
+        :href="'/city/' + event.city + '/' + event.country"
+      ><span class="city">{{ event.city }}, {{ event.country }}</span></a>
     </div>
     <div class="event-skills">
       {{ event.relatedSkills ? event.relatedSkills.join(", ") : "" }}
