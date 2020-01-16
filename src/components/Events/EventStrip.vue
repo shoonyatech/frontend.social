@@ -17,7 +17,10 @@
     <div class="event-date">
       <span>{{ event.dateFrom | moment("DD MMM YYYY") }}</span>
       <span v-if="event.dateTo"> - </span>
-      <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span> in
+      <span v-if="event.dateTo">{{
+        event.dateTo | moment("DD MMM YYYY")
+      }}</span>
+      in
       <a
         :href="'/city/' + event.city + '/' + event.country"
       ><span class="city">{{ event.city }}, {{ event.country }}</span></a>
