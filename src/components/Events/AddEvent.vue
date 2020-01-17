@@ -205,9 +205,10 @@ export default {
       }
 
       try {
-        eventService.addEvent(this.event);
-        alert("Event added successfully!");
-        this.close();
+        eventService.addEvent(this.event).then(() => {
+          alert("Event added successfully!");
+          this.close();
+        });
       } catch (e) {
         alert(e.message);
       }
