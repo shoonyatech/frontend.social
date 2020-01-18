@@ -62,6 +62,7 @@
     <key-multi-value
       label="Skills"
       :is-editable="true"
+      :auto-select="skillsLookup"
       @change="onSkillsChange"
     />
     <KeyValue
@@ -127,6 +128,7 @@ import KeyMultiValue from "@/components/common/KeyMultiValue";
 import EditCity from "@/components/City/EditCity";
 
 import eventService from "@/services/event.service";
+import skillService from "@/services/skill.service";
 
 export default {
   name: "AddEvent",
@@ -145,8 +147,12 @@ export default {
         country: null,
         dateFrom: null,
         dateTo: null
-      }
+      },
+      skillsLookup: []
     };
+  },
+  async created() {
+    this.skillsLookup = (await skillService.fetchSkills()).map(s => s.name);
   },
   methods: {
     onTitleChange(e) {
