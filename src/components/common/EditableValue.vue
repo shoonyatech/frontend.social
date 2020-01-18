@@ -1,19 +1,34 @@
 <template>
-  <span v-if="isEditable">
-    <textarea
-      v-if="multiline"
-      :value="value"
-      class="editable-value"
-      :placeholder="placeholder"
-      @change="onChange"
-    />
-    <input
-      v-else
-      :value="value"
-      class="editable-value"
-      :placeholder="placeholder"
-      @change="onChange"
-    >
+  <span
+    v-if="isEditable"
+    class="input-area"
+  >
+    <div>
+      <textarea
+        v-if="multiline"
+        :value="value"
+        class="editable-value"
+        :placeholder="placeholder"
+        @change="onChange"
+      />
+      <input
+        v-else
+        :value="value"
+        class="editable-value"
+        :placeholder="placeholder"
+        @change="onChange"
+      >
+    </div>
+    <div v-if="autoSelect">
+      <div
+        v-for="(item, index) in autoSelect"
+        :key="index"
+        class="auto-option"
+        @click="selectItem(item)"
+      >
+        {{ item }}
+      </div>
+    </div>
   </span>
   <span
     v-else
@@ -44,6 +59,10 @@ export default {
     isEditable: {
       type: Boolean,
       default: false
+    },
+    autoSelect: {
+      type: Array,
+      default: () => []
     }
   },
   methods: {
@@ -84,5 +103,18 @@ export default {
 
 textarea {
   min-height: 5rem;
+}
+
+.auto-option {
+  border-bottom: dotted 1px #aada18;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #aada186c;
+  }
+}
+
+.input-area {
+  flex-direction: column;
 }
 </style>
