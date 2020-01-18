@@ -156,6 +156,12 @@ h1 {
   text-align: left;
   width: 100%;
   border-bottom: 1px solid #aada18;
+  padding-bottom: 7px;
+}
+
+h1 button {
+  margin: 2px;
+  float: right;
 }
 
 h2 {

@@ -12,12 +12,12 @@
     >
       Sign in with Github
     </button>
-    <button
+    <!-- <button
       class="social-button twitter"
       @click="authenticate('twitter')"
     >
       Sign in with Twitter
-    </button>
+    </button> -->
   </div>
 </template>
 
@@ -79,7 +79,7 @@ export default {
 }
 
 .social-button {
-  max-width: 400px;
+  max-width: 230px;
   margin: 5px 10px;
 }
 </style>

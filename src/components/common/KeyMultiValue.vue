@@ -11,6 +11,8 @@
           :value="value"
           :is-editable="isEditable"
           :index="index"
+          class="value"
+          :auto-select="autoSelect"
           @change="onChange"
         />
         <button
@@ -50,6 +52,10 @@ export default {
     isEditable: {
       type: Boolean,
       default: false
+    },
+    autoSelect: {
+      type: Array,
+      default: () => []
     }
   },
   methods: {
@@ -89,6 +95,7 @@ export default {
 
 .value {
   display: flex;
+  width: 100%;
 }
 
 .value-list {

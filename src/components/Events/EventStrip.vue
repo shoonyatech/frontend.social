@@ -2,21 +2,31 @@
   <div class="event-strip">
     <a
       v-if="!isReadOnly"
-      :href="event.url"
+      :href="event.website"
+      target="_blank"
     >
-      <span>{{ event.name }}</span>
+      <span>{{ event.title }}</span>
       <span class="event-type">
         {{ event.type === "c" ? "conference" : "meetup" }}</span>
     </a>
     <div v-else>
-      <span>{{ event.name }}</span>
+      <span>{{ event.title }}</span>
       <span class="event-type">
         {{ event.type === "c" ? "conference" : "meetup" }}</span>
     </div>
     <div class="event-date">
-      <span>{{ event.dateFrom | moment("DD MMM YYYY") }} - </span>
-      <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span>
-      <span class="city"> in {{ event.city }}, {{ event.country }}</span>
+      <span>{{ event.dateFrom | moment("DD MMM YYYY") }}</span>
+      <span v-if="event.dateTo"> - </span>
+      <span v-if="event.dateTo">{{
+        event.dateTo | moment("DD MMM YYYY")
+      }}</span>
+      in
+      <a
+        :href="'/city/' + event.city + '/' + event.country"
+      ><span class="city">{{ event.city }}, {{ event.country }}</span></a>
+    </div>
+    <div class="event-description">
+      {{ event.description }}
     </div>
     <div class="event-skills">
       {{ event.relatedSkills ? event.relatedSkills.join(", ") : "" }}
@@ -69,7 +79,6 @@ export default {
   font-size: 0.9rem;
   margin: 10px;
   width: 95%;
-  height: 80px;
   position: relative;
   border-bottom: dotted 1px #aada20;
   padding-bottom: 10px;
@@ -86,6 +95,10 @@ export default {
   font-size: 0.65rem;
   color: #2c3e50;
   float: right;
+}
+
+.event-description {
+  font-size: 0.8rem;
 }
 
 .event-skills {
