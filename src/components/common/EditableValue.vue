@@ -6,14 +6,14 @@
     <div>
       <textarea
         v-if="multiline"
-        :value="value"
+        v-model="editedValue"
         class="editable-value"
         :placeholder="placeholder"
         @change="onChange"
       />
       <input
         v-else
-        :value="value"
+        v-model="editedValue"
         class="editable-value"
         :placeholder="placeholder"
         @change="onChange"
@@ -21,7 +21,7 @@
     </div>
     <div v-if="autoSelect">
       <div
-        v-for="(item, index) in autoSelect"
+        v-for="(item, index) in filteredList()"
         :key="index"
         class="auto-option"
         @click="selectItem(item)"
@@ -33,7 +33,7 @@
   <span
     v-else
     class="readonly-value"
-  >{{ value }}</span>
+  >{{ editedValue }}</span>
 </template>
 
 <script>
@@ -65,6 +65,11 @@ export default {
       default: () => []
     }
   },
+  data() {
+    return {
+      editedValue: this.value
+    };
+  },
   methods: {
     onChange: function(e) {
       if (this.index === -1) {
@@ -72,6 +77,15 @@ export default {
       } else {
         this.$emit("change", { val: e.target.value, index: this.index });
       }
+    },
+    filteredList() {
+      const lowercaseValue = this.editedValue.toLowerCase();
+      return this.autoSelect.filter(
+        a => a.toLowerCase().indexOf(this.editedValue) > -1
+      );
+    },
+    selectItem: function(item) {
+      this.editedValue = item;
     }
   }
 };
