@@ -25,11 +25,19 @@
         :href="'/city/' + event.city + '/' + event.country"
       ><span class="city">{{ event.city }}, {{ event.country }}</span></a>
     </div>
+    <div
+      v-if="event.relatedSkills"
+      class="event-skills"
+    >
+      <span
+        v-for="(skill, index) in event.relatedSkills"
+        :key="index"
+      >
+        <a>{{ skill }}</a><span v-if="index != event.relatedSkills.length - 1">, </span>
+      </span>
+    </div>
     <div class="event-description">
       {{ event.description }}
-    </div>
-    <div class="event-skills">
-      {{ event.relatedSkills ? event.relatedSkills.join(", ") : "" }}
     </div>
     <div
       v-if="!isReadOnly"
