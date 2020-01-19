@@ -79,10 +79,13 @@ export default {
       }
     },
     filteredList() {
-      const lowercaseValue = this.editedValue.toLowerCase();
-      return this.autoSelect.filter(
-        a => a.toLowerCase().indexOf(this.editedValue) > -1
-      );
+      if (this.autoSelect && this.editedValue) {
+        const lowercaseValue = this.editedValue.toLowerCase();
+        return this.autoSelect.filter(
+          a => a.toLowerCase().indexOf(this.editedValue) > -1
+        );
+      }
+      return [];
     },
     selectItem: function(item) {
       this.editedValue = item;
