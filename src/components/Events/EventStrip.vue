@@ -68,9 +68,31 @@
     </b-row>
     <b-row>
       <b-col md="12">
-        <div class="event-description">
+        <div
+          class="event-description"
+          :class="{ fullHeight: showMore, lessHeight: !showMore }"
+        >
           {{ event.description }}
         </div>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col
+        md="12"
+        class="arrow-container"
+      >
+        <img
+          v-if="!showMore"
+          class="arrow"
+          :src="'/images/down-arrow.svg'"
+          @click="showMore = true"
+        >
+        <img
+          v-if="showMore"
+          class="arrow"
+          :src="'/images/up-arrow.svg'"
+          @click="showMore = false"
+        >
       </b-col>
     </b-row>
   </div>
@@ -91,6 +113,11 @@ export default {
     isReadOnly: {
       type: Boolean
     }
+  },
+  data() {
+    return {
+      showMore: false
+    };
   }
 };
 </script>
@@ -121,6 +148,7 @@ export default {
 
 .event-description {
   font-size: 0.8rem;
+  overflow: hidden;
 }
 
 .event-skills {
@@ -136,5 +164,32 @@ export default {
 .icon-links {
   display: flex;
   flex-direction: row-reverse;
+}
+
+.lessHeight {
+  height: 50px;
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0))
+  );
+}
+
+.fullHeight {
+  height: auto;
+}
+
+.arrow-container {
+  display: flex;
+  justify-content: center;
+}
+
+.arrow {
+  width: 15px;
+  display: flex;
+  cursor: pointer;
+  color: #aada20;
 }
 </style>
