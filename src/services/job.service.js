@@ -15,7 +15,7 @@ const getQueryForNextPage = (currentQuery, totalPages) => {
 export default {
   getJobs: (searchText = "") => {
     const searchQuery = searchText.length ? `searchText=${searchText}` : "";
-    const jobQuery = `job?${searchQuery}&pageNo=1&itemsPerPage=20`;
+    const jobQuery = `job?${searchQuery}&pageNo=1&itemsPerPage=20&level=0`;
     return httpClient.get(jobQuery);
   },
   getJobsOnSearchParamsChange: query => {
