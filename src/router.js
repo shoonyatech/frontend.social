@@ -24,11 +24,6 @@ export default new Router({
       component: () => import("./pages/Cities.vue")
     },
     {
-      path: "/jobs/add",
-      name: "addjobs",
-      component: () => import("./pages/AddJob.vue")
-    },
-    {
       path: "/jobs",
       name: "jobs",
       component: () => import("./pages/Jobs.vue")
