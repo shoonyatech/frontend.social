@@ -1,29 +1,44 @@
 <template>
   <div class="job">
     <div class="role-and-expertise">
-      <div class="role">
-        {{ role }}
-      </div>
+      <a class="role">{{ role }}</a>
       <div class="expertise">
         {{ experienceLevel }}
       </div>
     </div>
     <div class="skills-required">
-      <span class="required-skills-label">{{ `${requiredSkillsLabel}:- ` }}</span>
       <span
-        v-for="(skill,index) in requiredSkills"
+        v-for="(skill) in requiredSkills"
         :key="skill"
-      >{{ `${index+1}.${skill} ` }}</span>
+      >
+        <a :href="'/jobs?q='+skill">{{ `${skill} ` }}</a>
+      </span>
+      <div class="btn-details">
+        <Button
+          label="Details"
+          type="primary"
+        />
+      </div>
     </div>
-    <div class="job-description">
+    <div
+      class="job-description"
+      :class="{ fullHeight: showMore, lessHeight: !showMore }"
+    >
       {{ jobDescription }}
     </div>
-
-    <div class="btn-details">
-      <Button
-        label="Details"
-        type="primary"
-      />
+    <div class="arrow-container">
+      <img
+        v-if="!showMore"
+        class="arrow"
+        :src="'/images/down-arrow.svg'"
+        @click="showMore = true"
+      >
+      <img
+        v-if="showMore"
+        class="arrow"
+        :src="'/images/up-arrow.svg'"
+        @click="showMore = false"
+      >
     </div>
   </div>
 </template>
@@ -70,7 +85,8 @@ export default {
     return {
       detailsLabel: "Details",
       requiredSkillsLabel: "Required Skills",
-      experienceLevel: getExperienceLevel(this.expertise)
+      experienceLevel: getExperienceLevel(this.expertise),
+      showMore: false
     };
   }
 };
@@ -79,33 +95,57 @@ export default {
 <style scoped lang="scss">
 .job {
   width: 90%;
-  border-bottom: 1px solid;
+  border-bottom: dotted 1px #aada20;
   padding: 10px;
 }
 .job .role-and-expertise {
   display: flex;
   justify-content: space-between;
   padding: 5px 0;
-  font-weight: bold;
+}
+.expertise {
+  font-size: 0.65rem;
 }
 .job .skills-required {
   text-align: left;
   padding: 5px 0;
-}
-.job .skills-required .required-skills-label {
-  font-weight: bold;
+  font-size: 0.65rem;
 }
 .job-description {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding: 10px 0;
+  font-size: 0.8rem;
   text-align: start;
 }
 .btn-details {
   width: 100px;
   height: 40px;
   float: right;
+}
+.lessHeight {
+  min-height: 50px;
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(rgba(0, 0, 0, 1)),
+    to(rgba(0, 0, 0, 0))
+  );
+}
+
+.fullHeight {
+  min-height: 50px;
+  height: auto;
+}
+
+.arrow {
+  width: 15px;
+  display: flex;
+  cursor: pointer;
+  color: #aada20;
+}
+.arrow-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
 }
 @media screen and (max-width: 759px) {
   .job {
