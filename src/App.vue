@@ -183,6 +183,7 @@ a {
 
 a:hover {
   background-color: #aada1834;
+  text-decoration: none;
 }
 
 label {
