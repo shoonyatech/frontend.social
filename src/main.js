@@ -10,12 +10,17 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import App from "./App.vue";
 import router from "./router";
 import authOptions from "./config/authOptions";
+import VueMoment from "vue-moment";
+import moment from "moment-timezone";
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
 Vue.use(VueAuthenticate, authOptions);
-Vue.use(require("vue-moment"));
+
+Vue.use(VueMoment, {
+  moment
+});
 Vue.use(require("vue-country-region-select"));
 
 new Vue({
