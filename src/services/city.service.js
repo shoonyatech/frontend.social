@@ -1,12 +1,16 @@
 import httpClient from "./http-client";
 
 export default {
-  getCities: searchText => {
-    if (searchText) {
-      return httpClient.get("city?searchText=" + searchText);
-    } else {
-      return httpClient.get("city");
+  getCities: (citySearchText, country) => {
+    let queryParam = "?";
+    if (citySearchText) {
+      queryParam += "citySearchText=" + citySearchText;
     }
+    if (country) {
+      queryParam += "&country=" + country;
+    }
+
+    return httpClient.get("city" + queryParam);
   },
 
   getCityDetails: (cityName, countryCode) => {
