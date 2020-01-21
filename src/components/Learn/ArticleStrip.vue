@@ -5,11 +5,12 @@
         <span>{{ article.title }}</span>
       </a>
       <span class="article-author"> by {{ article.author }}</span>
+      <SkillTags
+        v-if="article.relatedSkills"
+        :skills="article.relatedSkills"
+      />
       <div class="article-details">
         <span>{{ article.details }}</span>
-      </div>
-      <div class="article-skills">
-        {{ article.relatedSkills.join(", ") }}
       </div>
       <div class="courtesy">
         Courtesy: {{ article.courtesy }}
@@ -42,10 +43,12 @@
 
 <script>
 import IconLink from "@/components/common/IconLink";
+import SkillTags from "@/components/Skills/SkillTags";
 
 export default {
   components: {
-    IconLink
+    IconLink,
+    SkillTags
   },
   props: {
     article: {
@@ -106,7 +109,7 @@ export default {
 }
 
 .article-details {
-  font-size: 0.65rem;
+  font-size: 0.8rem;
 }
 
 .courtesy {
