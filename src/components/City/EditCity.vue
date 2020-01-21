@@ -68,9 +68,11 @@ export default {
   },
   methods: {
     onSearchCityChange: function(e) {
-      cityService.getCities(this.editedCity).then(cities => {
-        this.options = cities;
-      });
+      cityService
+        .getCities(this.editedCity, this.editedCountry)
+        .then(cities => {
+          this.options = cities;
+        });
       this.$emit("change", {
         name: this.editedCity,
         country: this.editedCountry
