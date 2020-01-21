@@ -2,48 +2,30 @@
   <div>
     <div>Upcoming events</div>
     <div class="city-events">
-      <div
+      <EventStripCompact
         v-for="(event, index) in upcomingEvents"
         :key="index"
+        :event="event"
         class="event-line"
-      >
-        <a
-          class="city-event"
-          :href="event.url"
-        >
-          <span>{{ event.name }}</span>
-          <div class="event-date">
-            <span>{{ event.dateFrom | moment("DD MMM YYYY") }} - </span>
-            <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span>
-          </div>
-        </a>
-      </div>
+      />
     </div>
     <div>Past events</div>
     <div class="city-events">
-      <div
+      <EventStripCompact
         v-for="(event, index) in pastEvents"
         :key="index"
+        :event="event"
         class="event-line"
-      >
-        <a
-          class="city-event"
-          :href="event.url"
-        >
-          <span>{{ event.name }}</span>
-          <div class="event-date">
-            <span>{{ event.dateFrom | moment("DD MMM YYYY") }} - </span>
-            <span>{{ event.dateTo | moment("DD MMM YYYY") }}</span>
-          </div>
-        </a>
-      </div>
+      />
     </div>
   </div>
 </template>
 
 <script>
+import EventStripCompact from "@/components/Events/EventStripCompact";
+
 export default {
-  components: {},
+  components: { EventStripCompact },
 
   props: {
     upcomingEvents: { type: Array, required: true },
