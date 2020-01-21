@@ -31,17 +31,10 @@
             :href="'/city/' + event.city + '/' + event.country"
           ><span class="city">{{ event.city }}, {{ event.country }}</span></a>
         </div>
-        <div
+        <SkillTags
           v-if="event.relatedSkills"
-          class="event-skills"
-        >
-          <span
-            v-for="(skill, index) in event.relatedSkills"
-            :key="index"
-          >
-            <a>{{ skill }}</a><span v-if="index != event.relatedSkills.length - 1">, </span>
-          </span>
-        </div>
+          :skills="event.relatedSkills"
+        />
       </b-col>
       <b-col md="4">
         <div
@@ -100,11 +93,13 @@
 
 <script>
 import IconLink from "@/components/common/IconLink";
+import SkillTags from "@/components/Skills/SkillTags";
 
 export default {
   name: "EventStrip",
   components: {
-    IconLink
+    IconLink,
+    SkillTags
   },
   props: {
     event: {
