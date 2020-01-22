@@ -82,7 +82,6 @@ export default {
       searchJobsWithSearchTerm();
     },
     mapJobResponse(jobs = {}, override = false) {
-      debugger;
       const { results = [], meta = {} } = jobs;
       if (!override) {
         this.jobs = [...this.jobs, ...results];
