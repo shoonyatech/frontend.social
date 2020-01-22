@@ -55,9 +55,10 @@ export default {
       jobs: [],
       appliedFilters: [],
       currentQuery: "",
-      totalPages: 5,
+      totalPages: 1,
       skills: [],
       jobTypes: [],
+      pageNo: 1,
       showAddJobDialog: false
     };
   },
@@ -72,70 +73,7 @@ export default {
         searchText = searchTextQuery.split("q=")[1];
       }
     }
-    jobService.getJobs(searchText).then(jobs => {
-      this.jobs = jobs;
-    });
-    //need to fetch this data from api
-    this.jobTypes = [
-      {
-        name: "Full Time",
-        id: "fullTime",
-        selected: false,
-        group: "jobType",
-        groupName: "Job Type",
-        type: "MULTISELECT"
-      },
-      {
-        name: "Part Time",
-        id: "partTime",
-        selected: false,
-        type: "MULTISELECT",
-        group: "jobType",
-        groupName: "Job Type"
-      },
-      {
-        name: "Contract",
-        id: "contract",
-        selected: false,
-        type: "MULTISELECT",
-        group: "jobType",
-        groupName: "Job Type"
-      },
-      {
-        name: "Permanent",
-        id: "permanent",
-        selected: false,
-        type: "MULTISELECT",
-        group: "jobType",
-        groupName: "Job Type"
-      }
-    ];
-    this.skills = [
-      {
-        name: "React",
-        id: "react",
-        type: "MULTISELECT",
-        selected: false
-      },
-      {
-        name: "Angular",
-        id: "angular",
-        type: "MULTISELECT",
-        selected: false
-      },
-      {
-        name: "Vue",
-        id: "vue",
-        type: "MULTISELECT",
-        selected: false
-      },
-      {
-        name: "Web Components",
-        id: "webComponents",
-        type: "MULTISELECT",
-        selected: false
-      }
-    ];
+    this.searchJobsWithSearchTerm(searchText);
     this.scroll(this.jobs);
   },
   methods: {
@@ -143,10 +81,30 @@ export default {
       this.showAddJobDialog = false;
       searchJobsWithSearchTerm();
     },
+    mapJobResponse(jobs = {}, override = false) {
+      debugger;
+      const { results = [], meta = {} } = jobs;
+      if (!override) {
+        this.jobs = [...this.jobs, ...results];
+      } else {
+        this.jobs = results;
+      }
+      const { pagination: paginationInfo, filters } = meta;
+      if (paginationInfo) {
+        const { currentPage, totalPages } = paginationInfo;
+        this.pageNo = currentPage;
+        this.totalPages = totalPages;
+      }
+      if (filters) {
+        const { jobTypes, skills } = filters;
+        this.jobTypes = jobTypes;
+        this.skills = skills;
+      }
+    },
     searchJobsWithSearchTerm(searchText = "") {
       searchText.replace(/^\s+/, "").replace(/\s+$/, "");
       jobService.getJobs(searchText).then(jobs => {
-        this.jobs = jobs;
+        this.mapJobResponse(jobs);
       });
     },
     onSearchParamsChange(param = "", key, value) {
@@ -154,7 +112,7 @@ export default {
       const queryParams = new URLSearchParams(window.location.search);
       queryParams.set(key, value);
       jobService.getJobsOnSearchParamsChange(param).then(jobs => {
-        this.jobs = jobs;
+        this.mapJobResponse(jobs, true);
       });
     },
     setInitialQuery(initialQuery) {
@@ -168,9 +126,13 @@ export default {
 
         if (bottomOfWindow) {
           jobService
-            .fetchDataForNextPage(this.currentQuery, this.totalPages)
+            .fetchDataForNextPage(
+              this.currentQuery,
+              this.totalPages,
+              this.currentPage
+            )
             .then(jobs => {
-              this.jobs.push(jobs);
+              this.mapJobResponse(jobs);
             });
         }
       };
