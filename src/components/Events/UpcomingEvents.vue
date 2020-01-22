@@ -17,13 +17,19 @@ import EventStrip from "@/components/Events/EventStrip";
 
 export default {
   components: { EventStrip },
+  props: {
+    skill: {
+      type: String,
+      required: false
+    }
+  },
   data() {
     return {
       events: []
     };
   },
   created() {
-    eventService.getUpcomingEvents().then(events => {
+    eventService.getUpcomingEvents(this.skill).then(events => {
       this.events = events;
     });
   }

@@ -10,6 +10,7 @@
       </b-row>
       <b-row>
         <b-col md="12">
+          <UpcomingEvents :skill="skill" />
           <UpcomingEvents />
           <LatestArticles />
           <div>Jobs</div>
