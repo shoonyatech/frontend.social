@@ -39,6 +39,11 @@ export default new Router({
       component: () => import("./pages/Learn.vue")
     },
     {
+      path: "/skills/:skill",
+      name: "skills",
+      component: () => import("./pages/Skills.vue")
+    },
+    {
       path: "/signin",
       name: "signin",
       component: () => import("./pages/Signin.vue")
