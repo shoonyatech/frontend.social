@@ -1,12 +1,11 @@
 import httpClient from "./http-client";
 
-const getQueryForNextPage = (currentQuery, totalPages) => {
+const getQueryForNextPage = (currentQuery, totalPages, currentPage = 1) => {
   const paramsString = new URLSearchParams(currentQuery);
   const searchParams = new URLSearchParams(paramsString);
-  const pageNo = searchParams.get("pageNo");
   let searchQuery;
-  if (pageNo && pageNo < totalPages) {
-    searchParams.set("pageNo", pageNo + 1);
+  if (currentPage < totalPages) {
+    searchParams.set("pageNo", currentPage + 1);
     searchQuery = searchParams.toString();
   }
   return searchQuery;
@@ -15,17 +14,17 @@ const getQueryForNextPage = (currentQuery, totalPages) => {
 export default {
   getJobs: (searchText = "") => {
     const searchQuery = searchText.length ? `searchText=${searchText}` : "";
-    const jobQuery = `job?${searchQuery}&pageNo=1&itemsPerPage=20&level=0`;
+    const jobQuery = `job?${searchQuery}`;
     return httpClient.get(jobQuery);
   },
   getJobsOnSearchParamsChange: query => {
-    const jobQuery = `job?${query}&pageNo=1&itemsPerPage=20`;
+    const jobQuery = `job?${query}`;
     return httpClient.get(jobQuery);
   },
-  fetchDataForNextPage: (currentQuery, totalPages = 1) => {
-    const query = getQueryForNextPage(currentQuery, totalPages);
+  fetchDataForNextPage: (currentQuery, totalPages = 1, currentPage = 1) => {
+    const query = getQueryForNextPage(currentQuery, totalPages, currentPage);
     if (query) {
-      const nextPageQuery = `job?${query}&itemsPerPage=20`;
+      const nextPageQuery = `job?${query}`;
       return httpClient.get(nextPageQuery);
     }
   },

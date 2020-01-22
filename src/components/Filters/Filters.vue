@@ -74,7 +74,7 @@ const getSelectedFilters = (filters = []) => {
   let selectedSkills = [];
   filters.forEach(item => {
     if (item.selected) {
-      selectedSkills.push(item.name);
+      selectedSkills.push(item.id);
     }
   });
   return selectedSkills;
