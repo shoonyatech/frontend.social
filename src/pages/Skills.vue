@@ -4,16 +4,9 @@
       <b-row>
         <b-col md="12">
           <h1>
-            <span>{{ title() }}</span>
+            <span>Skills</span>
           </h1>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="12">
-          <UpcomingEvents :skill="skill" />
-          <LatestArticles :skill="skill" />
-          <div>Jobs</div>
-          <div>Devs</div>
+          <SkillTags :skills="allSkills" />
         </b-col>
       </b-row>
     </b-container>
@@ -21,32 +14,20 @@
 </template>
 
 <script>
-import capitalize from "capitalize";
-import learnService from "@/services/learn.service";
-import eventService from "@/services/event.service";
-import jobService from "@/services/job.service";
-import userService from "@/services/user.service";
-
-import LatestArticles from "@/components/Learn/LatestArticles";
-import UpcomingEvents from "@/components/Events/UpcomingEvents";
+import skillService from "@/services/skill.service";
+import SkillTags from "@/components/Skills/SkillTags";
 
 export default {
   name: "Skills",
-  components: { LatestArticles, UpcomingEvents },
+  components: { SkillTags },
   data() {
     return {
-      skill: null,
-      events: [],
-      jobs: [],
-      articles: [],
-      users: []
+      allSkills: []
     };
   },
   created() {
-    this.skill = this.$route.params.skill;
-
-    eventService.searchEventsBy(`skills=${this.skill}`).then(events => {
-      this.events = events;
+    skillService.fetchSkills().then(skills => {
+      this.allSkills = skills.map(s => s.name);
     });
   },
   methods: {
