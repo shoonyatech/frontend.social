@@ -2,6 +2,8 @@ import httpClient from "./http-client";
 
 export default {
   getLatestArticles: () => {
-    return httpClient.get("article");
+    return skill
+      ? httpClient.get("article?skill=" + skill)
+      : httpClient.get("article");
   }
 };
