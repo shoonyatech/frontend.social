@@ -15,6 +15,7 @@
 
 <script>
 import skillService from "@/services/skill.service";
+
 import SkillTags from "@/components/Skills/SkillTags";
 
 export default {
