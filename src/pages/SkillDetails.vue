@@ -3,9 +3,13 @@
     <b-container>
       <b-row>
         <b-col md="12">
-          <h1>
-            <span>{{ title() }}</span>
-          </h1>
+          <SkillTags
+            class="skills-tag"
+            :skills="allSkills"
+          />
+          <div class="title">
+            {{ title() }}
+          </div>
         </b-col>
       </b-row>
       <b-row>
@@ -26,20 +30,23 @@ import learnService from "@/services/learn.service";
 import eventService from "@/services/event.service";
 import jobService from "@/services/job.service";
 import userService from "@/services/user.service";
+import skillService from "@/services/skill.service";
 
 import LatestArticles from "@/components/Learn/LatestArticles";
 import UpcomingEvents from "@/components/Events/UpcomingEvents";
+import SkillTags from "@/components/Skills/SkillTags";
 
 export default {
   name: "Skills",
-  components: { LatestArticles, UpcomingEvents },
+  components: { LatestArticles, UpcomingEvents, SkillTags },
   data() {
     return {
       skill: null,
       events: [],
       jobs: [],
       articles: [],
-      users: []
+      users: [],
+      allSkills: []
     };
   },
   created() {
@@ -47,6 +54,10 @@ export default {
 
     eventService.searchEventsBy(`skills=${this.skill}`).then(events => {
       this.events = events;
+    });
+
+    skillService.fetchSkills().then(skills => {
+      this.allSkills = skills.map(s => s.name);
     });
   },
   methods: {
@@ -60,6 +71,16 @@ export default {
 <style scoped lang="scss">
 .host {
   width: 100%;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #aada18;
+}
+
+.skills-tag {
+  text-align: right;
 }
 
 .skills {
