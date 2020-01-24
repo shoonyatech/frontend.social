@@ -26,28 +26,23 @@ export default {
     navLinks: [
       {
         text: "Learn",
-        path: "/learn",
-        icon: "ion-ios-bonfire"
+        path: "/learn"
       },
       {
         text: "Jobs",
-        path: "/jobs",
-        icon: "ion-ios-briefcase"
+        path: "/jobs"
       },
       {
         text: "Events",
-        path: "/events",
-        icon: "ion-ios-megaphone"
+        path: "/events"
       },
       {
         text: "City",
-        path: "/city",
-        icon: "ion-ios-business"
+        path: "/city"
       },
       {
         text: "Skills",
-        path: "/skills",
-        icon: "ion-ios-skills"
+        path: "/skills"
       }
     ],
     copyrightText:
@@ -118,7 +113,7 @@ body {
 .icon-button {
   background-color: #aada20;
   border: 3px solid white;
-  height: 66px;
+  height: 56px;
   width: 66px;
   border-radius: 50%;
   padding: 10px;
