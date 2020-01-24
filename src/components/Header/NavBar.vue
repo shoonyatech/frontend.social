@@ -5,7 +5,9 @@
         class="main-logo"
         href="/"
       >
-        <img src="/images/logo.jpg">
+        <span class="image-container">
+          <img src="/images/logo.jpg">
+        </span>
       </a>
       <div class="menu-icon">
         <i
@@ -93,22 +95,26 @@ export default {
   .menu-icon {
     display: none;
   }
+
   .main-logo {
     cursor: pointer;
     display: flex;
     align-items: center;
     width: 245px;
-    padding-left: 10px;
     img {
-      height: 25px;
       width: 100%;
+    }
+    .image-container {
+      padding: 7px 10px 0 10px;
+      background-color: white;
+      height: 55px;
     }
   }
 }
 
 nav {
   display: flex;
-  min-height: 60px;
+  min-height: 55px;
   width: 100%;
   .nav-items {
     display: flex;
@@ -128,7 +134,7 @@ nav {
     }
     .nav-item {
       list-style-type: none;
-      padding: 10px 20px;
+      padding: 0 20px;
       font-size: 24px;
       cursor: pointer;
       .nav-item-link {
