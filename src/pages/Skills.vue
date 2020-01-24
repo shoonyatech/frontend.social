@@ -11,8 +11,7 @@
       <b-row>
         <b-col md="12">
           <UpcomingEvents :skill="skill" />
-          <UpcomingEvents />
-          <LatestArticles />
+          <LatestArticles :skill="skill" />
           <div>Jobs</div>
           <div>Devs</div>
         </b-col>
