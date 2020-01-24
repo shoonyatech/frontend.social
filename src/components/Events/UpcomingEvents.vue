@@ -25,6 +25,7 @@ export default {
   props: {
     skill: {
       type: String,
+      default: null,
       required: false
     }
   },
