@@ -17,13 +17,19 @@ import learnService from "@/services/learn.service";
 
 export default {
   components: { ArticleStrip },
+  props: {
+    skill: {
+      type: String,
+      required: false
+    }
+  },
   data() {
     return {
       articles: []
     };
   },
   created() {
-    learnService.getLatestArticles().then(articles => {
+    learnService.getLatestArticles(this.skill).then(articles => {
       this.articles = articles;
     });
   }
