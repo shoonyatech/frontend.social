@@ -1,18 +1,17 @@
 <template>
   <div class="host">
     <h1>Latest articles on Frontend</h1>
-    <div
-      v-if="articles.length"
-      class="articles"
-    >
-      <article-strip
-        v-for="(article, index) in articles"
-        :key="index"
-        :article="article"
-      />
-    </div>
-    <div v-else>
-      No articles found!
+    <div class="articles">
+      <div v-if="articles.length">
+        <article-strip
+          v-for="(article, index) in articles"
+          :key="index"
+          :article="article"
+        />
+      </div>
+      <div v-else>
+        No articles found!
+      </div>
     </div>
   </div>
 </template>
@@ -52,6 +51,7 @@ export default {
 .articles {
   margin: 20px 10px;
   text-align: left;
+  width: 100%;
 }
 
 .article {
