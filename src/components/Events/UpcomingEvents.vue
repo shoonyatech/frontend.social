@@ -2,11 +2,16 @@
   <div class="host">
     <h1>Upcoming Events</h1>
     <div class="events">
-      <EventStrip
-        v-for="(event, index) in events"
-        :key="index"
-        :event="event"
-      />
+      <div v-if="events.length">
+        <EventStrip
+          v-for="(event, index) in events"
+          :key="index"
+          :event="event"
+        />
+      </div>
+      <div v-else>
+        No events found!
+      </div>
     </div>
   </div>
 </template>
@@ -39,6 +44,7 @@ export default {
 <style scoped lang="scss">
 .host {
   width: 100%;
+  margin-bottom: 2.5rem;
 }
 
 .events {
