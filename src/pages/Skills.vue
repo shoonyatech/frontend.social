@@ -4,7 +4,7 @@
       <b-row>
         <b-col md="12">
           <h1>
-            <span>{{ skill }}</span>
+            <span>{{ title() }}</span>
           </h1>
         </b-col>
       </b-row>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import capitalize from "capitalize";
 import learnService from "@/services/learn.service";
 import eventService from "@/services/event.service";
 import jobService from "@/services/job.service";
@@ -48,7 +49,11 @@ export default {
       this.events = events;
     });
   },
-  methods: {}
+  methods: {
+    title() {
+      return capitalize.words(this.skill);
+    }
+  }
 };
 </script>
 
