@@ -43,6 +43,11 @@ export default {
         text: "City",
         path: "/city",
         icon: "ion-ios-business"
+      },
+      {
+        text: "Skills",
+        path: "/skills",
+        icon: "ion-ios-skills"
       }
     ],
     copyrightText:
