@@ -2,7 +2,9 @@
   <div class="learn">
     <b-container>
       <b-row>
-        <LatestArticles />
+        <b-col md="12">
+          <LatestArticles />
+        </b-col>
       </b-row>
     </b-container>
   </div>
@@ -24,6 +26,4 @@ export default {
 };
 </script>
 
-
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
