@@ -1,21 +1,16 @@
 <template>
   <div class="host">
-    <div class="framework">
-      {{ framework.name }}
-    </div>
-    <img
-      class="logo"
-      :src="`/images/frameworks/${framework.name}.png`"
-    >
+    <div class="framework" />
+    <div class="logo" />
     <div class="github-stars">
-      {{ framework.githubStars }}
+      Github stars
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "FrameworkStats",
+  name: "FrameworkStatsHeading",
   components: {},
   props: {
     framework: {
@@ -37,8 +32,7 @@ export default {
 }
 
 .logo {
-  height: 50px;
-  margin-bottom: 30px;
+  height: 80px;
 }
 
 .github-stars {

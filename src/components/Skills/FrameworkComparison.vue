@@ -4,10 +4,13 @@
     <div class="skills-comparison">
       <b-container>
         <b-row>
+          <b-col md="4">
+            <FrameworkStatsHeading />
+          </b-col>
           <b-col
             v-for="(framework, index) in frameworks"
             :key="index"
-            md="3"
+            md="2"
           >
             <FrameworkStats :framework="framework" />
           </b-col>
@@ -21,9 +24,10 @@
 import skillService from "@/services/skill.service";
 
 import FrameworkStats from "@/components/Skills/FrameworkStats";
+import FrameworkStatsHeading from "@/components/Skills/FrameworkStatsHeading";
 
 export default {
-  components: { FrameworkStats },
+  components: { FrameworkStats, FrameworkStatsHeading },
   data() {
     return {
       frameworks: []
