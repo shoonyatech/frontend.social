@@ -3,8 +3,8 @@ import httpClient from "./http-client";
 export default {
   getUpcomingEvents: skill => {
     return skill
-      ? httpClient.get("event/upcoming?skill=" + skill)
-      : httpClient.get("event/upcoming");
+      ? httpClient.get("event/upcoming?count=15&skill=" + skill)
+      : httpClient.get("event/upcoming?count=15");
   },
 
   getEventWithIds: ids => {
