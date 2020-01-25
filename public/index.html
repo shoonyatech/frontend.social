@@ -1,6 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-156971794-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-156971794-1");
+    </script>
+
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
@@ -13,15 +28,18 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#aada18" />
     <meta name="msapplication-TileColor" content="#aada18" />
     <meta name="theme-color" content="#aada18" />
-    <link href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap" rel="stylesheet">
-    
+    <link
+      href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap"
+      rel="stylesheet"
+    />
+
     <script>
       window.fbAsyncInit = function() {
         FB.init({
           appId: "311503802832589",
           cookie: true,
           xfbml: true,
-          version: "v3.2",
+          version: "v3.2"
         });
 
         FB.AppEvents.logPageView();
