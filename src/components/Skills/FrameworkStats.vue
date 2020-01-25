@@ -30,6 +30,7 @@ export default {
 <style scoped lang="scss">
 .host {
   width: 100%;
+  text-align: center;
 }
 
 .framework {
