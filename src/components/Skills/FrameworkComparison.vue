@@ -4,7 +4,10 @@
     <div class="skills-comparison">
       <b-container>
         <b-row>
-          <b-col md="4">
+          <b-col
+            md="4"
+            class="d-none d-md-block"
+          >
             <FrameworkStatsHeading />
           </b-col>
           <b-col
