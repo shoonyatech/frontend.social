@@ -168,8 +168,8 @@ nav {
     }
     .menu-icon {
       display: flex;
-      font-size: 55px;
-      padding-right: 20px;
+      font-size: 45px;
+      padding-right: 30px;
     }
   }
   nav {
