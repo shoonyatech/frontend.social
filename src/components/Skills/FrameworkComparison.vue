@@ -9,9 +9,7 @@
             :key="index"
             md="3"
           >
-            <div class="framework">
-              {{ framework.name }}
-            </div>
+            <FrameworkStats :framework="framework" />
           </b-col>
         </b-row>
       </b-container>
@@ -22,8 +20,10 @@
 <script>
 import skillService from "@/services/skill.service";
 
+import FrameworkStats from "@/components/Skills/FrameworkStats";
+
 export default {
-  components: {},
+  components: { FrameworkStats },
   data() {
     return {
       frameworks: []
