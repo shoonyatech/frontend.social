@@ -46,7 +46,7 @@ export default {
       }
     ],
     copyrightText:
-      "Powered by Shoonya Technologies Ltd. (Canada) © 2019 All Rights Reserved."
+      "Powered by Shoonya Technologies Ltd. (Canada) © 2020 All Rights Reserved."
   }),
   created() {
     if (localStorage.getItem("authToken")) {
