@@ -1,26 +1,43 @@
 <template>
   <!-- div for searching city -->
-  <div class="page">
-    <div class="mt-4 row">
-      <input
-        class="inputCityDiv"
-        placeholder="City.."
-        @input="citySearch"
-      >
-    </div>
-    <div class="thumbnail-container">
-      <city-thumbnail
-        v-for="(city, index) in cities"
-        :key="index"
-        :city="city"
-        class="city-card"
-      />
-      <span
-        v-if="cities == null || cities.length === 0"
-        class="noResult"
-      >
-        No city found. Please try again..</span>
-    </div>
+  <div class="learn">
+    <b-container>
+      <b-row>
+        <b-col md="12">
+          <div class="search-box-container">
+            <input
+              class="search-box"
+              placeholder="City.."
+              @input="citySearch"
+            >
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="12">
+          <div
+            v-if="cities == null || cities.length === 0"
+            class="no-result"
+          >
+            No city found. Please try again..
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col
+          v-for="(city, index) in cities"
+          :key="index"
+          md="3"
+        >
+          <div class="city-card-container">
+            <city-thumbnail
+              :city="city"
+              class="city-card"
+            />
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -64,11 +81,21 @@ export default {
 }
 
 .city-card {
-  margin: 2rem;
+  margin-bottom: 1rem;
   display: inline-block;
 }
 
-.inputCityDiv {
+.city-card-container {
+  width: 100%;
+  text-align: center;
+}
+
+.search-box-container {
+  width: 100%;
+  text-align: center;
+}
+
+.search-box {
   border: 3px solid #aada20;
   display: inline-block;
   margin: 20px auto;
@@ -82,7 +109,7 @@ export default {
   color: #aada18;
 }
 
-.noResult {
+.no-result {
   text-align: center;
   width: 100%;
 }
