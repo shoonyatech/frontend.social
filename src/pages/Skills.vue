@@ -3,10 +3,16 @@
     <b-container>
       <b-row>
         <b-col md="12">
-          <h1>
-            <span>Skills</span>
-          </h1>
-          <SkillTags :skills="allSkills" />
+          <span>Skills list</span>
+          <SkillTags
+            :skills="allSkills"
+            class="skill-tags"
+          />
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="12">
+          <FrameworkComparison />
         </b-col>
       </b-row>
     </b-container>
@@ -17,10 +23,11 @@
 import skillService from "@/services/skill.service";
 
 import SkillTags from "@/components/Skills/SkillTags";
+import FrameworkComparison from "@/components/Skills/FrameworkComparison";
 
 export default {
   name: "Skills",
-  components: { SkillTags },
+  components: { SkillTags, FrameworkComparison },
   data() {
     return {
       allSkills: []
@@ -48,5 +55,9 @@ export default {
   margin: 20px 10px;
   text-align: left;
   width: 100%;
+}
+
+.skill-tags {
+  margin-bottom: 30px;
 }
 </style>
