@@ -11,7 +11,7 @@
       </a>
       <Avatar
         class="mobile avatar"
-        :profile-pic="signedInUser.profilePic"
+        :user="signedInUser"
       />
       <div class="menu-icon">
         <i
@@ -45,19 +45,12 @@
         class="nav-item right"
       >
         <div
-          v-if="signedInUser == null"
-          class="nav-item-link"
-          @click="redirect('/signin')"
-        >
-          Sign in
-        </div>
-        <div
-          v-else
+          v-if="signedInUser != null"
           class="nav-item-link"
         >
           <Avatar
             class="desktop"
-            :profile-pic="signedInUser.profilePic"
+            :user="signedInUser"
           />
         </div>
       </li>

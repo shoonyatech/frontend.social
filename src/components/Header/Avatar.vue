@@ -1,22 +1,32 @@
 <template>
-  <div
-    class="host"
-    @click="toggleMenu()"
-  >
-    <img
-      :src="profilePic"
-      class="profile-photo"
-    >
+  <div class="host">
     <div
-      v-if="showMenu"
-      class="menu"
+      v-if="user"
+      @click="toggleMenu()"
     >
-      <div @click="redirect('/me')">
-        Profile
+      <img
+        :src="user.profilePic"
+        class="profile-photo"
+      >
+      <div
+        v-if="showMenu"
+        class="menu"
+      >
+        <div @click="redirect('/me')">
+          Profile
+        </div>
+        <div @click="signout()">
+          Sign out
+        </div>
       </div>
-      <div @click="signout()">
-        Sign out
-      </div>
+    </div>
+    <div v-else>
+      <button
+        class="signin"
+        @click="redirect('/signin')"
+      >
+        Sign in
+      </button>
     </div>
   </div>
 </template>
@@ -28,9 +38,9 @@ import store from "@/vuex/store";
 export default {
   components: {},
   props: {
-    profilePic: {
-      type: String,
-      default: ""
+    user: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -81,5 +91,10 @@ export default {
 
 .menu :hover {
   color: #2c3e50;
+}
+
+.signin {
+  margin: 10px 0;
+  padding: 0 5px;
 }
 </style>
