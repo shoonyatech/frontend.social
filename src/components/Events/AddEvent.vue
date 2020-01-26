@@ -60,7 +60,7 @@
     </div>
 
     <key-multi-value
-      label="Skills"
+      label="Technologies"
       :is-editable="true"
       :auto-select="skillsLookup"
       @change="onSkillsChange"
@@ -90,7 +90,7 @@
       @change="onFacebookChange"
     />
     <KeyValue
-      label="instagram"
+      label="Instagram"
       :is-editable="true"
       placeholder="Optional"
       @change="onInstagramChange"
