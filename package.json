@@ -20,6 +20,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
+    "heroku-ssl-redirect": "0.0.4",
     "moment-timezone": "^0.5.27",
     "vue": "^2.6.10",
     "vue-authenticate": "^1.4.1",

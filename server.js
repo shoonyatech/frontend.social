@@ -1,6 +1,9 @@
+var sslRedirect = require("heroku-ssl-redirect");
+
 var express = require("express"),
   path = require("path"),
   app = express();
+app.use(sslRedirect());
 require("dotenv").config();
 // Serve only the static files form the dist directory
 app.use(express.static(__dirname + "/dist"));
