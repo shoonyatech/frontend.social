@@ -5,5 +5,8 @@ export default {
     return skill
       ? httpClient.get("article?count=10&skill=" + skill)
       : httpClient.get("article?count=10");
+  },
+  addArticle: article => {
+    return httpClient.post("article", article);
   }
 };

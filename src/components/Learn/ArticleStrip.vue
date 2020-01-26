@@ -52,11 +52,9 @@ export default {
   },
   props: {
     article: {
-      type: Object
+      type: Object,
+      default: () => {}
     }
-  },
-  created() {
-    console.log(this.article);
   }
 };
 </script>

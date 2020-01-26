@@ -3,7 +3,7 @@
     <b-container>
       <b-row>
         <b-col md="12">
-          <LatestArticles />
+          <TalksAndArticles />
         </b-col>
       </b-row>
     </b-container>
@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import LatestArticles from "@/components/Learn/LatestArticles";
+import TalksAndArticles from "@/components/Learn/TalksAndArticles";
 
 export default {
   name: "Learn",
-  components: { LatestArticles },
+  components: { TalksAndArticles },
   data() {
     return {
       articles: []
