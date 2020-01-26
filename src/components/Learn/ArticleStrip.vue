@@ -13,7 +13,17 @@
         <span>{{ article.details }}</span>
       </div>
       <div class="courtesy">
-        Courtesy: {{ article.courtesy }}
+        Courtesy:
+        <a
+          :href="article.courtesyUrl"
+          target="_blank"
+        >{{
+          article.courtesy
+        }}</a>
+      </div>
+      <div class="tags">
+        Tags:
+        {{ article.tags.join(", ") }}
       </div>
     </div>
     <div class="links icon-links">
@@ -110,7 +120,8 @@ export default {
   font-size: 0.8rem;
 }
 
-.courtesy {
+.courtesy,
+.tags {
   font-size: 0.65rem;
 }
 </style>
