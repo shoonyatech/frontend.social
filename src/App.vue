@@ -41,7 +41,7 @@ export default {
         path: "/city"
       },
       {
-        text: "Skills",
+        text: "Technologies",
         path: "/skills"
       }
     ],
