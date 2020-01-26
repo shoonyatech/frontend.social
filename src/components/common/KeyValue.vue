@@ -1,14 +1,26 @@
 <template>
   <div class="host">
-    <span class="label">{{ label }}</span>
-    <EditableValue
-      v-model="value"
-      :is-editable="isEditable"
-      class="value"
-      :placeholder="placeholder"
-      :multiline="multiline"
-      @change="onChange"
-    />
+    <b-row>
+      <b-col
+        md="3"
+        sm="12"
+      >
+        <span class="label">{{ label }}</span>
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <EditableValue
+          v-model="value"
+          :is-editable="isEditable"
+          class="value"
+          :placeholder="placeholder"
+          :multiline="multiline"
+          @change="onChange"
+        />
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -49,10 +61,9 @@ export default {
 
 <style scoped lang="scss">
 .host {
-  display: flex;
   width: 100%;
-  padding-left: 10px;
   text-align: left;
+  margin-bottom: 15px;
 }
 
 .label {
@@ -63,5 +74,8 @@ export default {
 
 .value {
   flex: 1 1 auto;
+}
+
+.full-width {
 }
 </style>

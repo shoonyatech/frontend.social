@@ -1,50 +1,62 @@
 <template>
   <div class="host">
-    <span class="label">{{ label }}</span>
-    <div class="value-list">
-      <div
-        v-for="(event, index) in events"
-        :key="index"
-        class="events"
+    <b-row class="full-width">
+      <b-col
+        md="3"
+        sm="12"
       >
-        <EventStrip
-          :event="event"
-          class="event-strip-selected"
-        />
-        <button
-          v-if="isEditable"
-          class="delete"
-          :data-index="index"
-          @click="deleteItem(event)"
-        >
-          X
-        </button>
-      </div>
-      <div v-if="isEditable">
-        <input
-          v-if="isEditable"
-          v-model="searchText"
-          placeholder="Search conference or meetup name"
-          class="search-box"
-          @input="onSearchTextChange"
-        >
-        <span
-          v-for="(event, index) in options"
-          :key="index"
-          class="value"
-        >
+        <span class="label">{{ label }}</span>
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <div class="value-list">
           <div
-            class="select-event"
-            @click="add(event)"
+            v-for="(event, index) in events"
+            :key="index"
+            class="events"
           >
             <EventStrip
               :event="event"
-              :is-read-only="true"
+              class="event-strip-selected"
             />
+            <button
+              v-if="isEditable"
+              class="delete"
+              :data-index="index"
+              @click="deleteItem(event)"
+            >
+              X
+            </button>
           </div>
-        </span>
-      </div>
-    </div>
+          <div v-if="isEditable">
+            <input
+              v-if="isEditable"
+              v-model="searchText"
+              placeholder="Search conference or meetup name"
+              class="search-box"
+              @input="onSearchTextChange"
+            >
+            <span
+              v-for="(event, index) in options"
+              :key="index"
+              class="value"
+            >
+              <div
+                class="select-event"
+                @click="add(event)"
+              >
+                <EventStrip
+                  :event="event"
+                  :is-read-only="true"
+                />
+              </div>
+            </span>
+          </div>
+        </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -107,7 +119,6 @@ export default {
 .host {
   display: flex;
   width: 100%;
-  padding-left: 10px;
   text-align: left;
 }
 

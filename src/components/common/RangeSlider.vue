@@ -46,7 +46,6 @@ export default {
 .host {
   display: flex;
   width: 100%;
-  padding-left: 10px;
   text-align: left;
 }
 
