@@ -1,37 +1,58 @@
 <template>
   <div class="host">
-    <span class="label">{{ label }}</span>
-    <div class="value-list">
-      <span
-        v-for="(value, index) in values"
-        :key="index"
-        class="value"
+    <b-row>
+      <b-col
+        md="3"
+        sm="12"
       >
-        <EditableValue
-          :value="value"
-          :is-editable="isEditable"
-          :index="index"
-          class="value"
-          :auto-select="autoSelect"
-          @change="onChange"
-        />
-        <button
-          v-if="isEditable"
-          class="delete"
-          :data-index="index"
-          @click="deleteItem"
-        >
-          X
-        </button>
-      </span>
-    </div>
-    <button
-      v-if="isEditable"
-      class="add"
-      @click="add"
-    >
-      +
-    </button>
+        <span class="label">{{ label }}</span>
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <div class="value-list">
+          <span
+            v-for="(value, index) in values"
+            :key="index"
+            class="value"
+          >
+            <EditableValue
+              :value="value"
+              :is-editable="isEditable"
+              :index="index"
+              class="value"
+              :auto-select="autoSelect"
+              @change="onChange"
+            />
+            <button
+              v-if="isEditable"
+              class="delete"
+              :data-index="index"
+              @click="deleteItem"
+            >
+              X
+            </button>
+          </span>
+        </div>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col
+        md="12"
+        sm="12"
+      >
+        <div class="add-container">
+          <button
+            v-if="isEditable"
+            class="add"
+            @click="add"
+          >
+            +
+          </button>
+        </div>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
@@ -81,10 +102,9 @@ export default {
 
 <style scoped lang="scss">
 .host {
-  display: flex;
   width: 100%;
-  padding-left: 10px;
   text-align: left;
+  margin-bottom: 15px;
 }
 
 .label {
@@ -100,6 +120,11 @@ export default {
 
 .value-list {
   flex: 1 1 auto;
+}
+
+.add-container {
+  width: 100%;
+  text-align: right;
 }
 
 .add {

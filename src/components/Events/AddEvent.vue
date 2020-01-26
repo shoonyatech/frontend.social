@@ -12,52 +12,108 @@
       :multiline="true"
       @change="onDescriptionChange"
     />
-    <div class="event-row">
-      <span class="label">Event Type</span>
-      <span class="radio">
-        <input
-          v-model="event.type"
-          class="radio-input"
-          type="radio"
-          value="c"
-        >
-        <span class="radio-label"> Conference</span>
-      </span>
-      <span class="radio">
-        <input
-          v-model="event.type"
-          class="radio-input"
-          type="radio"
-          value="m"
-        >
-        <span class="radio-label"> Meetup</span>
-      </span>
-    </div>
 
-    <div class="event-row">
-      <span class="label">Location</span>
-      <edit-city
-        :edit-mode="true"
-        :city="event.city"
-        :country="event.country"
-        @change="onCityChange"
-      />
-    </div>
+    <b-row class="row">
+      <b-col
+        md="3"
+        sm="12"
+      >
+        <span class="label">Event Type</span>
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <span class="radio">
+          <input
+            v-model="event.type"
+            class="radio-input"
+            type="radio"
+            value="c"
+          >
+          <span class="radio-label"> Conference</span>
+        </span>
+        <span class="radio">
+          <input
+            v-model="event.type"
+            class="radio-input"
+            type="radio"
+            value="m"
+          >
+          <span class="radio-label"> Meetup</span>
+        </span>
+      </b-col>
+    </b-row>
 
-    <div class="event-row">
-      <span class="label">Date</span>
-      <input
-        type="date"
-        class="editable-value"
-        @change="onStartDateChange"
+    <b-row class="row">
+      <b-col
+        md="3"
+        sm="12"
       >
-      <span class="end-date">End date</span>
-      <input
-        type="date"
-        class="editable-value"
-        @change="onEndDateChange"
+        <span class="label">Location</span>
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
       >
-    </div>
+        <edit-city
+          :edit-mode="true"
+          :city="event.city"
+          :country="event.country"
+          @change="onCityChange"
+        />
+      </b-col>
+    </b-row>
+
+    <b-row class="row">
+      <b-col
+        md="3"
+        sm="12"
+      >
+        <span class="label">Date</span>
+      </b-col>
+      <b-col
+        md="3"
+        sm="12"
+      >
+        <span class="date">Start</span>
+      </b-col>
+      <b-col
+        md="6"
+        sm="12"
+      >
+        <input
+          type="date"
+          class="editable-value"
+          @change="onStartDateChange"
+        >
+      </b-col>
+    </b-row>
+
+    <b-row class="row">
+      <b-col
+        md="3"
+        sm="12"
+      >
+        <span />
+      </b-col>
+      <b-col
+        md="3"
+        sm="12"
+      >
+        <span class="date">End (optional)</span>
+      </b-col>
+      <b-col
+        md="6"
+        sm="12"
+      >
+        <input
+          type="date"
+          class="editable-value"
+          @change="onEndDateChange"
+        >
+      </b-col>
+    </b-row>
 
     <key-multi-value
       label="Technologies"
@@ -65,6 +121,7 @@
       :auto-select="skillsLookup"
       @change="onSkillsChange"
     />
+
     <KeyValue
       label="Website"
       :is-editable="true"
@@ -284,8 +341,7 @@ export default {
 }
 
 .end-date {
-  margin-left: 1.5rem;
-  margin-right: 0.5rem;
+  margin-right: 1.5rem;
   display: inline-block;
 }
 
@@ -299,5 +355,9 @@ export default {
   button {
     margin-left: 0.5rem;
   }
+}
+
+.row {
+  margin-bottom: 15px;
 }
 </style>
