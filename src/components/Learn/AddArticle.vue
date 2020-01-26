@@ -35,73 +35,93 @@
       @change="onCourtesyUrlChange"
     />
 
-    <div class="article-row">
-      <span class="label">Type</span>
-      <span class="radio">
-        <input
-          v-model="article.type"
-          class="radio-input"
-          type="radio"
-          value="talk"
-          name="type"
-        >
-        <span class="radio-label"> Talk</span>
-      </span>
-      <span class="radio">
-        <input
-          v-model="article.type"
-          class="radio-input"
-          type="radio"
-          value="tutorial"
-          name="type"
-        >
-        <span class="radio-label"> Tutorial</span>
-      </span>
-      <span class="radio">
-        <input
-          v-model="article.type"
-          class="radio-input"
-          type="radio"
-          value="casestudy"
-          name="type"
-        >
-        <span class="radio-label"> Case Study</span>
-      </span>
-    </div>
+    <b-row class="row">
+      <b-col
+        md="3"
+        sm="12"
+      >
+        <span class="label">Type</span>
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <span class="radio">
+          <input
+            v-model="article.type"
+            class="radio-input"
+            type="radio"
+            value="talk"
+            name="type"
+          >
+          <span class="radio-label"> Talk</span>
+        </span>
+        <span class="radio">
+          <input
+            v-model="article.type"
+            class="radio-input"
+            type="radio"
+            value="tutorial"
+            name="type"
+          >
+          <span class="radio-label"> Tutorial</span>
+        </span>
+        <span class="radio">
+          <input
+            v-model="article.type"
+            class="radio-input"
+            type="radio"
+            value="casestudy"
+            name="type"
+          >
+          <span class="radio-label"> Case Study</span>
+        </span>
+      </b-col>
+    </b-row>
 
-    <div class="article-row">
-      <span class="label">Medium</span>
-      <span class="radio">
-        <input
-          v-model="article.medium"
-          class="radio-input"
-          type="radio"
-          value="blog"
-          name="medium"
-        >
-        <span class="radio-label"> Blog</span>
-      </span>
-      <span class="radio">
-        <input
-          v-model="article.medium"
-          class="radio-input"
-          type="radio"
-          value="tutorial"
-          name="medium"
-        >
-        <span class="radio-label"> Video</span>
-      </span>
-      <span class="radio">
-        <input
-          v-model="article.medium"
-          class="radio-input"
-          type="radio"
-          value="podcast"
-          name="medium"
-        >
-        <span class="radio-label"> Podcast</span>
-      </span>
-    </div>
+    <b-row class="row">
+      <b-col
+        md="3"
+        sm="12"
+      >
+        <span class="label">Medium</span>
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <span class="radio">
+          <input
+            v-model="article.medium"
+            class="radio-input"
+            type="radio"
+            value="blog"
+            name="medium"
+          >
+          <span class="radio-label"> Blog</span>
+        </span>
+        <span class="radio">
+          <input
+            v-model="article.medium"
+            class="radio-input"
+            type="radio"
+            value="tutorial"
+            name="medium"
+          >
+          <span class="radio-label"> Video</span>
+        </span>
+        <span class="radio">
+          <input
+            v-model="article.medium"
+            class="radio-input"
+            type="radio"
+            value="podcast"
+            name="medium"
+          >
+          <span class="radio-label"> Podcast</span>
+        </span>
+      </b-col>
+    </b-row>
 
     <key-multi-value
       label="Technologies"
