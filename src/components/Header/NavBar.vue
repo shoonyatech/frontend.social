@@ -9,6 +9,10 @@
           <img src="/images/logo.jpg">
         </span>
       </a>
+      <Avatar
+        class="mobile avatar"
+        :profile-pic="signedInUser.profilePic"
+      />
       <div class="menu-icon">
         <i
           class="ion-ios-menu"
@@ -55,12 +59,6 @@
             class="desktop"
             :profile-pic="signedInUser.profilePic"
           />
-          <div
-            class="mobile nav-item-link"
-            @click="signout()"
-          >
-            Sign Out
-          </div>
         </div>
       </li>
     </ul>
@@ -177,6 +175,9 @@ nav {
     display: flex !important;
   }
 
+  .avatar {
+    margin-top: 5px;
+  }
   .static-header {
     display: flex;
     justify-content: space-between;
