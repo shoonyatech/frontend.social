@@ -5,7 +5,7 @@
         v-for="(skill, index) in skills"
         :key="index"
       >
-        <a :href="`/skills/${skill}`">{{ skill }}</a><span v-if="index != skills.length - 1">, </span>
+        <a :href="`/tech/${skill}`">{{ skill }}</a><span v-if="index != skills.length - 1">, </span>
       </span>
     </div>
   </div>
