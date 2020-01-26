@@ -116,13 +116,7 @@
                   <div class="skill-header">
                     <span class="skill-name" />
                     <span class="skill-years">yrs</span>
-                    <span class="skill-rating">
-                      <span class="skill-rating-icon">🤒</span>
-                      <span class="skill-rating-icon">🤔</span>
-                      <span class="skill-rating-icon">🙂</span>
-                      <span class="skill-rating-icon">🤓</span>
-                      <span class="skill-rating-icon">💯</span>
-                    </span>
+                    <span class="skill-rating">expertise</span>
                     <span class="skills-delete-placeholder" />
                   </div>
 
@@ -380,6 +374,7 @@ export default {
   flex: 1 1 auto;
   margin: 2px auto;
   width: 100%;
+  text-align: center;
 }
 
 .skill-rating-icon {

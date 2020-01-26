@@ -5,7 +5,7 @@
         :value="name"
         :is-editable="isEditable"
         :placeholder="'React'"
-        @change="onNameChange"
+        @click="onNameChange"
       />
     </span>
     <span class="skill-years">
@@ -13,17 +13,36 @@
         :value="noOfYears"
         :is-editable="isEditable"
         :placeholder="'2'"
-        @change="onYearChange"
+        @click="onYearChange"
       />
     </span>
-    <input
-      :disabled="!isEditable"
-      type="range"
-      :value="rating"
-      :max="max"
-      class="editable-value"
-      @change="onRatingChange"
-    >
+    <span class="skill-rating">
+      <span
+        class="skill-rating-icon"
+        :class="{ selected: skill.rating === 0, editable: isEditable }"
+        @click="onRatingChange(0)"
+      >🤒</span>
+      <span
+        class="skill-rating-icon"
+        :class="{ selected: skill.rating === 1, editable: isEditable }"
+        @click="onRatingChange(1)"
+      >🤔</span>
+      <span
+        class="skill-rating-icon"
+        :class="{ selected: skill.rating === 2, editable: isEditable }"
+        @click="onRatingChange(2)"
+      >🙂</span>
+      <span
+        class="skill-rating-icon"
+        :class="{ selected: skill.rating === 3, editable: isEditable }"
+        @click="onRatingChange(3)"
+      >🤓</span>
+      <span
+        class="skill-rating-icon"
+        :class="{ selected: skill.rating === 4, editable: isEditable }"
+        @click="onRatingChange(4)"
+      >💯</span>
+    </span>
   </div>
 </template>
 
@@ -79,9 +98,11 @@ export default {
       this.skill.noOfYears = Number(val);
       this.$emit("change", { index: this.index, skill: this.skill });
     },
-    onRatingChange: function(e) {
-      this.skill.rating = Number(e.target.value);
-      this.$emit("change", { index: this.index, skill: this.skill });
+    onRatingChange: function(rating) {
+      if (this.isEditable) {
+        this.skill.rating = rating;
+        this.$emit("change", { index: this.index, skill: this.skill });
+      }
     }
   }
 };
@@ -115,5 +136,31 @@ export default {
   line-height: inherit;
   height: 1.5rem;
   padding: 0 10px;
+}
+
+.skill-rating {
+  flex: 1 1 auto;
+  margin: 2px auto;
+  width: 100%;
+}
+
+.skill-rating-icon {
+  flex: 1 1 auto;
+  width: 20%;
+  display: inline-block;
+  text-align: center;
+  opacity: 0.2;
+
+  &.editable {
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+}
+
+.selected {
+  opacity: 1;
 }
 </style>
