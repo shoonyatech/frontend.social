@@ -51,7 +51,16 @@
           v-else
           class="nav-item-link"
         >
-          <Avatar :profile-pic="signedInUser.profilePic" />
+          <Avatar
+            class="desktop"
+            :profile-pic="signedInUser.profilePic"
+          />
+          <div
+            class="mobile nav-item-link"
+            @click="signout()"
+          >
+            Sign Out
+          </div>
         </div>
       </li>
     </ul>
@@ -79,6 +88,11 @@ export default {
     toggleNav() {
       const nav = this.$refs.nav.classList;
       nav.contains("active") ? nav.remove("active") : nav.add("active");
+    },
+    signout() {
+      userService.signout();
+      this.$store.commit("signInUser", null);
+      this.redirect("/");
     },
     redirect(path) {
       this.toggleNav();
@@ -150,7 +164,19 @@ nav {
   }
 }
 
+.mobile {
+  display: none !important;
+}
+
 @media screen and (max-width: 759px) {
+  .desktop {
+    display: none !important;
+  }
+
+  .mobile {
+    display: flex !important;
+  }
+
   .static-header {
     display: flex;
     justify-content: space-between;
