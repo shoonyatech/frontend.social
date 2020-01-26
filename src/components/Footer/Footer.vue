@@ -43,7 +43,7 @@
               alt="twitter"
             >
           </a>
-          <a
+          <!-- <a
             class="social-link"
             href="https://github.com/shoonyatech/frontend.social/"
             target="_blank"
@@ -52,7 +52,7 @@
               src="https://www.frontend.social/images/github.png"
               alt="github"
             >
-          </a>
+          </a> -->
         </div>
       </b-col>
     </b-row>
