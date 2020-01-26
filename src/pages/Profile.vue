@@ -2,7 +2,11 @@
   <div class="profile">
     <b-container>
       <b-row>
-        <b-col md="3">
+        <b-col
+          md="3"
+          sm="12"
+          class="photo-col"
+        >
           <img
             :src="profile.profilePic"
             class="profile-photo"
@@ -71,7 +75,10 @@
             @change="onCityChange"
           />
         </b-col>
-        <b-col md="9">
+        <b-col
+          md="9"
+          sm="12"
+        >
           <KeyValue
             v-for="item in profile.social"
             :key="item.label"
@@ -83,54 +90,72 @@
         </b-col>
       </b-row>
       <b-row class="row">
-        <b-col md="3">
+        <b-col
+          md="3"
+          sm="12"
+        >
           <div />
         </b-col>
-        <b-col md="9">
+        <b-col
+          md="9"
+          sm="12"
+        >
           <div class="skills">
-            <label class="skills-label">Skills</label>
-            <div class="skill-list">
-              <div class="skill-header">
-                <span class="skill-name" />
-                <span class="skill-years">yrs</span>
-                <span class="skill-rating">
-                  <span class="skill-rating-icon">🤒</span>
-                  <span class="skill-rating-icon">🤔</span>
-                  <span class="skill-rating-icon">🙂</span>
-                  <span class="skill-rating-icon">🤓</span>
-                  <span class="skill-rating-icon">💯</span>
-                </span>
-                <span class="skills-delete-placeholder" />
-              </div>
-
-              <span
-                v-for="(skill, index) in profile.skills"
-                :key="index"
-                class="skill-control"
+            <b-row>
+              <b-col
+                md="3"
+                sm="12"
               >
-                <SkillLevel
-                  :name="skill.name"
-                  :no-of-years="skill.noOfYears"
-                  :rating="skill.rating"
-                  :max="4"
-                  :is-editable="editMode"
-                  :index="index"
-                  @change="onSkillChange"
-                />
-                <span
-                  v-if="!editMode"
-                  class="skills-delete-placeholder"
-                />
-                <button
-                  v-if="editMode"
-                  class="skills-delete"
-                  :data-index="index"
-                  @click="deleteSkill"
-                >
-                  X
-                </button>
-              </span>
-            </div>
+                <label class="skills-label">Skills</label>
+              </b-col>
+              <b-col
+                md="9"
+                sm="12"
+              >
+                <div class="skill-list">
+                  <div class="skill-header">
+                    <span class="skill-name" />
+                    <span class="skill-years">yrs</span>
+                    <span class="skill-rating">
+                      <span class="skill-rating-icon">🤒</span>
+                      <span class="skill-rating-icon">🤔</span>
+                      <span class="skill-rating-icon">🙂</span>
+                      <span class="skill-rating-icon">🤓</span>
+                      <span class="skill-rating-icon">💯</span>
+                    </span>
+                    <span class="skills-delete-placeholder" />
+                  </div>
+
+                  <span
+                    v-for="(skill, index) in profile.skills"
+                    :key="index"
+                    class="skill-control"
+                  >
+                    <SkillLevel
+                      :name="skill.name"
+                      :no-of-years="skill.noOfYears"
+                      :rating="skill.rating"
+                      :max="4"
+                      :is-editable="editMode"
+                      :index="index"
+                      @change="onSkillChange"
+                    />
+                    <span
+                      v-if="!editMode"
+                      class="skills-delete-placeholder"
+                    />
+                    <button
+                      v-if="editMode"
+                      class="skills-delete"
+                      :data-index="index"
+                      @click="deleteSkill"
+                    >
+                      X
+                    </button>
+                  </span>
+                </div>
+              </b-col>
+            </b-row>
           </div>
           <div class="skills-actions">
             <button
@@ -144,10 +169,16 @@
         </b-col>
       </b-row>
       <b-row class="row">
-        <b-col md="3">
+        <b-col
+          md="3"
+          sm="12"
+        >
           <div />
         </b-col>
-        <b-col md="9">
+        <b-col
+          md="9"
+          sm="12"
+        >
           <EditEventList
             v-if="profile.eventIds"
             label="Events"
@@ -319,7 +350,6 @@ export default {
 
 .skills-label {
   width: 7rem;
-  padding-left: 10px;
   text-align: left;
 }
 
@@ -331,20 +361,19 @@ export default {
 .skill-header {
   display: flex;
   width: 100%;
-  padding-left: 10px;
   text-align: left;
 }
 
 .skill-name {
   flex: 0 0 auto;
   width: 6rem;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 
 .skill-years {
   flex: 0 0 auto;
   width: 2rem;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 
 .skill-rating {
@@ -405,5 +434,9 @@ export default {
 
 .left-input {
   width: 100%;
+}
+
+.photo-col {
+  margin-bottom: 40px;
 }
 </style>

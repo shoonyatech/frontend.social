@@ -91,20 +91,19 @@ export default {
 .host {
   display: flex;
   width: 100%;
-  padding-left: 10px;
   text-align: left;
 }
 
 .skill-name {
   flex: 0 0 auto;
   width: 6rem;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 
 .skill-years {
   flex: 0 0 auto;
   width: 2rem;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 
 .editable-value {
