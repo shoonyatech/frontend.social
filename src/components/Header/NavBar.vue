@@ -44,10 +44,7 @@
         :key="'signin'"
         class="nav-item right"
       >
-        <div
-          v-if="signedInUser != null"
-          class="nav-item-link"
-        >
+        <div class="nav-item-link">
           <Avatar
             class="desktop"
             :user="signedInUser"
