@@ -9,8 +9,8 @@
         v-if="article.relatedSkills"
         :skills="article.relatedSkills"
       />
-      <div class="article-details">
-        <span>{{ article.details }}</span>
+      <div class="article-description">
+        <span>{{ article.description }}</span>
       </div>
       <div class="courtesy">
         Courtesy:
@@ -116,7 +116,7 @@ export default {
   font-size: 0.65rem;
 }
 
-.article-details {
+.article-description {
   font-size: 0.8rem;
 }
 
