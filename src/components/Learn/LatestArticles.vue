@@ -1,6 +1,6 @@
 <template>
   <div class="host">
-    <h1>Latest articles on Frontend</h1>
+    <h1>Latest talks & articles on Frontend</h1>
     <div class="articles">
       <div v-if="articles.length">
         <article-strip
