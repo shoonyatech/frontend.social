@@ -110,6 +110,12 @@
       @change="onSkillsChange"
     />
 
+    <key-multi-value
+      label="Tags"
+      :is-editable="true"
+      @change="onTagsChange"
+    />
+
     <div class="action-buttons">
       <button
         class="save-button"
@@ -179,6 +185,9 @@ export default {
     },
     onSkillsChange: function(skills) {
       this.article.relatedSkills = skills;
+    },
+    onTagsChange: function(tags) {
+      this.article.tags = tags;
     },
     close: function(val) {
       this.$emit("close", {});
