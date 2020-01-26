@@ -42,7 +42,7 @@ export default {
       },
       {
         text: "Technologies",
-        path: "/skills"
+        path: "/tech"
       }
     ],
     copyrightText:
