@@ -17,6 +17,14 @@
               :key="index"
               :event="event"
             />
+            <div class="center-content">
+              <button
+                class="mt-4"
+                @click="showAddEventDialog = !showAddEventDialog"
+              >
+                + Add Event
+              </button>
+            </div>
           </div>
           <AddEvent
             v-else

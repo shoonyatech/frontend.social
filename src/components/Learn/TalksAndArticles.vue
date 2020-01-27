@@ -19,6 +19,14 @@
       <div v-else>
         No articles found!
       </div>
+      <div class="center-content">
+        <button
+          class="mt-4"
+          @click="showAddArticleDialog = !showAddArticleDialog"
+        >
+          + Add more
+        </button>
+      </div>
     </div>
     <AddArticle
       v-else

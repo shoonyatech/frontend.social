@@ -259,4 +259,9 @@ input {
 .twitter:hover {
   background-color: rgba(85, 172, 238, 0.726);
 }
+
+.center-content {
+  width: 100%;
+  text-align: center;
+}
 </style>
