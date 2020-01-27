@@ -213,7 +213,7 @@ export default {
       this.$emit("close", {});
     },
     save() {
-      if (!this.article.title.length) {
+      if (!this.article.title) {
         alert("Please specify article title");
         return;
       } else if (!this.article.author) {
