@@ -2,22 +2,24 @@
   <div class="layout">
     <div class="article-strip">
       <b-row>
-        <b-col md="12">
+        <b-col sm="8">
           <a :href="article.url">
             <span>{{ article.title }}</span>
           </a>
           <span class="article-author"> by {{ article.author }}</span>
+        </b-col>
+        <b-col sm="4">
           <span class="article-type"> {{ article.type }}</span>
         </b-col>
       </b-row>
       <b-row>
-        <b-col md="8">
+        <b-col sm="8">
           <SkillTags
             v-if="article.relatedSkills"
             :skills="article.relatedSkills"
           />
         </b-col>
-        <b-col md="4">
+        <b-col sm="4">
           <div class="links icon-links">
             <icon-link
               v-if="article.medium === 'blog'"
@@ -38,7 +40,7 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col md="12">
+        <b-col sm="12">
           <div class="article-description">
             <span>{{ article.description }}</span>
           </div>
