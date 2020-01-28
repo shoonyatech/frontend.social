@@ -28,22 +28,17 @@
     </div>
     <div class="links icon-links">
       <icon-link
-        v-if="article.type === 'blog'"
+        v-if="article.medium === 'blog'"
         icon="/images/web.svg"
         :url="article.url"
       />
       <icon-link
-        v-if="article.type === 'talk'"
+        v-if="article.medium === 'video'"
         icon="/images/youtube.svg"
         :url="article.url"
       />
       <icon-link
-        v-if="article.type === 'video'"
-        icon="/images/youtube.svg"
-        :url="article.url"
-      />
-      <icon-link
-        v-if="article.type === 'podcast'"
+        v-if="article.medium === 'podcast'"
         icon="/images/podcast.svg"
         :url="article.url"
       />
