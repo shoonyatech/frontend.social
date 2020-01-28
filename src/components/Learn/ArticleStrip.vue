@@ -1,47 +1,62 @@
 <template>
   <div class="layout">
     <div class="article-strip">
-      <a :href="article.url">
-        <span>{{ article.title }}</span>
-      </a>
-      <span class="article-author"> by {{ article.author }}</span>
-      <SkillTags
-        v-if="article.relatedSkills"
-        :skills="article.relatedSkills"
-      />
-      <div class="article-description">
-        <span>{{ article.description }}</span>
-      </div>
-      <div class="courtesy">
-        Courtesy:
-        <a
-          :href="article.courtesyUrl"
-          target="_blank"
-        >{{
-          article.courtesy
-        }}</a>
-      </div>
-      <div class="tags">
-        Tags:
-        {{ article.tags.join(", ") }}
-      </div>
-    </div>
-    <div class="links icon-links">
-      <icon-link
-        v-if="article.medium === 'blog'"
-        icon="/images/web.svg"
-        :url="article.url"
-      />
-      <icon-link
-        v-if="article.medium === 'video'"
-        icon="/images/youtube.svg"
-        :url="article.url"
-      />
-      <icon-link
-        v-if="article.medium === 'podcast'"
-        icon="/images/podcast.svg"
-        :url="article.url"
-      />
+      <b-row>
+        <b-col md="12">
+          <a :href="article.url">
+            <span>{{ article.title }}</span>
+          </a>
+          <span class="article-author"> by {{ article.author }}</span>
+          <span class="article-type"> {{ article.type }}</span>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="8">
+          <SkillTags
+            v-if="article.relatedSkills"
+            :skills="article.relatedSkills"
+          />
+        </b-col>
+        <b-col md="4">
+          <div class="links icon-links">
+            <icon-link
+              v-if="article.medium === 'blog'"
+              icon="/images/web.svg"
+              :url="article.url"
+            />
+            <icon-link
+              v-if="article.medium === 'video'"
+              icon="/images/youtube.svg"
+              :url="article.url"
+            />
+            <icon-link
+              v-if="article.medium === 'podcast'"
+              icon="/images/podcast.svg"
+              :url="article.url"
+            />
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="12">
+          <div class="article-description">
+            <span>{{ article.description }}</span>
+          </div>
+          <div class="courtesy">
+            Courtesy:
+            <a
+              :href="article.courtesyUrl"
+              target="_blank"
+            >{{
+              article.courtesy
+            }}</a>
+          </div>
+          <div class="tags">
+            Tags:
+            {{ article.tags.join(", ") }}
+          </div>
+        </b-col>
+      </b-row>
     </div>
   </div>
 </template>
@@ -104,7 +119,8 @@ export default {
 }
 
 .icon-links {
-  margin-top: 10px;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .article-author {

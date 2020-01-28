@@ -29,7 +29,6 @@ export default {
   width: 35px;
   display: flex;
   background-color: #fff;
-  margin-right: 10px;
   border-radius: 50%;
   padding: 3px;
   cursor: pointer;
