@@ -115,7 +115,7 @@
             v-model="article.medium"
             class="radio-input"
             type="radio"
-            value="tutorial"
+            value="video"
             name="medium"
           >
           <span class="radio-label"> Video</span>
