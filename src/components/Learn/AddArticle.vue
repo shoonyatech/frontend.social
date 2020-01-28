@@ -76,6 +76,16 @@
           >
           <span class="radio-label"> Case Study</span>
         </span>
+        <span class="radio">
+          <input
+            v-model="article.type"
+            class="radio-input"
+            type="radio"
+            value="announcement"
+            name="type"
+          >
+          <span class="radio-label"> Announcement</span>
+        </span>
       </b-col>
     </b-row>
 
