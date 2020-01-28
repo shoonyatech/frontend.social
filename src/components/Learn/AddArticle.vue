@@ -1,6 +1,11 @@
 <template>
   <div>
     <KeyValue
+      label="URL"
+      :is-editable="true"
+      @change="onUrlChange"
+    />
+    <KeyValue
       label="Talk/Article Title"
       :is-editable="true"
       @change="onTitleChange"
@@ -16,11 +21,6 @@
       :is-editable="true"
       :multiline="true"
       @change="onDescriptionChange"
-    />
-    <KeyValue
-      label="URL"
-      :is-editable="true"
-      @change="onUrlChange"
     />
     <KeyValue
       label="Courtesy"
