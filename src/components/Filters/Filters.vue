@@ -254,7 +254,7 @@ export default {
     border: 2px solid #aada18;
   }
 }
-@media screen and (min-width: 760px) {
+@media screen and (min-width: 768px) {
   .skills-filter-wrapper {
     height: auto;
     overflow: auto;
