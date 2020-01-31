@@ -1,10 +1,10 @@
 <template>
   <div
-    class="filters d-block d-md-none"
+    class="filters"
     :class="{ closed: !showFilters }"
   >
     <div
-      class="expand-button"
+      class="expand-button  d-block d-md-none"
       @click="toggleFilterViewVisibilityInMobile"
     >
       {{ `${showFilters ? "Hide" : "Show"} Filters` }}
@@ -159,49 +159,25 @@ export default {
   text-align: center;
 }
 
-.filters {
-  background-color: white;
-  position: fixed;
-  bottom: 2.75rem;
-  left: 0;
-  width: 100%;
-  z-index: 100;
-
-  overflow-y: hidden;
-  max-height: 20rem;
-
-  transition-property: max-height;
-  transition-duration: 0.25s;
-  transition-timing-function: ease-out;
-
-  &.closed {
-    max-height: 1.5rem;
-  }
-}
-
-@media screen and (min-width: 360px) and (max-width: 759px) {
-  .skills-filter,
-  .filter-label {
+@media screen and (max-width: 768px) {
+  .filters {
+    background-color: white;
+    position: fixed;
+    bottom: 2.75rem;
+    left: 0;
     width: 100%;
-  }
-  .filter {
-    width: 50%;
-  }
-  .show-hide-button {
-    display: flex;
-    border: 2px solid;
-    height: 40px;
-    width: 200px;
-    justify-content: center;
-    margin: 0 auto;
-    border-radius: 20px;
-    border: 2px solid #aada18;
-  }
-}
-@media screen and (min-width: 760px) {
-  .skills-filter-wrapper {
-    height: auto;
-    overflow: auto;
+    z-index: 100;
+
+    overflow-y: hidden;
+    max-height: 20rem;
+
+    transition-property: max-height;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+
+    &.closed {
+      max-height: 1.5rem;
+    }
   }
 }
 </style>
