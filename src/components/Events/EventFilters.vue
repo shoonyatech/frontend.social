@@ -1,33 +1,35 @@
 <template>
-  <div class="filters">
-    <edit-city
-      :edit-mode="true"
-      :city="profile.city"
-      :country="profile.country"
-      @change="onCityChange"
-    />
+  <div
+    class="filters d-block d-md-none"
+    :class="{ closed: !showFilters }"
+  >
     <div
-      class="skills-filter-wrapper"
-      :class="{ active: showFilters }"
-    >
-      <div class="skills-filter">
-        <Facet
-          v-for="skill in skills"
-          :id="skill.id"
-          :key="skill.id"
-          :type="filterTypes.CHECKBOX"
-          :value="skill.name"
-          :label="skill.name"
-          :is-selected="skill.selected"
-          :on-click="handleSkillSelection"
-        />
-      </div>
-    </div>
-    <div
-      class="show-hide-button"
+      class="expand-button"
       @click="toggleFilterViewVisibilityInMobile"
     >
-      {{ `${showFilters ? "Hide" : "Show"} filters` }}
+      {{ `${showFilters ? "Hide" : "Show"} Filters` }}
+    </div>
+    <div class="filter-panel">
+      <edit-city
+        :edit-mode="true"
+        :city="profile.city"
+        :country="profile.country"
+        @change="onCityChange"
+      />
+      <div class="skills-filter-wrapper">
+        <div class="skills-filter">
+          <Facet
+            v-for="skill in skills"
+            :id="skill.id"
+            :key="skill.id"
+            :type="filterTypes.CHECKBOX"
+            :value="skill.name"
+            :label="skill.name"
+            :is-selected="skill.selected"
+            :on-click="handleSkillSelection"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -123,17 +125,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.skills-filter-wrapper {
-  height: 0;
-  overflow: hidden;
-  transform: scaleY(0);
-
-  &.active {
-    display: block;
-    height: auto;
-    transform: scaleY(1);
-    transition: transform 0.5s ease;
-  }
+.filter-panel {
+  padding: 20px;
 }
 
 .filter-search-box {
@@ -158,6 +151,34 @@ export default {
 .show-hide-button {
   display: none;
 }
+
+.expand-button {
+  height: 1.5rem;
+  background-color: #aada18;
+  color: white;
+  text-align: center;
+}
+
+.filters {
+  background-color: white;
+  position: fixed;
+  bottom: 2.75rem;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+
+  overflow-y: hidden;
+  max-height: 20rem;
+
+  transition-property: max-height;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-out;
+
+  &.closed {
+    max-height: 1.5rem;
+  }
+}
+
 @media screen and (min-width: 360px) and (max-width: 759px) {
   .skills-filter,
   .filter-label {
