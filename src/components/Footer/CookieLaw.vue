@@ -5,8 +5,8 @@
   >
     <b-col md="12">
       <div>
-        This websit uses cookies to ensure you get the best experience on our
-        website. Please read
+        We use cookies to ensure you get the best experience on our website.
+        Please read
         <a
           href="/privacy"
           class="static-links"
@@ -44,7 +44,7 @@ export default {
   methods: {
     decline() {
       alert(
-        "We use cookie only if you sign in. If you do not sign in into this website, we will not create cookie for you. But we cannot guarantee cookie usage by third party tools. Please read Privacy Policy to find out which third party tools use cookies. If you are not comfortable that we use cookies, then please do not proceed further to use this website as it is not possible to run functionalities of this website without using cookies."
+        "We use cookies only if you sign in. If you do not sign in into this website, we will not create cookies for you. But we cannot guarantee cookie usage by third party tools. Please read Privacy Policy to find out which third party tools use cookies. If you are not comfortable that we use cookies, then please do not proceed further to use this website as it is not possible to run functionalities of this website without using cookies."
       );
     },
     accept() {
