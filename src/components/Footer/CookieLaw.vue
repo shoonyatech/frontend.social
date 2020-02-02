@@ -13,15 +13,17 @@
           target="_blank"
         >Privacy Policy</a>
         for more details.
-        <button
-          class="error"
-          @click="decline()"
-        >
-          Opt out
-        </button>
-        <button @click="accept()">
-          Got it
-        </button>
+        <div class="buttons">
+          <button
+            class="error"
+            @click="decline()"
+          >
+            Opt out
+          </button>
+          <button @click="accept()">
+            Got it
+          </button>
+        </div>
       </div>
     </b-col>
   </b-row>
@@ -60,6 +62,11 @@ export default {
   padding: 20px;
   background-color: darkolivegreen;
   color: white;
+}
+
+.buttons {
+  padding-top: 10px;
+  text-align: right;
 }
 
 .error {
