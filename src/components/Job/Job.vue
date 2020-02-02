@@ -8,37 +8,36 @@
     </div>
     <div class="skills-required">
       <span
-        v-for="(skill) in requiredSkills"
+        v-for="skill in requiredSkills"
         :key="skill"
       >
-        <a :href="'/jobs?q='+skill">{{ `${skill} ` }}</a>
+        <a :href="'/jobs?q=' + skill">{{ `${skill} ` }}</a>
       </span>
-      <div class="btn-details">
+      <div class="btn-apply">
         <Button
-          label="Details"
+          label="Apply"
           type="primary"
         />
       </div>
     </div>
     <div
+      ref="description"
       class="job-description"
-      :class="{ fullHeight: showMore, lessHeight: !showMore }"
+      :class="{
+        expanded: isExpanded,
+        collapsed: isOverflow
+      }"
     >
       {{ jobDescription }}
     </div>
-    <div class="arrow-container">
-      <img
-        v-if="!showMore"
-        class="arrow"
-        :src="'/images/down-arrow.svg'"
-        @click="showMore = true"
-      >
-      <img
-        v-if="showMore"
-        class="arrow"
-        :src="'/images/up-arrow.svg'"
-        @click="showMore = false"
-      >
+    <div
+      v-if="showArrow"
+      class="arrow-container"
+    >
+      <Arrow
+        :is-expanded="isExpanded"
+        :on-click="toggleArrow"
+      />
     </div>
   </div>
 </template>
@@ -46,6 +45,7 @@
 <script>
 import Button from "../Buttons/Button";
 import jobService from "@/services/job.service";
+import Arrow from "../Arrow/Arrow";
 const getExperienceLevel = level => {
   switch (level) {
     case 0:
@@ -61,7 +61,8 @@ const getExperienceLevel = level => {
 export default {
   name: "Jobs",
   components: {
-    Button
+    Button,
+    Arrow
   },
   props: {
     role: {
@@ -86,8 +87,25 @@ export default {
       detailsLabel: "Details",
       requiredSkillsLabel: "Required Skills",
       experienceLevel: getExperienceLevel(this.expertise),
-      showMore: false
+      isExpanded: false,
+      isOverflow: false,
+      showArrow: false
     };
+  },
+  mounted() {
+    var element = this.$refs.description;
+    if (element) {
+      this.isOverflow =
+        element.offsetHeight < element.scrollHeight ||
+        element.offsetWidth < element.scrollWidth;
+      this.showArrow = this.isOverflow;
+    }
+  },
+  methods: {
+    toggleArrow() {
+      this.isExpanded = !this.isExpanded;
+      this.isOverflow = !this.isOverflow;
+    }
   }
 };
 </script>
@@ -97,6 +115,7 @@ export default {
   width: 90%;
   border-bottom: dotted 1px #aada20;
   padding: 10px;
+  position: relative;
 }
 .job .role-and-expertise {
   display: flex;
@@ -114,14 +133,17 @@ export default {
 .job-description {
   font-size: 0.8rem;
   text-align: start;
+  max-height: 70px;
+  overflow: hidden;
 }
-.btn-details {
+.btn-apply {
   width: 100px;
   height: 40px;
-  float: right;
+  bottom: 10px;
+  right: 0;
+  position: absolute;
 }
-.lessHeight {
-  min-height: 50px;
+.collapsed {
   -webkit-mask-image: -webkit-gradient(
     linear,
     left top,
@@ -131,17 +153,10 @@ export default {
   );
 }
 
-.fullHeight {
-  min-height: 50px;
-  height: auto;
+.expanded {
+  max-height: unset;
 }
 
-.arrow {
-  width: 15px;
-  display: flex;
-  cursor: pointer;
-  color: #aada20;
-}
 .arrow-container {
   display: flex;
   justify-content: center;
