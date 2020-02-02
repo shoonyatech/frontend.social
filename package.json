@@ -24,6 +24,7 @@
     "moment-timezone": "^0.5.27",
     "vue": "^2.6.10",
     "vue-authenticate": "^1.4.1",
+    "vue-cookies": "^1.6.1",
     "vue-country-region-select": "^2.0.11",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.0.3",

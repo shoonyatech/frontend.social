@@ -12,6 +12,7 @@ import router from "./router";
 import authOptions from "./config/authOptions";
 import VueMoment from "vue-moment";
 import moment from "moment-timezone";
+import VueCookies from "vue-cookies";
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
@@ -22,6 +23,7 @@ Vue.use(VueMoment, {
   moment
 });
 Vue.use(require("vue-country-region-select"));
+Vue.use(VueCookies);
 
 new Vue({
   router,
