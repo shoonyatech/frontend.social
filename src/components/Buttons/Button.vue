@@ -35,6 +35,7 @@ button {
   border: none;
   font-size: 19px;
   cursor: pointer;
+  border-radius: 10px;
 }
 button.primary {
   background-color: #aada18;
