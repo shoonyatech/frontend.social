@@ -196,10 +196,20 @@ button {
   color: white;
   padding: 0 20px;
   border: 0;
+
+  &.error,
+  &.delete {
+    background-color: rgb(212, 68, 68);
+  }
 }
 
 button:hover {
   background-color: #c5dd7d;
+
+  &.error,
+  &.delete {
+    background-color: rgba(212, 68, 68, 0.733);
+  }
 }
 
 .light-text {

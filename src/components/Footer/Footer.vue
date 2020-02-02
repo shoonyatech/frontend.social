@@ -63,11 +63,19 @@
         </div>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col md="12">
+        <CookieLaw />
+      </b-col>
+    </b-row>
   </footer>
 </template>
 
 <script>
+import CookieLaw from "@/components/Footer/CookieLaw";
+
 export default {
+  components: { CookieLaw },
   props: { copyrightText: { type: String, required: true } }
 };
 </script>
