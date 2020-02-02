@@ -186,7 +186,7 @@
         <b-col md="12">
           <div class="buttons">
             <button
-              v-if="!editMode"
+              v-if="!editMode && username == null"
               @click="edit"
             >
               Edit
@@ -228,13 +228,14 @@ export default {
       social: [],
       skills: [],
       events: [],
-      editMode: false
+      editMode: false,
+      username: null
     };
   },
   created() {
-    const username = this.$route.params.username;
+    this.username = this.$route.params.username;
 
-    if (username == null) {
+    if (this.username == null) {
       userService
         .getLoggedInUserProfile()
         .then(user => {
@@ -246,12 +247,12 @@ export default {
         });
     } else {
       userService
-        .getUserProfile(username)
+        .getUserProfile(this.username)
         .then(user => {
           this.profile = user;
         })
         .catch(e => {
-          alert("User " + username + " not found");
+          alert("User " + this.username + " not found");
         });
     }
   },
