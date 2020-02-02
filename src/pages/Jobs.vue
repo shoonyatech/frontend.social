@@ -1,16 +1,20 @@
 <template>
   <div class="jobs-container">
-    <div class="title">
-      <span>Frontend Jobs</span>
-      <button @click="showAddJobDialog = !showAddJobDialog">
-        + Add Job
-      </button>
-    </div>
     <div
       v-if="!showAddJobDialog"
       class="jobs-and-filters"
     >
       <div class="jobs">
+        <div class="title">
+          <div class="heading">
+            Frontend Jobs
+          </div>
+          <div class="btn-add-job">
+            <button @click="showAddJobDialog = !showAddJobDialog">
+              + Add Job
+            </button>
+          </div>
+        </div>
         <Job
           v-for="job in jobs"
           :id="job.id"
@@ -145,17 +149,19 @@ export default {
   max-width: 1280px;
   margin: 0 auto;
 }
-.title {
-  span {
-    font-size: 1.4rem;
-  }
-  display: flex;
-  padding: 5px 10px;
-  justify-content: space-around;
-  border-bottom: dotted 1px #aada20;
-}
+
 .jobs-and-filters {
   display: flex;
+  .title {
+    display: flex;
+    padding: 5px 10px;
+    width: 100%;
+    border-bottom: dotted 1px #aada20;
+    justify-content: space-between;
+    .heading {
+      font-size: 1.2rem;
+    }
+  }
   .jobs {
     width: 100%;
     display: flex;
