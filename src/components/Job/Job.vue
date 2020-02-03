@@ -2,7 +2,7 @@
   <div class="job">
     <div class="role-and-expertise">
       <a class="role">{{ role }}</a>
-      <div class="expertise">
+      <div class="expertise capsule">
         {{ experienceLevel }}
       </div>
     </div>

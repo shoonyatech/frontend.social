@@ -8,12 +8,12 @@
           target="_blank"
         >
           <span>{{ event.title }}</span>
-          <span class="event-type">
+          <span class="event-type capsule">
             {{ event.type === "c" ? "conference" : "meetup" }}</span>
         </a>
         <div v-else>
           <span>{{ event.title }}</span>
-          <span class="event-type">
+          <span class="event-type capsule">
             {{ event.type === "c" ? "conference" : "meetup" }}</span>
         </div>
       </b-col>
