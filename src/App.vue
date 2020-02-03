@@ -274,4 +274,11 @@ input {
   width: 100%;
   text-align: center;
 }
+
+.capsule {
+  background-color: #ebffae;
+  padding: 0 10px;
+  border-radius: 50px;
+  height: 22px;
+}
 </style>

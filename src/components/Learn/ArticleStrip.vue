@@ -9,7 +9,7 @@
           <span class="article-author"> by {{ article.author }}</span>
         </b-col>
         <b-col sm="4">
-          <span class="article-type"> {{ article.type }}</span>
+          <span class="article-type capsule"> {{ article.type }}</span>
         </b-col>
       </b-row>
       <b-row>
