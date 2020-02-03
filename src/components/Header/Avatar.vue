@@ -21,12 +21,11 @@
       </div>
     </div>
     <div v-else>
-      <button
-        class="signin"
+      <img
+        src="/images/avatar.svg"
+        class="profile-photo placeholder"
         @click="redirect('/signin')"
       >
-        Sign in
-      </button>
     </div>
   </div>
 </template>
@@ -76,6 +75,14 @@ export default {
   text-align: left;
   padding: 2px;
   border-radius: 999px;
+  cursor: pointer;
+
+  &.placeholder {
+    background-color: white;
+    border-width: 2px;
+    padding: 3px;
+    border-style: solid;
+  }
 }
 
 .menu {
