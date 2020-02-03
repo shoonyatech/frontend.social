@@ -49,6 +49,13 @@
             class="desktop"
             :user="signedInUser"
           />
+          <div
+            v-if="!signedInUser"
+            class="nav-item-link mobile"
+            @click="redirect('/signin')"
+          >
+            Sign in
+          </div>
         </div>
       </li>
     </ul>
