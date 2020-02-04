@@ -1,10 +1,16 @@
 <template>
-  <div class="sign-in">
-    <div>Sign in to see customized results for you</div>
-    <div class="join-box">
-      <SignInButtons />
-    </div>
-  </div>
+  <b-container>
+    <b-row>
+      <b-col md="12">
+        <div class="sign-in">
+          <div class="join-box">
+            <div>Sign in to see customized results for you</div>
+            <SignInButtons />
+          </div>
+        </div>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
