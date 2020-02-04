@@ -4,7 +4,10 @@
       <b-row>
         <b-col md="9">
           <h1>
-            <span>Frontend Conference and Meetups</span><button @click="showAddEventDialog = !showAddEventDialog">
+            <span>Frontend Conference and Meetups</span><button
+              v-if="!showAddEventDialog"
+              @click="showAddEventDialog = true"
+            >
               + Add Event
             </button>
           </h1>
