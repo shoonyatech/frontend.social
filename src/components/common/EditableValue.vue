@@ -33,7 +33,12 @@
   <span
     v-else
     class="readonly-value"
-  >{{ editedValue }}</span>
+  ><span
+    v-if="isUrl()"
+  ><a
+    :href="editedValue"
+    target="_blank"
+  >{{ editedValue }}</a></span><span v-else>{{ editedValue }}</span></span>
 </template>
 
 <script>
@@ -89,6 +94,16 @@ export default {
     },
     selectItem: function(item) {
       this.editedValue = item;
+    },
+    isUrl() {
+      if (this.editedValue.trim) {
+        const trimmedValue = this.editedValue.trim();
+        return (
+          trimmedValue.startsWith("http://") ||
+          trimmedValue.startsWith("https://")
+        );
+      }
+      return false;
     }
   }
 };
