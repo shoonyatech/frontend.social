@@ -12,16 +12,16 @@
                 class="city-card"
               />
             </b-col>
+          </b-row>
+        </b-col>
+        <b-col md="8">
+          <b-row>
             <b-col md="12">
               <city-events
                 :upcoming-events="upcomingEvents"
                 :past-events="pastEvents"
               />
             </b-col>
-          </b-row>
-        </b-col>
-        <b-col md="8">
-          <b-row>
             <b-col md="12">
               <city-users
                 :city="selectedCity == null ? '' : selectedCity.name"
