@@ -75,7 +75,4 @@ export default {
 .value {
   flex: 1 1 auto;
 }
-
-.full-width {
-}
 </style>
