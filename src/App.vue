@@ -281,4 +281,8 @@ input {
   border-radius: 50px;
   height: 22px;
 }
+
+.container {
+  max-width: 1280px;
+}
 </style>
