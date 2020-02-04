@@ -5,7 +5,7 @@
         :value="name"
         :is-editable="isEditable"
         :placeholder="'React'"
-        @click="onNameChange"
+        @change="onNameChange"
       />
     </span>
     <span class="skill-years">
@@ -13,7 +13,7 @@
         :value="noOfYears"
         :is-editable="isEditable"
         :placeholder="'2'"
-        @click="onYearChange"
+        @change="onYearChange"
       />
     </span>
     <span class="skill-rating">
