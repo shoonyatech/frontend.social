@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="host">
     <div>Upcoming events</div>
     <div class="city-events">
-      <EventStripCompact
+      <EventStrip
         v-for="(event, index) in upcomingEvents"
         :key="index"
         :event="event"
@@ -11,7 +11,7 @@
     </div>
     <div>Past events</div>
     <div class="city-events">
-      <EventStripCompact
+      <EventStrip
         v-for="(event, index) in pastEvents"
         :key="index"
         :event="event"
@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import EventStripCompact from "@/components/Events/EventStripCompact";
+import EventStrip from "@/components/Events/EventStrip";
 
 export default {
-  components: { EventStripCompact },
+  components: { EventStrip },
 
   props: {
     upcomingEvents: { type: Array, required: true },
@@ -37,6 +37,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.host {
+  border-bottom: dotted 1px #aada20;
+}
 .city-event {
   flex: 0 1 auto;
   font-size: 0.8rem;
