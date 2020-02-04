@@ -71,7 +71,7 @@ export default new Router({
     {
       path: "/me",
       name: "me",
-      component: () => import("./pages/Profile.vue")
+      component: () => import("./pages/Profile.vue?me")
     },
     {
       path: "/user/:username",
