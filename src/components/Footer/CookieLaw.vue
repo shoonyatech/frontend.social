@@ -34,12 +34,14 @@ export default {
   props: {},
   data() {
     return {
-      userAcceptedCookiesYet: false
+      userAcceptedCookiesYet: true
     };
   },
   created() {
-    this.userAcceptedCookiesYet =
-      $cookies.get("cookies-accepted") === "true" || false;
+    setTimeout(() => {
+      this.userAcceptedCookiesYet =
+        $cookies.get("cookies-accepted") === "true" || false;
+    }, 120000);
   },
   methods: {
     decline() {
