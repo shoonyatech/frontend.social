@@ -38,21 +38,19 @@ export default {
           this_.isSignedIn = this_.$auth.isAuthenticated();
 
           if (this_.isSignedIn) {
+            let user;
             if (provider === "facebook") {
-              const user = authResponse.data;
+              user = authResponse.data;
               localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
-              this_.$router.push("/");
             } else if (provider === "github") {
-              const user = authResponse.data;
+              user = authResponse.data;
               localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
-              this_.$router.push("/");
             } else if (provider === "twitter") {
-              const user = authResponse.data.profile;
+              user = authResponse.data.profile;
               localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
-              this_.$router.push("/");
             } else if (provider === "bitbucket") {
               this_.$http
                 .get("https://api.bitbucket.org/2.0/user")
@@ -61,6 +59,12 @@ export default {
                 });
             } else if (provider === "linkedin") {
               this_.response = authResponse;
+            }
+
+            if (user.city == null) {
+              this_.$router.push("/me");
+            } else {
+              this_.$router.push("/");
             }
           }
         })
