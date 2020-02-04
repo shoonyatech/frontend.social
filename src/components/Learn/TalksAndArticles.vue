@@ -1,7 +1,10 @@
 <template>
   <div class="host">
     <h1>
-      <span>Latest talks & articles on Frontend</span><button @click="showAddArticleDialog = !showAddArticleDialog">
+      <span>Latest talks & articles on Frontend</span><button
+        v-if="!showAddArticleDialog"
+        @click="showDialog()"
+      >
         + Add
       </button>
     </h1>
@@ -22,7 +25,7 @@
       <div class="center-content">
         <button
           class="mt-4"
-          @click="showAddArticleDialog = !showAddArticleDialog"
+          @click="showDialog()"
         >
           + Add more
         </button>
@@ -57,6 +60,11 @@ export default {
       showAddArticleDialog: false
     };
   },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    }
+  },
   created() {
     learnService.getLatestArticles(this.skill).then(articles => {
       this.articles = articles;
@@ -68,6 +76,13 @@ export default {
       learnService.getLatestArticles(this.skill).then(articles => {
         this.articles = articles;
       });
+    },
+    showDialog() {
+      if (this.signedInUser == null) {
+        this.$router.push("/signin");
+      } else {
+        this.showAddArticleDialog = true;
+      }
     }
   }
 };

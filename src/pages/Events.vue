@@ -6,7 +6,7 @@
           <h1>
             <span>Frontend Conference and Meetups</span><button
               v-if="!showAddEventDialog"
-              @click="showAddEventDialog = true"
+              @click="showDialog()"
             >
               + Add Event
             </button>
@@ -23,7 +23,7 @@
             <div class="center-content">
               <button
                 class="mt-4"
-                @click="showAddEventDialog = !showAddEventDialog"
+                @click="showDialog()"
               >
                 + Add Event
               </button>
@@ -62,6 +62,11 @@ export default {
       showAddEventDialog: false
     };
   },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    }
+  },
   created() {
     eventService.searchEventsBy().then(events => {
       this.events = events;
@@ -78,6 +83,13 @@ export default {
       eventService.searchEventsBy().then(events => {
         this.events = events;
       });
+    },
+    showDialog() {
+      if (this.signedInUser == null) {
+        this.$router.push("/signin");
+      } else {
+        this.showAddEventDialog = true;
+      }
     }
   }
 };
