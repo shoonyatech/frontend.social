@@ -103,13 +103,13 @@
           <div class="skills">
             <b-row>
               <b-col
-                md="3"
+                md="5"
                 sm="12"
               >
                 <label class="skills-label">Skills</label>
               </b-col>
               <b-col
-                md="9"
+                md="7"
                 sm="12"
               >
                 <div class="skill-list">
