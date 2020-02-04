@@ -1,6 +1,9 @@
 <template>
   <div class="skill-tags">
-    <div class="skill">
+    <div
+      class="skill"
+      :class="{ large: size === 'large' }"
+    >
       <span
         v-for="(skill, index) in skills"
         :key="index"
@@ -18,6 +21,9 @@ export default {
   props: {
     skills: {
       type: Array
+    },
+    size: {
+      type: String
     }
   }
 };
@@ -31,5 +37,9 @@ export default {
 .skill {
   font-size: 0.65rem;
   color: #2c3e50;
+
+  &.large {
+    font-size: 1rem;
+  }
 }
 </style>
