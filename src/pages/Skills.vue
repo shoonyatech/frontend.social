@@ -3,10 +3,13 @@
     <b-container>
       <b-row>
         <b-col md="12">
-          <span>Tech stack</span>
+          <h1>
+            <span>Technologies</span>
+          </h1>
           <SkillTags
             :skills="allSkills"
             class="skill-tags"
+            size="large"
           />
         </b-col>
       </b-row>
