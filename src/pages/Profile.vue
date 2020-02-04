@@ -175,7 +175,7 @@
         >
           <EditEventList
             v-if="profile.eventIds"
-            label="Events"
+            label="Events attended"
             :event-ids="profile.eventIds"
             :is-editable="editMode"
             @change="onEventChange"
