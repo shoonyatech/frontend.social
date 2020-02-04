@@ -5,7 +5,10 @@
       <b-row>
         <b-col md="4">
           <b-row>
-            <b-col md="12">
+            <b-col
+              md="12"
+              class="city-basic-info"
+            >
               <city-basic-info
                 v-if="selectedCity"
                 :city="selectedCity"
@@ -111,5 +114,9 @@ export default {
 ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   color: #aada18;
+}
+
+.city-basic-info {
+  text-align: center;
 }
 </style>
