@@ -54,6 +54,7 @@ export default {
   border: 2px solid #aada20;
   margin: 0 auto;
   padding-bottom: 5px;
+  text-align: center;
 }
 
 .join-box .msg {

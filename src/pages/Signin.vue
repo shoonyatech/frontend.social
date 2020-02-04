@@ -22,5 +22,6 @@ export default {
 <style scoped lang="scss">
 .join-box {
   width: 100%;
+  text-align: center;
 }
 </style>
