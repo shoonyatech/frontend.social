@@ -85,7 +85,9 @@ export default {
     },
     filteredList() {
       if (this.autoSelect && this.editedValue) {
-        const lowercaseValue = this.editedValue.toLowerCase();
+        const lowercaseValue = this.editedValue.toLowerCase
+          ? this.editedValue.toLowerCase()
+          : this.editedValue;
         return this.autoSelect.filter(
           a => a.toLowerCase().indexOf(this.editedValue) > -1
         );

@@ -144,7 +144,10 @@
                       :data-index="index"
                       @click="deleteSkill"
                     >
-                      X
+                      <img
+                        :src="`/images/delete.svg`"
+                        class="icon-button"
+                      >
                     </button>
                   </span>
                 </div>
@@ -395,9 +398,9 @@ export default {
 
 .skills-delete {
   flex: 0 0 auto;
-  margin: 2px 0 0 10px;
-  height: 1.5rem;
-  background-color: rgb(212, 68, 68);
+  margin-left: 10px;
+  padding: 0;
+  background-color: transparent;
 }
 
 .skills-delete-placeholder {
@@ -405,7 +408,7 @@ export default {
   display: inline-block;
   margin: 2px 0 0 10px;
   height: 1.5rem;
-  width: 51px;
+  width: 41px;
 }
 
 .skills {
