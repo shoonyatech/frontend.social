@@ -141,7 +141,7 @@ export default {
 .job-description {
   font-size: 0.8rem;
   text-align: start;
-  max-height: 70px;
+  max-height: 100px;
   overflow: hidden;
 }
 .btn-apply {
