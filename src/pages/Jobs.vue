@@ -23,6 +23,7 @@
           :job-description="job.description"
           :expertise="job.level"
           :required-skills="job.skills"
+          :link="job.link"
         />
       </div>
       <div class="filters-wrapper">
