@@ -1,25 +1,26 @@
 <template>
   <div class="job">
     <div class="role-and-expertise">
-      <a class="role">{{ role }}</a>
+      <a :href="link">{{ role }}</a>
       <div class="expertise capsule">
         {{ experienceLevel }}
       </div>
     </div>
     <div class="skills-required">
-      <span
-        v-for="skill in requiredSkills"
-        :key="skill"
-      >
-        <a :href="'/jobs?q=' + skill">{{ `${skill} ` }}</a>
-      </span>
-      <div class="btn-apply">
-        <Button
-          label="Apply"
-          type="primary"
-        />
-      </div>
+      <SkillTags
+        v-if="requiredSkills"
+        :skills="requiredSkills"
+      />
     </div>
+    <a
+      class="btn-apply"
+      :href="link"
+    >
+      <Button
+        label="Apply"
+        type="primary"
+      />
+    </a>
     <div
       ref="description"
       class="job-description"
@@ -46,6 +47,8 @@
 import Button from "../Buttons/Button";
 import jobService from "@/services/job.service";
 import Arrow from "../Arrow/Arrow";
+import SkillTags from "@/components/Skills/SkillTags";
+
 const getExperienceLevel = level => {
   switch (level) {
     case 0:
@@ -62,7 +65,8 @@ export default {
   name: "Jobs",
   components: {
     Button,
-    Arrow
+    Arrow,
+    SkillTags
   },
   props: {
     role: {
@@ -80,6 +84,10 @@ export default {
     requiredSkills: {
       type: Array,
       required: true
+    },
+    link: {
+      type: String,
+      default: "#"
     }
   },
   data() {
@@ -142,6 +150,7 @@ export default {
   bottom: 10px;
   right: 0;
   position: absolute;
+  z-index: 8;
 }
 .collapsed {
   -webkit-mask-image: -webkit-gradient(
