@@ -111,12 +111,8 @@ body {
 }
 
 .icon-button {
-  background-color: #aada20;
-  border: 3px solid white;
-  height: 56px;
-  width: 66px;
-  border-radius: 50%;
-  padding: 10px;
+  height: 30px;
+  padding: 5px;
 }
 
 .page {
