@@ -406,9 +406,8 @@ export default {
 .skills-delete-placeholder {
   flex: 0 0 auto;
   display: inline-block;
-  margin: 2px 0 0 10px;
-  height: 1.5rem;
-  width: 41px;
+  margin-left: 10px;
+  width: 30px;
 }
 
 .skills {
