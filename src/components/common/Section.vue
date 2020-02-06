@@ -8,7 +8,7 @@
         :src="`/images/edit.svg`"
         class="icon-button edit"
         title="Edit"
-        @click="editMode = true"
+        @click="edit"
       >
     </span>
     <div class="content">
@@ -45,6 +45,18 @@ export default {
     isEditable: {
       type: Boolean,
       default: false
+    },
+    onEdit: {
+      type: Function,
+      default: null
+    },
+    onSave: {
+      type: Function,
+      default: null
+    },
+    onCancel: {
+      type: Function,
+      default: null
     }
   },
   data() {
@@ -53,11 +65,23 @@ export default {
     };
   },
   methods: {
+    edit: function(event) {
+      this.editMode = true;
+      if (this.onEdit) {
+        this.onEdit();
+      }
+    },
     save: function(event) {
       this.editMode = false;
+      if (this.onSave) {
+        this.onSave();
+      }
     },
     cancel: function(event) {
       this.editMode = false;
+      if (this.onCancel) {
+        this.onCancel();
+      }
     }
   }
 };

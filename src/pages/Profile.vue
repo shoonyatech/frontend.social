@@ -14,9 +14,12 @@
           <Section
             title="About me"
             class="about-me"
+            :on-edit="editAboutMe"
+            :on-save="saveAboutMe"
+            :on-cancel="cancelAboutMe"
           >
             <input
-              v-if="editMode"
+              v-if="editModeAboutMe"
               v-model="profile.name"
               class="left-input"
             >
@@ -28,7 +31,7 @@
             </div>
             <div>
               <input
-                v-if="editMode"
+                v-if="editModeAboutMe"
                 v-model="profile.username"
                 class="left-input"
               >
@@ -40,7 +43,7 @@
               </div>
             </div>
             <div>
-              <div v-if="editMode">
+              <div v-if="editModeAboutMe">
                 <span class="radio">
                   <input
                     v-model="profile.category"
@@ -71,7 +74,7 @@
               </div>
             </div>
             <edit-city
-              :edit-mode="editMode"
+              :edit-mode="editModeAboutMe"
               :city="profile.city"
               :country="profile.country"
               @change="onCityChange"
@@ -85,19 +88,25 @@
           <Section
             title="Portfolio and Social links"
             class="portfolio"
+            :on-edit="editSocials"
+            :on-save="saveSocials"
+            :on-cancel="cancelSocials"
           >
             <KeyValue
               v-for="item in profile.social"
               :key="item.label"
               :label="item.label"
               :value="item.value"
-              :is-editable="editMode"
+              :is-editable="editModeSocials"
               @change="onSocialChange"
             />
           </Section>
           <Section
             title="My skills"
             class="my-skills"
+            :on-edit="editSkills"
+            :on-save="saveSkills"
+            :on-cancel="cancelSkills"
           >
             <div class="skill-list">
               <div class="skill-header">
@@ -117,16 +126,16 @@
                   :no-of-years="skill.noOfYears"
                   :rating="skill.rating"
                   :max="4"
-                  :is-editable="editMode"
+                  :is-editable="editModeSkills"
                   :index="index"
                   @change="onSkillChange"
                 />
                 <span
-                  v-if="!editMode"
+                  v-if="!editModeSkills"
                   class="skills-delete-placeholder"
                 />
                 <div
-                  v-if="editMode"
+                  v-if="editModeSkills"
                   class="skills-delete"
                   :data-index="index"
                   @click="deleteSkill"
@@ -140,7 +149,7 @@
             </div>
             <div class="skills-actions">
               <button
-                v-if="editMode"
+                v-if="editModeSkills"
                 class="skills-add"
                 @click="addSkill"
               >
@@ -151,43 +160,18 @@
           <Section
             title="Events attended"
             class="events-attended"
+            :on-edit="editEvents"
+            :on-save="saveEvents"
+            :on-cancel="cancelEvents"
           >
             <EditEventList
               v-if="profile.eventIds"
               label="Events attended"
               :event-ids="profile.eventIds"
-              :is-editable="editMode"
+              :is-editable="editModeEvents"
               @change="onEventChange"
             />
           </Section>
-        </b-col>
-      </b-row>
-      <b-row class="row">
-        <b-col md="12">
-          <div class="buttons">
-            <div
-              v-if="!editMode && username == null"
-              @click="edit"
-            >
-              <img
-                :src="`/images/edit.svg`"
-                class="icon-button"
-              >
-            </div>
-            <button
-              v-if="editMode"
-              class="save-button"
-              @click="save"
-            >
-              Save
-            </button>
-            <button
-              v-if="editMode"
-              @click="cancel"
-            >
-              Cancel
-            </button>
-          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -212,7 +196,10 @@ export default {
       social: [],
       skills: [],
       events: [],
-      editMode: false,
+      editModeAboutMe: false,
+      editModeSocials: false,
+      editModeSkills: false,
+      editModeEvents: false,
       username: null
     };
   },
@@ -270,8 +257,54 @@ export default {
       this.profile.city = city.name;
       this.profile.country = city.country;
     },
-    edit: function(event) {
-      this.editMode = true;
+    editAboutMe: function(event) {
+      this.editModeAboutMe = true;
+    },
+    saveAboutMe: function(event) {
+      this.editModeAboutMe = false;
+      try {
+        userService.updateUserProfile(this.profile);
+      } catch (e) {
+        alert(e.message);
+      }
+    },
+    cancelAboutMe: function(event) {
+      userService
+        .getLoggedInUserProfile()
+        .then(user => {
+          this.profile = user;
+        })
+        .catch(e => {
+          userService.signout();
+          this.$router.push("/");
+        });
+      this.editModeAboutMe = false;
+    },
+    editSocials: function(event) {
+      this.editModeSocials = true;
+    },
+    saveSocials: function(event) {
+      this.editModeSocials = false;
+      try {
+        userService.updateUserProfile(this.profile);
+      } catch (e) {
+        alert(e.message);
+      }
+    },
+    cancelSocials: function(event) {
+      userService
+        .getLoggedInUserProfile()
+        .then(user => {
+          this.profile = user;
+        })
+        .catch(e => {
+          userService.signout();
+          this.$router.push("/");
+        });
+      this.editModeSocials = false;
+    },
+    editSkills: function(event) {
+      this.editModeSkills = true;
       if (!this.profile.skills.length) {
         this.profile.skills.push({
           name: "",
@@ -280,8 +313,8 @@ export default {
         });
       }
     },
-    save: function(event) {
-      this.editMode = false;
+    saveSkills: function(event) {
+      this.editModeSkills = false;
       if (
         this.profile.skills.length === 1 &&
         !this.profile.skills[0].name.length
@@ -295,7 +328,7 @@ export default {
         alert(e.message);
       }
     },
-    cancel: function(event) {
+    cancelSkills: function(event) {
       userService
         .getLoggedInUserProfile()
         .then(user => {
@@ -305,7 +338,30 @@ export default {
           userService.signout();
           this.$router.push("/");
         });
-      this.editMode = false;
+      this.editModeSkills = false;
+    },
+    editEvents: function(event) {
+      this.editModeEvents = true;
+    },
+    saveEvents: function(event) {
+      this.editModeEvents = false;
+      try {
+        userService.updateUserProfile(this.profile);
+      } catch (e) {
+        alert(e.message);
+      }
+    },
+    cancelEvents: function(event) {
+      userService
+        .getLoggedInUserProfile()
+        .then(user => {
+          this.profile = user;
+        })
+        .catch(e => {
+          userService.signout();
+          this.$router.push("/");
+        });
+      this.editModeEvents = false;
     }
   }
 };
