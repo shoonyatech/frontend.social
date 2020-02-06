@@ -138,7 +138,7 @@
                       v-if="!editMode"
                       class="skills-delete-placeholder"
                     />
-                    <button
+                    <div
                       v-if="editMode"
                       class="skills-delete"
                       :data-index="index"
@@ -148,7 +148,7 @@
                         :src="`/images/delete.svg`"
                         class="icon-button"
                       >
-                    </button>
+                    </div>
                   </span>
                 </div>
               </b-col>
@@ -188,12 +188,15 @@
       <b-row class="row">
         <b-col md="12">
           <div class="buttons">
-            <button
+            <div
               v-if="!editMode && username == null"
               @click="edit"
             >
-              Edit
-            </button>
+              <img
+                :src="`/images/edit.svg`"
+                class="icon-button"
+              >
+            </div>
             <button
               v-if="editMode"
               class="save-button"
