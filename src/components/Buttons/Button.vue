@@ -21,7 +21,7 @@ export default {
     },
     type: {
       type: String,
-      default: "primary"
+      default: ""
     }
   }
 };
@@ -29,6 +29,9 @@ export default {
 
 <style scoped lang="scss">
 button {
+  &:focus {
+    outline: none;
+  }
   padding: 5px;
   width: 100%;
   height: 100%;
