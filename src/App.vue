@@ -113,6 +113,13 @@ body {
 .icon-button {
   height: 30px;
   padding: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ebffae;
+    border-radius: 9px;
+    border-width: solid transparent 1px;
+  }
 }
 
 .page {
@@ -193,8 +200,7 @@ button {
   padding: 0 20px;
   border: 0;
 
-  &.error,
-  &.delete {
+  &.error {
     background-color: rgb(212, 68, 68);
   }
 }
@@ -202,8 +208,7 @@ button {
 button:hover {
   background-color: #c5dd7d;
 
-  &.error,
-  &.delete {
+  &.error {
     background-color: rgba(212, 68, 68, 0.733);
   }
 }
