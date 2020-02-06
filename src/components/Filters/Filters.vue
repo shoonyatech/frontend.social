@@ -6,6 +6,14 @@
         @input="handleInputChange"
       >
     </div>
+    <div class="city-filter">
+      <EditCity
+        :edit-mode="true"
+        :city="city"
+        :country="country"
+        @change="onCityChange"
+      />
+    </div>
     <div
       class="skills-filter-wrapper"
       :class="{ active:showFilters}"
@@ -69,7 +77,7 @@
 <script>
 import Facet from "../Filter/Filter";
 import { filtersSet } from "./FiltersConfig";
-
+import EditCity from "../City/EditCity";
 const getSelectedFilters = (filters = []) => {
   let selectedSkills = [];
   filters.forEach(item => {
@@ -92,7 +100,8 @@ const resetFilters = (queryString = "") => {
 export default {
   name: "Filters",
   components: {
-    Facet
+    Facet,
+    EditCity
   },
   props: {
     onSearchInputChange: {
@@ -126,7 +135,9 @@ export default {
       },
       expertiseLevel: [beginner, intermediate, expert],
       showFilters: true,
-      selectedLevel
+      selectedLevel,
+      city: null,
+      country: null
     };
   },
   mounted() {
@@ -183,7 +194,19 @@ export default {
       if (selectedlevel.query) {
         queryString += selectedlevel.query;
       }
+      if (this.city) {
+        queryString += `&city=${this.city}`;
+      }
+      if (this.country) {
+        queryString += `&country=${this.country}`;
+      }
       return queryString;
+    },
+    onCityChange: function(city) {
+      this.city = city.name;
+      this.country = city.country;
+      const searchQuery = this.getAppliedFacetsQuery();
+      this.onSearchParamsChange(searchQuery);
     }
   }
 };
@@ -203,6 +226,9 @@ export default {
   }
 }
 
+.city-filter {
+  margin: 5px;
+}
 .filter-search-box {
   margin: 5px;
   border: 2px solid #aada18;
