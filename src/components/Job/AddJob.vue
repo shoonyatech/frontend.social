@@ -67,6 +67,19 @@
             required
           >
         </div>
+        <div class="city form-field">
+          <div class="form-label">
+            Location
+          </div>
+          <div class="city-selection">
+            <EditCity
+              :edit-mode="true"
+              :city="city"
+              :country="country"
+              @change="onCityChange"
+            />
+          </div>
+        </div>
         <div class="job-type form-field">
           <div class="form-label">
             Job Type
@@ -166,11 +179,13 @@
 import jobService from "@/services/job.service";
 import Checkbox from "@/components/Checkbox/Checkbox";
 import RadioButton from "@/components/RadioButton/RadioButton";
+import EditCity from "@/components/City/EditCity";
 export default {
   name: "AddJob",
   components: {
     Checkbox,
-    RadioButton
+    RadioButton,
+    EditCity
   },
   data() {
     return {
@@ -190,12 +205,18 @@ export default {
         angular: false,
         vue: false,
         webComponents: false
-      }
+      },
+      city: null,
+      country: null
     };
   },
   methods: {
     close: function(val) {
       this.$emit("close", {});
+    },
+    onCityChange(city) {
+      this.city = city.name;
+      this.country = city.country;
     },
     processForm(event) {
       const payload = {
@@ -209,7 +230,9 @@ export default {
         isContract: this.isContract,
         level: this.level,
         tags: this.getTags(),
-        link: this.link
+        link: this.link,
+        city: this.city,
+        country: this.country
       };
 
       jobService.addJob(payload);
@@ -247,14 +270,15 @@ export default {
     .form-field {
       display: flex;
       margin-bottom: 10px;
+      .city-selection {
+        flex: 1;
+      }
+      textarea,
       input[type="text"] {
         flex: 1;
         border: 3px solid #aada18;
       }
-      textarea {
-        flex: 1;
-        border: 3px solid #aada18;
-      }
+
       .multiple-selection {
         width: 100%;
         display: flex;
