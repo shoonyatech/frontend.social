@@ -16,10 +16,7 @@
       class="btn-apply"
       :href="link"
     >
-      <Button
-        label="Apply"
-        type="primary"
-      />
+      <Button label="Apply" />
     </a>
     <div
       ref="description"
@@ -145,12 +142,10 @@ export default {
   overflow: hidden;
 }
 .btn-apply {
-  width: 100px;
-  height: 40px;
-  bottom: 10px;
   right: 0;
   position: absolute;
   z-index: 8;
+  bottom: 10px;
 }
 .collapsed {
   -webkit-mask-image: -webkit-gradient(

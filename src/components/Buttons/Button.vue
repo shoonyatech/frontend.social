@@ -32,16 +32,14 @@ button {
   &:focus {
     outline: none;
   }
-  padding: 5px;
-  width: 100%;
-  height: 100%;
-  border: none;
-  font-size: 19px;
-  cursor: pointer;
-  border-radius: 10px;
-}
-button.primary {
-  background-color: #aada18;
-  color: white;
+  &.primary {
+    padding: 5px;
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 19px;
+    cursor: pointer;
+    border-radius: 10px;
+  }
 }
 </style>
