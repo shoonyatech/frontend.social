@@ -5,23 +5,26 @@
   >
     <b-col md="12">
       <div>
-        We use cookies to ensure you get the best experience on our website.
-        Please read
-        <a
-          href="/privacy"
-          class="static-links"
-          target="_blank"
-        >Privacy Policy</a>
-        for more details.
+        <div>
+          We use cookies and other tracking technologies to improve the browsing
+          experience on our website, to analyze our traffic and to provide
+          social media functionalities.
+        </div>
+        <div>
+          To find out more or to opt-out, please read
+          <a
+            href="/privacy"
+            class="static-links"
+            target="_blank"
+          >Privacy Policy</a>.
+        </div>
+        <div>
+          By choosing I Accept you consent to our use of cookies and other
+          tracking technologies.
+        </div>
         <div class="buttons">
-          <button
-            class="error"
-            @click="decline()"
-          >
-            Opt out
-          </button>
           <button @click="accept()">
-            Got it
+            I Accept
           </button>
         </div>
       </div>
