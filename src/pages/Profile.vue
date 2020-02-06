@@ -478,4 +478,8 @@ export default {
 .events-attended {
   margin-top: 20px;
 }
+
+.events-attended {
+  margin-bottom: 20px;
+}
 </style>
