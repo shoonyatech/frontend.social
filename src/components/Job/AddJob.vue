@@ -1,9 +1,10 @@
 <template>
   <!-- add jobs container -->
   <div class="add-job-wrapper">
-    <div class="add-job-title">
-      Add Job
-    </div>
+    <h1>
+      <span>Frontend Jobs</span>
+    </h1>
+
     <div class="form-container">
       <form
         id="addJobForm"
@@ -152,10 +153,7 @@
           >
             Save
           </button>
-          <button
-            class="btn-cancel"
-            @click="close"
-          >
+          <button @click="close">
             Cancel
           </button>
         </div>
@@ -237,10 +235,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.add-job-title {
-  text-align: center;
-  font-weight: bold;
-}
 .form-container {
   display: flex;
   justify-content: center;
@@ -288,17 +282,8 @@ export default {
     }
     .btn-add-job,
     .btn-cancel {
-      border: 2px solid #aada18;
-      background-color: #aada18;
-      width: 150px;
-      border-radius: 10px;
-      padding: 5px;
       margin-right: 10px;
-      button {
-        border: none;
-        background-color: transparent;
-        appearance: none;
-      }
+      min-width: 100px;
     }
     .action-links {
       justify-content: flex-end;
