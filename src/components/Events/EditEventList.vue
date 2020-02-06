@@ -27,7 +27,10 @@
               :data-index="index"
               @click="deleteItem(event)"
             >
-              X
+              <img
+                :src="`/images/delete.svg`"
+                class="icon-button"
+              >
             </button>
           </div>
           <div v-if="isEditable">
@@ -153,9 +156,7 @@ export default {
 
 .delete {
   flex: 1 1 auto;
-  margin: 2px 0 0 10px;
-  height: 1.5rem;
-  background-color: rgb(212, 68, 68);
+  margin-left: 10px;
 }
 
 .select-event {
