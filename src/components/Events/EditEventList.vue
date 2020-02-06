@@ -1,65 +1,52 @@
 <template>
   <div class="host">
-    <b-row class="full-width">
-      <b-col
-        md="3"
-        sm="12"
+    <div class="value-list">
+      <div
+        v-for="(event, index) in events"
+        :key="index"
+        class="events"
       >
-        <span class="label">{{ label }}</span>
-      </b-col>
-      <b-col
-        md="9"
-        sm="12"
-      >
-        <div class="value-list">
+        <EventStrip
+          :event="event"
+          class="event-strip-selected"
+        />
+        <div
+          v-if="isEditable"
+          class="delete"
+          :data-index="index"
+          @click="deleteItem(event)"
+        >
+          <img
+            :src="`/images/delete.svg`"
+            class="icon-button"
+          >
+        </div>
+      </div>
+      <div v-if="isEditable">
+        <input
+          v-if="isEditable"
+          v-model="searchText"
+          placeholder="Search conference or meetup name"
+          class="search-box"
+          @input="onSearchTextChange"
+        >
+        <span
+          v-for="(event, index) in options"
+          :key="index"
+          class="value"
+        >
           <div
-            v-for="(event, index) in events"
-            :key="index"
-            class="events"
+            class="select-event"
+            @click="add(event)"
           >
             <EventStrip
               :event="event"
-              class="event-strip-selected"
+              :is-read-only="true"
             />
-            <div
-              v-if="isEditable"
-              class="delete"
-              :data-index="index"
-              @click="deleteItem(event)"
-            >
-              <img
-                :src="`/images/delete.svg`"
-                class="icon-button"
-              >
-            </div>
           </div>
-          <div v-if="isEditable">
-            <input
-              v-if="isEditable"
-              v-model="searchText"
-              placeholder="Search conference or meetup name"
-              class="search-box"
-              @input="onSearchTextChange"
-            >
-            <span
-              v-for="(event, index) in options"
-              :key="index"
-              class="value"
-            >
-              <div
-                class="select-event"
-                @click="add(event)"
-              >
-                <EventStrip
-                  :event="event"
-                  :is-read-only="true"
-                />
-              </div>
-            </span>
-          </div>
-        </div>
-      </b-col>
-    </b-row>
+        </span>
+      </div>
+    </div>
   </div>
 </template>
 
