@@ -21,7 +21,7 @@
               :event="event"
               class="event-strip-selected"
             />
-            <button
+            <div
               v-if="isEditable"
               class="delete"
               :data-index="index"
@@ -31,7 +31,7 @@
                 :src="`/images/delete.svg`"
                 class="icon-button"
               >
-            </button>
+            </div>
           </div>
           <div v-if="isEditable">
             <input

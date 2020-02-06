@@ -135,8 +135,6 @@ export default {
 
 .delete {
   flex: 0 0 auto;
-  margin: 2px 0 0 10px;
-  height: 1.5rem;
-  background-color: rgb(212, 68, 68);
+  margin-left: 10px;
 }
 </style>
