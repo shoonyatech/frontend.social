@@ -11,7 +11,10 @@
             :src="profile.profilePic"
             class="profile-photo"
           >
-          <div>
+          <Section
+            title="About me"
+            class="about-me"
+          >
             <input
               v-if="editMode"
               v-model="profile.name"
@@ -23,166 +26,140 @@
             >
               {{ profile.name }}
             </div>
-          </div>
-          <div>
-            <input
-              v-if="editMode"
-              v-model="profile.username"
-              class="left-input"
-            >
-            <div
-              v-else
-              class="user-username"
-            >
-              @{{ profile.username }}
-            </div>
-          </div>
-          <div>
-            <div v-if="editMode">
-              <span class="radio">
-                <input
-                  v-model="profile.category"
-                  class="radio-input"
-                  type="radio"
-                  value="dev"
-                >
-                <span class="radio-label"> Dev</span>
-              </span>
-              <span class="radio">
-                <input
-                  v-model="profile.category"
-                  class="radio-input"
-                  type="radio"
-                  value="designer"
-                >
-                <span class="radio-label"> Designer</span>
-              </span>
-            </div>
-            <div
-              v-else
-              class="user-name"
-            >
-              <span class="light-text">I am a </span>
-              <span>{{
-                profile.category == "dev" ? "Developer" : "Designer"
-              }}</span>
-            </div>
-          </div>
-          <edit-city
-            :edit-mode="editMode"
-            :city="profile.city"
-            :country="profile.country"
-            @change="onCityChange"
-          />
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <KeyValue
-            v-for="item in profile.social"
-            :key="item.label"
-            :label="item.label"
-            :value="item.value"
-            :is-editable="editMode"
-            @change="onSocialChange"
-          />
-        </b-col>
-      </b-row>
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <div />
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <div class="skills">
-            <b-row>
-              <b-col
-                md="3"
-                sm="12"
+            <div>
+              <input
+                v-if="editMode"
+                v-model="profile.username"
+                class="left-input"
               >
-                <label class="skills-label">Skills</label>
-              </b-col>
-              <b-col
-                md="9"
-                sm="12"
+              <div
+                v-else
+                class="user-username"
               >
-                <div class="skill-list">
-                  <div class="skill-header">
-                    <span class="skill-name" />
-                    <span class="skill-years">yrs</span>
-                    <span class="skill-rating">expertise</span>
-                    <span class="skills-delete-placeholder" />
-                  </div>
-
-                  <span
-                    v-for="(skill, index) in profile.skills"
-                    :key="index"
-                    class="skill-control"
+                @{{ profile.username }}
+              </div>
+            </div>
+            <div>
+              <div v-if="editMode">
+                <span class="radio">
+                  <input
+                    v-model="profile.category"
+                    class="radio-input"
+                    type="radio"
+                    value="dev"
                   >
-                    <SkillLevel
-                      :name="skill.name"
-                      :no-of-years="skill.noOfYears"
-                      :rating="skill.rating"
-                      :max="4"
-                      :is-editable="editMode"
-                      :index="index"
-                      @change="onSkillChange"
-                    />
-                    <span
-                      v-if="!editMode"
-                      class="skills-delete-placeholder"
-                    />
-                    <div
-                      v-if="editMode"
-                      class="skills-delete"
-                      :data-index="index"
-                      @click="deleteSkill"
-                    >
-                      <img
-                        :src="`/images/delete.svg`"
-                        class="icon-button"
-                      >
-                    </div>
-                  </span>
-                </div>
-              </b-col>
-            </b-row>
-          </div>
-          <div class="skills-actions">
-            <button
-              v-if="editMode"
-              class="skills-add"
-              @click="addSkill"
-            >
-              +
-            </button>
-          </div>
-        </b-col>
-      </b-row>
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <div />
+                  <span class="radio-label"> Dev</span>
+                </span>
+                <span class="radio">
+                  <input
+                    v-model="profile.category"
+                    class="radio-input"
+                    type="radio"
+                    value="designer"
+                  >
+                  <span class="radio-label"> Designer</span>
+                </span>
+              </div>
+              <div
+                v-else
+                class="user-name"
+              >
+                <span class="light-text">I am a </span>
+                <span>{{
+                  profile.category == "dev" ? "Developer" : "Designer"
+                }}</span>
+              </div>
+            </div>
+            <edit-city
+              :edit-mode="editMode"
+              :city="profile.city"
+              :country="profile.country"
+              @change="onCityChange"
+            />
+          </Section>
         </b-col>
         <b-col
           md="9"
           sm="12"
         >
-          <EditEventList
-            v-if="profile.eventIds"
-            label="Events attended"
-            :event-ids="profile.eventIds"
-            :is-editable="editMode"
-            @change="onEventChange"
-          />
+          <Section
+            title="Portfolio and Social links"
+            class="portfolio"
+          >
+            <KeyValue
+              v-for="item in profile.social"
+              :key="item.label"
+              :label="item.label"
+              :value="item.value"
+              :is-editable="editMode"
+              @change="onSocialChange"
+            />
+          </Section>
+          <Section
+            title="My skills"
+            class="my-skills"
+          >
+            <div class="skill-list">
+              <div class="skill-header">
+                <span class="skill-name" />
+                <span class="skill-years">yrs</span>
+                <span class="skill-rating">expertise</span>
+                <span class="skills-delete-placeholder" />
+              </div>
+
+              <span
+                v-for="(skill, index) in profile.skills"
+                :key="index"
+                class="skill-control"
+              >
+                <SkillLevel
+                  :name="skill.name"
+                  :no-of-years="skill.noOfYears"
+                  :rating="skill.rating"
+                  :max="4"
+                  :is-editable="editMode"
+                  :index="index"
+                  @change="onSkillChange"
+                />
+                <span
+                  v-if="!editMode"
+                  class="skills-delete-placeholder"
+                />
+                <div
+                  v-if="editMode"
+                  class="skills-delete"
+                  :data-index="index"
+                  @click="deleteSkill"
+                >
+                  <img
+                    :src="`/images/delete.svg`"
+                    class="icon-button"
+                  >
+                </div>
+              </span>
+            </div>
+            <div class="skills-actions">
+              <button
+                v-if="editMode"
+                class="skills-add"
+                @click="addSkill"
+              >
+                +
+              </button>
+            </div>
+          </Section>
+          <Section
+            title="Events attended"
+            class="events-attended"
+          >
+            <EditEventList
+              v-if="profile.eventIds"
+              label="Events attended"
+              :event-ids="profile.eventIds"
+              :is-editable="editMode"
+              @change="onEventChange"
+            />
+          </Section>
         </b-col>
       </b-row>
       <b-row class="row">
@@ -223,9 +200,10 @@ import KeyValue from "@/components/common/KeyValue";
 import EditEventList from "@/components/Events/EditEventList";
 import EditCity from "@/components/City/EditCity";
 import SkillLevel from "@/components/Profile/SkillLevel";
+import Section from "@/components/common/Section";
 
 export default {
-  components: { KeyValue, EditEventList, EditCity, SkillLevel },
+  components: { KeyValue, EditEventList, EditCity, SkillLevel, Section },
   data() {
     return {
       profile: {},
@@ -393,10 +371,8 @@ export default {
 
 .skills-actions {
   width: 100%;
-}
-
-.skills-add {
-  float: right;
+  text-align: right;
+  padding-top: 20px;
 }
 
 .skills-delete {
@@ -439,5 +415,11 @@ export default {
 
 .photo-col {
   margin-bottom: 40px;
+}
+
+.about-me,
+.my-skills,
+.events-attended {
+  margin-top: 20px;
 }
 </style>
