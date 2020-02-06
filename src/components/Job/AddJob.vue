@@ -259,6 +259,9 @@ export default {
 
 <style lang="scss" scoped>
 .form-container {
+  h1 span {
+    padding-left: 10px;
+  }
   display: flex;
   justify-content: center;
   #addJobForm {
@@ -316,6 +319,8 @@ export default {
     }
     .form-label {
       width: 150px;
+      color: #aada18;
+      min-width: 7rem;
     }
   }
 }
@@ -324,7 +329,8 @@ export default {
   .form-field {
     flex-direction: column;
     .form-label {
-      font-weight: bold;
+      color: #aada18;
+      min-width: 7rem;
     }
   }
   .multiple-selection {
