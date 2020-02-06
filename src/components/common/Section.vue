@@ -1,8 +1,33 @@
 <template>
   <div class="section-box">
-    <span class="section-title">{{ title }}</span>
+    <span
+      class="section-title"
+    >{{ title }}
+      <img
+        v-if="!editMode"
+        :src="`/images/edit.svg`"
+        class="icon-button edit"
+        title="Edit"
+        @click="editMode = true"
+      >
+    </span>
     <div class="content">
       <slot />
+      <div class="buttons">
+        <button
+          v-if="editMode"
+          class="save-button"
+          @click="save"
+        >
+          Save
+        </button>
+        <button
+          v-if="editMode"
+          @click="cancel"
+        >
+          Cancel
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -20,6 +45,19 @@ export default {
     isEditable: {
       type: Boolean,
       default: false
+    }
+  },
+  data() {
+    return {
+      editMode: false
+    };
+  },
+  methods: {
+    save: function(event) {
+      this.editMode = false;
+    },
+    cancel: function(event) {
+      this.editMode = false;
     }
   }
 };
@@ -44,5 +82,19 @@ export default {
   margin-bottom: 12px;
   width: 100%;
   display: inline-block;
+}
+
+.edit {
+  float: right;
+}
+
+.buttons {
+  margin-top: 10px;
+  width: 100%;
+  text-align: right;
+}
+
+.save-button {
+  margin-right: 10px;
 }
 </style>
