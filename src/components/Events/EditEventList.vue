@@ -110,9 +110,13 @@ export default {
       this.$emit("change", this.eventIds);
     },
     onSearchTextChange: function(e) {
-      eventService.searchEvents(this.searchText).then(events => {
-        this.options = events;
-      });
+      if (this.searchText) {
+        eventService.searchEvents(this.searchText).then(events => {
+          this.options = events;
+        });
+      } else {
+        this.options = [];
+      }
     }
   }
 };
