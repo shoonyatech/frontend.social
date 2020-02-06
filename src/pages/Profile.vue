@@ -296,12 +296,12 @@ export default {
         .getLoggedInUserProfile()
         .then(user => {
           this.profile = user;
+          this.editModeSocials = false;
         })
         .catch(e => {
           userService.signout();
           this.$router.push("/");
         });
-      this.editModeSocials = false;
     },
     editSkills: function(event) {
       this.editModeSkills = true;
@@ -333,12 +333,12 @@ export default {
         .getLoggedInUserProfile()
         .then(user => {
           this.profile = user;
+          this.editModeSkills = false;
         })
         .catch(e => {
           userService.signout();
           this.$router.push("/");
         });
-      this.editModeSkills = false;
     },
     editEvents: function(event) {
       this.editModeEvents = true;
@@ -356,12 +356,12 @@ export default {
         .getLoggedInUserProfile()
         .then(user => {
           this.profile = user;
+          this.editModeEvents = false;
         })
         .catch(e => {
           userService.signout();
           this.$router.push("/");
         });
-      this.editModeEvents = false;
     }
   }
 };
