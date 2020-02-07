@@ -1,22 +1,32 @@
 <template>
   <div class="host">
-    <div>Upcoming events</div>
+    <h1>Upcoming Events</h1>
     <div class="city-events">
-      <EventStrip
-        v-for="(event, index) in upcomingEvents"
-        :key="index"
-        :event="event"
-        class="event-line"
-      />
+      <div v-if="upcomingEvents.length">
+        <EventStrip
+          v-for="(event, index) in upcomingEvents"
+          :key="index"
+          :event="event"
+          class="event-line"
+        />
+      </div>
+      <div v-else>
+        No events found!
+      </div>
     </div>
-    <div>Past events</div>
+    <h1>Past Events</h1>
     <div class="city-events">
-      <EventStrip
-        v-for="(event, index) in pastEvents"
-        :key="index"
-        :event="event"
-        class="event-line"
-      />
+      <div v-if="pastEvents.length">
+        <EventStrip
+          v-for="(event, index) in pastEvents"
+          :key="index"
+          :event="event"
+          class="event-line"
+        />
+      </div>
+      <div v-else>
+        No events found!
+      </div>
     </div>
   </div>
 </template>
@@ -38,7 +48,6 @@ export default {
 
 <style scoped lang="scss">
 .host {
-  border-bottom: dotted 1px #aada20;
 }
 .city-event {
   flex: 0 1 auto;

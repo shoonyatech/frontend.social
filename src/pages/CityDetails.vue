@@ -27,6 +27,8 @@
               />
             </b-col>
             <b-col md="12">
+              <h1>Users</h1>
+
               <city-users
                 v-if="selectedCity"
                 :city="selectedCity.name"
@@ -136,7 +138,6 @@ export default {
 }
 
 .section {
-  border-bottom: dotted 1px #aada18;
   margin-bottom: 50px;
 }
 </style>
