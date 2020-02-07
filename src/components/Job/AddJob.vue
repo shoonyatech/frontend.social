@@ -232,6 +232,7 @@ export default {
       };
 
       jobService.addJob(payload);
+      this.close();
     },
     toggleCheckbox(id) {
       this[id] = !this[id];
