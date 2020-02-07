@@ -1,23 +1,25 @@
 <template>
-  <div class="filters">
-    <div class="filter-search-box">
+  <div
+    class="filters"
+    :class="{ closed: !showFilters }"
+  >
+    <div
+      class="expand-button  d-block d-md-none"
+      @click="toggleFilterViewVisibilityInMobile"
+    >
+      {{ `${showFilters ? "Hide" : "Show"} Filters` }}
+    </div>
+    <div class="filter-panel">
       <input
         placeholder="Search ..."
         @input="handleInputChange"
       >
-    </div>
-    <div class="city-filter">
       <EditCity
         :edit-mode="true"
         :city="city"
         :country="country"
         @change="onCityChange"
       />
-    </div>
-    <div
-      class="skills-filter-wrapper"
-      :class="{ active:showFilters}"
-    >
       <div class="skills-filter">
         <div class="filter-label">
           Skills
@@ -60,16 +62,10 @@
           :value="level.name"
           :label="level.name"
           name="expertise-level"
-          :is-selected="selectedLevel===level.level"
+          :is-selected="selectedLevel === level.level"
           :on-click="handleLevelSelection"
         />
       </div>
-    </div>
-    <div
-      class="show-hide-button"
-      @click="toggleFilterViewVisibilityInMobile"
-    >
-      {{ `${showFilters?'Hide':'Show'} filters` }}
     </div>
   </div>
 </template>
@@ -213,22 +209,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.skills-filter-wrapper {
-  height: 0;
-  overflow: hidden;
-  transform: scaleY(0);
-
-  &.active {
-    display: block;
-    height: auto;
-    transform: scaleY(1);
-    transition: transform 0.5s ease;
-  }
+.filter-panel {
+  padding: 20px;
 }
 
-.city-filter {
-  margin: 5px;
-}
 .filter-search-box {
   margin: 5px;
   border: 2px solid #aada18;
@@ -248,42 +232,33 @@ export default {
 .filter-label {
   font-weight: bold;
 }
-.show-hide-button {
-  display: none;
+
+.expand-button {
+  height: 1.5rem;
+  background-color: #aada18;
+  color: white;
+  text-align: center;
 }
-@media screen and (min-width: 360px) and (max-width: 759px) {
-  .skills-filter,
-  .job-type-time {
-    display: flex;
-    flex-wrap: wrap;
-    padding-bottom: 5px;
-    border-bottom: 1px solid;
-  }
-  .expertise-level-filters {
-    padding-bottom: 5px;
-    border-bottom: none;
-  }
-  .filter-label {
+
+@media screen and (max-width: 768px) {
+  .filters {
+    background-color: white;
+    position: fixed;
+    bottom: 0.75rem;
+    left: 0;
     width: 100%;
-  }
-  .filter {
-    width: 50%;
-  }
-  .show-hide-button {
-    display: flex;
-    border: 2px solid;
-    height: 40px;
-    width: 200px;
-    justify-content: center;
-    margin: 0 auto;
-    border-radius: 20px;
-    border: 2px solid #aada18;
-  }
-}
-@media screen and (min-width: 768px) {
-  .skills-filter-wrapper {
-    height: auto;
-    overflow: auto;
+    z-index: 100;
+
+    overflow-y: hidden;
+    max-height: 20rem;
+
+    transition-property: max-height;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+
+    &.closed {
+      max-height: 1.5rem;
+    }
   }
 }
 </style>

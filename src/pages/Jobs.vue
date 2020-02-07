@@ -1,44 +1,60 @@
 <template>
   <div class="jobs-container">
-    <div
-      v-if="!showAddJobDialog"
-      class="jobs-and-filters"
-    >
-      <div class="jobs">
-        <div class="title">
-          <div class="heading">
-            Frontend Jobs
-          </div>
-          <div class="btn-add-job">
-            <button @click="showAddJobDialog = !showAddJobDialog">
+    <b-container>
+      <b-row>
+        <b-col md="9">
+          <h1>
+            <span>Frontend Jobs</span><button
+              v-if="!showAddJobDialog"
+              @click="showDialog()"
+            >
               + Add Job
             </button>
+          </h1>
+          <div
+            v-if="!showAddJobDialog"
+            class="jobs"
+          >
+            <Job
+              v-for="job in jobs"
+              :id="job.id"
+              :key="job.id"
+              :role="job.title"
+              :job-description="job.description"
+              :expertise="job.level"
+              :required-skills="job.skills"
+              :link="job.link"
+            />
+            <div class="center-content">
+              <button
+                class="mt-4"
+                @click="showDialog()"
+              >
+                + Add Job
+              </button>
+            </div>
           </div>
-        </div>
-        <Job
-          v-for="job in jobs"
-          :id="job.id"
-          :key="job.id"
-          :role="job.title"
-          :job-description="job.description"
-          :expertise="job.level"
-          :required-skills="job.skills"
-          :link="job.link"
-        />
-      </div>
-      <div class="filters-wrapper">
-        <Filters
-          :on-search-input-change="searchJobsWithSearchTerm"
-          :on-search-params-change="onSearchParamsChange"
-          :set-initial-query="setInitialQuery"
-          :skills="skills"
-          :job-types="jobTypes"
-        />
-      </div>
-    </div>
-    <div v-else>
-      <AddJob @close="refreshPage()" />
-    </div>
+          <AddJob
+            v-else
+            @close="refreshPage()"
+          />
+        </b-col>
+        <b-col md="3">
+          <div
+            v-if="!showAddJobDialog"
+            class="filters-wrapper"
+          >
+            <Filters
+              :on-search-input-change="searchJobsWithSearchTerm"
+              :on-search-params-change="onSearchParamsChange"
+              :set-initial-query="setInitialQuery"
+              :skills="skills"
+              :job-types="jobTypes"
+            />
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -146,68 +162,23 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.jobs-container {
-  max-width: 1280px;
-  margin: 0 auto;
+.host {
+  width: 100%;
 }
 
-.jobs-and-filters {
-  display: flex;
-  .title {
-    display: flex;
-    padding: 5px 10px;
-    width: 100%;
-    border-bottom: dotted 1px #aada20;
-    justify-content: space-between;
-    .heading {
-      font-size: 1.2rem;
-    }
-  }
-  .jobs {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.jobs {
+  margin: 20px 10px;
+  text-align: left;
+  width: 100%;
 }
 
 .filters-wrapper {
-  height: 100vh;
-  border-left: 2px solid #aada18;
+  height: 100%;
+  border-left: 1px solid #aada18;
   flex-direction: column;
   display: flex;
   text-align: start;
   padding: 10px;
   cursor: pointer;
-}
-
-@media screen and (max-width: 759px) {
-  .jobs-and-filters {
-    flex-direction: column-reverse;
-  }
-
-  .filters-wrapper {
-    height: auto;
-    width: 100%;
-    border-left: none;
-  }
-}
-
-@media screen and (min-width: 760px) and (max-width: 1024px) {
-  .jobs {
-    width: 75%;
-  }
-  .filters-wrapper {
-    width: 25%;
-  }
-}
-
-@media screen and (min-width: 1024px) {
-  .jobs {
-    width: 80%;
-  }
-  .filters-wrapper {
-    width: 20%;
-  }
 }
 </style>
