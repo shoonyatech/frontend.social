@@ -23,6 +23,7 @@
               <city-events
                 :upcoming-events="upcomingEvents"
                 :past-events="pastEvents"
+                class="section"
               />
             </b-col>
             <b-col md="12">
