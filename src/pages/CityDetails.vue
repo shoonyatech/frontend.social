@@ -39,6 +39,12 @@
                 :users="designersFromCity"
               />
             </b-col>
+            <b-col md="12">
+              <LatestJobsFromCity
+                :city="selectedCity == null ? '' : selectedCity.name"
+                :country="selectedCity == null ? '' : selectedCity.country"
+              />
+            </b-col>
           </b-row>
         </b-col>
       </b-row>
@@ -47,6 +53,7 @@
 </template>
 
 <script>
+import LatestJobsFromCity from "@/components/Job/LatestJobsFromCity";
 import CityBasicInfo from "@/components/City/CityBasicInfo";
 import CityEvents from "@/components/City/CityEvents";
 import CityUsers from "@/components/City/CityUsers";
@@ -56,7 +63,8 @@ export default {
   components: {
     CityBasicInfo,
     CityEvents,
-    CityUsers
+    CityUsers,
+    LatestJobsFromCity
   },
   data() {
     return {
