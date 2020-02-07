@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="host">
     <div>{{ userGroup }} from {{ city }}</div>
     <div class="city-users">
       <user-avatar
@@ -30,6 +30,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.host {
+}
+
 .city-users {
   display: flex;
   flex-direction: row;

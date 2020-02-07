@@ -33,7 +33,10 @@
                 :users="developersFromCity"
               />
             </b-col>
-            <b-col md="12">
+            <b-col
+              md="12"
+              class="section"
+            >
               <city-users
                 v-if="selectedCity"
                 :city="selectedCity.name"
@@ -129,5 +132,10 @@ export default {
 
 .city-basic-info {
   text-align: center;
+}
+
+.section {
+  border-bottom: dotted 1px #aada18;
+  margin-bottom: 50px;
 }
 </style>
