@@ -163,7 +163,7 @@ export default {
   .filters {
     background-color: white;
     position: fixed;
-    bottom: 0.75rem;
+    bottom: 0;
     left: 0;
     width: 100%;
     z-index: 100;
