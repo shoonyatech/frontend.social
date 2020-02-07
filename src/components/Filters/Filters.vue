@@ -213,7 +213,6 @@ export default {
 .filter-panel {
   padding: 20px;
   overflow-y: auto;
-  height: 20rem;
 }
 
 .filter-input {
@@ -265,6 +264,10 @@ export default {
     &.closed {
       max-height: 1.5rem;
     }
+  }
+
+  .filter-panel {
+    height: 20rem;
   }
 }
 </style>
