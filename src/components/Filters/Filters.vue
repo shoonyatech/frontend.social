@@ -212,6 +212,8 @@ export default {
 <style lang="scss" scoped>
 .filter-panel {
   padding: 20px;
+  overflow-y: auto;
+  height: 20rem;
 }
 
 .filter-input {
@@ -249,13 +251,12 @@ export default {
   .filters {
     background-color: white;
     position: fixed;
-    bottom: 0.75rem;
+    bottom: 0;
     left: 0;
     width: 100%;
     z-index: 100;
 
     overflow-y: hidden;
-    max-height: 20rem;
 
     transition-property: max-height;
     transition-duration: 0.25s;
