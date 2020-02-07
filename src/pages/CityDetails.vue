@@ -27,22 +27,25 @@
             </b-col>
             <b-col md="12">
               <city-users
-                :city="selectedCity == null ? '' : selectedCity.name"
+                v-if="selectedCity"
+                :city="selectedCity.name"
                 user-group="Developers"
                 :users="developersFromCity"
               />
             </b-col>
             <b-col md="12">
               <city-users
-                :city="selectedCity == null ? '' : selectedCity.name"
+                v-if="selectedCity"
+                :city="selectedCity.name"
                 user-group="Designers"
                 :users="designersFromCity"
               />
             </b-col>
             <b-col md="12">
               <LatestJobsFromCity
-                :city="selectedCity == null ? '' : selectedCity.name"
-                :country="selectedCity == null ? '' : selectedCity.country"
+                v-if="selectedCity"
+                :city="selectedCity.name"
+                :country="selectedCity.country"
               />
             </b-col>
           </b-row>
