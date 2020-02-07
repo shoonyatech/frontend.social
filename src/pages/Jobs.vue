@@ -83,6 +83,11 @@ export default {
       showAddJobDialog: false
     };
   },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    }
+  },
   mounted() {
     const searchQuery = window.location.search.split("?");
     let searchText = "";
@@ -137,6 +142,13 @@ export default {
     },
     setInitialQuery(initialQuery) {
       this.currentQuery = initialQuery;
+    },
+    showDialog() {
+      if (this.signedInUser == null) {
+        this.$router.push("/signin");
+      } else {
+        this.showAddJobDialog = true;
+      }
     },
     scroll(jobs) {
       window.onscroll = () => {
