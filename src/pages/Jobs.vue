@@ -105,7 +105,7 @@ export default {
   methods: {
     refreshPage() {
       this.showAddJobDialog = false;
-      searchJobsWithSearchTerm();
+      this.searchJobsWithSearchTerm();
     },
     mapJobResponse(jobs = {}, override = false) {
       const { results = [], meta = {} } = jobs;
