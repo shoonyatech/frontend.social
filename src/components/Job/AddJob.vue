@@ -1,10 +1,6 @@
 <template>
   <!-- add jobs container -->
   <div class="add-job-wrapper">
-    <h1>
-      <span>Frontend Jobs</span>
-    </h1>
-
     <div class="form-container">
       <form
         id="addJobForm"
