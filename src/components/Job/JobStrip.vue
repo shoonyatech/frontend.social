@@ -59,7 +59,7 @@ const getExperienceLevel = level => {
   }
 };
 export default {
-  name: "Jobs",
+  name: "JobStrip",
   components: {
     Button,
     Arrow,

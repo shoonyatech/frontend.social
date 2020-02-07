@@ -15,7 +15,7 @@
             v-if="!showAddJobDialog"
             class="jobs"
           >
-            <Job
+            <JobStrip
               v-for="job in jobs"
               :id="job.id"
               :key="job.id"
@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import Job from "@/components/Job/Job";
+import JobStrip from "@/components/Job/JobStrip";
 import AddJob from "@/components/Job/AddJob";
 import Filters from "@/components/Filters/Filters";
 import jobService from "@/services/job.service";
@@ -67,7 +67,7 @@ import jobService from "@/services/job.service";
 export default {
   name: "Jobs",
   components: {
-    Job,
+    JobStrip,
     Filters,
     AddJob
   },
