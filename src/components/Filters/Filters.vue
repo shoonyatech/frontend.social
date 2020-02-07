@@ -11,7 +11,8 @@
     </div>
     <div class="filter-panel">
       <input
-        placeholder="Search ..."
+        placeholder="Search keyword"
+        class="filter-input"
         @input="handleInputChange"
       >
       <EditCity
@@ -211,6 +212,10 @@ export default {
 <style lang="scss" scoped>
 .filter-panel {
   padding: 20px;
+}
+
+.filter-input {
+  width: 100%;
 }
 
 .filter-search-box {
