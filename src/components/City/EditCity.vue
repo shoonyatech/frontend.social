@@ -14,7 +14,7 @@
           class="city-option"
           @click="selectCity(searchedCity)"
         >
-          {{ searchedCity.name }}, {{ searchedCity.country }}
+          {{ cityDisplayName(searchedCity) }}
         </div>
       </div>
       <country-select
@@ -67,6 +67,11 @@ export default {
     };
   },
   methods: {
+    cityDisplayName(searchedCity) {
+      return searchedCity.oldName
+        ? `${searchedCity.name} (${searchedCity.oldName}), ${searchedCity.country}`
+        : `${searchedCity.name}, ${searchedCity.country}`;
+    },
     onSearchCityChange: function(e) {
       cityService
         .getCities(this.editedCity, this.editedCountry)

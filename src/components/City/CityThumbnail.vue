@@ -8,7 +8,9 @@
       >
       <div class="details">
         <div class="inline-block">
-          {{ city.name }}, {{ city.country }}
+          <span>{{ city.name }}</span>
+          <span v-if="city.oldName"> ({{ city.oldName }})</span>,
+          <span>{{ city.country }}</span>
         </div>
         <div class="text-xs tiny-details">
           <tiny-key-value
