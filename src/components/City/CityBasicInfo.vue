@@ -6,7 +6,11 @@
       :src="`/images/cities/${city.name}-${city.country}.jpg`"
     >
     <div class="details">
-      <div>{{ city.name }}, {{ city.country }}</div>
+      <div class="inline-block">
+        <span>{{ city.name }}</span>
+        <span v-if="city.oldName"> ({{ city.oldName }})</span>,
+        <span>{{ city.country }}</span>
+      </div>
       <div class="text-sm title">
         {{ city.title }}
       </div>
