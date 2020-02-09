@@ -62,6 +62,7 @@ export default {
 <style scoped lang="scss">
 .content {
   position: fixed;
+  z-index: 10;
   bottom: 0px;
   margin: 10px;
   padding: 20px;
