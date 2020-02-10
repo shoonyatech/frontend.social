@@ -205,6 +205,11 @@ export default {
   },
   created() {
     this.username = this.$route.params.username;
+    const msg = this.$route.query.msg;
+
+    if(msg === 'set-city') {
+      alert("Please update your city so that we can show you event details from your city");
+    }
 
     if (this.username == null) {
       userService
