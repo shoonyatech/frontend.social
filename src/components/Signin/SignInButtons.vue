@@ -61,8 +61,8 @@ export default {
               this_.response = authResponse;
             }
 
-            if (user.city == null) {
-              this_.$router.push("/me");
+            if (user.city == null || user.city === "") {
+              this_.$router.push({ path: "me", query: { msg: "set-city" } });
             } else {
               this_.$router.push("/");
             }

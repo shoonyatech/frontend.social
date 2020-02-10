@@ -33,7 +33,10 @@
           </span>
         </a>
       </div>
-      <div v-else>
+      <div
+        v-else
+        class="error"
+      >
         [Add your city]
       </div>
     </div>
@@ -105,5 +108,11 @@ export default {
   &:hover {
     background-color: #aada186c;
   }
+}
+
+.error {
+  color: rgb(212, 68, 68);
+  background-color: #c5dd7d;
+  font-weight: bold;
 }
 </style>
