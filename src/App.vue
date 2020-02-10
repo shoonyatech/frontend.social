@@ -54,6 +54,9 @@ export default {
         .getLoggedInUserProfile()
         .then(user => {
           this.$store.commit("signInUser", user);
+          if (user && (user.city == null || user.city === "")) {
+            this.$router.push({ path: "me", query: { msg: "set-city" } });
+          }
         })
         .catch(e => {});
     }
