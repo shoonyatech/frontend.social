@@ -12,12 +12,12 @@
     >
       Sign in with Github
     </button>
-    <!-- <button
+    <button
       class="social-button twitter"
       @click="authenticate('twitter')"
     >
       Sign in with Twitter
-    </button> -->
+    </button>
   </div>
 </template>
 
@@ -48,7 +48,7 @@ export default {
               localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
             } else if (provider === "twitter") {
-              user = authResponse.data.profile;
+              user = authResponse.data;
               localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
             } else if (provider === "bitbucket") {
@@ -69,6 +69,7 @@ export default {
           }
         })
         .catch(function(err) {
+          console.log(err);
           this_.isAuthenticated = this_.$auth.isAuthenticated();
           this_.response = err;
         });
