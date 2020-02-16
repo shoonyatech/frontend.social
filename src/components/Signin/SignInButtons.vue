@@ -1,6 +1,12 @@
 <template>
   <div class="buttons-box">
     <button
+      class="social-button google"
+      @click="authenticate('google')"
+    >
+      Sign in with Google
+    </button>
+    <button
       class="social-button fb"
       @click="authenticate('facebook')"
     >
@@ -48,6 +54,10 @@ export default {
               localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);
             } else if (provider === "twitter") {
+              user = authResponse.data;
+              localStorage.setItem("authToken", JSON.stringify(user.authToken));
+              this_.$store.commit("signInUser", user);
+            } else if (provider === "google") {
               user = authResponse.data;
               localStorage.setItem("authToken", JSON.stringify(user.authToken));
               this_.$store.commit("signInUser", user);

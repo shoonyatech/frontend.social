@@ -61,6 +61,22 @@ export default {
       clientId: config.auth.twitter.clientId
     },
 
+    google: {
+      name: "google",
+      url: "/auth/google",
+      authorizationEndpoint: "https://accounts.google.com/o/oauth2/auth",
+      redirectUri: getRedirectUri("/signin/callback"),
+      requiredUrlParams: ["scope"],
+      optionalUrlParams: ["display"],
+      scope: ["profile", "email"],
+      scopePrefix: "openid",
+      scopeDelimiter: " ",
+      display: "popup",
+      oauthType: "2.0",
+      popupOptions: { width: 452, height: 633 },
+      clientId: config.auth.google.clientId
+    },
+
     bitbucket: {
       name: "bitbucket",
       url: "/auth/bitbucket",
