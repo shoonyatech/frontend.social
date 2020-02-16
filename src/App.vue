@@ -247,6 +247,15 @@ input {
   margin-bottom: 0.25rem;
 }
 
+.google {
+  background-color: #4285f4;
+  color: #fff;
+}
+
+.google:hover {
+  background-color: rgba(66, 134, 244, 0.795);
+}
+
 .fb {
   background-color: #3c5a99;
   color: #fff;

@@ -15,6 +15,10 @@ export default {
       clientId: keys.twitter.clientId,
       clientSecret: keys.twitter.clientSecret
     },
+    google: {
+      clientId: keys.google.clientId,
+      clientSecret: keys.google.clientSecret
+    },
     bitbucket: {
       clientId: "",
       clientSecret: ""
