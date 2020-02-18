@@ -23,5 +23,9 @@ export default {
   linkedin: {
     clientId: "",
     clientSecret: ""
+  },
+  google: {
+    clientId: "",
+    clientSecret: ""
   }
 };
