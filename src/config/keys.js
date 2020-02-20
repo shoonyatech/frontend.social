@@ -15,6 +15,11 @@ export default {
     clientId: "",
     clientSecret: ""
   },
+  google: {
+    clientId:
+      "783965967967-0dbah87uich3o304krbdq70plo9d62nb.apps.googleusercontent.com",
+    clientSecret: ""
+  },
   linkedin: {
     clientId: "",
     clientSecret: ""
