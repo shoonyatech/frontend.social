@@ -29,16 +29,12 @@
         :key="index"
         class="nav-item"
       >
-        <div
+        <router-link
+          :to="link.path"
           class="nav-item-link"
-          @click="redirect(link.path)"
         >
           {{ link.text }}
-          <i
-            :class="link.icon"
-            icon
-          />
-        </div>
+        </router-link>
       </li>
       <li
         :key="'signin'"
@@ -147,7 +143,7 @@ nav {
       font-size: 24px;
       cursor: pointer;
       .nav-item-link {
-        color: #aada18;
+        color: #aada18 !important;
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
@@ -209,7 +205,11 @@ nav {
       align-items: center;
       padding: 10px;
       flex-direction: column;
+      font-weight: bold;
     }
   }
+}
+li.nav-item a.nav-item-link.exact-active.active {
+  font-weight: bold;
 }
 </style>
