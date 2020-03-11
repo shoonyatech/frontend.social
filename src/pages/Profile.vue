@@ -51,7 +51,7 @@
                     type="radio"
                     value="dev"
                   >
-                  <span class="radio-label"> Dev</span>
+                  <span class="radio-label">Dev</span>
                 </span>
                 <span class="radio">
                   <input
@@ -60,17 +60,19 @@
                     type="radio"
                     value="designer"
                   >
-                  <span class="radio-label"> Designer</span>
+                  <span class="radio-label">Designer</span>
                 </span>
               </div>
               <div
                 v-else
                 class="user-name"
               >
-                <span class="light-text">I am a </span>
-                <span>{{
-                  profile.category == "dev" ? "Developer" : "Designer"
-                }}</span>
+                <span class="light-text">I am a</span>
+                <span>
+                  {{
+                    profile.category == "dev" ? "Developer" : "Designer"
+                  }}
+                </span>
               </div>
             </div>
             <edit-city
@@ -118,7 +120,7 @@
 
               <span
                 v-for="(skill, index) in profile.skills"
-                :key="index"
+                :key="skill.name"
                 class="skill-control"
               >
                 <SkillLevel
@@ -138,7 +140,7 @@
                   v-if="editModeSkills"
                   class="skills-delete"
                   :data-index="index"
-                  @click="deleteSkill"
+                  @click="deleteSkill(index)"
                 >
                   <img
                     :src="`/images/delete.svg`"
@@ -207,8 +209,10 @@ export default {
     this.username = this.$route.params.username;
     const msg = this.$route.query.msg;
 
-    if(msg === 'set-city') {
-      alert("Please update your city so that we can show you event details from your city");
+    if (msg === "set-city") {
+      alert(
+        "Please update your city so that we can show you event details from your city"
+      );
     }
 
     if (this.username == null) {
@@ -251,8 +255,7 @@ export default {
     addSkill: function(event) {
       this.profile.skills.push({});
     },
-    deleteSkill: function(event) {
-      const index = event.target.dataset.index;
+    deleteSkill: function(index) {
       this.profile.skills.splice(index, 1);
     },
     onEventChange: function(eventIds) {
