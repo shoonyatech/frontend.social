@@ -4,7 +4,8 @@
       <b-row>
         <b-col md="9">
           <h1>
-            <span>Frontend Jobs</span><button
+            <span>Frontend Jobs</span>
+            <button
               v-if="!showAddJobDialog"
               @click="showDialog()"
             >
@@ -24,6 +25,8 @@
               :expertise="job.level"
               :required-skills="job.skills"
               :link="job.link"
+              :location="job.city + ', ' + job.country"
+              :company="job.company"
             />
             <div class="center-content">
               <button

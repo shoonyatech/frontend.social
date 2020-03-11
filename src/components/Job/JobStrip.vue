@@ -20,6 +20,16 @@
     </a>
     <div
       ref="description"
+      class="location-description"
+      :class="{
+        expanded: isExpanded,
+        collapsed: isOverflow
+      }"
+    >
+      {{ company }} | {{ location }}
+    </div>
+    <div
+      ref="description"
       class="job-description"
       :class="{
         expanded: isExpanded,
@@ -85,6 +95,14 @@ export default {
     link: {
       type: String,
       default: "#"
+    },
+    location: {
+      type: String,
+      default: "Location"
+    },
+    company: {
+      type: String,
+      default: "Company"
     }
   },
   data() {
@@ -136,6 +154,12 @@ export default {
   font-size: 0.65rem;
 }
 .job-description {
+  font-size: 0.8rem;
+  text-align: start;
+  max-height: 100px;
+  overflow: hidden;
+}
+.location-description {
   font-size: 0.8rem;
   text-align: start;
   max-height: 100px;
