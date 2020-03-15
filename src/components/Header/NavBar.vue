@@ -213,11 +213,12 @@ li.nav-item a.nav-item-link.exact-active.active {
   font-weight: bold;
   background-color: #aada1834;
   text-decoration: none;
-  padding: 10px 10px;
 }
 a.nav-item-link:hover {
   background-color: #aada1834;
   text-decoration: none;
+}
+a.nav-item-link {
   padding: 10px 10px;
 }
 </style>
