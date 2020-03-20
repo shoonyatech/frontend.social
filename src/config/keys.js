@@ -17,7 +17,7 @@ export default {
   },
   google: {
     clientId:
-      "783965967967-0dbah87uich3o304krbdq70plo9d62nb.apps.googleusercontent.com",
+      "731721117376-ut9ci7uovmv32m7ir4dfuvahb1nf8ap1.apps.googleusercontent.com783965967967-0dbah87uich3o304krbdq70plo9d62nb.apps.googleusercontent.com",
     clientSecret: ""
   },
   linkedin: {
