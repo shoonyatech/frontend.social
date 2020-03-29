@@ -82,7 +82,8 @@
           </Section>
           <Section
             title="Public Profile"
-            class="about-me"
+            class="public-profile"
+            :is-editable="false"
           >
             <div>
               <a
@@ -497,6 +498,7 @@ export default {
 }
 
 .about-me,
+.public-profile,
 .my-skills,
 .events-attended {
   margin-top: 20px;
