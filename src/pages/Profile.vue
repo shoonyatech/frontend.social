@@ -69,9 +69,7 @@
               >
                 <span class="light-text">I am a</span>
                 <span>
-                  {{
-                    profile.category == "dev" ? "Developer" : "Designer"
-                  }}
+                  {{ profile.category == "dev" ? "Developer" : "Designer" }}
                 </span>
               </div>
             </div>
@@ -81,6 +79,20 @@
               :country="profile.country"
               @change="onCityChange"
             />
+          </Section>
+          <Section
+            title="Public Profile"
+            class="about-me"
+          >
+            <div>
+              <a
+                class="user-public-profile"
+                :href="publicProfile"
+                target="_blank"
+              >
+                {{ publicProfile }}
+              </a>
+            </div>
           </Section>
         </b-col>
         <b-col
@@ -202,7 +214,8 @@ export default {
       editModeSocials: false,
       editModeSkills: false,
       editModeEvents: false,
-      username: null
+      username: null,
+      publicProfile: null
     };
   },
   created() {
@@ -220,6 +233,7 @@ export default {
         .getLoggedInUserProfile()
         .then(user => {
           this.profile = user;
+          this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
         })
         .catch(e => {
           userService.signout();
@@ -230,6 +244,7 @@ export default {
         .getUserProfile(this.username)
         .then(user => {
           this.profile = user;
+          this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
         })
         .catch(e => {
           alert("User " + this.username + " not found");
@@ -489,5 +504,9 @@ export default {
 
 .events-attended {
   margin-bottom: 20px;
+}
+
+.user-public-profile {
+  word-wrap: break-word;
 }
 </style>
