@@ -4,7 +4,7 @@
       class="section-title"
     >{{ title }}
       <img
-        v-if="!editMode"
+        v-if="!editMode && isEditable"
         :src="`/images/edit.svg`"
         class="icon-button edit"
         title="Edit"
@@ -44,7 +44,7 @@ export default {
     },
     isEditable: {
       type: Boolean,
-      default: false
+      default: true
     },
     onEdit: {
       type: Function,
