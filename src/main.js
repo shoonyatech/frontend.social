@@ -13,11 +13,13 @@ import authOptions from "./config/authOptions";
 import VueMoment from "vue-moment";
 import moment from "moment-timezone";
 import VueCookies from "vue-cookies";
+import VueYoutube from 'vue-youtube'
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);
 Vue.use(VueAuthenticate, authOptions);
+Vue.use(VueYoutube)
 
 Vue.use(VueMoment, {
   moment

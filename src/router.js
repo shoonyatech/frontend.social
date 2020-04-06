@@ -79,6 +79,11 @@ export default new Router({
       path: "/user/:username",
       name: "profile",
       component: () => import("./pages/Profile.vue")
+    },
+    {
+      path: "/learn/videocourse",
+      name: "course",
+      component: () => import("./pages/VideoCourse.vue")
     }
   ]
 });
