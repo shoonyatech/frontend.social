@@ -6,7 +6,7 @@
         href="/"
       >
         <span class="image-container">
-          <img src="/images/logo.jpg">
+          <img src="/images/logo.png">
         </span>
       </a>
       <Avatar
