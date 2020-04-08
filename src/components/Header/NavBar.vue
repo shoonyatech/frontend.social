@@ -105,12 +105,12 @@ export default {
     cursor: pointer;
     display: flex;
     align-items: center;
-    width: 245px;
+    width: 280px;
     img {
       width: 100%;
     }
     .image-container {
-      padding: 7px 10px 0 10px;
+      padding: 9px 10px 0 10px;
       background-color: white;
       height: 55px;
     }
