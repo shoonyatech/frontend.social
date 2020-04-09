@@ -41,10 +41,10 @@ export default {
     };
   },
   created() {
-    setTimeout(() => {
-      this.userAcceptedCookiesYet =
-        $cookies.get("cookies-accepted") === "true" || false;
-    }, 120000);
+    // setTimeout(() => {
+    //   this.userAcceptedCookiesYet =
+    //     $cookies.get("cookies-accepted") === "true" || false;
+    // }, 120000);
   },
   methods: {
     decline() {
@@ -68,6 +68,7 @@ export default {
   padding: 20px;
   background-color: darkolivegreen;
   color: white;
+  font-size: 0.7rem;
 }
 
 .buttons {
