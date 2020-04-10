@@ -29,17 +29,6 @@ export default {
     }
   },
   addJob: payload => {
-    httpClient
-      .post("job", payload)
-      .then(response => {
-        if (response.status === 200) {
-          alert("job added successfully!");
-        }
-      })
-      .catch(error => {
-        if (error.response.status === 500) {
-          alert("Error adding new job, Please fill all fields and try again.");
-        }
-      });
+    return httpClient.post("job", payload);
   }
 };

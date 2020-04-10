@@ -168,6 +168,9 @@ import EditCity from "@/components/City/EditCity";
 import learnService from "@/services/learn.service";
 import skillService from "@/services/skill.service";
 
+import eventBus from "@/utilities/eventBus";
+import { ToastType, messages } from "@/constants/constants";
+
 export default {
   name: "AddArticle",
   components: {
@@ -237,14 +240,12 @@ export default {
         return;
       }
 
-      try {
-        learnService.addArticle(this.article).then(() => {
-          alert("Article added successfully!");
-          this.close();
-        });
-      } catch (e) {
-        alert(e.message);
-      }
+      learnService.addArticle(this.article).then(() => {
+        eventBus.$emit('show-toast', {body: messages.article.articleAddSuccess, title: messages.generic.success});
+        this.close();
+      }).catch((e) => {
+        eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+      });
     },
     cancel() {
       this.close();
