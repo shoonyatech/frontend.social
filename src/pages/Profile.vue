@@ -200,6 +200,9 @@ import EditEventList from "@/components/Events/EditEventList";
 import EditCity from "@/components/City/EditCity";
 import SkillLevel from "@/components/Profile/SkillLevel";
 import Section from "@/components/common/Section";
+import eventBus from "@/utilities/eventBus";
+import { ToastType, messages } from "@/constants/constants";
+
 
 export default {
   components: { KeyValue, EditEventList, EditCity, SkillLevel, Section },
@@ -233,6 +236,7 @@ export default {
       userService
         .getLoggedInUserProfile()
         .then(user => {
+          user.skills = this.sortSkills(user.skills);
           this.profile = user;
           this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
         })
@@ -244,6 +248,7 @@ export default {
       userService
         .getUserProfile(this.username)
         .then(user => {
+          user.skills = this.sortSkills(user.skills);
           this.profile = user;
           this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
         })
@@ -267,6 +272,14 @@ export default {
       } else {
         this.profile.skills.push(skill);
       }
+    },
+    sortSkills(skills = []) {
+      return skills.sort((s1, s2) => {
+        if (s1.rating === s2.rating) {
+          return s2.noOfYears - s1.noOfYears;
+        }
+        return s2.rating - s1.rating;
+      });
     },
     addSkill: function(event) {
       this.profile.skills.push({});
@@ -346,10 +359,11 @@ export default {
         this.profile.skills = [];
       }
 
+      this.profile.skills = this.sortSkills(this.profile.skills);
       try {
         userService.updateUserProfile(this.profile);
       } catch (e) {
-        alert(e.message);
+        eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
       }
     },
     cancelSkills: function(event) {
