@@ -7,6 +7,7 @@
       <router-view />
     </div>
     <Footer :copyright-text="copyrightText" />
+    <ToastsManager />
   </div>
 </template>
 
@@ -14,12 +15,13 @@
 import userService from "@/services/user.service";
 import NavBar from "@/components/Header/NavBar";
 import Footer from "@/components/Footer/Footer";
+import ToastsManager from '@/components/ToastsManager/ToastsManager';
 import store from "@/vuex/store";
-
 export default {
   components: {
     NavBar,
-    Footer
+    Footer,
+    ToastsManager,
   },
   store,
   data: () => ({

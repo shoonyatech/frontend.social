@@ -176,6 +176,9 @@ import jobService from "@/services/job.service";
 import Checkbox from "@/components/Checkbox/Checkbox";
 import RadioButton from "@/components/RadioButton/RadioButton";
 import EditCity from "@/components/City/EditCity";
+import eventBus from "@/utilities/eventBus";
+import { ToastType, messages } from "@/constants/constants";
+
 export default {
   name: "AddJob",
   components: {
@@ -231,8 +234,13 @@ export default {
         country: this.country
       };
 
-      jobService.addJob(payload);
-      this.close();
+      jobService.addJob(payload).then(response => {
+        eventBus.$emit('show-toast', {body: messages.job.jobAddSuccess, title: messages.generic.success});
+        this.close();
+      })
+      .catch(error => {
+        eventBus.$emit('show-toast', {body: messages.job.jobAddFailure, title: messages.generic.error, type: ToastType.ERROR});
+      });
     },
     toggleCheckbox(id) {
       this[id] = !this[id];
