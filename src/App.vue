@@ -62,6 +62,8 @@ export default {
         })
         .catch(e => {});
     }
+
+    this.$store.dispatch('fetchSkills');
   }
 };
 </script>

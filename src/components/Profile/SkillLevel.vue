@@ -5,6 +5,8 @@
         :value="name"
         :is-editable="isEditable"
         :placeholder="'React'"
+        :typeahead="true"
+        :typeahead-source="skills"
         @change="onNameChange"
       />
     </span>
@@ -81,6 +83,11 @@ export default {
     return {
       skill: {}
     };
+  },
+  computed: {
+    skills() {
+      return this.$store.state.skills;
+    }
   },
   created() {
     this.skill = {
