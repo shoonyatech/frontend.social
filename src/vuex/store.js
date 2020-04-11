@@ -21,7 +21,6 @@ export default new Vuex.Store({
   actions: {
     fetchSkills({commit}) {
       skillService.fetchSkills().then((skills) => {
-        skills = [{name: 'React'}, {name:'Angular'}, {name:'JS'}];
         commit('setSkills', skills.map(x => x.name));
       });
     },
