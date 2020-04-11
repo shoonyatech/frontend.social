@@ -6,11 +6,12 @@
     <slot>
       <input
         :value="query"
+        :placeholder="placeholder"
         type="text"
       >
     </slot>
     <ul
-      v-show="this.openTypeahead"
+      v-show="openTypeahead"
       class="typeahead"
     >
       <li
@@ -50,6 +51,11 @@ export default {
     query: {
       type: String,
       required: true,
+    },
+    placeholder: {
+      type: String,
+      required: false,
+      default: '',
     }
   },
   data() {
@@ -97,7 +103,7 @@ export default {
   },
   methods: {
     enter() {
-      this.updateQuery(this.matches[this.current]);
+      this.onSelect(this.matches[this.current]);
       this.open = false;
     },
     up() {
@@ -118,14 +124,16 @@ export default {
         this.open = true;
         this.current = 0;
       }
-      this.updateQuery(e.target.value);
+
+      this.$emit('update:query', e.target.value);
     },
     onClick(index) {
-      this.updateQuery(this.matches[index]);
+      this.onSelect(this.matches[index]);
       this.open = false;
     },
-    updateQuery(query) {
+    onSelect(query) {
       this.$emit('update:query', query);
+      this.$emit('select', query);
     }
   }
 }

@@ -358,7 +358,7 @@ export default {
       ) {
         this.profile.skills = [];
       }
-
+      this.$store.dispatch('createAndUpdateSkills', this.profile.skills.map(x => x.name));
       this.profile.skills = this.sortSkills(this.profile.skills);
       try {
         userService.updateUserProfile(this.profile);

@@ -11,6 +11,19 @@
         :placeholder="placeholder"
         @change="onChange"
       />
+      <typeahead
+        v-else-if="typeahead"
+        :source="typeaheadSource"
+        :query.sync="editedValue"
+        @select="onChange($event)"
+      > 
+        <input
+          v-model="editedValue"
+          class="editable-value"
+          :placeholder="placeholder"
+          @change="onChange"
+        >
+      </typeahead>
       <input
         v-else
         v-model="editedValue"
@@ -42,8 +55,10 @@
 </template>
 
 <script>
+import Typeahead from "@/components/Typeahead/Typeahead";
+
 export default {
-  components: {},
+  components: {Typeahead},
   props: {
     multiline: {
       type: Boolean,
@@ -68,6 +83,15 @@ export default {
     autoSelect: {
       type: Array,
       default: () => []
+    },
+    typeahead: {
+      type: Boolean,
+      default: false,
+    },
+    typeaheadSource: {
+      type: Array,
+      default: () => [],
+      required: false,
     }
   },
   data() {
@@ -77,10 +101,11 @@ export default {
   },
   methods: {
     onChange: function(e) {
+      const value = typeof e === 'string' ? e : e.target.value;
       if (this.index === -1) {
-        this.$emit("change", e.target.value);
+        this.$emit("change", value);
       } else {
-        this.$emit("change", { val: e.target.value, index: this.index });
+        this.$emit("change", { val: value, index: this.index });
       }
     },
     filteredList() {
