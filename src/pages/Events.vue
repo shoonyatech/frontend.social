@@ -19,24 +19,24 @@
               Upcoming Online Events
             </h1>
             <EventStrip
-              v-for="(event, index) in categorisedEvents.upcomingOnlineEvents"
-              :key="index"
+              v-for="event in categorisedEvents.upcomingOnlineEvents"
+              :key="event._id"
               :event="event"
             />
             <h1 v-if="categorisedEvents.upcomingOfflineEvents.length">
               Upcoming Offline Events
             </h1>
             <EventStrip
-              v-for="(event, index) in categorisedEvents.upcomingOfflineEvents"
-              :key="index"
+              v-for="event in categorisedEvents.upcomingOfflineEvents"
+              :key="event._id"
               :event="event"
             />
             <h1 v-if="categorisedEvents.pastEvents.length">
               Past Events
             </h1>
             <EventStrip
-              v-for="(event, index) in categorisedEvents.pastEvents"
-              :key="index"
+              v-for="event in categorisedEvents.pastEvents"
+              :key="event._id"
               :event="event"
             />
             <div class="center-content">
