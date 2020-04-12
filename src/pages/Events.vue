@@ -22,6 +22,9 @@
               v-for="event in categorisedEvents.upcomingOnlineEvents"
               :key="event._id"
               :event="event"
+              :can-modify="canModify(event)"
+              @edit="onEditEvent"
+              @delete="onDeleteEvent"
             />
             <h1 v-if="categorisedEvents.upcomingOfflineEvents.length">
               Upcoming Offline Events
@@ -30,6 +33,9 @@
               v-for="event in categorisedEvents.upcomingOfflineEvents"
               :key="event._id"
               :event="event"
+              :can-modify="canModify(event)"
+              @edit="onEditEvent"
+              @delete="onDeleteEvent"
             />
             <h1 v-if="categorisedEvents.pastEvents.length">
               Past Events
@@ -142,7 +148,7 @@ export default {
       }
     },
     canModify(event) {
-      return event.createdBy.username === this.signedInUser.username
+      return this.signedInUser && event.createdBy.username === this.signedInUser.username
     }
   }
 };
