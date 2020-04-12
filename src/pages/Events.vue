@@ -148,7 +148,7 @@ export default {
       }
     },
     canModify(event) {
-      return this.signedInUser && event.createdBy.username === this.signedInUser.username
+      return this.signedInUser && event.createdBy && event.createdBy.username === this.signedInUser.username
     }
   }
 };
