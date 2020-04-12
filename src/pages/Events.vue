@@ -15,8 +15,27 @@
             v-if="!showAddEventDialog"
             class="events"
           >
+            <h1 v-if="categorisedEvents.upcomingOnlineEvents.length">
+              Upcoming Online Events
+            </h1>
             <EventStrip
-              v-for="(event, index) in events"
+              v-for="(event, index) in categorisedEvents.upcomingOnlineEvents"
+              :key="index"
+              :event="event"
+            />
+            <h1 v-if="categorisedEvents.upcomingOfflineEvents.length">
+              Upcoming Offline Events
+            </h1>
+            <EventStrip
+              v-for="(event, index) in categorisedEvents.upcomingOfflineEvents"
+              :key="index"
+              :event="event"
+            />
+            <h1 v-if="categorisedEvents.pastEvents.length">
+              Past Events
+            </h1>
+            <EventStrip
+              v-for="(event, index) in categorisedEvents.pastEvents"
               :key="index"
               :event="event"
             />
@@ -65,7 +84,15 @@ export default {
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
-    }
+    },
+    categorisedEvents() {
+      const todaysDate = new Date();
+      return {
+        upcomingOnlineEvents: this.events.filter(event => event.isOnline && todaysDate <= new Date(event.dateFrom)),
+        upcomingOfflineEvents: this.events.filter(event => !event.isOnline && todaysDate <= new Date(event.dateFrom)),
+        pastEvents: this.events.filter(event => todaysDate > new Date(event.dateFrom)),
+      }
+    },
   },
   created() {
     eventService.searchEventsBy().then(events => {

@@ -10,11 +10,19 @@
           <span>{{ event.title }}</span>
           <span class="event-type capsule">
             {{ event.type === "c" ? "conference" : "meetup" }}</span>
+          <span
+            v-if="event.isOnline"
+            class="event-type capsule online"
+          >online</span>
         </a>
         <div v-else>
           <span>{{ event.title }}</span>
           <span class="event-type capsule">
             {{ event.type === "c" ? "conference" : "meetup" }}</span>
+          <span
+            v-if="event.isOnline"
+            class="event-type capsule online"
+          >online</span>
         </div>
       </b-col>
     </b-row>
@@ -57,6 +65,11 @@
             v-if="event.website"
             icon="/images/web.svg"
             :url="event.website"
+          />
+          <icon-link
+            v-if="event.onlineLink"
+            icon="/images/play.svg"
+            :url="event.onlineLink"
           />
         </div>
       </b-col>
@@ -157,6 +170,11 @@ export default {
   font-size: 0.65rem;
   color: #2c3e50;
   float: right;
+
+  &.online {
+    background: #d44444;
+    color: white;
+  }
 }
 
 .event-description {
