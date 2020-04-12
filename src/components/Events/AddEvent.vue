@@ -89,6 +89,24 @@
       <b-col
         md="3"
         sm="12"
+      />
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <Checkbox
+          id="online"
+          label="Online"
+          :is-checked="event.isOnline"
+          :on-click="toggleIsOnline"
+        />
+      </b-col>
+    </b-row>
+
+    <b-row class="row">
+      <b-col
+        md="3"
+        sm="12"
       >
         <span class="label">Date</span>
       </b-col>
@@ -194,6 +212,13 @@
       :value="event.schedule"
       @change="onScheduleChange"
     />
+    <KeyValue
+      label="Online Link"
+      :is-editable="true"
+      placeholder="Optional"
+      :value="event.onlineLink"
+      @change="onOnlineLinkChange"
+    />
 
     <div class="action-buttons">
       <button
@@ -214,6 +239,7 @@ import moment from 'moment';
 import KeyValue from "@/components/common/KeyValue";
 import KeyMultiValue from "@/components/common/KeyMultiValue";
 import EditCity from "@/components/City/EditCity";
+import Checkbox from "@/components/Checkbox/Checkbox";
 
 import eventService from "@/services/event.service";
 import skillService from "@/services/skill.service";
@@ -225,7 +251,8 @@ export default {
   components: {
     KeyValue,
     KeyMultiValue,
-    EditCity
+    EditCity,
+    Checkbox,
   },
   props: {
     eventDetails: {
@@ -252,6 +279,8 @@ export default {
         instagram: '',
         linkedin: '',
         schedule: '',
+        isOnline: false,
+        onlineLink: '',
       },
       skillsLookup: []
     };
@@ -305,6 +334,12 @@ export default {
     onScheduleChange(e) {
       this.event.schedule = e.value;
     },
+    onOnlineLinkChange(e) {
+      this.event.onlineLink = e.value;
+    },
+    toggleIsOnline() {
+      this.event.isOnline = !this.event.isOnline;
+    },
     close: function(val) {
       this.$emit("close", {});
     },
@@ -325,6 +360,8 @@ export default {
         instagram: this.eventDetails.instagram || '',
         linkedin: this.eventDetails.linkedin || '',
         schedule: this.eventDetails.schedule || '',
+        isOnline: this.eventDetails.isOnline || false,
+        onlineLink: this.eventDetails.onlineLink || '',
       }
     },
     getFormattedDate(date) {
