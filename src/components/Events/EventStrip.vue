@@ -1,7 +1,29 @@
 <template>
   <div class="event-strip">
     <b-row>
+      <!--TODO: Style this component using flexbox instead of floats-->
       <b-col md="12">
+        <span
+          v-if="canModify"
+          class="event-action"
+          @click.prevent="deleteEvent(event)"
+        > 
+          <img
+            :src="`/images/delete.svg`"
+            class="icon-button"
+          >
+        </span>
+        <span
+          v-if="canModify"
+          class="event-action"
+          @click.prevent="editEvent(event)"
+        > 
+          <img
+            :src="`/images/edit.svg`"
+            class="icon-button"
+          >
+        </span>
+
         <a
           v-if="!isReadOnly"
           :href="event.website"
@@ -121,6 +143,10 @@ export default {
     },
     isReadOnly: {
       type: Boolean
+    },
+    canModify: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -143,6 +169,12 @@ export default {
     toggleArrow() {
       this.isExpanded = !this.isExpanded;
       this.isOverflow = !this.isOverflow;
+    },
+    deleteEvent(event) {
+      this.$emit('delete', event);
+    },
+    editEvent(event) {
+      this.$emit('edit', event);
     }
   }
 };
@@ -175,6 +207,10 @@ export default {
     background: #d44444;
     color: white;
   }
+}
+
+.event-action {
+  float: right;
 }
 
 .event-description {

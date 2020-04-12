@@ -114,7 +114,7 @@ export default {
           ? this.editedValue.toLowerCase()
           : this.editedValue;
         return this.autoSelect.filter(
-          a => a.toLowerCase().indexOf(this.editedValue) > -1
+          a => a && a.toLowerCase().indexOf(this.editedValue) > -1
         );
       }
       return [];
