@@ -19,6 +19,9 @@
               v-for="(event, index) in events"
               :key="index"
               :event="event"
+              :can-modify="canModify(event)"
+              @edit="onEditEvent"
+              @delete="onDeleteEvent"
             />
             <div class="center-content">
               <button
@@ -31,6 +34,7 @@
           </div>
           <AddEvent
             v-else
+            :event-details="editedEvent"
             @close="refreshPage()"
           />
         </b-col>
@@ -53,13 +57,17 @@ import EventStrip from "@/components/Events/EventStrip";
 import AddEvent from "@/components/Events/AddEvent";
 import EventFilters from "@/components/Events/EventFilters";
 
+import eventBus from "@/utilities/eventBus";
+import { ToastType, messages } from "@/constants/constants";
+
 export default {
   name: "Events",
   components: { EventStrip, EventFilters, AddEvent },
   data() {
     return {
       events: [],
-      showAddEventDialog: false
+      showAddEventDialog: false,
+      editedEvent: null
     };
   },
   computed: {
@@ -71,14 +79,29 @@ export default {
     eventService.searchEventsBy().then(events => {
       this.events = events;
     });
+
   },
   methods: {
+    onEditEvent(event) {
+      this.editedEvent = event;
+      this.showAddEventDialog = true;
+    },
+    onDeleteEvent(event) {
+      eventService.deleteEvent(event._id)
+        .then(() => {
+          eventBus.$emit('show-toast', {body: messages.events.eventDeletedSuccess, title: messages.generic.success});
+          this.events = this.events.filter(e => e._id !== event._id);
+        }).catch(e => {
+          eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        });
+    },
     onSearchParamsChange(param = "") {
       eventService.searchEventsBy(param).then(events => {
         this.events = events;
       });
     },
     refreshPage() {
+      this.editedEvent = null;
       this.showAddEventDialog = false;
       eventService.searchEventsBy().then(events => {
         this.events = events;
@@ -90,6 +113,9 @@ export default {
       } else {
         this.showAddEventDialog = true;
       }
+    },
+    canModify(event) {
+      return event.createdBy.username === this.signedInUser.username
     }
   }
 };

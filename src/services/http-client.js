@@ -29,10 +29,10 @@ export default {
       .then(response => response.data);
   },
 
-  delete(url, data) {
+  delete(url) {
     let options = getOptions();
     return httpClient()
-      .delete(url, data, options)
+      .delete(url, options)
       .then(response => response.data);
   }
 };

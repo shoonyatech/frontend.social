@@ -9,6 +9,8 @@ export const messages = {
   },
   events: {
     eventsAddSuccess: 'Event added successfully!',
+    eventsUpdateSuccess: 'Event updated successfully!',
+    eventDeletedSuccess: 'Event deleted successfully!',
     eventsAddFailure: '',
   },
   article: {

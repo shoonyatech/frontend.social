@@ -3,6 +3,7 @@
     <KeyValue
       label="Event Title"
       :is-editable="true"
+      :value="event.title"
       @change="onTitleChange"
     />
     <KeyValue
@@ -10,6 +11,7 @@
       placeholder="Optional"
       :is-editable="true"
       :multiline="true"
+      :value="event.description"
       @change="onDescriptionChange"
     />
 
@@ -85,6 +87,7 @@
         <input
           type="date"
           class="editable-value"
+          :value="event.dateFrom"
           @change="onStartDateChange"
         >
       </b-col>
@@ -110,6 +113,7 @@
         <input
           type="date"
           class="editable-value"
+          :value="event.dateTo"
           @change="onEndDateChange"
         >
       </b-col>
@@ -119,6 +123,7 @@
       label="Technologies"
       :is-editable="true"
       :auto-select="skillsLookup"
+      :values="event.relatedSkills"
       @change="onSkillsChange"
     />
 
@@ -126,42 +131,49 @@
       label="Website"
       :is-editable="true"
       placeholder="Optional"
+      :value="event.website"
       @change="onWebsiteChange"
     />
     <KeyValue
       label="Twitter"
       :is-editable="true"
       placeholder="Optional"
+      :value="event.twitter"
       @change="onTwitterChange"
     />
     <KeyValue
       label="Youtube"
       :is-editable="true"
       placeholder="Optional"
+      :value="event.youtube"
       @change="onYoutubeChange"
     />
     <KeyValue
       label="Facebook"
       :is-editable="true"
       placeholder="Optional"
+      :value="event.facebook"
       @change="onFacebookChange"
     />
     <KeyValue
       label="Instagram"
       :is-editable="true"
       placeholder="Optional"
+      :value="event.instagram"
       @change="onInstagramChange"
     />
     <KeyValue
       label="LinkedIn"
       :is-editable="true"
       placeholder="Optional"
+      :value="event.linkedin"
       @change="onLinkedinChange"
     />
     <KeyValue
       label="Schedule"
       :is-editable="true"
       placeholder="Optional"
+      :value="event.schedule"
       @change="onScheduleChange"
     />
 
@@ -180,6 +192,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import KeyValue from "@/components/common/KeyValue";
 import KeyMultiValue from "@/components/common/KeyMultiValue";
 import EditCity from "@/components/City/EditCity";
@@ -188,13 +201,20 @@ import eventService from "@/services/event.service";
 import skillService from "@/services/skill.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
-
+// TODO: Rename thie component to EventForm
 export default {
   name: "AddEvent",
   components: {
     KeyValue,
     KeyMultiValue,
     EditCity
+  },
+  props: {
+    eventDetails: {
+      type: Object,
+      optional : true,
+      default : () => null
+    }
   },
   data() {
     return {
@@ -205,12 +225,23 @@ export default {
         city: null,
         country: null,
         dateFrom: null,
-        dateTo: null
+        dateTo: null,
+        relatedSkills: [''],
+        website: '',
+        twitter: '',
+        youtube: '',
+        facebook: '',
+        instagram: '',
+        linkedin: '',
+        schedule: '',
       },
       skillsLookup: []
     };
   },
   async created() {
+    if (this.eventDetails) {
+      this.intializeEvents()
+    }
     this.skillsLookup = (await skillService.fetchSkills()).map(s => s.name);
   },
   methods: {
@@ -225,10 +256,12 @@ export default {
       this.event.country = city.country;
     },
     onStartDateChange(e) {
-      this.event.dateFrom = e.currentTarget.valueAsDate;
+      const value = e.currentTarget.valueAsDate;
+      this.event.dateFrom = value ? this.getFormattedDate(value) : null;
     },
     onEndDateChange(e) {
-      this.event.dateTo = e.currentTarget.valueAsDate;
+      const value = e.currentTarget.valueAsDate;
+      this.event.dateTo = value ? this.getFormattedDate(value) : null;
     },
     onSkillsChange: function(skills) {
       this.event.relatedSkills = skills;
@@ -257,6 +290,28 @@ export default {
     close: function(val) {
       this.$emit("close", {});
     },
+    intializeEvents() {
+      this.event = {
+        title: this.eventDetails.title || "",
+        description: this.eventDetails.description || "",
+        type: this.eventDetails.type || "c",
+        city: this.eventDetails.city || null,
+        country: this.eventDetails.country || null,
+        dateFrom: this.eventDetails.dateFrom ?  this.getFormattedDate(this.eventDetails.dateFrom) : null,
+        dateTo: this.eventDetails.dateTo ? this.getFormattedDate(this.eventDetails.dateTo) : null,
+        relatedSkills: this.eventDetails.relatedSkills ? [...this.eventDetails.relatedSkills] : [''],
+        website: this.eventDetails.website || '',
+        twitter: this.eventDetails.twitter || '',
+        youtube: this.eventDetails.youtube || '',
+        facebook: this.eventDetails.facebook || '',
+        instagram: this.eventDetails.instagram || '',
+        linkedin: this.eventDetails.linkedin || '',
+        schedule: this.eventDetails.schedule || '',
+      }
+    },
+    getFormattedDate(date) {
+      return moment(date).format('YYYY-MM-DD')
+    },
     save() {
       if (!this.event.title.length) {
         alert("Please specify event title");
@@ -269,12 +324,21 @@ export default {
         return;
       }
 
-      eventService.addEvent(this.event).then(() => {
-        eventBus.$emit('show-toast', {body: messages.events.eventsAddSuccess, title: messages.generic.success});
-        this.close();
-      }).catch(e => {
-        eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
-      });
+      if (this.eventDetails) {
+        eventService.updateEvent(this.eventDetails._id, this.event).then(() => {
+          eventBus.$emit('show-toast', {body: messages.events.eventsUpdateSuccess, title: messages.generic.success});
+          this.close();
+        }).catch(e => {
+          eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        });
+      } else {
+        eventService.addEvent(this.event).then(() => {
+          eventBus.$emit('show-toast', {body: messages.events.eventsAddSuccess, title: messages.generic.success});
+          this.close();
+        }).catch(e => {
+          eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        });
+      }
     },
     cancel() {
       this.close();

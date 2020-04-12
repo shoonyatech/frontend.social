@@ -22,5 +22,13 @@ export default {
 
   addEvent: event => {
     return httpClient.post("event", event);
-  }
+  },
+
+  updateEvent: (id, event) => {
+    return httpClient.put(`event/${id}`, event);
+  },
+
+  deleteEvent: (id) => {
+    return httpClient.delete(`event/${id}`);
+  },
 };
