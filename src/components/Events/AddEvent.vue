@@ -44,6 +44,24 @@
           >
           <span class="radio-label"> Meetup</span>
         </span>
+        <span class="radio">
+          <input
+            v-model="event.type"
+            class="radio-input"
+            type="radio"
+            value="w"
+          >
+          <span class="radio-label"> Workshop</span>
+        </span>
+        <span class="radio">
+          <input
+            v-model="event.type"
+            class="radio-input"
+            type="radio"
+            value="i"
+          >
+          <span class="radio-label"> Interview</span>
+        </span>
       </b-col>
     </b-row>
 
