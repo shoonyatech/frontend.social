@@ -84,6 +84,14 @@ export default new Router({
       path: "/learn/videocourse",
       name: "course",
       component: () => import("./pages/VideoCourse.vue")
+    },
+    {
+      path: "/event/:id",
+      name: "eventDetails",
+      component: () => import("./pages/EventDetails.vue")
     }
   ]
 });
+
+
+15% 16

@@ -9,12 +9,12 @@
         >
           <span>{{ event.title }}</span>
           <span class="event-type">
-            {{ event.type === "c" ? "conference" : "meetup" }}</span>
+            {{ getEventTypeName(event.type) }}</span>
         </a>
         <div v-else>
           <span>{{ event.title }}</span>
           <span class="event-type">
-            {{ event.type === "c" ? "conference" : "meetup" }}</span>
+            {{ getEventTypeName(event.type) }}</span>
         </div>
       </b-col>
     </b-row>
@@ -96,6 +96,7 @@
 <script>
 import IconLink from "@/components/common/IconLink";
 import SkillTags from "@/components/Skills/SkillTags";
+import { getEventTypeName } from '@/utilities/utils';
 
 export default {
   name: "EventStripCompact",
@@ -115,6 +116,9 @@ export default {
     return {
       showMore: false
     };
+  },
+  methods: {
+    getEventTypeName: getEventTypeName
   }
 };
 </script>

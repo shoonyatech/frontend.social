@@ -26,6 +26,7 @@ export default {
   background-color: #aada18;
   border-radius: 50%;
   margin-right: 10px;
+  display: inline-block;
 }
 
 .profile-photo {

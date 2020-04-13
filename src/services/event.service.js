@@ -31,4 +31,8 @@ export default {
   deleteEvent: (id) => {
     return httpClient.delete(`event/${id}`);
   },
+
+  getEventById: (id) => {
+    return httpClient.get(`event/${id}`);
+  }
 };
