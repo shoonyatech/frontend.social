@@ -39,9 +39,8 @@
         expanded: isExpanded,
         collapsed: isOverflow
       }"
-    >
-      {{ jobDescription }}
-    </div>
+      v-html="jobDescription"
+    />
     <div
       v-if="showArrow"
       class="arrow-container"

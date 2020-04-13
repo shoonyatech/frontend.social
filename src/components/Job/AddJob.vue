@@ -20,10 +20,10 @@
           <div class="form-label">
             Description
           </div>
-          <textarea
+          <ckeditor
             v-model="description"
-            type="text"
-            required
+            :editor="editor"
+            :config="editorConfig"
           />
         </div>
         <div class="skills form-field">
@@ -178,7 +178,7 @@ import RadioButton from "@/components/RadioButton/RadioButton";
 import EditCity from "@/components/City/EditCity";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
-
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export default {
   name: "AddJob",
   components: {
@@ -206,7 +206,12 @@ export default {
         webComponents: false
       },
       city: null,
-      country: null
+      country: null,
+      editor: ClassicEditor,
+      editorData: '<p>Content of the editor.</p>',
+      editorConfig: {
+          // The configuration of the editor.
+      }
     };
   },
   methods: {
@@ -270,7 +275,7 @@ export default {
   display: flex;
   justify-content: center;
   #addJobForm {
-    width: 80%;
+    width: 83%;
     @media screen and (max-width: 1024px) {
       width: 100%;
       padding: 10px;
@@ -341,5 +346,11 @@ export default {
   .multiple-selection {
     justify-content: space-between;
   }
+}
+.ck-editor {
+  width: 80%;
+}
+.ck-editor__editable p {
+  margin: 0 !important;
 }
 </style>
