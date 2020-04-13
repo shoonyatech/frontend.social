@@ -1,7 +1,11 @@
 <template>
   <div class="job">
     <div class="role-and-expertise">
-      <a :href="link">{{ role }}</a>
+      <router-link
+        :to="'jobs/' + id"
+      >
+        {{ role }}
+      </router-link>
       <div class="expertise capsule">
         {{ experienceLevel }}
       </div>
@@ -76,6 +80,10 @@ export default {
     SkillTags
   },
   props: {
+    id: {
+      type: String,
+      default: ''
+    },
     role: {
       type: String,
       default: ""
