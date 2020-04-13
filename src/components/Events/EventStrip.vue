@@ -26,21 +26,19 @@
 
         <a
           v-if="!isReadOnly"
-          :href="event.website"
-          target="_blank"
         >
-          <span>{{ event.title }}</span>
+          <span @click.prevent="onTitleClick">{{ event.title }}</span>
           <span class="event-type capsule">
-            {{ event.type === "c" ? "conference" : "meetup" }}</span>
+            {{ getEventTypeName(event.type) }}</span>
           <span
             v-if="event.isOnline"
             class="event-type capsule online"
           >online</span>
         </a>
         <div v-else>
-          <span>{{ event.title }}</span>
+          <span @click.prevent="onTitleClick">{{ event.title }}</span>
           <span class="event-type capsule">
-            {{ event.type === "c" ? "conference" : "meetup" }}</span>
+            {{ getEventTypeName(event.type) }}</span>
           <span
             v-if="event.isOnline"
             class="event-type capsule online"
@@ -129,7 +127,7 @@
 import IconLink from "@/components/common/IconLink";
 import SkillTags from "@/components/Skills/SkillTags";
 import Arrow from "../Arrow/Arrow";
-
+import { getEventTypeName } from '@/utilities/utils';
 export default {
   name: "EventStrip",
   components: {
@@ -175,7 +173,11 @@ export default {
     },
     editEvent(event) {
       this.$emit('edit', event);
-    }
+    },
+    onTitleClick() {
+      this.$router.push(`/event/${this.event._id}`);
+    },
+    getEventTypeName: getEventTypeName
   }
 };
 </script>

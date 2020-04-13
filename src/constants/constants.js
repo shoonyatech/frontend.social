@@ -16,6 +16,9 @@ export const messages = {
   article: {
     articleAddSuccess: 'Article added successfully!',
     articleAddFailure: '',
+  },
+  comment: {
+    commentAddSuccess: 'Comment added successfully!'
   }
 }
 
@@ -23,3 +26,10 @@ export const ToastType = {
   ERROR: 'danger',
   SUCCESS: 'success',
 };
+
+export const EventType = {
+  c: 'conference',
+  m: 'meetup',
+  w: 'workshop',
+  i: 'interview',
+}
