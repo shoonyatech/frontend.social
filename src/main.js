@@ -15,6 +15,10 @@ import moment from "moment-timezone";
 import VueCookies from "vue-cookies";
 import VueYoutube from 'vue-youtube'
 
+import CKEditor from '@ckeditor/ckeditor5-vue';
+
+Vue.use( CKEditor );
+
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(VueAxios, axios);

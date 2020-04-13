@@ -45,9 +45,8 @@
             <div
               ref="description"
               class="job-description"
-            >
-              {{ jobs.description }}
-            </div>
+              v-html="jobs.description"
+            />
           </div>
           <div class="job">
             <h6>Contact detail</h6>
