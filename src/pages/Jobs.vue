@@ -18,7 +18,7 @@
           >
             <JobStrip
               v-for="job in jobs"
-              :id="job.id"
+              :id="job._id"
               :key="job.id"
               :role="job.title"
               :job-description="job.description"

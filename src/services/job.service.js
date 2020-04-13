@@ -30,5 +30,9 @@ export default {
   },
   addJob: payload => {
     return httpClient.post("job", payload);
-  }
+  },
+  getJobFindOne: (searchId = "") => {
+    const jobQuery = `job/${searchId}`;
+    return httpClient.get(jobQuery);
+  },
 };

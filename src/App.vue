@@ -298,6 +298,7 @@ input {
   border-radius: 50px;
   height: 22px;
   margin: 0 2px;
+  float: right;
 }
 
 .container {
