@@ -23,5 +23,9 @@ export default {
 
   getUsersFromCity: (cityName, countryCode) => {
     return httpClient.get(`user/from/${cityName}/${countryCode}`);
+  },
+
+  addCity: payload => {
+    return httpClient.post("city", payload);
   }
 };
