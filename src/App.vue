@@ -31,6 +31,10 @@ export default {
         path: "/learn"
       },
       {
+        text: "Tools",
+        path: "/tools"
+      },
+      {
         text: "Jobs",
         path: "/jobs"
       },
