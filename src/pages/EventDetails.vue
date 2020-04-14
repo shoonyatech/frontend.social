@@ -74,7 +74,10 @@
         </div>
       </b-col>
     </b-row>
-    <b-row style="margin-top: 20px;">
+    <b-row
+      v-if="!hideComments"
+      style="margin-top: 20px;"
+    >
       <h1>Comments</h1>
     </b-row>
     <b-row v-if="!hideComments && signedInUser">
