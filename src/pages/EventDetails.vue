@@ -74,6 +74,26 @@
         </div>
       </b-col>
     </b-row>
+    <b-row>
+      <input
+        v-model="nickName"
+        type="text"
+        placeholder="Nick Name"
+      >
+      <input
+        v-model="meetingId"
+        type="text"
+        placeholder="Meeting Id"
+      >
+      <input
+        v-model="meetingPassword"
+        type="text"
+        placeholder="Password"
+      >
+      <button @click="joinMeeting">
+        Join
+      </button>
+    </b-row>
     <b-row
       v-if="!hideComments"
       style="margin-top: 20px;"
@@ -120,6 +140,9 @@ export default {
       failedToFindEvent: false,
       eventId: null,
       event: {},
+      nickName: '',
+      meetingId: '',
+      meetingPassword: '',
       comments: [
         {
           _id: 1,
@@ -172,7 +195,10 @@ export default {
     loadComments() {
       // TODO: Add api call
     },
-    getEventTypeName: getEventTypeName
+    getEventTypeName: getEventTypeName,
+    joinMeeting() {
+      this.$router.push(`/zoom?id=${this.meetingId}&password=${this.meetingPassword}&name=${this.nickName}`);
+    }
   }
 }
 </script>

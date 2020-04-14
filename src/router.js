@@ -99,7 +99,13 @@ export default new Router({
       path: "/event/:id",
       name: "eventDetails",
       component: () => import("./pages/EventDetails.vue")
+    },
+    {
+      path: "/zoom",
+      name: "zoom",
+      component: () => import("./pages/Zoom.vue")
     }
+
   ]
 });
 
