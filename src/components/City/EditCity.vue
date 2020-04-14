@@ -1,12 +1,21 @@
 <template>
   <div>
     <div v-if="editMode">
-      <input
-        v-model="editedCity"
-        class="left-input"
-        placeholder="City"
-        @input="onSearchCityChange"
-      >
+      <div class="input-group">
+        <input
+          v-model="editedCity"
+          class="left-input-width"
+          placeholder="City"
+          @input="onSearchCityChange"
+        ><span class="input-group-addon">
+          <button
+            v-b-modal.add-city-modal
+            class="mt-0"
+            type="button"
+          >Add</button>
+        </span>
+      </div>
+      <AddCity />
       <div>
         <div
           v-for="(searchedCity, index) in options"
@@ -45,12 +54,15 @@
 
 <script>
 import { CountrySelect } from "vue-country-region-select";
-
 import cityService from "@/services/city.service";
+import AddCity from "./AddCity";
 
 export default {
   name: "EditCity",
-  components: { CountrySelect },
+  components: {
+    CountrySelect,
+    AddCity
+  },
   props: {
     editMode: {
       type: Boolean
@@ -101,6 +113,11 @@ export default {
   width: 100%;
 }
 
+.left-input-width {
+  width: 86%;
+  margin-right: 10px;
+}
+
 .city-option {
   border-bottom: dotted 1px #aada18;
   cursor: pointer;
@@ -114,5 +131,9 @@ export default {
   color: rgb(212, 68, 68);
   background-color: #c5dd7d;
   font-weight: bold;
+}
+
+.display-none {
+  display: none;
 }
 </style>
