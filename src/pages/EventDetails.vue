@@ -77,12 +77,12 @@
     <b-row style="margin-top: 20px;">
       <h1>Comments</h1>
     </b-row>
-    <b-row v-if="signedInUser">
+    <b-row v-if="!hideComments && signedInUser">
       <b-col md="12">
         <add-comment :on-save="saveComment" />
       </b-col>
     </b-row>
-    <b-row>
+    <b-row v-if="!hideComments">
       <b-col md="12">
         <Comment
           v-for="comment in comments"
@@ -113,6 +113,7 @@ export default {
   components: {Comment, AddComment, SkillTags, IconLink},
   data() {
     return {
+      hideComments: true,
       failedToFindEvent: false,
       eventId: null,
       event: {},
