@@ -4,6 +4,7 @@
       <user-avatar :user="signedInUser" />
       <div class="comment-box">
         <star-rating
+          v-show="showRating"
           v-model="rating"
           :star-size="25"
           :show-rating="false"
@@ -44,6 +45,10 @@ export default {
   props: {
     onSave: {
       type: Function,
+      required: true,
+    },
+    showRating: {
+      type: Boolean,
       required: true,
     }
   },

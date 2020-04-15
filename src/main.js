@@ -1,5 +1,5 @@
 import Vue from "vue";
-import BootstrapVue from "bootstrap-vue";
+import { BootstrapVue, BootstrapVueIcons} from "bootstrap-vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
 import VueAuthenticate from "vue-authenticate";
@@ -21,6 +21,7 @@ Vue.use( CKEditor );
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 Vue.use(VueAxios, axios);
 Vue.use(VueAuthenticate, authOptions);
 Vue.use(VueYoutube)

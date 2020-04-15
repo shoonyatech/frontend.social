@@ -30,10 +30,10 @@ export default {
         text: "Learn",
         path: "/learn"
       },
-      {
-        text: "Tools",
-        path: "/tools"
-      },
+      // {
+      //   text: "Tools",
+      //   path: "/tools"
+      // },
       {
         text: "Jobs",
         path: "/jobs"
