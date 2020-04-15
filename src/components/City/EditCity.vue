@@ -4,10 +4,13 @@
       <div class="input-group">
         <input
           v-model="editedCity"
-          class="left-input-width"
+          :class="{ 'left-input-width' : addCity, 'left-input': !addCity }"
           placeholder="City"
           @input="onSearchCityChange"
-        ><span class="input-group-addon">
+        ><span
+          v-show="addCity"
+          class="input-group-addon"
+        >
           <button
             v-b-modal.add-city-modal
             class="mt-0"
@@ -72,6 +75,10 @@ export default {
     },
     country: {
       type: String
+    },
+    addCity: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

@@ -72,6 +72,7 @@
               :edit-mode="true"
               :city="city"
               :country="country"
+              :add-city="true"
               @change="onCityChange"
             />
           </div>

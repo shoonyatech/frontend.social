@@ -48,32 +48,30 @@
               <h2 class="caption">
                 {{ tool.name }}
               </h2>
-              <span
-                v-for="(tech, index) in tool.technologies"
-                :key="index"
-              >
-                <a class="body-title">{{ tech }}</a><span
-                  v-if="index+1 < tool.technologies.length"
-                  class="body-title"
-                >, </span>
-              </span>
+              <SkillTags
+                v-if="tool.technologies"
+                :skills="tool.technologies"
+              />
               <div class="subtitle">
                 <div class="mb-2">
                   {{ tool.review }}
                 </div>
               </div>
-              <div class="subtitle">
-                Reviews:
-                <div
-                  v-for="review in tool.userReviews"
-                  :key="review.index"
-                  class="mb-2"
-                >
-                  <div>
-                    {{ review.username }} : 
-                    {{ review.review }}
-                  </div>
-                </div>
+              <div class="subtitle color-gray">
+                Reviews
+                <add-comment
+                  :on-save="saveComment"
+                  :show-rating="false"
+                  class="mt-1"
+                />
+                <b-col md="12 mb-2">
+                  <Comment
+                    v-for="(review, index) in tool.userReviews"
+                    :key="index"
+                    :comment="review"
+                    :show-rating="false"
+                  />
+                </b-col>
               </div>
             </b-col>
           </b-row>
@@ -85,8 +83,17 @@
 </template>
 
 <script>
+import SkillTags from "@/components/Skills/SkillTags";
+import AddComment from "@/components/Comment/AddComment";
+import Comment from "@/components/Comment/Comment";
+
 export default {
   name: 'Tools',
+  components: {
+    SkillTags,
+    AddComment,
+    Comment
+  },
   data () {
     return {
       sections:[
@@ -105,12 +112,12 @@ export default {
                   ],
                   userReviews: [
                       {
-                        "username":"user1",
-                        "review":"The tool provides lot of integration with online editors"
+                        username: "user1",
+                        comment :"The tool provides lot of integration with online editors"
                       },
                       {
-                        "username":"user2",
-                        "review":"Difficult to use. Not recommended"
+                        username: "user2",
+                        comment :"Difficult to use. Not recommended"
                       }
                   ]
                 }
@@ -131,12 +138,12 @@ export default {
                   ],
                   userReviews:[
                       {
-                        "username":"user1",
-                        "review":"The tool provides lot of integration with online editors"
+                        username: "user1",
+                        comment: "The tool provides lot of integration with online editors"
                       },
                       {
-                        "username":"user2",
-                        "review":"Difficult to use. Not recommended"
+                        username: "user2",
+                        comment: "Difficult to use. Not recommended"
                       }
                   ]
                 }, 
@@ -152,12 +159,12 @@ export default {
                   ],
                   userReviews:[
                       {
-                        "username":"user1",
-                        "review":"The tool provides lot of integration with online editors"
+                        username: "user1",
+                        comment: "The tool provides lot of integration with online editors"
                       },
                       {
-                        "username":"user2",
-                        "review":"Difficult to use. Not recommended"
+                        username: "user2",
+                        comment: "Difficult to use. Not recommended"
                       }
                   ]
                 }
@@ -197,5 +204,8 @@ h2.caption {
 }
 .cursor-pointer {
   cursor: pointer;
+}
+.color-gray {
+  color: grey;
 }
 </style>
