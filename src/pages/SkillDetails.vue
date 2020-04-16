@@ -16,6 +16,10 @@
         <b-col md="12">
           <UpcomingEvents :skill="skill" />
           <LatestArticles :skill="skill" />
+          <LatestJobsFromCity
+            :skill="$route.params.skill"
+            :related-skill="true"
+          />
         </b-col>
       </b-row>
     </b-container>
@@ -33,10 +37,11 @@ import skillService from "@/services/skill.service";
 import LatestArticles from "@/components/Learn/LatestArticles";
 import UpcomingEvents from "@/components/Events/UpcomingEvents";
 import SkillTags from "@/components/Skills/SkillTags";
+import LatestJobsFromCity from "@/components/Job/LatestJobsFromCity"
 
 export default {
   name: "Skills",
-  components: { LatestArticles, UpcomingEvents, SkillTags },
+  components: { LatestArticles, UpcomingEvents, SkillTags, LatestJobsFromCity },
   data() {
     return {
       skill: null,
