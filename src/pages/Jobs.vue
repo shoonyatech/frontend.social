@@ -25,7 +25,8 @@
               :expertise="job.level"
               :required-skills="job.skills"
               :link="job.link"
-              :location="job.city + ', ' + job.country"
+              :city="job.city"
+              :country="job.country"
               :company="job.company"
             />
             <div class="center-content">
