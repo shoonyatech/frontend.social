@@ -2,7 +2,7 @@
   <div class="job">
     <div class="role-and-expertise">
       <router-link
-        :to="'jobs/' + id"
+        :to="'../jobs/' + id"
       >
         {{ role }}
       </router-link>

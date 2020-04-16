@@ -1,6 +1,11 @@
 <template>
   <div class="host">
-    <h1>Latest Frontend jobs from {{ city }}</h1>
+    <h1 v-if="relatedSkill">
+      Related Jobs
+    </h1>
+    <h1 v-else>
+      Latest Frontend jobs from {{ city }}
+    </h1>
     <div class="jobs">
       <div v-if="jobs.results && jobs.results.length">
         <job-strip
@@ -34,13 +39,19 @@ export default {
   props: {
     city: {
       type: String,
-      default: null,
-      required: true
+      default: null
     },
     country: {
       type: String,
-      default: null,
-      required: true
+      default: null
+    },
+    skill: {
+      type: String,
+      default: null
+    },
+    relatedSkill: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -49,7 +60,7 @@ export default {
     };
   },
   created() {
-    const query = `city=${this.city}&country=${this.country}`;
+    const query = this.relatedSkill ? `skills=${this.skill}` : `city=${this.city}&country=${this.country}`;
     jobService.getJobsOnSearchParamsChange(query).then(jobs => {
       this.jobs = jobs;
     });

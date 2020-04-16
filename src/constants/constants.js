@@ -17,6 +17,10 @@ export const messages = {
     eventDeletedSuccess: 'Event deleted successfully!',
     eventsAddFailure: '',
   },
+  subscribe: {
+    subscribeSuccess: 'Subscribe successfully!',
+    subscribeFailure: 'Error while subsceibe, Please try again.',
+  },
   article: {
     articleAddSuccess: 'Article added successfully!',
     articleAddFailure: '',

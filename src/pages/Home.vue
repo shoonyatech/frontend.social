@@ -21,6 +21,28 @@
             <SignInButtons />
           </div>
         </div>
+        <div class="mt-2">
+          <form
+            ref="form"
+            @submit.stop.prevent="handleSubmit"
+          >
+            <b-form-group
+              invalid-feedback="Email is required"
+            >
+              <input
+                v-if="!isSignedIn"
+                v-model.trim="email"
+                placeholder="Newsletter"
+                class="w-100"
+                required
+                :state="emailState"
+              >
+              <button class="w-100">
+                Subscribe
+              </button>
+            </b-form-group>
+          </form>
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -30,17 +52,55 @@
 import SignInButtons from "@/components/Signin/SignInButtons";
 import LatestArticles from "@/components/Learn/LatestArticles";
 import UpcomingEvents from "@/components/Events/UpcomingEvents";
+import newsletter from "@/services/newsletter.service";
+import eventBus from "@/utilities/eventBus";
+import { ToastType, messages } from "@/constants/constants";
 
 export default {
   name: "Home",
   components: { SignInButtons, LatestArticles, UpcomingEvents },
+  data () {
+    return {
+      emailState: null,
+      email: ''
+    }
+  },
   computed: {
     isSignedIn() {
       return this.$store.state.signedInUser != null;
     }
+    
   },
-  created() {},
-  methods: {}
+  mounted() {
+    this.checkSignIn();
+  },
+  methods: {
+    checkSignIn() {
+      setTimeout(() => {
+        this.email = this.isSignedIn ? this.$store.state.signedInUser.email : '';
+      }, 1000);
+    },
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity()
+      this.emailState = valid
+      return valid
+    },
+    handleSubmit() {
+      if (!this.checkFormValidity()) {
+        return
+      }
+      const payload = {
+        email: this.email
+      };
+      newsletter.subscribe(payload).then(response => {
+        eventBus.$emit('show-toast', {body: messages.subscribe.subscribeSuccess, title: messages.generic.success});
+        this.email = ''
+      })
+      .catch(error => {
+        eventBus.$emit('show-toast', {body: messages.subscribe.subscribeFailure, title: messages.generic.error, type: ToastType.ERROR});
+      });
+    }
+  }
 };
 </script>
 
