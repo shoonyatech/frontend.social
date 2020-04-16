@@ -1,15 +1,34 @@
+  
 <template>
-  <h1>Zoom</h1>
+  <div
+    id="zmmtg-root"
+    class="iframe-container"
+  >
+    <meta charset="utf-8">
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://dmogdx0jrul3u.cloudfront.net/1.3.7/css/bootstrap.css"
+    >
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://dmogdx0jrul3u.cloudfront.net/1.3.7/css/react-select.css"
+    >
+
+    <meta
+      name="format-detection"
+      content="telephone=no"
+    >
+  </div>
 </template>
 
 <script>
-import { ZoomMtg } from '@zoomus/websdk';
+//import { ZoomMtg } from '@zoomus/websdk';
 
-ZoomMtg.setZoomJSLib('https://dmogdx0jrul3u.cloudfront.net/1.3.7/lib', '/av'); 
-ZoomMtg.preLoadWasm();
-ZoomMtg.prepareJssdk();
 var API_KEY = "";
 var API_SECRET = "";
+
 // https://us04web.zoom.us/j/76543121168?pwd=TTJJSEJ1ZWQ4QzhUTE44dlpNVkZ3Zz09
 export default {
   data() {
@@ -20,6 +39,13 @@ export default {
     }
   },
   mounted() {
+    setTimeout(() => {
+    var ZoomMtg = window.ZoomMtg
+    ZoomMtg.setZoomJSLib('https://source.zoom.us/1.7.5/lib', '/av'); 
+
+    console.log(document.querySelector("#zmmtg-root"));
+    ZoomMtg.preLoadWasm();
+ZoomMtg.prepareJssdk();
     console.log(JSON.stringify(ZoomMtg.checkSystemRequirements()));
     this.meetConfig = {
       apiKey: API_KEY,
@@ -27,7 +53,7 @@ export default {
       meetingNumber: this.meetingId,
       userName: this.nickName,
       passWord: this.meetingPasword,
-      leaveUrl: "",
+      leaveUrl: "www.zoom.com",
       role: 0
     };
     this.signature = ZoomMtg.generateSignature({
@@ -41,7 +67,7 @@ export default {
     });
 
   ZoomMtg.init({
-      leaveUrl: "",
+      leaveUrl: "www.zoom.com",
       isSupportAV: true,
       success: () => {
         ZoomMtg.join({
@@ -63,6 +89,8 @@ export default {
         console.log(res);
       }
     });
+    }, 3000)
+
   }
 }
 </script>
