@@ -1,6 +1,6 @@
 <template>
   <iframe
-    src="https://codesandbox.io/embed/xenodochial-browser-5hhd3?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fcomponents%2FHelloWorld.vue&theme=dark"
+    :src="url"
     class="code-iframe"
     title="vvue-youtube-embed-example"
     allow="geolocation; microphone; camera; midi; vr; accelerometer; gyroscope; payment; ambient-light-sensor; encrypted-media; usb"
@@ -9,7 +9,15 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "CodeEditor",
+  props: {
+    url: {
+      type: String,
+      default: ""
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
