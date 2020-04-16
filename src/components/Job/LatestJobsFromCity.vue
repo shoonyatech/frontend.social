@@ -18,7 +18,8 @@
           :expertise="job.level"
           :required-skills="job.skills"
           :link="job.link"
-          :location="job.city + ', ' + job.country"
+          :city="job.city"
+          :country="job.country"
           :company="job.company"
         />
       </div>
@@ -60,7 +61,9 @@ export default {
     };
   },
   created() {
-    const query = this.relatedSkill ? `skills=${this.skill}` : `city=${this.city}&country=${this.country}`;
+    const query = this.relatedSkill
+      ? `skills=${this.skill}`
+      : `city=${this.city}&country=${this.country}`;
     jobService.getJobsOnSearchParamsChange(query).then(jobs => {
       this.jobs = jobs;
     });

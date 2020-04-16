@@ -1,9 +1,7 @@
 <template>
   <div class="job">
     <div class="role-and-expertise">
-      <router-link
-        :to="'../jobs/' + id"
-      >
+      <router-link :to="'../jobs/' + id">
         {{ role }}
       </router-link>
       <div class="expertise capsule">
@@ -25,12 +23,11 @@
     <div
       ref="description"
       class="location-description"
-      :class="{
-        expanded: isExpanded,
-        collapsed: isOverflow
-      }"
     >
-      {{ company }} | {{ location }}
+      <span class="company">{{ company }}</span>|
+      <a :href="'/city/' + city + '/' + country">
+        <span class="city">{{ city }}, {{ country }}</span>
+      </a>
     </div>
     <div
       ref="description"
@@ -81,7 +78,7 @@ export default {
   props: {
     id: {
       type: String,
-      default: ''
+      default: ""
     },
     role: {
       type: String,
@@ -103,9 +100,13 @@ export default {
       type: String,
       default: "#"
     },
-    location: {
+    city: {
       type: String,
-      default: "Location"
+      default: "City"
+    },
+    country: {
+      type: String,
+      default: "Country"
     },
     company: {
       type: String,
@@ -196,6 +197,9 @@ export default {
   display: flex;
   justify-content: center;
   align-content: center;
+}
+.company {
+  font-weight: bold;
 }
 @media screen and (max-width: 759px) {
   .job {
