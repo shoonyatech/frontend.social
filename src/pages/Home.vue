@@ -21,23 +21,42 @@
             <SignInButtons />
           </div>
         </div>
-        <div class="mt-2">
+        <div class="mt-2 join-box">
+          <span class="join-label">Frontend Newsletter</span>
+          <ul class="text-left">
+            <li class="newsletter-list">
+              Find out online events
+            </li>
+            <li class="newsletter-list">
+              Influencer of the week
+            </li>
+            <li class="newsletter-list">
+              Latest blogs and videos
+            </li>
+            <li class="newsletter-list">
+              Frontend jobs
+            </li>
+            <li class="newsletter-list">
+              Online courses
+            </li>
+          </ul>
           <form
             ref="form"
             @submit.stop.prevent="handleSubmit"
           >
             <b-form-group
               invalid-feedback="Email is required"
+              class="buttons-box"
             >
               <input
                 v-if="!isSignedIn"
                 v-model.trim="email"
                 placeholder="Newsletter"
-                class="w-100"
+                class="w-100 social-button "
                 required
                 :state="emailState"
               >
-              <button class="w-100">
+              <button class="w-100 social-button ">
                 Subscribe
               </button>
             </b-form-group>
@@ -133,5 +152,26 @@ export default {
 
 .buttons {
   padding: 0;
+}
+
+.buttons-box {
+  padding-right: 10px;
+}
+
+.social-button {
+  max-width: 230px;
+  margin: 5px 10px;
+}
+.newsletter-list {
+  font-size: 0.8rem;
+  list-style: none;
+}
+ul li::before {
+  content: "\2022";
+  color: #aada20;
+  font-weight: bold;
+  display: inline-block; 
+  width: 1em;
+  margin-left: -1em;
 }
 </style>
