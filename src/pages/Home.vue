@@ -51,7 +51,7 @@
               <input
                 v-if="!isSignedIn"
                 v-model.trim="email"
-                placeholder="Newsletter"
+                placeholder="Your email"
                 class="w-100 social-button "
                 required
                 :state="emailState"
@@ -78,17 +78,16 @@ import { ToastType, messages } from "@/constants/constants";
 export default {
   name: "Home",
   components: { SignInButtons, LatestArticles, UpcomingEvents },
-  data () {
+  data() {
     return {
       emailState: null,
-      email: ''
-    }
+      email: "",
+    };
   },
   computed: {
     isSignedIn() {
       return this.$store.state.signedInUser != null;
-    }
-    
+    },
   },
   mounted() {
     this.checkSignIn();
@@ -96,30 +95,41 @@ export default {
   methods: {
     checkSignIn() {
       setTimeout(() => {
-        this.email = this.isSignedIn ? this.$store.state.signedInUser.email : '';
+        this.email = this.isSignedIn
+          ? this.$store.state.signedInUser.email
+          : "";
       }, 1000);
     },
     checkFormValidity() {
-      const valid = this.$refs.form.checkValidity()
-      this.emailState = valid
-      return valid
+      const valid = this.$refs.form.checkValidity();
+      this.emailState = valid;
+      return valid;
     },
     handleSubmit() {
       if (!this.checkFormValidity()) {
-        return
+        return;
       }
       const payload = {
-        email: this.email
+        email: this.email,
       };
-      newsletter.subscribe(payload).then(response => {
-        eventBus.$emit('show-toast', {body: messages.subscribe.subscribeSuccess, title: messages.generic.success});
-        this.email = ''
-      })
-      .catch(error => {
-        eventBus.$emit('show-toast', {body: messages.subscribe.subscribeFailure, title: messages.generic.error, type: ToastType.ERROR});
-      });
-    }
-  }
+      newsletter
+        .subscribe(payload)
+        .then((response) => {
+          eventBus.$emit("show-toast", {
+            body: messages.subscribe.subscribeSuccess,
+            title: messages.generic.success,
+          });
+          this.email = "";
+        })
+        .catch((error) => {
+          eventBus.$emit("show-toast", {
+            body: messages.subscribe.subscribeFailure,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
+        });
+    },
+  },
 };
 </script>
 
@@ -170,7 +180,7 @@ ul li::before {
   content: "\2022";
   color: #aada20;
   font-weight: bold;
-  display: inline-block; 
+  display: inline-block;
   width: 1em;
   margin-left: -1em;
 }
