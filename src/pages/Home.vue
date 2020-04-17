@@ -49,7 +49,6 @@
               class="buttons-box"
             >
               <input
-                v-if="!isSignedIn"
                 v-model.trim="email"
                 placeholder="Your email"
                 class="w-100 social-button "
