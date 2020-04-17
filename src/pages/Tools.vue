@@ -6,29 +6,31 @@
         offset-md="1"
       >
         <div
-          v-for="section in sections"
-          :key="section.index"
+          v-for="(sectionName, sectionIndex) in sectionsName"
+          v-show="sections.length > 0"
+          :key="sectionIndex"
         >
           <h1>
-            <span>{{ section.name }}</span>
+            <span>{{ sectionName }}</span>
           </h1>
           <b-row
-            v-for="tool in section.tools"
-            :key="tool.index"
+            v-for="(section, index) in sections"
+            v-show="section.section === sectionName"
+            :key="index"
           >
             <b-col md="1">
               <img
                 :src="`/images/up.svg`"
                 alt=""
                 class="up-down-arrow cursor-pointer"
-                @click="upRating"
+                @click="upRating(section, index)"
               >
-              {{ tool.upRating - tool.downRating }}
+              {{ section.upRating - section.downRating }}
               <img
                 :src="`/images/down.svg`"
                 alt=""
                 class="up-down-arrow cursor-pointer"
-                @click="downRating"
+                @click="downRating(section, index)"
               >
             </b-col>
             <b-col
@@ -36,40 +38,49 @@
               class="p-0"
             >
               <img
-                :src="tool.icon"
+                :src="section.icon"
                 class="w-100"
                 alt=""
               >
             </b-col>
             <b-col
               md="9"
-              :class="{ 'tool-box' : section.tools.length > 1, 'mb-5' : section.tools.length > 1, 'mb-1' : section.tools.length === 1 }"
+              class="tool-box mb-5"
             >
               <h2 class="caption">
-                {{ tool.name }}
+                {{ section.name }}
               </h2>
               <SkillTags
-                v-if="tool.technologies"
-                :skills="tool.technologies"
+                v-if="section.technologies"
+                :skills="section.technologies"
               />
               <div class="subtitle">
                 <div class="mb-2">
-                  {{ tool.review }}
+                  {{ section.review }}
                 </div>
               </div>
               <div class="subtitle color-gray">
                 Reviews
                 <add-comment
+                  ref="addcomment"
                   :on-save="saveComment"
                   :show-rating="false"
+                  :index="index"
+                  :tool-id="section._id"
                   class="mt-1"
+                  :get-comment="comment"
                 />
                 <b-col md="12 mb-2">
                   <Comment
-                    v-for="(review, index) in tool.userReviews"
+                    v-for="(review, index) in reviews"
+                    v-show="review.toolId === section._id"
                     :key="index"
+                    :index="index"
                     :comment="review"
                     :show-rating="false"
+                    :on-delete="deleteComment"
+                    :tool-id="section._id"
+                    :on-edit="editComments"
                   />
                 </b-col>
               </div>
@@ -77,7 +88,9 @@
           </b-row>
         </div>
       </b-col>
-      <b-col md="2" />
+      <b-col md="2">
+      <!-- <button @click="add">Add</button> -->
+      </b-col>
     </b-row>
   </b-container>
 </template>
@@ -86,6 +99,9 @@
 import SkillTags from "@/components/Skills/SkillTags";
 import AddComment from "@/components/Comment/AddComment";
 import Comment from "@/components/Comment/Comment";
+import toolService from "@/services/tool.service";
+import { ToastType, messages } from "@/constants/constants";
+import eventBus from "@/utilities/eventBus";
 
 export default {
   name: 'Tools',
@@ -96,89 +112,128 @@ export default {
   },
   data () {
     return {
-      sections:[
-          {
-            name:"Requirements",
-            tools:[
-                {
-                  name: "Trello",
-                  icon: "/images/trello.png",
-                  upRating: 16,
-                  downRating: 4,
-                  review: "some large text review here",
-                  technologies: [
-                      "react",
-                      "react native"
-                  ],
-                  userReviews: [
-                      {
-                        username: "user1",
-                        comment :"The tool provides lot of integration with online editors"
-                      },
-                      {
-                        username: "user2",
-                        comment :"Difficult to use. Not recommended"
-                      }
-                  ]
-                }
-            ]
-          },
-          {
-            name: "Design",
-            tools: [
-                {
-                  name: "Figma",
-                  icon: "/images/figma.png",
-                  upRating: 16,
-                  downRating: 4,
-                  review: "some large text review here",
-                  technologies: [
-                      "react",
-                      "react native"
-                  ],
-                  userReviews:[
-                      {
-                        username: "user1",
-                        comment: "The tool provides lot of integration with online editors"
-                      },
-                      {
-                        username: "user2",
-                        comment: "Difficult to use. Not recommended"
-                      }
-                  ]
-                }, 
-          {
-                  name: "Sketch",
-                  icon: "/images/sketch.png",
-                  upRating: 16,
-                  downRating: 4,
-                  review: "some large text review here",
-                  technologies: [
-                      "react",
-                      "react native"
-                  ],
-                  userReviews:[
-                      {
-                        username: "user1",
-                        comment: "The tool provides lot of integration with online editors"
-                      },
-                      {
-                        username: "user2",
-                        comment: "Difficult to use. Not recommended"
-                      }
-                  ]
-                }
-            ]
-          }
-      ]
+      sectionsName: [
+        "Design", "Development", "Debug", "Test", "Build", "Deploy", "Documentation"
+      ],
+      sections:[],
+      reviews: [],
+      comment: '',
     }
   },
+  created() {
+    this.getTools();
+  },
   methods: {
-    upRating () {
-      console.log('up');
+    add() {
+      var payload = {
+        name: "Sketch",
+        section: "Development",
+        icon: "/images/sketch.png",
+        upRating: 16,
+        downRating: 4,
+        review: "some large text review here",
+        technologies: ["react", "react native"]
+      }
+      toolService.addTool(payload)
+        .then((response) => {
+          this.sections = response
+          this.getTools()
+        })
+        .catch(() => {
+           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        })
     },
-    downRating () {
-      console.log('down');
+    getTools() {
+      toolService.getTools()
+        .then((response) => {
+          this.sections = response
+          this.sections.forEach(element => {
+            this.getComments(element._id);
+          });
+        })
+        .catch(() => {
+           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        })
+    },
+    getComments(toolId) {
+      toolService.getComment(toolId)
+        .then((response) => {
+          this.reviews.push(...response)
+        })
+        .catch(() => {
+           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        })
+    },
+    upRating (section, index) {
+       var payload = {
+        name: section.name,
+        section: section.section,
+        icon: section.icon,
+        upRating: section.upRating+1,
+        downRating: section.downRating,
+        review: section.review,
+        technologies: section.technologies
+      }
+      toolService.upRate(section._id, payload)
+        .then((response) => {
+          this.sections.splice(index, 1, response)
+          eventBus.$emit('show-toast', {body: messages.rate.rateAddSuccess, title: messages.generic.success});
+        })
+        .catch(() => {
+           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        })
+    },
+    downRating (section, index) {
+      var payload = {
+        name: section.name,
+        section: section.section,
+        icon: section.icon,
+        upRating: section.upRating-1,
+        downRating: section.downRating,
+        review: section.review,
+        technologies: section.technologies
+      }
+      toolService.downRate(section._id, payload)
+        .then((response) => {
+          this.sections.splice(index, 1, response)
+          eventBus.$emit('show-toast', {body: messages.rate.rateDeleteSuccess, title: messages.generic.success});
+        })
+        .catch(() => {
+           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        })
+    },
+    saveComment(comment, isEdit, commentId, index) {
+      if(isEdit) {
+        var add = toolService.editComment(commentId, comment)
+      } else {
+        var add = toolService.addComment(comment)
+      }
+        add.then((response) => {
+          if (isEdit) {
+            this.reviews.splice(index, 1, response);
+          } else {
+            this.reviews.push(response);
+          }
+          eventBus.$emit('show-toast', {body: messages.comment.commentAddSuccess, title: messages.generic.success});
+        })
+        .catch(() => {
+           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        })
+    },
+    deleteComment(commentId, toolId, index) {
+      toolService.deleteComment(toolId, commentId)
+        .then((response) => {
+          this.reviews.splice(index, 1);
+          eventBus.$emit('show-toast', {body: messages.comment.commentDeleteSuccess, title: messages.generic.success});
+        })
+        .catch(() => {
+           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        })
+    },
+    editComments(commentId, comment, toolId, index) {
+      this.$refs.addcomment.forEach(element => {
+        element.editComment(commentId, comment, toolId, index)
+      });
     }
   }
 }

@@ -1,8 +1,19 @@
 <template>
   <div class="comment-container">
     <div class="comment-by">
-      {{ comment.username }} - {{ comment.timestamp | moment("timezone", "Europe/London", "DD MMM YYYY HH:MM") }}
-      <span class="float-right cursor-pointer"><b-icon-pencil /></span>
+      {{ comment.username }} <span v-show="showRating"> - </span> {{ comment.timestamp | moment("timezone", "Europe/London", "DD MMM YYYY HH:MM") }}
+      
+      <img
+        :src="`/images/delete.svg`"
+        class="icon-button float-right"
+        @click="deleteComment(comment._id, index)"
+      >
+      <img
+        :src="`/images/edit.svg`"
+        class="icon-button edit float-right"
+        title="Edit"
+        @click="editComment(comment._id, comment.comment, toolId, index)"
+      >
     </div>
     <star-rating
       v-show="showRating"
@@ -28,9 +39,31 @@ export default {
     showRating: {
       type: Boolean,
       required: true
+    },
+    onDelete: {
+      type: Function,
+      required: true
+    },
+    toolId: {
+      type: String,
+      default: ''
+    },
+    onEdit: {
+      type: Function
+    },
+    index: {
+      type: Number
     }
   },
   created() {
+  },
+  methods: {
+    deleteComment(commentId, index) {
+      this.onDelete(commentId, this.toolId, index);
+    },
+    editComment(commentId, comment, toolId, index) {
+      this.onEdit(commentId, comment, toolId, index);
+    }
   }
 }
 </script>
