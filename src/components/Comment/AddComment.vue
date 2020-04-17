@@ -10,8 +10,9 @@
           :show-rating="false"
         />
         <EditableValue
-          ref="commentBox"
+          :ref="`commentBox`"
           v-model="comment"
+          :index="index"
           :is-editable="true"
           class="value"
           placeholder="Add new comment..."
@@ -50,12 +51,25 @@ export default {
     showRating: {
       type: Boolean,
       required: true,
+    },
+    toolId: {
+      type: String,
+      default: ''
+    },
+    getComment: {
+      type: String
+    },
+    index: {
+      type: Number
     }
   },
   data() {
     return {
       comment: '',
       rating: 0,
+      isEdit: false,
+      commentId: '',
+      commentIndex: ''
     }
   },
   computed: {
@@ -65,16 +79,29 @@ export default {
   },
   methods: {
     save() {
-      if (!this.rating) return;
+      if (this.showRating) {
+        if (!this.rating) return;
+      }
 
-      this.onSave({rating: this.rating, comment: this.comment, user: this.signedInUser.userName})
-      .then(() => {
-        this.$emit('saved');
-        this.reset();
-        eventBus.$emit('show-toast', {body: messages.comment.commentAddSuccess, title: messages.generic.success});
-      }).catch(e => {
-        eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
-      });
+      if (this.showRating) {
+        var payload = {
+          rating: this.rating,
+          comment: this.comment,
+          user: this.signedInUser.userName
+        }
+      } else {
+        var payload = {
+          toolId: this.toolId,
+          comment: this.$refs.commentBox.editedValue,
+          username: this.signedInUser.username
+        }
+      }
+      if(this.isEdit) {
+        this.onSave(payload, this.isEdit, this.commentId, this.commentIndex);
+      } else {
+        this.onSave(payload, this.isEdit, this.commentId, this.commentIndex);
+      }
+      this.reset()
     },
     cancel() {
       this.$emit('cancel', {rating: this.rating, comment: this.comment});
@@ -84,6 +111,13 @@ export default {
       this.$refs.commentBox.selectItem('');
       this.comment = '';
       this.rating = 0;
+    },
+    editComment(commentId, comment, toolId, index) {
+        this.$refs.commentBox.selectItem(comment);
+        this.isEdit = true;
+        this.commentId = commentId;
+        this.commentIndex = index
+      
     }
   }
 }

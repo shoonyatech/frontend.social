@@ -26,7 +26,17 @@ export const messages = {
     articleAddFailure: '',
   },
   comment: {
-    commentAddSuccess: 'Comment added successfully!'
+    commentAddSuccess: 'Comment added successfully!',
+    commentDeleteSuccess: 'Comment deleted successfully!'
+  },
+  tool: {
+    toolAddSuccess: 'Tool added successfully!',
+    toolUpdateSuccess: 'Tool updated successfully!',
+    toolDeleteSuccess: 'Tool deleted successfully!'
+  },
+  rate: {
+    rateAddSuccess: 'Rate added successfully!',
+    rateDeleteSuccess: 'Rate deleted successfully!'
   }
 }
 
