@@ -74,26 +74,6 @@
         </div>
       </b-col>
     </b-row>
-    <b-row>
-      <input
-        v-model="nickName"
-        type="text"
-        placeholder="Nick Name"
-      >
-      <input
-        v-model="meetingId"
-        type="text"
-        placeholder="Meeting Id"
-      >
-      <input
-        v-model="meetingPassword"
-        type="text"
-        placeholder="Password"
-      >
-      <button @click="joinMeeting">
-        Join
-      </button>
-    </b-row>
     <b-row
       v-if="!hideComments"
       style="margin-top: 20px;"
