@@ -197,7 +197,7 @@ export default {
     },
     getEventTypeName: getEventTypeName,
     joinMeeting() {
-      this.$router.push(`/zoom?id=${this.meetingId}&password=${this.meetingPassword}&name=${this.nickName}`);
+      this.$router.push(`/join-meeting?id=${this.meetingId}&password=${this.meetingPassword}&name=${this.nickName}`);
     }
   }
 }
