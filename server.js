@@ -14,6 +14,10 @@ function logUrl(req, res, next) {
   return next();
 }
 
+app.get("/zoom", function(req, res) {
+  res.sendFile(path.join(__dirname + "/dist/zoom.html"));
+});
+
 app.get("/*", function(req, res) {
   res.sendFile(path.join(__dirname + "/dist/index.html"));
 });
