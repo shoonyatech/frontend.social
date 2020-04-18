@@ -15,7 +15,7 @@
 import userService from "@/services/user.service";
 import NavBar from "@/components/Header/NavBar";
 import Footer from "@/components/Footer/Footer";
-import ToastsManager from '@/components/ToastsManager/ToastsManager';
+import ToastsManager from "@/components/ToastsManager/ToastsManager";
 import store from "@/vuex/store";
 export default {
   components: {
@@ -28,47 +28,47 @@ export default {
     navLinks: [
       {
         text: "Learn",
-        path: "/learn"
+        path: "/learn",
       },
-      // {
-      //   text: "Tools",
-      //   path: "/tools"
-      // },
       {
         text: "Jobs",
-        path: "/jobs"
+        path: "/jobs",
       },
       {
         text: "Events",
-        path: "/events"
+        path: "/events",
       },
       {
         text: "City",
-        path: "/city"
+        path: "/city",
+      },
+      {
+        text: "Tools",
+        path: "/tools",
       },
       {
         text: "Technologies",
-        path: "/tech"
-      }
+        path: "/tech",
+      },
     ],
     copyrightText:
-      "Powered by Shoonya Technologies Ltd. (Canada) © 2020 All Rights Reserved."
+      "Powered by Shoonya Technologies Ltd. (Canada) © 2020 All Rights Reserved.",
   }),
   created() {
     if (localStorage.getItem("authToken")) {
       userService
         .getLoggedInUserProfile()
-        .then(user => {
+        .then((user) => {
           this.$store.commit("signInUser", user);
           if (user && (user.city == null || user.city === "")) {
             this.$router.push({ path: "me", query: { msg: "set-city" } });
           }
         })
-        .catch(e => {});
+        .catch((e) => {});
     }
 
-    this.$store.dispatch('fetchSkills');
-  }
+    this.$store.dispatch("fetchSkills");
+  },
 };
 </script>
 
