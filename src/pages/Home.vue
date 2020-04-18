@@ -88,7 +88,17 @@ export default {
       return this.$store.state.signedInUser != null;
     },
   },
+  mounted() {
+    this.checkSignIn();
+  },
   methods: {
+    checkSignIn() {
+      setTimeout(() => {
+        this.email = this.isSignedIn
+          ? this.$store.state.signedInUser.email
+          : "";
+      }, 1000);
+    },
     checkNewsletterFormValidity() {
       const valid = this.$refs.form.checkValidity()
       this.emailState = valid
