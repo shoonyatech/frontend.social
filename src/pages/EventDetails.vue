@@ -75,7 +75,7 @@
       </b-col>
     </b-row>
     <b-row
-      v-if="this.signedInUser"
+      v-if="signedInUser"
       style="margin-top: 20px;"
     >
       <h1>Group Topics (Click to Join Zoom call)</h1>
@@ -83,7 +83,7 @@
     <b-row>
       <b-col md="12">
         <EventMeetings
-          v-if="this.signedInUser"
+          v-if="signedInUser"
           :event-id="eventId"
         />
       </b-col>

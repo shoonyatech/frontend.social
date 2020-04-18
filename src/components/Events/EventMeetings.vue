@@ -23,6 +23,8 @@
 </template>
 <script>
 import eventService from "@/services/event.service";
+import eventBus from "@/utilities/eventBus";
+import { ToastType, messages } from "@/constants/constants";
 
 export default {
   name: 'EventMeetings',
@@ -56,8 +58,8 @@ export default {
       eventService.createMeeting(this.eventId, this.meetingTitle)
       .then(res => {
         this.joinMeeting(res.meetingId, 1);
-      }).catch(() => {
-        // TODO: Add error handling
+      }).catch((e) => {
+        eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
       });
     },
     joinMeeting(meetingId, role) {
