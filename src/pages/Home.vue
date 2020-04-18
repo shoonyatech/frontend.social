@@ -42,7 +42,7 @@
           </ul>
           <form
             ref="form"
-            @submit.stop.prevent="handleSubmit"
+            @submit.stop.prevent="handleNewsletterSubmit"
           >
             <b-form-group
               invalid-feedback="Email is required"
@@ -70,7 +70,7 @@
 import SignInButtons from "@/components/Signin/SignInButtons";
 import LatestArticles from "@/components/Learn/LatestArticles";
 import UpcomingEvents from "@/components/Events/UpcomingEvents";
-import newsletter from "@/services/newsletter.service";
+import newsletterService from "@/services/newsletter.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 
@@ -88,30 +88,20 @@ export default {
       return this.$store.state.signedInUser != null;
     },
   },
-  mounted() {
-    this.checkSignIn();
-  },
   methods: {
-    checkSignIn() {
-      setTimeout(() => {
-        this.email = this.isSignedIn
-          ? this.$store.state.signedInUser.email
-          : "";
-      }, 1000);
+    checkNewsletterFormValidity() {
+      const valid = this.$refs.form.checkValidity()
+      this.emailState = valid
+      return valid
     },
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.emailState = valid;
-      return valid;
-    },
-    handleSubmit() {
-      if (!this.checkFormValidity()) {
-        return;
+    handleNewsletterSubmit() {
+      if (!this.checkNewsletterFormValidity()) {
+        return
       }
       const payload = {
         email: this.email,
       };
-      newsletter
+      newsletterService
         .subscribe(payload)
         .then((response) => {
           eventBus.$emit("show-toast", {
