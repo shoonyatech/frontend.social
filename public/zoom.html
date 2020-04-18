@@ -11,13 +11,13 @@
   <div id="zmmtg-root"></div>
 </body>
 <script>
-  var API_KEY = "9fUzWPvySZ-ZrARfCr1Rpg";
-  var API_SECRET = "m9pUm57foSk6m3exB8wKnEcDjCZbHMeNTITJ";
+  var API_KEY = "";
+  var API_SECRET = "";
 
   window.onload = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const meetingId = urlParams.get('id');
-    const meetingPassword = urlParams.get('password');
+    const role = urlParams.get('role');
     const nickName = urlParams.get('name');
 
     var ZoomMtg = window.ZoomMtg
@@ -33,9 +33,9 @@
       apiSecret: API_SECRET,
       meetingNumber: meetingId,
       userName: nickName,
-      passWord: meetingPassword,
+      passWord: '',
       leaveUrl: "www.zoom.com",
-      role: 0
+      role: parseInt(role)
     };
 
     const signature = ZoomMtg.generateSignature({
@@ -58,7 +58,7 @@
           signature: signature,
           apiKey: meetConfig.apiKey,
           userEmail: "email@gmail.com",
-          passWord: meetingPassword,
+          passWord: '',
           success: function(res) {
             console.log("join meeting success");
           },
