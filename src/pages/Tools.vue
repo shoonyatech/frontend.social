@@ -94,7 +94,7 @@
         </div>
       </b-col>
       <b-col md="2">
-      <!-- <button @click="add">Add</button> -->
+        <!-- <button @click="add">Add</button> -->
       </b-col>
     </b-row>
   </b-container>
@@ -109,20 +109,27 @@ import { ToastType, messages } from "@/constants/constants";
 import eventBus from "@/utilities/eventBus";
 
 export default {
-  name: 'Tools',
+  name: "Tools",
   components: {
     SkillTags,
     AddComment,
-    Comment
+    Comment,
   },
-  data () {
+  data() {
     return {
       sectionsName: [
-        "Design", "Development", "Debug", "Test", "Build", "Deploy", "Documentation"
+        "Prototype",
+        "Design",
+        "Development",
+        "Debug",
+        "Test",
+        "Build",
+        "Deploy",
+        "Documentation",
       ],
-      sections:[],
+      sections: [],
       reviews: [],
-    }
+    };
   },
   created() {
     this.getTools();
@@ -136,111 +143,158 @@ export default {
         upRating: 16,
         downRating: 4,
         review: "some large text review here",
-        technologies: ["react", "react native"]
-      }
-      toolService.addTool(payload)
+        technologies: ["react", "react native"],
+      };
+      toolService
+        .addTool(payload)
         .then((response) => {
-          this.sections = response
-          this.getTools()
+          this.sections = response;
+          this.getTools();
         })
         .catch(() => {
-           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
-        })
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
+        });
     },
     getTools() {
-      toolService.getTools()
+      toolService
+        .getTools()
         .then((response) => {
-          this.sections = response
-          this.sections.forEach(element => {
+          this.sections = response;
+          this.sections.forEach((element) => {
             this.getComments(element._id);
           });
         })
         .catch(() => {
-           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
-        })
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
+        });
     },
     getComments(toolId) {
-      toolService.getComment(toolId)
+      toolService
+        .getComment(toolId)
         .then((response) => {
-          this.reviews.push(...response)
+          this.reviews.push(...response);
         })
         .catch(() => {
-           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
-        })
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
+        });
     },
-    upRating (section, index) {
-       var payload = {
-        name: section.name,
-        section: section.section,
-        icon: section.icon,
-        upRating: section.upRating+1,
-        downRating: section.downRating,
-        review: section.review,
-        technologies: section.technologies
-      }
-      toolService.upRate(section._id, payload)
-        .then((response) => {
-          this.sections.splice(index, 1, response)
-          eventBus.$emit('show-toast', {body: messages.rate.rateAddSuccess, title: messages.generic.success});
-        })
-        .catch(() => {
-           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
-        })
-    },
-    downRating (section, index) {
+    upRating(section, index) {
       var payload = {
         name: section.name,
         section: section.section,
         icon: section.icon,
-        upRating: section.upRating-1,
+        upRating: section.upRating + 1,
         downRating: section.downRating,
         review: section.review,
-        technologies: section.technologies
-      }
-      toolService.downRate(section._id, payload)
+        technologies: section.technologies,
+      };
+      toolService
+        .upRate(section._id, payload)
         .then((response) => {
-          this.sections.splice(index, 1, response)
-          eventBus.$emit('show-toast', {body: messages.rate.rateDeleteSuccess, title: messages.generic.success});
+          this.sections.splice(index, 1, response);
+          eventBus.$emit("show-toast", {
+            body: messages.rate.rateAddSuccess,
+            title: messages.generic.success,
+          });
         })
         .catch(() => {
-           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
+        });
+    },
+    downRating(section, index) {
+      var payload = {
+        name: section.name,
+        section: section.section,
+        icon: section.icon,
+        upRating: section.upRating - 1,
+        downRating: section.downRating,
+        review: section.review,
+        technologies: section.technologies,
+      };
+      toolService
+        .downRate(section._id, payload)
+        .then((response) => {
+          this.sections.splice(index, 1, response);
+          eventBus.$emit("show-toast", {
+            body: messages.rate.rateDeleteSuccess,
+            title: messages.generic.success,
+          });
         })
+        .catch(() => {
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
+        });
     },
     saveComment(comment, isEdit, commentId, index) {
-      if(isEdit) {
-        var add = toolService.editComment(commentId, comment)
+      if (isEdit) {
+        var add = toolService.editComment(commentId, comment);
       } else {
-        var add = toolService.addComment(comment)
+        var add = toolService.addComment(comment);
       }
-        add.then((response) => {
+      add
+        .then((response) => {
           if (isEdit) {
             this.reviews.splice(index, 1, response);
           } else {
             this.reviews.push(response);
           }
-          eventBus.$emit('show-toast', {body: messages.comment.commentAddSuccess, title: messages.generic.success});
+          eventBus.$emit("show-toast", {
+            body: messages.comment.commentAddSuccess,
+            title: messages.generic.success,
+          });
         })
         .catch(() => {
-           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
-        })
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
+        });
     },
     deleteComment(commentId, toolId, index) {
-      toolService.deleteComment(toolId, commentId)
+      toolService
+        .deleteComment(toolId, commentId)
         .then((response) => {
           this.reviews.splice(index, 1);
-          eventBus.$emit('show-toast', {body: messages.comment.commentDeleteSuccess, title: messages.generic.success});
+          eventBus.$emit("show-toast", {
+            body: messages.comment.commentDeleteSuccess,
+            title: messages.generic.success,
+          });
         })
         .catch(() => {
-           eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
-        })
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
+        });
     },
     editComments(commentId, comment, toolId, index) {
-      this.$refs.addcomment.forEach(element => {
-        element.editComment(commentId, comment, toolId, index)
+      this.$refs.addcomment.forEach((element) => {
+        element.editComment(commentId, comment, toolId, index);
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -275,5 +329,4 @@ h2.caption {
     width: 65%;
   }
 }
-
 </style>
