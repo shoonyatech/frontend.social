@@ -75,6 +75,20 @@
       </b-col>
     </b-row>
     <b-row
+      v-if="this.signedInUser"
+      style="margin-top: 20px;"
+    >
+      <h1>Group Topics (Click to Join Zoom call)</h1>
+    </b-row>
+    <b-row>
+      <b-col md="12">
+        <EventMeetings
+          v-if="this.signedInUser"
+          :event-id="eventId"
+        />
+      </b-col>
+    </b-row>
+    <b-row
       v-if="!hideComments"
       style="margin-top: 20px;"
     >
@@ -107,13 +121,14 @@ import Comment from '@/components/Comment/Comment.vue';
 import AddComment from '@/components/Comment/AddComment.vue';
 import IconLink from "@/components/common/IconLink";
 import SkillTags from "@/components/Skills/SkillTags";
+import EventMeetings from '@/components/Events/EventMeetings.vue';
 
 import eventService from "@/services/event.service";
 import { getEventTypeName } from '@/utilities/utils';
 
 export default {
   name: 'EventDetails',
-  components: {Comment, AddComment, SkillTags, IconLink},
+  components: {Comment, AddComment, SkillTags, IconLink, EventMeetings},
   data() {
     return {
       hideComments: true,
@@ -176,9 +191,6 @@ export default {
       // TODO: Add api call
     },
     getEventTypeName: getEventTypeName,
-    joinMeeting() {
-      this.$router.push(`/join-meeting?id=${this.meetingId}&password=${this.meetingPassword}&name=${this.nickName}`);
-    }
   }
 }
 </script>
