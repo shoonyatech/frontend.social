@@ -56,9 +56,6 @@ export default {
       type: String,
       default: ''
     },
-    getComment: {
-      type: String
-    },
     index: {
       type: Number
     }
@@ -79,15 +76,13 @@ export default {
   },
   methods: {
     save() {
-      if (this.showRating) {
-        if (!this.rating) return;
-      }
+      if (this.showRating && !this.rating) return;
 
       if (this.showRating) {
         var payload = {
           rating: this.rating,
           comment: this.comment,
-          user: this.signedInUser.userName
+          username: this.signedInUser.username
         }
       } else {
         var payload = {
@@ -96,11 +91,7 @@ export default {
           username: this.signedInUser.username
         }
       }
-      if(this.isEdit) {
-        this.onSave(payload, this.isEdit, this.commentId, this.commentIndex);
-      } else {
-        this.onSave(payload, this.isEdit, this.commentId, this.commentIndex);
-      }
+      this.onSave(payload, this.isEdit, this.commentId, this.commentIndex);
       this.reset()
     },
     cancel() {

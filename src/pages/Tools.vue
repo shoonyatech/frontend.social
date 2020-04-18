@@ -18,7 +18,11 @@
             v-show="section.section === sectionName"
             :key="index"
           >
-            <b-col md="1">
+            <b-col
+              md="1"
+              sm="1"
+              class="col-xs-1"
+            >
               <img
                 :src="`/images/up.svg`"
                 alt=""
@@ -35,7 +39,8 @@
             </b-col>
             <b-col
               md="1"
-              class="p-0"
+              sm="1"
+              class="p-0 col-xs-1"
             >
               <img
                 :src="section.icon"
@@ -45,7 +50,8 @@
             </b-col>
             <b-col
               md="9"
-              class="tool-box mb-5"
+              sm="9"
+              class="tool-box mb-5 col-xs-9"
             >
               <h2 class="caption">
                 {{ section.name }}
@@ -68,7 +74,6 @@
                   :index="index"
                   :tool-id="section._id"
                   class="mt-1"
-                  :get-comment="comment"
                 />
                 <b-col md="12 mb-2">
                   <Comment
@@ -117,7 +122,6 @@ export default {
       ],
       sections:[],
       reviews: [],
-      comment: '',
     }
   },
   created() {
@@ -263,4 +267,13 @@ h2.caption {
 .color-gray {
   color: grey;
 }
+@media only screen and (max-width: 576px) {
+  .col-xs-1 {
+    width: 15%;
+  }
+  .col-xs-9 {
+    width: 65%;
+  }
+}
+
 </style>
