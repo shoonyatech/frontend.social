@@ -36,8 +36,8 @@ export default {
     return httpClient.get(`event/${id}`);
   },
 
-  createMeeting(id, title) {
-    return httpClient.post(`event/${id}/create-meeting`, {title});
+  createMeeting(id, title , type)  {
+    return httpClient.post(`event/${id}/create-meeting`, {title , type});
   },
 
   getMeetings(id) {

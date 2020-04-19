@@ -55,7 +55,7 @@ export default {
       });
     },
     createMeetings() {
-      eventService.createMeeting(this.eventId, this.meetingTitle)
+      eventService.createMeeting(this.eventId, this.meetingTitle , 'jitsi')
       .then(res => {
         this.joinMeeting(res.meetingId, 1);
       }).catch((e) => {
