@@ -74,6 +74,15 @@
         </div>
       </b-col>
     </b-row>
+    <b-row v-if="youtubeVideoId">
+      <b-col md="12">
+        <youtube
+          :video-id="youtubeVideoId"
+          width="100%"
+          height="600"
+        />
+      </b-col>
+    </b-row>
     <b-row
       v-if="signedInUser"
       style="margin-top: 20px;"
@@ -164,6 +173,9 @@ export default {
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
+    },
+    youtubeVideoId() {
+      return this.event.youtube ? this.parseYoutubeVideoId(this.event.youtube): null;
     }
   },
   async created() {
@@ -191,6 +203,15 @@ export default {
       // TODO: Add api call
     },
     getEventTypeName: getEventTypeName,
+    parseYoutubeVideoId(link) {
+      try {
+        const url = new URL(link)
+        const urlParams = new URLSearchParams(url.search);
+        return urlParams.get("v") || null;
+      } catch(e) {
+        return null;
+      }
+    }
   }
 }
 </script>
