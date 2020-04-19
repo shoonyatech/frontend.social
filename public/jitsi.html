@@ -1,0 +1,34 @@
+<html itemscope itemtype="http://schema.org/Product" prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    </head>
+    <body>
+        <script src="https://meet.jit.si/external_api.js"></script>
+        <script>
+          const urlParams = new URLSearchParams(window.location.search);
+          const meetingId = urlParams.get("id");
+          const nickName = urlParams.get("name");
+
+          const domain = "meet.jit.si";
+          const options = {
+            roomName: meetingId,
+            width: "100%",
+            height: "100%",
+            parentNode: undefined,
+            configOverwrite: {},
+            interfaceConfigOverwrite: {
+              filmStripOnly: false,
+                TOOLBAR_BUTTONS: ['microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+                  'fodeviceselection', 'hangup', 'profile', 'chat', 'recording', 'settings', 'raisehand','videoquality', 'filmstrip', 'stats', 
+                  'tileview', 'videobackgroundblur',  'mute-everyone'],
+              },
+              desktopSharingChromeSources: [ 'screen', 'window', 'tab'],
+              userInfo: {
+                displayName: nickName
+              }
+            }
+          const api = new JitsiMeetExternalAPI(domain, options);
+        </script>
+    </body>
+</html>

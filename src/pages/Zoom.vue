@@ -7,13 +7,12 @@
 
 <script>
 export default {
+
   computed: {
     zoomUrl() {
-      return `/zoom.html${window.location.search}`;
+      return `/jitsi.html${window.location.search}`;
     },
   },
-  mounted() {
-  }
 }
 </script>
 <style lang="scss" scoped>
