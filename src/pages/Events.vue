@@ -104,7 +104,7 @@ export default {
       return {
         upcomingOnlineEvents: this.events.filter(event => event.isOnline && todaysDate <= new Date(event.dateFrom)),
         upcomingOfflineEvents: this.events.filter(event => !event.isOnline && todaysDate <= new Date(event.dateFrom)),
-        pastEvents: this.events.filter(event => todaysDate > new Date(event.dateFrom)),
+        pastEvents: this.events.filter(event => todaysDate > new Date(event.dateFrom)).sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom)),
       }
     },
   },

@@ -103,7 +103,7 @@ export default {
       );
       this.pastEvents = cityEvents.filter(
         e => new Date(e.dateFrom) < new Date()
-      );
+      ).sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom));
     });
   },
 
