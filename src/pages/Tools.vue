@@ -101,11 +101,12 @@
       </b-col>
       <b-col
         v-if="!showAddToolDialog"
-        md="2"
+        md="4"
       >
         <button @click="showDialog()">
           + Add
         </button>
+        <tool-filters :on-search-params-change="onSearchParamsChange" />
       </b-col>
     </b-row>
   </b-container>
@@ -119,6 +120,7 @@ import toolService from "@/services/tool.service";
 import { ToastType, messages } from "@/constants/constants";
 import eventBus from "@/utilities/eventBus";
 import AddTool from "@/components/Tools/AddTool";
+import ToolFilters from "@/components/Tools/ToolFilters";
 
 export default {
   name: "Tools",
@@ -127,6 +129,7 @@ export default {
     AddComment,
     Comment,
     AddTool,
+    ToolFilters
   },
   data() {
     return {
@@ -359,6 +362,11 @@ export default {
       } else {
         this.showAddToolDialog = true;
       }
+    },
+    onSearchParamsChange(param = "") {
+      toolService.searchToolsBy(param).then(sections => {
+        this.sections = sections;
+      });
     },
   },
 };
