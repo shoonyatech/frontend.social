@@ -1,50 +1,51 @@
 <template>
   <div class="comment-container">
-    <div class="comment-by">
-      {{ comment.username }}
-      <span v-show="showRating">-</span>
-      {{ comment.timestamp | moment("timezone", "Europe/London", "DD MMM YYYY HH:MM") }}
-      <img
-        :src="`/images/delete.svg`"
-        class="icon-button float-right"
-        @click="deleteComment(comment._id, index)"
+    <div v-show="!isEdit">
+      <div class="comment-by">
+        {{ comment.createdBy.userName }}
+        {{ comment.createdTime | moment("timezone",new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1], "DD MMM YYYY HH:mm") }}
+        <img
+          :src="`/images/delete.svg`"
+          class="icon-button float-right"
+          @click="deleteComment()"
+        >
+        <!-- <img
+          :src="`/images/edit.svg`"
+          class="icon-button edit float-right"
+          title="Edit"
+          @click="editComment(comment._id, comment.comment, toolId, index)"
+        />-->
+      </div>
+      <star-rating
+        v-show="showRating"
+        :star-size="25"
+        :rating="Number(comment.rating)"
+        :show-rating="false"
+        :read-only="true"
+      />
+      <div>{{ comment.comment }}</div>
+      <div
+        v-show="allowReply"
+        class="reply-div"
       >
-      <img
-        :src="`/images/edit.svg`"
-        class="icon-button edit float-right"
-        title="Edit"
-        @click="editComment(comment._id, comment.comment, toolId, index)"
-      >
+        <a
+          class="reply"
+          @click="toggleAddComment"
+        >Reply</a>
+      </div>
     </div>
-    <star-rating
-      v-show="showRating"
-      :star-size="25"
-      :rating="Number(comment.rating)"
-      :show-rating="false"
-      :read-only="true"
-    />
-    <div>{{ comment.comment }}</div>
-    <div
-      v-show="allowReply"
-      class="reply-div"
-    >
-      <a
-        class="reply"
-        @click="toggleAddComment"
-      >Reply</a>
-    </div>
-    <Reply
-      v-for="reply in comment.reply"
+    <CommentReply
+      v-for="(reply, index) in comment.reply"
       v-show="allowReply"
       :key="reply._id"
+      :index="index"
       :comment="reply"
     />
     <add-comment
       v-show="addReply"
-      ref="addcomment"
+      ref="addreply"
       :on-save="saveComment"
       :show-rating="false"
-      :index="1"
       :parent-id="comment._id"
       class="mt-1"
     />
@@ -52,11 +53,14 @@
 </template>
 <script>
 import StarRating from "vue-star-rating";
-import Reply from "@/components/Comment/Reply";
+import CommentReply from "@/components/Comment/CommentReply";
 import AddComment from "@/components/Comment/AddComment";
+import commentService from "@/services/comment.service";
+import eventBus from "@/utilities/eventBus";
+
 export default {
   name: "Comment",
-  components: { StarRating, Reply, AddComment },
+  components: { StarRating, CommentReply, AddComment },
   props: {
     comment: {
       type: Object,
@@ -90,18 +94,45 @@ export default {
     },
     saveComment: {
       type: Function
+    },
+    commentId: {
+      type: String,
+      default: ""
     }
+  },
+  data() {
+    return {
+      isEdit: false
+    };
   },
   created() {},
   methods: {
-    deleteComment(commentId, index) {
-      this.onDelete(commentId, this.toolId, index);
+    deleteComment() {
+      commentService
+        .deleteComment(this.commentId)
+        .then(response => {
+          this.onDelete(this.index);
+          eventBus.$emit("show-toast", {
+            body: messages.comment.commentDeleteSuccess,
+            title: messages.generic.success
+          });
+        })
+        .catch(() => {
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR
+          });
+        });
     },
-    editComment(commentId, comment, toolId, index) {
-      this.onEdit(commentId, comment, toolId, index);
+    editComment() {
+      this.isEdit = true;
     },
     toggleAddComment() {
       this.addReply = !this.addReply;
+    },
+    toggleEdit() {
+      this.isEdit = !this.isEdit;
     }
   }
 };
