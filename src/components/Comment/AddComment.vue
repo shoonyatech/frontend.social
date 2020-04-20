@@ -12,7 +12,7 @@
         <EditableValue
           :ref="`commentBox`"
           v-model="comment"
-          :index="index"
+          :index="1"
           :is-editable="true"
           class="value"
           placeholder="Add new comment..."
@@ -35,39 +35,40 @@
 </template>
 <script>
 import EditableValue from "@/components/common/EditableValue";
-import StarRating from 'vue-star-rating';
+import StarRating from "vue-star-rating";
 import UserAvatar from "@/components/common/UserAvatar";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
+import commentService from "@/services/comment.service";
 
 export default {
-  name: 'AddComment',
-  components: {EditableValue, StarRating, UserAvatar},
+  name: "AddComment",
+  components: { EditableValue, StarRating, UserAvatar },
   props: {
     onSave: {
       type: Function,
-      required: true,
+      required: true
     },
     showRating: {
       type: Boolean,
-      required: true,
+      required: true
     },
-    toolId: {
+    parentId: {
       type: String,
-      default: ''
+      default: ""
     },
-    index: {
-      type: Number
+    commentId: {
+      type: String,
+      default: ""
     }
   },
   data() {
     return {
-      comment: '',
+      comment: "",
       rating: 0,
       isEdit: false,
-      commentId: '',
-      commentIndex: ''
-    }
+      commentIndex: ""
+    };
   },
   computed: {
     signedInUser() {
@@ -76,42 +77,56 @@ export default {
   },
   methods: {
     save() {
-      if (this.showRating && !this.rating) return;
+      if (
+        this.$refs.commentBox.editedValue == "" ||
+        (this.showRating && !this.rating)
+      )
+        return;
 
-      if (this.showRating) {
-        var payload = {
-          rating: this.rating,
-          comment: this.comment,
-          username: this.signedInUser.username
-        }
+      var payload = {
+        parentId: this.parentId,
+        comment: this.$refs.commentBox.editedValue,
+        rating: this.rating,
+        createdTime: new Date()
+      };
+
+      if (this.commentId == "") {
+        var add = commentService.addComment(payload);
       } else {
-        var payload = {
-          toolId: this.toolId,
-          comment: this.$refs.commentBox.editedValue,
-          username: this.signedInUser.username
-        }
+        var add = commentService.editComment(this.commentId, payload);
       }
-      this.onSave(payload, this.isEdit, this.commentId, this.commentIndex);
-      this.reset()
+
+      add
+        .then(response => {
+          this.onSave(response);
+        })
+        .catch(() => {
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR
+          });
+        });
+
+      this.reset();
     },
     cancel() {
-      this.$emit('cancel', {rating: this.rating, comment: this.comment});
+      this.$emit("cancel", { rating: this.rating, comment: this.comment });
       this.reset();
     },
     reset() {
-      this.$refs.commentBox.selectItem('');
-      this.comment = '';
+      this.$refs.commentBox.selectItem("");
+      this.comment = "";
       this.rating = 0;
     },
     editComment(commentId, comment, toolId, index) {
-        this.$refs.commentBox.selectItem(comment);
-        this.isEdit = true;
-        this.commentId = commentId;
-        this.commentIndex = index
-      
+      this.$refs.commentBox.selectItem(comment);
+      this.isEdit = true;
+      this.commentId = commentId;
+      this.commentIndex = index;
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .action-buttons {
