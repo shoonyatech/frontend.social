@@ -39,5 +39,11 @@ export default {
 
   deleteComment: (toolId, commentId) => {
     return httpClient.delete(`tool/review/${commentId}`);
-  }
+  },
+
+  searchToolsBy: query => {
+    query = query || "";
+    return httpClient.get("tool?" + query);
+  },
+  
 };
