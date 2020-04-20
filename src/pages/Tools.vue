@@ -15,7 +15,7 @@
               <span>{{ sectionName }}</span>
             </h1>
             <b-row
-              v-for="(section, index) in sections"
+              v-for="(section, index) in sortedSectionArray"
               v-show="section.section === sectionName"
               :key="index"
             >
@@ -78,10 +78,10 @@
                   />
                   <b-col md="12 mb-2">
                     <Comment
-                      v-for="(review, index) in reviews"
+                      v-for="(review, ReviewIndex) in reviews"
                       v-show="review.toolId === section._id"
-                      :key="index"
-                      :index="index"
+                      :key="ReviewIndex"
+                      :index="ReviewIndex"
                       :comment="review"
                       :show-rating="false"
                       :on-delete="deleteComment"
@@ -131,7 +131,6 @@ export default {
   data() {
     return {
       sectionsName: [
-        "Prototype",
         "Design",
         "Development",
         "Debug",
@@ -149,6 +148,16 @@ export default {
     signedInUser() {
       return this.$store.state.signedInUser;
     },
+    sortedSectionArray: function() {
+      function compare(a, b) {
+        if (a.upRating-a.downRating > b.upRating-b.downRating)
+          return -1;
+        if (a.upRating-a.downRating < b.upRating-b.downRating)
+          return 1;
+        return 0;
+      }
+      return this.sections.slice().sort(compare);
+    }
   },
   created() {
     this.getTools();
