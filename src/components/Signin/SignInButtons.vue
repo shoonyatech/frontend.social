@@ -74,7 +74,7 @@ export default {
             if (user.city == null || user.city === "") {
               this_.$router.push({ path: "me", query: { msg: "set-city" } });
             } else {
-              this_.$router.push("/");
+              this_.$router.go(-1);
             }
           }
         })
