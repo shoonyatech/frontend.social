@@ -54,22 +54,23 @@
         <b-col md="8">
           <add-comment
             ref="addcomment"
+            :comment-id="commentId"
             :on-save="saveComment"
             :show-rating="false"
-            :index="1"
-            :parent-id="'0'"
+            :parent-id="courseId"
             class="mt-1"
           />
           <Comment
-            v-for="comment in comments"
+            v-for="(comment,index) in comments"
             :key="comment._id"
-            :index="comment._id"
+            :index="index"
+            :comment-id="comment._id"
             :comment="comment"
             :show-rating="showRating"
-            :allow-reply="allowReply"            
+            :allow-reply="allowReply"
             :on-delete="deleteComment"
             :tool-id="'comment._id'"
-            :on-edit="editComments"
+            :on-edit="editComment"
             :save-comment="saveComment"
           />
         </b-col>
@@ -85,6 +86,7 @@ import Checkbox from "@/components/Checkbox/Checkbox";
 import Comment from "@/components/Comment/Comment";
 import AddComment from "@/components/Comment/AddComment";
 import commentService from "@/services/comment.service";
+import eventBus from "@/utilities/eventBus";
 export default {
   name: "VideoCourse",
   components: {
@@ -109,6 +111,7 @@ export default {
   },
   data() {
     return {
+      courseId: "5e9d7d650018553a2cc5366a",
       videoId: "7iUqMA2Y6xA",
       codeEditorURL:
         "https://codesandbox.io/embed/xenodochial-browser-5hhd3?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fcomponents%2FHelloWorld.vue&theme=dark",
@@ -161,65 +164,13 @@ export default {
       hideComments: false,
       showRating: false,
       allowReply: true,
-      comments: [
-        {
-          _id: 1,
-          comment: "Lorem ipsum",
-          rating: 4,
-          username: "Mayank",
-          timestamp: "2020-04-10 14:32+530",
-          reply: [
-            {
-              _id: 1,
-              comment: "Lorem ipsum",
-              rating: 4,
-              username: "Mayank",
-              timestamp: "2020-04-10 14:32+530"
-            },
-            {
-              _id: 2,
-              comment: "Lorem ipsum",
-              rating: 2,
-              username: "Mayank",
-              timestamp: "2020-04-10 14:32+530"
-            }           
-          ]
-        },
-        {
-          _id: 2,
-          comment: "Lorem ipsum",
-          rating: 2,
-          username: "Mayank",
-          timestamp: "2020-04-10 14:32+530"
-        },
-        {
-          _id: 3,
-          comment: "Lorem ipsum",
-          rating: 4,
-          username: "Mayank",
-          timestamp: "2020-04-10 14:32+530",
-          reply: [
-            {
-              _id: 1,
-              comment: "Lorem ipsum",
-              rating: 4,
-              username: "Mayank",
-              timestamp: "2020-04-10 14:32+530"
-            },
-            {
-              _id: 2,
-              comment: "Lorem ipsum",
-              rating: 2,
-              username: "Mayank",
-              timestamp: "2020-04-10 14:32+530"
-            }
-          ]
-        }
-      ]
+      commentId: "",
+      comments: []
     };
   },
   created() {
     this.setTimer();
+    this.getComments();
   },
   beforeDestroy() {
     clearInterval(this.timer);
@@ -260,41 +211,11 @@ export default {
 
       if (result.length > 0) this.codeEditorURL = result[0];
     },
-    saveComment(commentId, comment, isEdit, index) {
-      if (isEdit) {
-        var add = commentService.editComment(commentId, comment);
-      } else {
-        var add = commentService.addComment(comment);
-      }
-      add
-        .then(response => {
-          if (isEdit) {
-            this.comments.splice(index, 1, response);
-          } else {
-            this.comments.push(response);
-          }
-          eventBus.$emit("show-toast", {
-            body: messages.comment.commentAddSuccess,
-            title: messages.generic.success
-          });
-        })
-        .catch(() => {
-          eventBus.$emit("show-toast", {
-            body: e.message,
-            title: messages.generic.error,
-            type: ToastType.ERROR
-          });
-        });
-    },
-    deleteComment(commentId, index) {
+    getComments() {
       commentService
-        .deleteComment(commentId)
+        .getComment(this.courseId)
         .then(response => {
-          this.comments.splice(index, 1);
-          eventBus.$emit("show-toast", {
-            body: messages.comment.commentDeleteSuccess,
-            title: messages.generic.success
-          });
+          this.comments = response; //.push(...response);
         })
         .catch(() => {
           eventBus.$emit("show-toast", {
@@ -304,10 +225,25 @@ export default {
           });
         });
     },
-    editComments(commentId, comment, toolId, index) {
-      // this.$refs.addcomment.forEach((element) => {
-      //   element.editComment(commentId, comment, toolId, index);
-      // });
+    saveComment(response) {
+      if (this.commentId != "") {
+        this.comments.splice(index, 1, response);
+        this.commentId = "";
+      } else {
+        this.comments.push(response);
+      }
+
+      eventBus.$emit("show-toast", {
+        body: messages.comment.commentAddSuccess,
+        title: messages.generic.success
+      });
+    },
+    deleteComment(index) {
+      console.log(index);
+      this.comments.splice(index, 1);
+    },
+    editComment(commentId) {
+      this.commentId = commentId;
     }
   }
 };
