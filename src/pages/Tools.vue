@@ -5,96 +5,107 @@
         md="7"
         offset-md="1"
       >
-        <div
-          v-for="(sectionName, sectionIndex) in sectionsName"
-          v-show="sections.length > 0"
-          :key="sectionIndex"
-        >
-          <h1>
-            <span>{{ sectionName }}</span>
-          </h1>
-          <b-row
-            v-for="(section, index) in sections"
-            v-show="section.section === sectionName"
-            :key="index"
+        <div v-if="!showAddToolDialog">
+          <div
+            v-for="(sectionName, sectionIndex) in sectionsName"
+            v-show="sections.length > 0"
+            :key="sectionIndex"
           >
-            <b-col
-              md="1"
-              sm="1"
-              class="col-xs-1"
+            <h1>
+              <span>{{ sectionName }}</span>
+            </h1>
+            <b-row
+              v-for="(section, index) in sections"
+              v-show="section.section === sectionName"
+              :key="index"
             >
-              <img
-                :src="`/images/up.svg`"
-                alt=""
-                class="up-down-arrow cursor-pointer"
-                @click="upRating(section, index)"
+              <b-col
+                md="1"
+                sm="1"
+                class="col-xs-1"
               >
-              {{ section.upRating - section.downRating }}
-              <img
-                :src="`/images/down.svg`"
-                alt=""
-                class="up-down-arrow cursor-pointer"
-                @click="downRating(section, index)"
+                <img
+                  :src="`/images/up.svg`"
+                  alt=""
+                  class="up-down-arrow cursor-pointer"
+                  @click="upRating(section, index)"
+                >
+                {{ section.upRating - section.downRating }}
+                <img
+                  :src="`/images/down.svg`"
+                  alt=""
+                  class="up-down-arrow cursor-pointer"
+                  @click="downRating(section, index)"
+                >
+              </b-col>
+              <b-col
+                md="1"
+                sm="1"
+                class="p-0 col-xs-1"
               >
-            </b-col>
-            <b-col
-              md="1"
-              sm="1"
-              class="p-0 col-xs-1"
-            >
-              <img
-                :src="section.icon"
-                class="w-100"
-                alt=""
+                <img
+                  :src="section.icon"
+                  class="w-100"
+                  alt=""
+                >
+              </b-col>
+              <b-col
+                md="9"
+                sm="9"
+                class="tool-box mb-5 col-xs-9"
               >
-            </b-col>
-            <b-col
-              md="9"
-              sm="9"
-              class="tool-box mb-5 col-xs-9"
-            >
-              <h2 class="caption">
-                {{ section.name }}
-              </h2>
-              <SkillTags
-                v-if="section.technologies"
-                :skills="section.technologies"
-              />
-              <div class="subtitle">
-                <div class="mb-2">
-                  {{ section.review }}
-                </div>
-              </div>
-              <div class="subtitle color-gray">
-                Reviews
-                <add-comment
-                  ref="addcomment"
-                  :on-save="saveComment"
-                  :show-rating="false"
-                  :index="index"
-                  :tool-id="section._id"
-                  class="mt-1"
+                <h2 class="caption">
+                  {{ section.name }}
+                </h2>
+                <SkillTags
+                  v-if="section.technologies"
+                  :skills="section.technologies"
                 />
-                <b-col md="12 mb-2">
-                  <Comment
-                    v-for="(review, index) in reviews"
-                    v-show="review.toolId === section._id"
-                    :key="index"
-                    :index="index"
-                    :comment="review"
+                <div class="subtitle">
+                  <div class="mb-2">
+                    {{ section.review }}
+                  </div>
+                </div>
+                <div class="subtitle color-gray">
+                  Reviews
+                  <add-comment
+                    ref="addcomment"
+                    :on-save="saveComment"
                     :show-rating="false"
-                    :on-delete="deleteComment"
+                    :index="index"
                     :tool-id="section._id"
-                    :on-edit="editComments"
+                    class="mt-1"
                   />
-                </b-col>
-              </div>
-            </b-col>
-          </b-row>
+                  <b-col md="12 mb-2">
+                    <Comment
+                      v-for="(review, index) in reviews"
+                      v-show="review.toolId === section._id"
+                      :key="index"
+                      :index="index"
+                      :comment="review"
+                      :show-rating="false"
+                      :on-delete="deleteComment"
+                      :tool-id="section._id"
+                      :on-edit="editComments"
+                    />
+                  </b-col>
+                </div>
+              </b-col>
+            </b-row>
+          </div>
         </div>
+        <AddTool
+          v-else
+          @close="refreshPage()"
+        />
       </b-col>
-      <b-col md="2">
-        <!-- <button @click="add">Add</button> -->
+      <b-col
+        v-if="!showAddToolDialog"
+        md="2"
+      >
+        <button @click="showDialog()">
+          + Add
+        </button>
       </b-col>
     </b-row>
   </b-container>
@@ -107,6 +118,7 @@ import Comment from "@/components/Comment/Comment";
 import toolService from "@/services/tool.service";
 import { ToastType, messages } from "@/constants/constants";
 import eventBus from "@/utilities/eventBus";
+import AddTool from "@/components/Tools/AddTool"
 
 export default {
   name: "Tools",
@@ -114,6 +126,7 @@ export default {
     SkillTags,
     AddComment,
     Comment,
+    AddTool,
   },
   data() {
     return {
@@ -129,36 +142,18 @@ export default {
       ],
       sections: [],
       reviews: [],
+      showAddToolDialog: false,
     };
+  },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    },
   },
   created() {
     this.getTools();
   },
   methods: {
-    add() {
-      var payload = {
-        name: "Sketch",
-        section: "Development",
-        icon: "/images/sketch.png",
-        upRating: 16,
-        downRating: 4,
-        review: "some large text review here",
-        technologies: ["react", "react native"],
-      };
-      toolService
-        .addTool(payload)
-        .then((response) => {
-          this.sections = response;
-          this.getTools();
-        })
-        .catch(() => {
-          eventBus.$emit("show-toast", {
-            body: e.message,
-            title: messages.generic.error,
-            type: ToastType.ERROR,
-          });
-        });
-    },
     getTools() {
       toolService
         .getTools()
@@ -292,6 +287,17 @@ export default {
       this.$refs.addcomment.forEach((element) => {
         element.editComment(commentId, comment, toolId, index);
       });
+    },
+    refreshPage() {
+      this.showAddToolDialog = false;
+      this.getTools()
+    },
+    showDialog() {
+      if (this.signedInUser == null) {
+        this.$router.push("/signin");
+      } else {
+        this.showAddToolDialog = true;
+      }
     },
   },
 };
