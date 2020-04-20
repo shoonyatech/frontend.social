@@ -87,7 +87,7 @@
       v-if="signedInUser"
       style="margin-top: 20px;"
     >
-      <h1>Group Topics (Click to Join Zoom call)</h1>
+      <h1>Group Topics (Click to Join call)</h1>
     </b-row>
     <b-row>
       <b-col md="12">

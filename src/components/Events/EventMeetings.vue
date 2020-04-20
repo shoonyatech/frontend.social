@@ -4,13 +4,13 @@
       <input
         v-model="meetingTitle"
         type="text"
-        placeholder="Create Group Topics"
+        placeholder="Topic"
       >
       <button
         :disabled="!meetingTitle"
         @click="createMeetings"
       >
-        Create New Topic
+        Create video call
       </button>
     </div>
     <div
