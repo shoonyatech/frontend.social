@@ -118,7 +118,7 @@ import Comment from "@/components/Comment/Comment";
 import toolService from "@/services/tool.service";
 import { ToastType, messages } from "@/constants/constants";
 import eventBus from "@/utilities/eventBus";
-import AddTool from "@/components/Tools/AddTool"
+import AddTool from "@/components/Tools/AddTool";
 
 export default {
   name: "Tools",
@@ -142,6 +142,7 @@ export default {
       sections: [],
       reviews: [],
       showAddToolDialog: false,
+      rateUser: [],
     };
   },
   computed: {
@@ -161,6 +162,7 @@ export default {
   },
   created() {
     this.getTools();
+    this.getRateUser();
   },
   methods: {
     getTools() {
@@ -180,13 +182,27 @@ export default {
           });
         });
     },
+    getRateUser() {
+      toolService
+        .getRateUser()
+        .then((response) => {
+          this.rateUser = response;
+        })
+        .catch((e) => {
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
+        });
+    },
     getComments(toolId) {
       toolService
         .getComment(toolId)
         .then((response) => {
           this.reviews.push(...response);
         })
-        .catch(() => {
+        .catch((e) => {
           eventBus.$emit("show-toast", {
             body: e.message,
             title: messages.generic.error,
@@ -195,50 +211,86 @@ export default {
         });
     },
     upRating(section, index) {
-      var payload = {
-        name: section.name,
-        section: section.section,
-        icon: section.icon,
-        upRating: section.upRating + 1,
-        downRating: section.downRating,
-        review: section.review,
-        technologies: section.technologies,
-      };
-      toolService
-        .upRate(section._id, payload)
-        .then((response) => {
-          this.sections.splice(index, 1, response);
-          eventBus.$emit("show-toast", {
-            body: messages.rate.rateAddSuccess,
-            title: messages.generic.success,
-          });
-        })
-        .catch(() => {
-          eventBus.$emit("show-toast", {
-            body: e.message,
-            title: messages.generic.error,
-            type: ToastType.ERROR,
-          });
+      if(this.rateUser.some(user => user.toolId === section._id)){
+        return eventBus.$emit("show-toast", {
+          body: messages.rate.rateAlreadyAdded,
+          title: messages.generic.error,
+          type: ToastType.ERROR,
         });
+      } else {
+        var payload = {
+          name: section.name,
+          section: section.section,
+          icon: section.icon,
+          upRating: section.upRating + 1,
+          downRating: section.downRating,
+          review: section.review,
+          technologies: section.technologies,
+        };
+        toolService
+          .upRate(section._id, payload)
+          .then((response) => {
+            this.sections.splice(index, 1, response);
+            this.addUserToRate(section._id, this.$store.state.signedInUser._id);
+            eventBus.$emit("show-toast", {
+              body: messages.rate.rateAddSuccess,
+              title: messages.generic.success,
+            });
+          })
+          .catch((e) => {
+            eventBus.$emit("show-toast", {
+              body: e.message,
+              title: messages.generic.error,
+              type: ToastType.ERROR,
+            });
+          });
+      }
     },
     downRating(section, index) {
-      var payload = {
-        name: section.name,
-        section: section.section,
-        icon: section.icon,
-        upRating: section.upRating - 1,
-        downRating: section.downRating,
-        review: section.review,
-        technologies: section.technologies,
-      };
-      toolService
-        .downRate(section._id, payload)
-        .then((response) => {
-          this.sections.splice(index, 1, response);
-          eventBus.$emit("show-toast", {
-            body: messages.rate.rateDeleteSuccess,
-            title: messages.generic.success,
+      if(this.rateUser.some(user => user.toolId === section._id)){
+        return eventBus.$emit("show-toast", {
+          body: messages.rate.rateAlreadyAdded,
+          title: messages.generic.error,
+          type: ToastType.ERROR,
+        });
+      } else {
+        var payload = {
+          name: section.name,
+          section: section.section,
+          icon: section.icon,
+          upRating: section.upRating - 1,
+          downRating: section.downRating,
+          review: section.review,
+          technologies: section.technologies,
+        };
+        toolService
+          .downRate(section._id, payload)
+          .then((response) => {
+            this.sections.splice(index, 1, response);
+            this.addUserToRate(section._id, this.$store.state.signedInUser._id);
+            eventBus.$emit("show-toast", {
+              body: messages.rate.rateDeleteSuccess,
+              title: messages.generic.success,
+            });
+          })
+          .catch(() => {
+            eventBus.$emit("show-toast", {
+              body: e.message,
+              title: messages.generic.error,
+              type: ToastType.ERROR,
+            });
           });
+      }
+    },
+    addUserToRate(toolId, userId) {
+      var payload = {
+        toolId: toolId,
+        userId: userId
+      }
+      toolService
+        .addUserToRate(payload)
+        .then((response) => {
+          this.rateUser.push(...response);
         })
         .catch(() => {
           eventBus.$emit("show-toast", {

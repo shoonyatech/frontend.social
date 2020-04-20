@@ -36,7 +36,8 @@ export const messages = {
   },
   rate: {
     rateAddSuccess: 'Rate added successfully!',
-    rateDeleteSuccess: 'Rate deleted successfully!'
+    rateDeleteSuccess: 'Rate deleted successfully!',
+    rateAlreadyAdded: 'You already rated this tool.'
   }
 }
 

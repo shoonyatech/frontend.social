@@ -17,6 +17,14 @@ export default {
     return httpClient.put(`tool/${toolId}`, payload);
   },
 
+  addUserToRate: (payload) => {
+    return httpClient.post(`tool/user`, payload);
+  },
+
+  getRateUser: (userId) => {
+    return httpClient.get(`tool/user/${userId}`);
+  },
+
   getComment: (toolId) => {
     return httpClient.get(`tool/${toolId}/reviews`);
   },
