@@ -187,7 +187,7 @@ export default {
     },
     getRateUser() {
       toolService
-        .getRateUser()
+        .getRateUser(this.$store.state.signedInUser._id)
         .then((response) => {
           this.rateUser = response;
         })

@@ -41,6 +41,12 @@
       :values="tool.technologies"
       @change="onSkillsChange"
     />
+    <KeyValue
+      label="Link"
+      :is-editable="true"
+      :value="tool.link"
+      @change="onLinkChange"
+    />   
     <div class="action-buttons">
       <button
         class="save-button"
@@ -79,6 +85,7 @@ export default {
         downRating: 0,
         review: '',
         technologies: [''],
+        link: ''
       },
       skillsLookup: [],
       sections: [
@@ -104,6 +111,9 @@ export default {
     },
     onReviewChange(e) {
       this.tool.review = e.value;
+    },
+    onLinkChange(e) {
+      this.tool.link = e.value;
     },
     onSkillsChange: function(skills) {
       this.tool.technologies = skills;
