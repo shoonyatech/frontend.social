@@ -69,9 +69,7 @@
     </b-row>
     <b-row>
       <b-col md="12">
-        <div>
-          {{ event.description }}
-        </div>
+        <div v-html="event.description" />
       </b-col>
     </b-row>
     <b-row 
