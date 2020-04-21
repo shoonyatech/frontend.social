@@ -35,16 +35,17 @@
       </div>
     </div>
     <CommentReply
-      v-for="(reply, index) in comment.reply"
+      v-for="(reply, index) in comment.replies"
       v-show="allowReply"
       :key="reply._id"
       :index="index"
       :comment="reply"
     />
-    <add-comment
-      v-show="addReply"
+    <add-comment-reply
+      v-show="isAddReply"
       ref="addreply"
-      :on-save="saveComment"
+      :on-save="addReply"
+      :on-cancel="toggleAddComment"
       :show-rating="false"
       :parent-id="comment._id"
       class="mt-1"
@@ -54,13 +55,13 @@
 <script>
 import StarRating from "vue-star-rating";
 import CommentReply from "@/components/Comment/CommentReply";
-import AddComment from "@/components/Comment/AddComment";
+import AddCommentReply from "@/components/Comment/AddCommentReply";
 import commentService from "@/services/comment.service";
 import eventBus from "@/utilities/eventBus";
 
 export default {
   name: "Comment",
-  components: { StarRating, CommentReply, AddComment },
+  components: { StarRating, CommentReply, AddCommentReply },
   props: {
     comment: {
       type: Object,
@@ -88,7 +89,7 @@ export default {
       type: Boolean,
       default: false
     },
-    addReply: {
+    isAddReply: {
       type: Boolean,
       default: false
     },
@@ -107,6 +108,33 @@ export default {
   },
   created() {},
   methods: {
+    addReply(reply) {
+      reply.createdBy = this.comment.createdBy.username;
+      this.comment.replies.push(reply);
+      var payload = {
+        parentId: this.comment.parentId,
+        comment: this.comment.comment,
+        rating: this.comment.rating,
+        createdTime: new Date(),
+        replies: this.comment.replies,
+        createdBy: this.comment.createdBy
+      };
+
+      var add = commentService.editComment(this.commentId, payload);
+
+      add
+        .then(response => {
+          console.log(response);
+          this.toggleAddComment();
+        })
+        .catch(() => {
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR
+          });
+        });
+    },
     deleteComment() {
       commentService
         .deleteComment(this.commentId)
@@ -129,7 +157,7 @@ export default {
       this.isEdit = true;
     },
     toggleAddComment() {
-      this.addReply = !this.addReply;
+      this.isAddReply = !this.isAddReply;
     },
     toggleEdit() {
       this.isEdit = !this.isEdit;
