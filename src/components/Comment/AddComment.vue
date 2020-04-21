@@ -11,7 +11,7 @@
         />
         <EditableValue
           :ref="`commentBox`"
-          v-model="comment"
+          v-model="commentText"
           :index="1"
           :is-editable="true"
           class="value"
@@ -49,6 +49,10 @@ export default {
       type: Function,
       required: true
     },
+    onCancel: {
+      type: Function,
+      required: true
+    },
     showRating: {
       type: Boolean,
       required: true
@@ -60,20 +64,22 @@ export default {
     commentId: {
       type: String,
       default: ""
+    },    
+    isEdit: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
     return {
-      comment: "",
-      rating: 0,
-      isEdit: false,
-      commentIndex: ""
+      rating: 0,      
+      commentText: ""
     };
   },
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
-    }
+    }    
   },
   methods: {
     save() {
@@ -85,7 +91,7 @@ export default {
 
       var payload = {
         parentId: this.parentId,
-        comment: this.$refs.commentBox.editedValue,
+        commentText: this.$refs.commentBox.editedValue,
         rating: this.rating,
         createdTime: new Date()
       };
@@ -111,20 +117,14 @@ export default {
       this.reset();
     },
     cancel() {
-      this.$emit("cancel", { rating: this.rating, comment: this.comment });
+      this.onCancel();
       this.reset();
     },
     reset() {
       this.$refs.commentBox.selectItem("");
-      this.comment = "";
+      this.commentText = "";
       this.rating = 0;
-    },
-    editComment(commentId, comment, toolId, index) {
-      this.$refs.commentBox.selectItem(comment);
-      this.isEdit = true;
-      this.commentId = commentId;
-      this.commentIndex = index;
-    }
+    } 
   }
 };
 </script>
