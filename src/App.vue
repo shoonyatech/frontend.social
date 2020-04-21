@@ -312,4 +312,15 @@ input {
 .full-width {
   width: 100%;
 }
+
+.breadcrumb {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  font-size: 18px;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: '>';
+}
 </style>

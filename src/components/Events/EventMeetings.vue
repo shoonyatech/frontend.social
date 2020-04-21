@@ -17,7 +17,7 @@
       v-for="meeting in meetings"
       :key="meeting._id"
     >
-      <a @click="joinMeeting(meeting.meetingId, 0)">{{ meeting.title }}</a>
+      <a @click="joinMeeting(meeting.meetingId, meeting.title)">{{ meeting.title }}</a>
       {{ meeting.createdBy ? `(${meeting.createdBy.username})` : '' }}
     </div>
   </div>
@@ -71,17 +71,17 @@ export default {
       }
       eventService.createMeeting(this.eventId, this.meetingTitle , 'jitsi')
       .then(res => {
-        this.joinMeeting(res.meetingId, 1);
+        this.joinMeeting(res.meetingId, this.meetingTitle);
       }).catch((e) => {
         eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
       });
     },
-    joinMeeting(meetingId, role) {
+    joinMeeting(meetingId, title) {
       if (this.signedInUser == null) {
         this.$router.push("/signin");
         return;
       }
-      this.$router.push(`/join-meeting?id=${meetingId}&name=${this.signedInUser.username}&role=${role}`);
+      this.$router.push(`/join-meeting?id=${meetingId}&eventId=${this.eventId}&title=${title}`);
     }
   }
 }
