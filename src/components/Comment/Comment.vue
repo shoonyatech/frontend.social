@@ -111,21 +111,12 @@ export default {
     addReply(reply) {
       reply.createdBy = this.comment.createdBy.username;
       this.comment.replies.push(reply);
-      var payload = {
-        parentId: this.comment.parentId,
-        comment: this.comment.comment,
-        rating: this.comment.rating,
-        createdTime: new Date(),
-        replies: this.comment.replies,
-        createdBy: this.comment.createdBy
-      };
-
-      var add = commentService.editComment(this.commentId, payload);
+      
+      var add = commentService.editComment(this.commentId, this.comment);
 
       add
         .then(response => {
-          console.log(response);
-          this.toggleAddComment();
+          //this.toggleAddComment();
         })
         .catch(() => {
           eventBus.$emit("show-toast", {
