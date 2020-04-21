@@ -3,7 +3,7 @@
     <div v-show="!isEdit">
       <div class="comment-by">
         {{ comment.createdBy.username }} -
-        {{ comment.createdAt| moment("timezone",new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1], "DD MMM YYYY HH:mm") }}
+        {{ comment.createdAt| moment("timezone","America/Toronto", "DD MMM YYYY HH:mm") }}
         <img
           :src="`/images/delete.svg`"
           class="icon-button float-right"

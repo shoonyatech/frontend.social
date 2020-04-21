@@ -1,7 +1,7 @@
 <template>
   <div class="comment-reply-container">
     <div class="comment-by">
-      {{ reply.createdBy }} - {{ reply.createdTime | moment("timezone", new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1], "DD MMM YYYY HH:MM") }}
+      {{ reply.createdBy }} - {{ reply.createdTime | moment("timezone", "America/Toronto", "DD MMM YYYY HH:MM") }}
       <span
         class="float-right cursor-pointer"
       >
