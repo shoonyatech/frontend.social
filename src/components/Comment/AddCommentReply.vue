@@ -80,7 +80,7 @@ export default {
       var payload = {
         replyText: this.$refs.commentBox.editedValue,
         createdTime: new Date(),
-        createdBy: []
+        createdBy: this.signedInUser
       };
 
       this.onSave(payload);
