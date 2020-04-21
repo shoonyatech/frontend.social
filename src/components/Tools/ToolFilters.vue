@@ -35,7 +35,7 @@ import Facet from "../Filter/Filter";
 import { filtersSet } from "../Events/FiltersConfig";
 
 export default {
-  name: "EventFilters",
+  name: "ToolFilters",
   components: {
     Facet,
   },
@@ -88,13 +88,6 @@ export default {
       let selectedSkills = [];
       let queryString = "";
 
-      if (this.city) {
-        queryString += `&city=${this.city}`;
-      }
-      if (this.country) {
-        queryString += `&country=${this.country}`;
-      }
-
       this.skills.forEach(item => {
         if (item.selected) {
           selectedSkills.push(item.query);
@@ -106,12 +99,6 @@ export default {
 
       return queryString;
     },
-    onCityChange: function(city) {
-      this.city = city.name;
-      this.country = city.country;
-      const searchQuery = this.getAppliedFacetsQuery();
-      this.onSearchParamsChange(searchQuery);
-    }
   }
 };
 </script>
