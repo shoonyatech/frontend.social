@@ -6,15 +6,26 @@
       :value="event.title"
       @change="onTitleChange"
     />
-    <KeyValue
-      label="Description"
-      placeholder="Optional"
-      :is-editable="true"
-      :multiline="true"
-      :value="event.description"
-      @change="onDescriptionChange"
-    />
-
+    <b-row class="row">
+      <b-col
+        md="3"
+        sm="12"
+      >
+        <span class="label">
+          Description
+        </span>
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <ckeditor
+          v-model="event.description"
+          :editor="editor"
+          :config="editorConfig"
+        />
+      </b-col>
+    </b-row>
     <b-row class="row">
       <b-col
         md="3"
@@ -245,6 +256,7 @@ import eventService from "@/services/event.service";
 import skillService from "@/services/skill.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // TODO: Rename thie component to EventForm
 export default {
   name: "AddEvent",
@@ -282,7 +294,10 @@ export default {
         isOnline: false,
         onlineLink: '',
       },
-      skillsLookup: []
+      skillsLookup: [],
+      editor: ClassicEditor,
+      editorConfig: {
+      }
     };
   },
   async created() {

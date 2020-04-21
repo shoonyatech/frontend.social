@@ -67,7 +67,7 @@
           class="event-description"
           :class="{ fullHeight: showMore, lessHeight: !showMore }"
         >
-          {{ event.description }}
+          <div v-html="event.description" />
         </div>
       </b-col>
     </b-row>
