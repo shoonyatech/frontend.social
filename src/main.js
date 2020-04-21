@@ -16,6 +16,7 @@ import VueCookies from "vue-cookies";
 import VueYoutube from 'vue-youtube'
 
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import Loader from '@/components/common/Loader';
 
 Vue.use( CKEditor );
 
@@ -25,6 +26,7 @@ Vue.use(BootstrapVueIcons);
 Vue.use(VueAxios, axios);
 Vue.use(VueAuthenticate, authOptions);
 Vue.use(VueYoutube)
+Vue.component('Loader', Loader)
 
 Vue.use(VueMoment, {
   moment

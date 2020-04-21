@@ -1,5 +1,6 @@
 <template>
   <b-container>
+    <Loader v-show="loading" />
     <b-row>
       <b-col md="12">
         <div class="sign-in">
@@ -20,8 +21,18 @@ export default {
   components: {
     SignInButtons
   },
+  data() {
+    return {
+      loading: true,
+    }
+  },
   created() {},
-  methods: {}
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
+  },
+  methods: {},
 };
 </script>
 

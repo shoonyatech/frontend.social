@@ -1,5 +1,6 @@
 <template>
   <div class="skill">
+    <Loader v-show="loading" />
     <b-container>
       <b-row>
         <b-col md="12">
@@ -49,7 +50,8 @@ export default {
       jobs: [],
       articles: [],
       users: [],
-      allSkills: []
+      allSkills: [],
+      loading: true,
     };
   },
   created() {
@@ -62,6 +64,11 @@ export default {
     skillService.fetchSkills().then(skills => {
       this.allSkills = skills.map(s => s.name);
     });
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
   },
   methods: {
     title() {

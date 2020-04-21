@@ -1,6 +1,7 @@
 <template>
   <!-- div for searching city -->
   <div class="city-container">
+    <Loader v-show="loading" />
     <b-container class="bv-example-row">
       <b-row>
         <b-col md="4">
@@ -81,7 +82,8 @@ export default {
       developersFromCity: [],
       designersFromCity: [],
       upcomingEvents: [],
-      pastEvents: []
+      pastEvents: [],
+      loading: true,
     };
   },
   created() {
@@ -106,7 +108,11 @@ export default {
       ).sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom));
     });
   },
-
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
+  },
   methods: {}
 };
 </script>

@@ -1,5 +1,6 @@
 <template>
   <b-container>
+    <Loader v-show="loading" />
     <b-row>
       <b-col
         md="7"
@@ -146,6 +147,7 @@ export default {
       reviews: [],
       showAddToolDialog: false,
       rateUser: [],
+      loading: true,
     };
   },
   computed: {
@@ -166,6 +168,11 @@ export default {
   created() {
     this.getTools();
     this.getRateUser();
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
   },
   methods: {
     getTools() {

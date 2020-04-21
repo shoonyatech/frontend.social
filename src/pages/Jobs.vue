@@ -1,5 +1,6 @@
 <template>
   <div class="jobs-container">
+    <Loader v-show="loading" />
     <b-container>
       <b-row>
         <b-col md="9">
@@ -84,7 +85,8 @@ export default {
       skills: [],
       jobTypes: [],
       pageNo: 1,
-      showAddJobDialog: false
+      showAddJobDialog: false,
+      loading: true
     };
   },
   computed: {
@@ -105,6 +107,9 @@ export default {
     }
     this.searchJobsWithSearchTerm(searchText);
     this.scroll(this.jobs);
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
   },
   methods: {
     refreshPage() {

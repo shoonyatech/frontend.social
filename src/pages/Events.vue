@@ -1,5 +1,6 @@
 <template>
   <div class="events">
+    <Loader v-show="loading" />
     <b-container>
       <b-row>
         <b-col md="9">
@@ -92,7 +93,8 @@ export default {
     return {
       events: [],
       showAddEventDialog: false,
-      editedEvent: null
+      editedEvent: null,
+      loading: true
     };
   },
   computed: {
@@ -113,6 +115,11 @@ export default {
       this.events = events;
     });
 
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
   },
   methods: {
     onEditEvent(event) {

@@ -1,5 +1,6 @@
 <template>
   <b-container>
+    <Loader v-show="loading" />
     <b-row>
       <b-col md="9">
         <h1>Find out What's new!</h1>
@@ -81,6 +82,7 @@ export default {
     return {
       emailState: null,
       email: "",
+      loading: true,
     };
   },
   computed: {
@@ -90,6 +92,9 @@ export default {
   },
   mounted() {
     this.checkSignIn();
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
   },
   methods: {
     checkSignIn() {

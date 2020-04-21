@@ -1,5 +1,6 @@
 <template>
   <div class="jobs-container">
+    <Loader v-show="loading" />
     <b-container>
       <b-row>
         <b-col md="12">
@@ -91,6 +92,7 @@ export default {
       pageNo: 1,
       showAddJobDialog: false,
       experienceLevel: '',
+      loading: true
     };
   },
   computed: {
@@ -99,7 +101,10 @@ export default {
     }
   },
   mounted() {
-    this.getJobDetails(this.$route.params.jobId)
+    this.getJobDetails(this.$route.params.jobId);
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
   },
   methods: {
     refreshPage() {

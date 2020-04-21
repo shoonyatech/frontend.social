@@ -1,5 +1,6 @@
 <template>
   <b-container>
+    <Loader v-show="loading" />
     <b-row>
       <b-col md="12">
         <h1 class="page-heading">
@@ -370,7 +371,17 @@
 
 <script>
 export default {
-  name: "PrivacyPolicy"
+  name: "PrivacyPolicy",
+  data() {
+    return {
+      loading: true,
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
+  },
 };
 </script>
 <style scoped lang="scss">

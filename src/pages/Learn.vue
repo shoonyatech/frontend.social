@@ -1,5 +1,6 @@
 <template>
   <div class="learn">
+    <Loader v-show="loading" />
     <b-container>
       <b-row>
         <b-col md="12">
@@ -18,10 +19,16 @@ export default {
   components: { TalksAndArticles },
   data() {
     return {
-      articles: []
+      articles: [],
+      loading: true,
     };
   },
   created() {},
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
+  },
   methods: {}
 };
 </script>

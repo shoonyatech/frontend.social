@@ -1,6 +1,7 @@
 <template>
   <!-- div for searching city -->
   <div class="learn">
+    <Loader v-show="loading" />
     <b-container>
       <b-row>
         <b-col md="12">
@@ -51,11 +52,17 @@ export default {
   },
   data() {
     return {
-      cities: []
+      cities: [],
+      loading: true,
     };
   },
   created() {
     cityService.getCities().then(cities => (this.cities = cities));
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
   },
   methods: {
     citySearch(e) {

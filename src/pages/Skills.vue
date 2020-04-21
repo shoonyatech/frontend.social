@@ -1,5 +1,6 @@
 <template>
   <div class="skill">
+    <Loader v-show="loading" />
     <b-container>
       <b-row>
         <b-col md="12">
@@ -33,13 +34,19 @@ export default {
   components: { SkillTags, FrameworkComparison },
   data() {
     return {
-      allSkills: []
+      allSkills: [],
+      loading: true,
     };
   },
   created() {
     skillService.fetchSkills().then(skills => {
       this.allSkills = skills.map(s => s.name);
     });
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
   },
   methods: {
     title() {
