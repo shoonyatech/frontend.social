@@ -38,6 +38,7 @@ export default {
     return {
       meetingTitle: '',
       meetings: [],
+      interval: null,
     }
   },
   computed: {
@@ -47,6 +48,14 @@ export default {
   },
   mounted() {
     this.getMeetings();
+    this.interval = setInterval(() => {
+      this.getMeetings();
+    }, 5000);
+  },
+  beforeDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   },
   methods: {
     getMeetings() {
