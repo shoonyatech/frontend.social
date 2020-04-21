@@ -18,7 +18,7 @@
       :key="meeting._id"
     >
       <a @click="joinMeeting(meeting.meetingId, meeting.title)">{{ meeting.title }}</a>
-      {{ meeting.createdBy ? `(${meeting.createdBy.username})` : '' }}
+      <span class="created-by">{{ meeting.createdBy ? `by ${meeting.createdBy.username}` : '' }}</span>
     </div>
   </div>
 </template>
@@ -87,5 +87,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+.created-by {
+  color: #8f8f8f;
+  font-size: 15px;
+  padding-left: 10px;
+}
 </style>
