@@ -74,7 +74,10 @@
         </div>
       </b-col>
     </b-row>
-    <b-row v-if="youtubeVideoId">
+    <b-row 
+      v-if="youtubeVideoId"
+      class="youtube-container"
+    >
       <b-col md="12">
         <youtube
           :video-id="youtubeVideoId"
@@ -234,5 +237,9 @@ export default {
 
 .fail-message {
   text-align: center;
+}
+
+.youtube-container {
+  padding: 10px 0;
 }
 </style>
