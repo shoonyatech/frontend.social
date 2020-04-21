@@ -7,12 +7,22 @@
 
 <script>
 export default {
-
   computed: {
     zoomUrl() {
       return `/jitsi.html${window.location.search}`;
     },
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    },
   },
+  mounted() {
+    setTimeout(() => {
+      if (this.signedInUser == null) {
+        this.$router.push("/signin");
+        return;
+      }
+    }, 1000)
+  }
 }
 </script>
 <style lang="scss" scoped>
