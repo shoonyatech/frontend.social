@@ -1,5 +1,6 @@
 <template>
   <div class="profile">
+    <Loader v-show="loading" />
     <b-container>
       <b-row>
         <b-col
@@ -219,7 +220,8 @@ export default {
       editModeSkills: false,
       editModeEvents: false,
       username: null,
-      publicProfile: null
+      publicProfile: null,
+      loading: true
     };
   },
   created() {
@@ -256,6 +258,11 @@ export default {
           alert("User " + this.username + " not found");
         });
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
   },
   methods: {
     onSocialChange: function(social) {

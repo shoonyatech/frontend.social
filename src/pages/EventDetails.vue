@@ -3,6 +3,7 @@
     v-if="!failedToFindEvent"
     class="bv-example-row"
   >
+    <Loader v-show="loading" />
     <b-row>
       <b-col
         md="12"
@@ -166,7 +167,8 @@ export default {
           username: 'Mayank',
           timestamp: '2020-04-10 14:32+530'
         }
-      ]
+      ],
+      loading: true,
     }
   },
   computed: {
@@ -192,6 +194,11 @@ export default {
       this.failedToFindEvent = true;
     })
     this.loadComments();
+  },
+  mounted() {
+    setTimeout(() => {
+      this.loading = false
+    }, 1000);
   },
   methods: {
     saveComment(comment) {
