@@ -56,6 +56,7 @@
             ref="addcomment"
             :comment-id="commentId"
             :on-save="saveComment"
+            :on-cancel="cancelComment"
             :show-rating="showRating"
             :parent-id="courseId"
             class="mt-1"
@@ -243,7 +244,8 @@ export default {
     },
     editComment(commentId) {
       this.commentId = commentId;
-    }
+    },
+    cancelComment(){}
   }
 };
 </script>

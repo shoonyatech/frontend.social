@@ -2,8 +2,8 @@
   <div class="comment-container">
     <div v-show="!isEdit">
       <div class="comment-by">
-        {{ comment.createdBy.userName }}
-        {{ comment.createdTime | moment("timezone",new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1], "DD MMM YYYY HH:mm") }}
+        {{ comment.createdBy.username }} -
+        {{ comment.createdAt| moment("timezone",new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1], "DD MMM YYYY HH:mm") }}
         <img
           :src="`/images/delete.svg`"
           class="icon-button float-right"
@@ -13,7 +13,7 @@
           :src="`/images/edit.svg`"
           class="icon-button edit float-right"
           title="Edit"
-          @click="editComment(comment._id, comment.comment, toolId, index)"
+          @click="toggleEdit()"
         />-->
       </div>
       <star-rating
@@ -23,7 +23,7 @@
         :show-rating="false"
         :read-only="true"
       />
-      <div>{{ comment.comment }}</div>
+      <div>{{ comment.commentText }}</div>
       <div
         v-show="allowReply"
         class="reply-div"
@@ -34,12 +34,25 @@
         >Reply</a>
       </div>
     </div>
+    <div v-show="isEdit">
+      <add-comment
+        ref="addcomment"
+        :comment-id="commentId"
+        :comment="comment.comment"
+        :on-save="editComment"
+        :on-cancel="toggleEdit"
+        :show-rating="showRating"
+        :parent-id="comment.parentId"
+        :is-edit="isEdit"
+        class="mt-1"
+      />
+    </div>
     <CommentReply
       v-for="(reply, index) in comment.replies"
       v-show="allowReply"
       :key="reply._id"
       :index="index"
-      :comment="reply"
+      :reply="reply"
     />
     <add-comment-reply
       v-show="isAddReply"
@@ -55,13 +68,14 @@
 <script>
 import StarRating from "vue-star-rating";
 import CommentReply from "@/components/Comment/CommentReply";
+import AddComment from "@/components/Comment/AddComment";
 import AddCommentReply from "@/components/Comment/AddCommentReply";
 import commentService from "@/services/comment.service";
 import eventBus from "@/utilities/eventBus";
 
 export default {
   name: "Comment",
-  components: { StarRating, CommentReply, AddCommentReply },
+  components: { StarRating, CommentReply, AddComment, AddCommentReply },
   props: {
     comment: {
       type: Object,
@@ -93,7 +107,7 @@ export default {
       type: Boolean,
       default: false
     },
-    saveComment: {
+    onSave: {
       type: Function
     },
     commentId: {
@@ -111,7 +125,7 @@ export default {
     addReply(reply) {
       reply.createdBy = this.comment.createdBy.username;
       this.comment.replies.push(reply);
-      
+
       var add = commentService.editComment(this.commentId, this.comment);
 
       add
@@ -144,8 +158,13 @@ export default {
           });
         });
     },
-    editComment() {
-      this.isEdit = true;
+    editComment(comment) {
+      this.toggleEdit();
+      this.saveComment(comment, this.index);
+      eventBus.$emit("show-toast", {
+        body: messages.comment.commentAddSuccess,
+        title: messages.generic.success
+      });
     },
     toggleAddComment() {
       this.isAddReply = !this.isAddReply;
