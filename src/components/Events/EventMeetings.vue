@@ -18,6 +18,7 @@
       :key="meeting._id"
     >
       <a @click="joinMeeting(meeting.meetingId, 0)">{{ meeting.title }}</a>
+      {{ meeting.createdBy ? `(${meeting.createdBy.username})` : '' }}
     </div>
   </div>
 </template>
