@@ -78,7 +78,7 @@ export default {
       if (this.$refs.commentBox.editedValue == "") return;
 
       var payload = {
-        reply: this.$refs.commentBox.editedValue,
+        replyText: this.$refs.commentBox.editedValue,
         createdTime: new Date(),
         createdBy: []
       };
@@ -87,7 +87,7 @@ export default {
       this.reset();
     },
     cancel() {
-      this.$emit("cancel", { rating: this.rating, comment: this.comment });
+      this.onCancel();
       this.reset();
     },
     reset() {

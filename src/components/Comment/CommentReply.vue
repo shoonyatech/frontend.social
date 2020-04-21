@@ -1,21 +1,21 @@
 <template>
   <div class="comment-reply-container">
     <div class="comment-by">
-      {{ comment.username }} - {{ comment.createdTime | moment("timezone", new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1], "DD MMM YYYY HH:MM") }}
+      {{ reply.username }} - {{ reply.createdTime | moment("timezone", new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1], "DD MMM YYYY HH:MM") }}
       <span
         class="float-right cursor-pointer"
       >
         <b-icon-pencil />
       </span>
     </div>
-    <div>{{ comment.reply }}</div>
+    <div>{{ reply.replyText }}</div>
   </div>
 </template>
 <script>
 export default {
   name: "CommentReply",
   props: {
-    comment: {
+    reply: {
       type: Object,
       required: true
     }

@@ -56,7 +56,7 @@
             ref="addcomment"
             :comment-id="commentId"
             :on-save="saveComment"
-            :show-rating="false"
+            :show-rating="showRating"
             :parent-id="courseId"
             class="mt-1"
           />
@@ -69,9 +69,8 @@
             :show-rating="showRating"
             :allow-reply="allowReply"
             :on-delete="deleteComment"
-            :tool-id="'comment._id'"
             :on-edit="editComment"
-            :save-comment="saveComment"
+            :on-save="saveComment"
           />
         </b-col>
         <b-col md="2" />
@@ -225,7 +224,7 @@ export default {
           });
         });
     },
-    saveComment(response) {
+    saveComment(response, index) {
       if (this.commentId != "") {
         this.comments.splice(index, 1, response);
         this.commentId = "";
