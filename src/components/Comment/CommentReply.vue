@@ -1,14 +1,14 @@
 <template>
   <div class="comment-reply-container">
     <div class="comment-by">
-      {{ comment.username }} - {{ comment.timestamp | moment("timezone", "Europe/London", "DD MMM YYYY HH:MM") }}
+      {{ comment.username }} - {{ comment.createdTime | moment("timezone", new Date().toString().match(/([A-Z]+[\+-][0-9]+.*)/)[1], "DD MMM YYYY HH:MM") }}
       <span
         class="float-right cursor-pointer"
       >
         <b-icon-pencil />
       </span>
     </div>
-    <div>{{ comment.comment }}</div>
+    <div>{{ comment.reply }}</div>
   </div>
 </template>
 <script>
