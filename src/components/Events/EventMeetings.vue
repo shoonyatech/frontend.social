@@ -55,6 +55,10 @@ export default {
       });
     },
     createMeetings() {
+      if (this.signedInUser == null) {
+        this.$router.push("/signin");
+        return;
+      }
       eventService.createMeeting(this.eventId, this.meetingTitle , 'jitsi')
       .then(res => {
         this.joinMeeting(res.meetingId, 1);
@@ -63,6 +67,10 @@ export default {
       });
     },
     joinMeeting(meetingId, role) {
+      if (this.signedInUser == null) {
+        this.$router.push("/signin");
+        return;
+      }
       this.$router.push(`/join-meeting?id=${meetingId}&name=${this.signedInUser.username}&role=${role}`);
     }
   }
