@@ -8,12 +8,28 @@
         :src="zoomUrl"
       />
     </div>
+    <b-row
+      style="margin-top: 20px;"
+    >
+      <h1>Group Topics (Click to Join call)</h1>
+    </b-row>
+    <b-row>
+      <b-col md="12">
+        <EventMeetings
+          :event-id="eventId"
+        />
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
 <script>
 import eventService from "@/services/event.service";
+import EventMeetings from '@/components/Events/EventMeetings.vue';
 export default {
+  components: {
+    EventMeetings
+  },
   data() {
     return {
       eventTitle: '',
@@ -23,7 +39,7 @@ export default {
   },
   computed: {
     zoomUrl() {
-      return this.signedInUser ? `/jitsi.html${window.location.search}&name=${this.signedInUser.username}` : '';
+      return this.signedInUser ? `/jitsi.html?id=${this.$route.params.id}&name=${this.signedInUser.username}` : '';
     },
     signedInUser() {
       return this.$store.state.signedInUser;

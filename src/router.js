@@ -101,7 +101,7 @@ export default new Router({
       component: () => import("./pages/EventDetails.vue")
     },
     {
-      path: "/join-meeting",
+      path: "/join-meeting/:id",
       name: "joinMeeting",
       component: () => import("./pages/Zoom.vue")
     }

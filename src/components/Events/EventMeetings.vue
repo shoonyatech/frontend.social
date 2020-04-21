@@ -81,7 +81,7 @@ export default {
         this.$router.push("/signin");
         return;
       }
-      this.$router.push(`/join-meeting?id=${meetingId}&eventId=${this.eventId}&title=${title}`);
+      this.$router.push(`/join-meeting/${meetingId}?eventId=${this.eventId}&title=${title}`);
     }
   }
 }
