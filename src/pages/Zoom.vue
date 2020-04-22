@@ -76,14 +76,13 @@ export default {
         ]
     }
   },
+  watch: {
+    $route() {
+      this.updateBreadcrumb();
+    }
+  },
   created() {
-     const urlParams = new URLSearchParams(window.location.search);
-     this.groupTopic = urlParams.get("title");
-     this.eventId = urlParams.get("eventId");
-     eventService.getEventById(this.eventId)
-    .then((event) => {
-      this.eventTitle = event.title;
-    })
+    this.updateBreadcrumb();
   },
   mounted() {
     setTimeout(() => {
@@ -92,6 +91,17 @@ export default {
         return;
       }
     }, 1000)
+  },
+  methods: {
+    updateBreadcrumb() {
+      const urlParams = new URLSearchParams(window.location.search);
+      this.groupTopic = urlParams.get("title");
+      this.eventId = urlParams.get("eventId");
+      eventService.getEventById(this.eventId)
+      .then((event) => {
+        this.eventTitle = event.title;
+      })
+    }
   }
 }
 </script>

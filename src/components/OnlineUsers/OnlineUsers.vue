@@ -28,11 +28,18 @@ export default {
     }
   },
   watch: {
-    $route: () => {
-      userPageService.deleteUserPage();
-      setTimeout(() => {
-        userPageService.addOnlineUser(user);
-      }, 1000);
+    $route() {
+      const signedInUser = this.$store.state.signedInUser;
+      if (signedInUser) {
+        var user = {
+          username: signedInUser.username,
+          avatar: signedInUser.profilePic,
+          name: signedInUser.name,
+        };
+        setTimeout(() => {
+          userPageService.addOnlineUser(user);
+        }, 1000);
+      }
     }
   },
   created() {
