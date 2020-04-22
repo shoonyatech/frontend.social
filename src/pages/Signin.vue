@@ -5,7 +5,10 @@
       <b-col md="12">
         <div class="sign-in">
           <div class="join-box">
-            <div>Sign in to see customized results for you</div>
+            <div class="label">
+              Please sign in to see customized results and interact with others
+              on the page
+            </div>
             <SignInButtons />
           </div>
         </div>
@@ -23,16 +26,16 @@ export default {
   },
   data() {
     return {
-      loading: true,
-    }
+      loading: true
+    };
   },
   created() {},
   mounted() {
     setTimeout(() => {
-      this.loading = false
+      this.loading = false;
     }, 1000);
   },
-  methods: {},
+  methods: {}
 };
 </script>
 
@@ -40,5 +43,10 @@ export default {
 .join-box {
   width: 100%;
   text-align: center;
+  margin-top: 40px;
+
+  .label {
+    margin-bottom: 20px;
+  }
 }
 </style>
