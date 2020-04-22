@@ -66,15 +66,19 @@ export default {
     }
   },
   created() {
+    this.$parent.loading = true;
     learnService.getLatestArticles(this.skill).then(articles => {
       this.articles = articles;
+      this.$parent.loading = false;
     });
   },
   methods: {
     refreshPage() {
+      this.$parent.loading = true;
       this.showAddArticleDialog = false;
       learnService.getLatestArticles(this.skill).then(articles => {
         this.articles = articles;
+        this.$parent.loading = false;
       });
     },
     showDialog() {

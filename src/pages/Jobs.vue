@@ -86,7 +86,7 @@ export default {
       jobTypes: [],
       pageNo: 1,
       showAddJobDialog: false,
-      loading: true
+      loading: false
     };
   },
   computed: {
@@ -107,9 +107,6 @@ export default {
     }
     this.searchJobsWithSearchTerm(searchText);
     this.scroll(this.jobs);
-    setTimeout(() => {
-      this.loading = false
-    }, 1000);
   },
   methods: {
     refreshPage() {
@@ -136,17 +133,21 @@ export default {
       }
     },
     searchJobsWithSearchTerm(searchText = "") {
+      this.loading = true;
       searchText.replace(/^\s+/, "").replace(/\s+$/, "");
       jobService.getJobs(searchText).then(jobs => {
         this.mapJobResponse(jobs);
+        this.loading = false;
       });
     },
     onSearchParamsChange(param = "", key, value) {
+      this.loading = true;
       this.currentQuery = param;
       const queryParams = new URLSearchParams(window.location.search);
       queryParams.set(key, value);
       jobService.getJobsOnSearchParamsChange(param).then(jobs => {
         this.mapJobResponse(jobs, true);
+        this.loading = false;
       });
     },
     setInitialQuery(initialQuery) {

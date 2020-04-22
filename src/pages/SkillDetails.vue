@@ -51,24 +51,22 @@ export default {
       articles: [],
       users: [],
       allSkills: [],
-      loading: true,
+      loading: false,
     };
   },
   created() {
+    this.loading = true;
     this.skill = this.$route.params.skill;
 
     eventService.searchEventsBy(`skills=${this.skill}`).then(events => {
       this.events = events;
+      this.loading = false;
     });
 
     skillService.fetchSkills().then(skills => {
       this.allSkills = skills.map(s => s.name);
+      this.loading = false;
     });
-  },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false
-    }, 1000);
   },
   methods: {
     title() {

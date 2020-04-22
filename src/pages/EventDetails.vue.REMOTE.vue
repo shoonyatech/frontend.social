@@ -97,30 +97,15 @@
         </b-row>
         <b-row v-if="!hideComments && signedInUser">
           <b-col md="12">
-            <add-comment
-              ref="addcomment"
-              :comment-id="commentId"
-              :on-save="saveComment"
-              :on-cancel="cancelComment"
-              :show-rating="showRating"
-              :parent-id="eventId"
-              class="mt-1"
-            />
+            <add-comment :on-save="saveComment" />
           </b-col>
         </b-row>
         <b-row v-if="!hideComments">
           <b-col md="12">
             <Comment
-              v-for="(comment,index) in comments"
+              v-for="comment in comments"
               :key="comment._id"
-              :index="index"
-              :comment-id="comment._id"
               :comment="comment"
-              :show-rating="showRating"
-              :allow-reply="allowReply"
-              :on-delete="deleteComment"
-              :on-edit="editComment"
-              :on-save="saveComment"
             />
           </b-col>
         </b-row>
@@ -145,34 +130,45 @@ import SkillTags from "@/components/Skills/SkillTags";
 import EventMeetings from "@/components/Events/EventMeetings.vue";
 import OnlineUsers from "@/components/OnlineUsers/OnlineUsers.vue";
 
-import commentService from "@/services/comment.service";
 import eventService from "@/services/event.service";
 import { getEventTypeName } from "@/utilities/utils";
 
 export default {
   name: "EventDetails",
-  components: {
-    Comment,
-    AddComment,
-    SkillTags,
-    IconLink,
-    EventMeetings,
-    OnlineUsers
-  },
+  components: { Comment, AddComment, SkillTags, IconLink, EventMeetings, OnlineUsers },
   data() {
     return {
-      hideComments: false,
+      hideComments: true,
       failedToFindEvent: false,
       eventId: null,
       event: {},
       nickName: "",
       meetingId: "",
       meetingPassword: "",
-      comments: [],
+      comments: [
+        {
+          _id: 1,
+          comment: "Lorem ipsum",
+          rating: 4,
+          username: "Mayank",
+          timestamp: "2020-04-10 14:32+530"
+        },
+        {
+          _id: 2,
+          comment: "Lorem ipsum",
+          rating: 2,
+          username: "Mayank",
+          timestamp: "2020-04-10 14:32+530"
+        },
+        {
+          _id: 3,
+          comment: "Lorem ipsum",
+          rating: 4,
+          username: "Mayank",
+          timestamp: "2020-04-10 14:32+530"
+        }
+      ],
       loading: true,
-      showRating: false,
-      allowReply: false,
-      commentId: ""
     };
   },
   computed: {
@@ -186,7 +182,6 @@ export default {
     }
   },
   async created() {
-    this.loading = true;
     this.eventId = this.$route.params.id;
     if (!this.eventId) {
       this.failedToFindEvent = true;
@@ -197,17 +192,15 @@ export default {
       .getEventById(this.eventId)
       .then(event => {
         this.event = event;
-        this.loading = false;
       })
       .catch(() => {
         this.failedToFindEvent = true;
-        this.loading = false;
       });
-      
-    this.getComments();
+    this.loadComments();
   },
   mounted() {
     setTimeout(() => {
+      this.loading = false;
       if (this.signedInUser == null) {
         this.$router.push("/signin");
         return;
@@ -215,6 +208,13 @@ export default {
     }, 1000);
   },
   methods: {
+    saveComment(comment) {
+      // TODO: Replace this with the API call
+      return Promise.resolve();
+    },
+    loadComments() {
+      // TODO: Add api call
+    },
     getEventTypeName: getEventTypeName,
     parseYoutubeVideoId(link) {
       try {
@@ -225,41 +225,6 @@ export default {
         return null;
       }
     },
-    getComments() {
-      commentService
-        .getComment(this.eventId)
-        .then(response => {
-          this.comments = response; //.push(...response);
-        })
-        .catch(() => {
-          eventBus.$emit("show-toast", {
-            body: e.message,
-            title: messages.generic.error,
-            type: ToastType.ERROR
-          });
-        });
-    },
-    saveComment(response, index) {
-      if (this.commentId != "") {
-        this.comments.splice(index, 1, response);
-        this.commentId = "";
-      } else {
-        this.comments.push(response);
-      }
-
-      eventBus.$emit("show-toast", {
-        body: messages.comment.commentAddSuccess,
-        title: messages.generic.success
-      });
-    },
-    deleteComment(index) {
-      console.log(index);
-      this.comments.splice(index, 1);
-    },
-    editComment(commentId) {
-      this.commentId = commentId;
-    },
-    cancelComment() {}
   }
 };
 </script>

@@ -89,10 +89,13 @@ export default {
   created() {
     const cityName = this.$route.params.cityName;
     const countryCode = this.$route.params.countryCode;
-
+    this.loading = true;
     cityService
       .getCityDetails(cityName, countryCode)
-      .then(city => (this.selectedCity = city));
+      .then(city => {
+        this.selectedCity = city
+        this.loading = false;
+      });
 
     cityService.getUsersFromCity(cityName, countryCode).then(users => {
       this.developersFromCity = users.filter(u => u.category === "dev");
@@ -107,11 +110,6 @@ export default {
         e => new Date(e.dateFrom) < new Date()
       ).sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom));
     });
-  },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false
-    }, 1000);
   },
   methods: {}
 };

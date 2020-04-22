@@ -116,6 +116,7 @@ export default {
       const payload = {
         email: this.email,
       };
+      this.loading = true;
       newsletterService
         .subscribe(payload)
         .then((response) => {
@@ -124,6 +125,7 @@ export default {
             title: messages.generic.success,
           });
           this.email = "";
+          this.loading = false;
         })
         .catch((error) => {
           eventBus.$emit("show-toast", {
@@ -131,6 +133,7 @@ export default {
             title: messages.generic.error,
             type: ToastType.ERROR,
           });
+          this.loading = false;
         });
     },
   },

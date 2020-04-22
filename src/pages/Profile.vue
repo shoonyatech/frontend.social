@@ -221,7 +221,7 @@ export default {
       editModeEvents: false,
       username: null,
       publicProfile: null,
-      loading: true
+      loading: false
     };
   },
   created() {
@@ -235,34 +235,34 @@ export default {
     }
 
     if (this.username == null) {
+      this.loading = true
       userService
         .getLoggedInUserProfile()
         .then(user => {
           user.skills = this.sortSkills(user.skills);
           this.profile = user;
           this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
+          this.loading = false
         })
         .catch(e => {
           userService.signout();
           this.$router.push("/");
         });
     } else {
+      this.loading = true
       userService
         .getUserProfile(this.username)
         .then(user => {
           user.skills = this.sortSkills(user.skills);
           this.profile = user;
           this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
+          this.loading = false
         })
         .catch(e => {
           alert("User " + this.username + " not found");
+          this.loading = false
         });
     }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false
-    }, 1000);
   },
   methods: {
     onSocialChange: function(social) {
@@ -305,22 +305,28 @@ export default {
       this.editModeAboutMe = true;
     },
     saveAboutMe: function(event) {
+      this.loading = true;
       this.editModeAboutMe = false;
       try {
         userService.updateUserProfile(this.profile);
+        this.loading = false;
       } catch (e) {
         alert(e.message);
+        this.loading = false;
       }
     },
     cancelAboutMe: function(event) {
+      this.loading = true;
       userService
         .getLoggedInUserProfile()
         .then(user => {
           this.profile = user;
+          this.loading = false;
         })
         .catch(e => {
           userService.signout();
           this.$router.push("/");
+          this.loading = false;
         });
       this.editModeAboutMe = false;
     },
@@ -328,23 +334,29 @@ export default {
       this.editModeSocials = true;
     },
     saveSocials: function(event) {
+      this.loading = true;
       this.editModeSocials = false;
       try {
         userService.updateUserProfile(this.profile);
+        this.loading = false;
       } catch (e) {
         alert(e.message);
+        this.loading = false;
       }
     },
     cancelSocials: function(event) {
+      this.loading = true;
       userService
         .getLoggedInUserProfile()
         .then(user => {
           this.profile = user;
           this.editModeSocials = false;
+          this.loading = false;
         })
         .catch(e => {
           userService.signout();
           this.$router.push("/");
+          this.loading = false;
         });
     },
     editSkills: function(event) {
@@ -389,23 +401,29 @@ export default {
       this.editModeEvents = true;
     },
     saveEvents: function(event) {
+      this.loading = true;
       this.editModeEvents = false;
       try {
         userService.updateUserProfile(this.profile);
+        this.loading = false;
       } catch (e) {
         alert(e.message);
+        this.loading = false;
       }
     },
     cancelEvents: function(event) {
+      this.loading = true;
       userService
         .getLoggedInUserProfile()
         .then(user => {
           this.profile = user;
           this.editModeEvents = false;
+          this.loading = false;
         })
         .catch(e => {
           userService.signout();
           this.$router.push("/");
+          this.loading = false;
         });
     }
   }
