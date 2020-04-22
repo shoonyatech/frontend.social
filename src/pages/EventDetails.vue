@@ -200,7 +200,7 @@ export default {
       .catch(() => {
         this.failedToFindEvent = true;
       });
-    this.loadComments();
+      
     this.getComments();
   },
   mounted() {
