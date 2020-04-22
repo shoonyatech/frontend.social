@@ -27,6 +27,14 @@ export default {
       interval : null,
     }
   },
+  watch: {
+    $route: () => {
+      userPageService.deleteUserPage();
+      setTimeout(() => {
+        userPageService.addOnlineUser(user);
+      }, 1000);
+    }
+  },
   created() {
     // wait for 1 sec to finish previous API call
     setTimeout(() => {
