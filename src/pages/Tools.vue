@@ -167,7 +167,7 @@ export default {
   },
   created() {
     this.getTools();
-    this.getRateUser();
+    
   },
   methods: {
     getTools() {
@@ -176,8 +176,9 @@ export default {
         .getTools()
         .then((response) => {
           this.sections = response;
-          this.sections.forEach((element) => {
+          this.sections.forEach((element, index) => {
             this.getComments(element._id);
+            this.getRateUser(element._id);
             this.loading = false;
           });
         })
@@ -190,11 +191,16 @@ export default {
           this.loading = false;
         });
     },
-    getRateUser() {
+    getRateUser(toolId) {
       toolService
-        .getRateUser(this.$store.state.signedInUser._id)
+        .getRateUser(toolId)
         .then((response) => {
-          this.rateUser = response;
+          var getVote = this.sections.map(function(el) {
+            var o = Object.assign({}, el);
+            o.canVote = response.canVote;
+            return o;
+          })
+          this.sections = getVote
         })
         .catch((e) => {
           eventBus.$emit("show-toast", {
@@ -219,14 +225,13 @@ export default {
         });
     },
     upRating(section, index) {
-      if(this.rateUser.some(user => user.toolId === section._id)){
+      if(section.canVote === false){
         return eventBus.$emit("show-toast", {
           body: messages.rate.rateAlreadyAdded,
           title: messages.generic.error,
           type: ToastType.ERROR,
         });
       } else {
-        this.loading = true;
         var payload = {
           name: section.name,
           section: section.section,
@@ -240,12 +245,11 @@ export default {
           .upRate(section._id, payload)
           .then((response) => {
             this.sections.splice(index, 1, response);
-            this.addUserToRate(section._id, this.$store.state.signedInUser._id);
+            this.addUserToRate(section._id, 1);
             eventBus.$emit("show-toast", {
               body: messages.rate.rateAddSuccess,
               title: messages.generic.success,
             });
-            this.loading = false;
           })
           .catch((e) => {
             eventBus.$emit("show-toast", {
@@ -253,19 +257,17 @@ export default {
               title: messages.generic.error,
               type: ToastType.ERROR,
             });
-            this.loading = false;
           });
       }
     },
     downRating(section, index) {
-      if(this.rateUser.some(user => user.toolId === section._id)){
+      if(section.canVote === false){
         return eventBus.$emit("show-toast", {
           body: messages.rate.rateAlreadyAdded,
           title: messages.generic.error,
           type: ToastType.ERROR,
         });
       } else {
-        this.loading = true;
         var payload = {
           name: section.name,
           section: section.section,
@@ -279,12 +281,11 @@ export default {
           .downRate(section._id, payload)
           .then((response) => {
             this.sections.splice(index, 1, response);
-            this.addUserToRate(section._id, this.$store.state.signedInUser._id);
+            this.addUserToRate(section._id, -1);
             eventBus.$emit("show-toast", {
               body: messages.rate.rateDeleteSuccess,
               title: messages.generic.success,
             });
-            this.loading = false;
           })
           .catch(() => {
             eventBus.$emit("show-toast", {
@@ -292,19 +293,18 @@ export default {
               title: messages.generic.error,
               type: ToastType.ERROR,
             });
-            this.loading = false;
           });
       }
     },
-    addUserToRate(toolId, userId) {
+    addUserToRate(toolId, Rate) {
       var payload = {
-        toolId: toolId,
-        userId: userId
+        vote: Rate,
+        toolId: toolId
       }
       toolService
         .addUserToRate(payload)
         .then((response) => {
-          this.rateUser.push(...response);
+          this.getTools()
         })
         .catch(() => {
           eventBus.$emit("show-toast", {

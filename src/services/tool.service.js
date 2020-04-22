@@ -18,11 +18,11 @@ export default {
   },
 
   addUserToRate: (payload) => {
-    return httpClient.post(`tool/user`, payload);
+    return httpClient.post(`vote`, payload);
   },
 
-  getRateUser: (userId) => {
-    return httpClient.get(`tool/user/${userId}`);
+  getRateUser: (toolId) => {
+    return httpClient.get(`vote/canvote/${toolId}`);
   },
 
   getComment: (toolId) => {
