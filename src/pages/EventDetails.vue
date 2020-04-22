@@ -11,28 +11,22 @@
       >
         <span>{{ event.title }}</span>
         <div>
-          <span class="event-type capsule">
-            {{ getEventTypeName(event.type) }}
-          </span>
+          <span class="event-type capsule">{{ getEventTypeName(event.type) }}</span>
           <span
             v-if="event.isOnline"
             class="event-type capsule online"
-          >
-            online
-          </span>
+          >online</span>
         </div>
       </b-col>
     </b-row>
     <b-row>
       <b-col md="11">
         <div class="event-date">
-          <span>
-            {{ event.dateFrom | moment("timezone", "Europe/London", "DD MMM YYYY") }}
-          </span>
-          <span v-if="event.dateTo"> - </span>
-          <span v-if="event.dateTo">
-            {{ event.dateTo | moment("timezone", "Europe/London", "DD MMM YYYY") }}
-          </span>
+          <span>{{ event.dateFrom | moment("timezone", "Europe/London", "DD MMM YYYY") }}</span>
+          <span v-if="event.dateTo">-</span>
+          <span
+            v-if="event.dateTo"
+          >{{ event.dateTo | moment("timezone", "Europe/London", "DD MMM YYYY") }}</span>
           in
           <a :href="'/city/' + event.city + '/' + event.country">
             <span class="city">{{ event.city }}, {{ event.country }}</span>
@@ -73,7 +67,7 @@
         <div v-html="event.description" />
       </b-col>
     </b-row>
-    <b-row 
+    <b-row
       v-if="youtubeVideoId"
       class="youtube-container"
     >
@@ -84,17 +78,16 @@
           height="600"
         />
       </b-col>
+      <!-- <b-col md="3">
+        <div v-for="user in onlineUsers" :key="user._id">Name : {{user.username}}</div>
+      </b-col> -->
     </b-row>
-    <b-row
-      style="margin-top: 20px;"
-    >
+    <b-row style="margin-top: 20px;">
       <h1>Group Topics (Click to Join call)</h1>
     </b-row>
     <b-row>
       <b-col md="12">
-        <EventMeetings
-          :event-id="eventId"
-        />
+        <EventMeetings :event-id="eventId" />
       </b-col>
     </b-row>
     <b-row
@@ -126,57 +119,63 @@
   </h1>
 </template>
 <script>
-import Comment from '@/components/Comment/Comment.vue';
-import AddComment from '@/components/Comment/AddComment.vue';
+import Comment from "@/components/Comment/Comment.vue";
+import AddComment from "@/components/Comment/AddComment.vue";
 import IconLink from "@/components/common/IconLink";
 import SkillTags from "@/components/Skills/SkillTags";
-import EventMeetings from '@/components/Events/EventMeetings.vue';
+import EventMeetings from "@/components/Events/EventMeetings.vue";
 
 import eventService from "@/services/event.service";
-import { getEventTypeName } from '@/utilities/utils';
+import { getEventTypeName } from "@/utilities/utils";
+import userPageService from "@/services/user-page.service";
 
 export default {
-  name: 'EventDetails',
-  components: {Comment, AddComment, SkillTags, IconLink, EventMeetings},
+  name: "EventDetails",
+  components: { Comment, AddComment, SkillTags, IconLink, EventMeetings },
   data() {
     return {
       hideComments: true,
       failedToFindEvent: false,
       eventId: null,
       event: {},
-      nickName: '',
-      meetingId: '',
-      meetingPassword: '',
+      nickName: "",
+      meetingId: "",
+      meetingPassword: "",
       comments: [
         {
           _id: 1,
-          comment: 'Lorem ipsum',
+          comment: "Lorem ipsum",
           rating: 4,
-          username: 'Mayank',
-          timestamp: '2020-04-10 14:32+530'
-        }, {
+          username: "Mayank",
+          timestamp: "2020-04-10 14:32+530"
+        },
+        {
           _id: 2,
-          comment: 'Lorem ipsum',
+          comment: "Lorem ipsum",
           rating: 2,
-          username: 'Mayank',
-          timestamp: '2020-04-10 14:32+530'
-        }, {
+          username: "Mayank",
+          timestamp: "2020-04-10 14:32+530"
+        },
+        {
           _id: 3,
-          comment: 'Lorem ipsum',
+          comment: "Lorem ipsum",
           rating: 4,
-          username: 'Mayank',
-          timestamp: '2020-04-10 14:32+530'
+          username: "Mayank",
+          timestamp: "2020-04-10 14:32+530"
         }
       ],
       loading: true,
-    }
+      onlineUsers: []
+    };
   },
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
     },
     youtubeVideoId() {
-      return this.event.youtube ? this.parseYoutubeVideoId(this.event.youtube): null;
+      return this.event.youtube
+        ? this.parseYoutubeVideoId(this.event.youtube)
+        : null;
     }
   },
   async created() {
@@ -186,18 +185,24 @@ export default {
       return;
     }
 
-    eventService.getEventById(this.eventId)
-    .then((event) => {
-      this.event = event;
-    })
-    .catch(() => {
-      this.failedToFindEvent = true;
-    })
+    eventService
+      .getEventById(this.eventId)
+      .then(event => {
+        this.event = event;
+      })
+      .catch(() => {
+        this.failedToFindEvent = true;
+      });
     this.loadComments();
+
+    this.addDeleteUserPage(true);
+    this.getOnlineUsers();
+    this.setTimer();
+    window.addEventListener("beforeunload", this.addDeleteUserPage(false));
   },
   mounted() {
     setTimeout(() => {
-      this.loading = false
+      this.loading = false;
     }, 1000);
   },
   methods: {
@@ -211,15 +216,55 @@ export default {
     getEventTypeName: getEventTypeName,
     parseYoutubeVideoId(link) {
       try {
-        const url = new URL(link)
+        const url = new URL(link);
         const urlParams = new URLSearchParams(url.search);
         return urlParams.get("v") || null;
-      } catch(e) {
+      } catch (e) {
         return null;
+      }
+    },
+    getOnlineUsers() {
+      userPageService
+        .getOnlineUsers()
+        .then(res => {
+          this.onlineUsers = res;
+        })
+        .catch(() => {
+          console.log("failed");
+        });
+    },
+    setTimer() {
+      this.timer = setInterval(this.getOnlineUsers.bind(this), 5000);
+    },
+    addDeleteUserPage(add) {
+      if (add) {
+        //TODO: Add current User
+        //console.log(this.$store.state.signedInUser)
+        var user = {
+          username: "srashtijain",
+          avatar: "",
+          name: "Srashti"
+        };
+        userPageService
+          .addOnlineUser(user)
+          .then(res => {})
+          .catch(() => {
+            console.log("failed");
+          });
+      } else {
+        //TODO: Run this before route change or before close browser tab
+        userPageService
+          .deleteUserPage()
+          .then(res => {
+            console.log("Deleted");
+          })
+          .catch(() => {
+            console.log("failed");
+          });
       }
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .event-title {
