@@ -120,14 +120,11 @@ export default {
     }
   },
   created() {
+    this.loading = true;
     eventService.searchEventsBy().then(events => {
+      this.loading = false;
       this.events = events;
     });
-  },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
   },
   methods: {
     onEditEvent(event) {
@@ -135,6 +132,7 @@ export default {
       this.showAddEventDialog = true;
     },
     onDeleteEvent(event) {
+      this.loading = true;
       eventService
         .deleteEvent(event._id)
         .then(() => {
@@ -143,6 +141,7 @@ export default {
             title: messages.generic.success
           });
           this.events = this.events.filter(e => e._id !== event._id);
+          this.loading = false;
         })
         .catch(e => {
           eventBus.$emit("show-toast", {
@@ -150,18 +149,23 @@ export default {
             title: messages.generic.error,
             type: ToastType.ERROR
           });
+          this.loading = false;
         });
     },
     onSearchParamsChange(param = "") {
+      this.loading = true;
       eventService.searchEventsBy(param).then(events => {
+        this.loading = false;
         this.events = events;
       });
     },
     refreshPage() {
+      this.loading = true;
       this.editedEvent = null;
       this.showAddEventDialog = false;
       eventService.searchEventsBy().then(events => {
         this.events = events;
+        this.loading = false;
       });
     },
     showDialog() {

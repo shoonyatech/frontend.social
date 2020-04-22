@@ -39,14 +39,11 @@ export default {
     };
   },
   created() {
+    this.loading = true;
     skillService.fetchSkills().then(skills => {
       this.allSkills = skills.map(s => s.name);
+      this.loading = false;
     });
-  },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false
-    }, 1000);
   },
   methods: {
     title() {

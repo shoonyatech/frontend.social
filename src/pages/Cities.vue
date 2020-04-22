@@ -57,12 +57,11 @@ export default {
     };
   },
   created() {
-    cityService.getCities().then(cities => (this.cities = cities));
-  },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false
-    }, 1000);
+    this.loading = true;
+    cityService.getCities().then(cities => {
+      this.cities = cities
+      this.loading = false;
+    });
   },
   methods: {
     citySearch(e) {

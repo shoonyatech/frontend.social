@@ -20,15 +20,10 @@ export default {
   data() {
     return {
       articles: [],
-      loading: true,
+      loading: false,
     };
   },
   created() {},
-  mounted() {
-    setTimeout(() => {
-      this.loading = false
-    }, 1000);
-  },
   methods: {}
 };
 </script>

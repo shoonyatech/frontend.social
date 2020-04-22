@@ -92,7 +92,7 @@ export default {
       pageNo: 1,
       showAddJobDialog: false,
       experienceLevel: '',
-      loading: true
+      loading: false
     };
   },
   computed: {
@@ -102,9 +102,6 @@ export default {
   },
   mounted() {
     this.getJobDetails(this.$route.params.jobId);
-    setTimeout(() => {
-      this.loading = false
-    }, 1000);
   },
   methods: {
     refreshPage() {
@@ -120,8 +117,10 @@ export default {
       }
     },
     getJobDetails(searchText = "") {
+      this.loading = true;
       jobService.getJobFindOne(searchText).then(jobs => {
         this.mapJobResponse(jobs);
+        this.loading = false;
       });
     },
     getExperienceLevel (level) {

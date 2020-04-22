@@ -147,7 +147,7 @@ export default {
       reviews: [],
       showAddToolDialog: false,
       rateUser: [],
-      loading: true,
+      loading: false,
     };
   },
   computed: {
@@ -169,19 +169,16 @@ export default {
     this.getTools();
     this.getRateUser();
   },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false
-    }, 1000);
-  },
   methods: {
     getTools() {
+      this.loading = true;
       toolService
         .getTools()
         .then((response) => {
           this.sections = response;
           this.sections.forEach((element) => {
             this.getComments(element._id);
+            this.loading = false;
           });
         })
         .catch(() => {
@@ -190,6 +187,7 @@ export default {
             title: messages.generic.error,
             type: ToastType.ERROR,
           });
+          this.loading = false;
         });
     },
     getRateUser() {
@@ -228,6 +226,7 @@ export default {
           type: ToastType.ERROR,
         });
       } else {
+        this.loading = true;
         var payload = {
           name: section.name,
           section: section.section,
@@ -246,6 +245,7 @@ export default {
               body: messages.rate.rateAddSuccess,
               title: messages.generic.success,
             });
+            this.loading = false;
           })
           .catch((e) => {
             eventBus.$emit("show-toast", {
@@ -253,6 +253,7 @@ export default {
               title: messages.generic.error,
               type: ToastType.ERROR,
             });
+            this.loading = false;
           });
       }
     },
@@ -264,6 +265,7 @@ export default {
           type: ToastType.ERROR,
         });
       } else {
+        this.loading = true;
         var payload = {
           name: section.name,
           section: section.section,
@@ -282,6 +284,7 @@ export default {
               body: messages.rate.rateDeleteSuccess,
               title: messages.generic.success,
             });
+            this.loading = false;
           })
           .catch(() => {
             eventBus.$emit("show-toast", {
@@ -289,6 +292,7 @@ export default {
               title: messages.generic.error,
               type: ToastType.ERROR,
             });
+            this.loading = false;
           });
       }
     },
@@ -311,6 +315,7 @@ export default {
         });
     },
     saveComment(comment, isEdit, commentId, index) {
+      this.loading = true;
       if (isEdit) {
         var add = toolService.editComment(commentId, comment);
       } else {
@@ -327,6 +332,7 @@ export default {
             body: messages.comment.commentAddSuccess,
             title: messages.generic.success,
           });
+          this.loading = false;
         })
         .catch(() => {
           eventBus.$emit("show-toast", {
@@ -334,9 +340,11 @@ export default {
             title: messages.generic.error,
             type: ToastType.ERROR,
           });
+          this.loading = false;
         });
     },
     deleteComment(commentId, toolId, index) {
+      this.loading = true;
       toolService
         .deleteComment(toolId, commentId)
         .then((response) => {
@@ -345,6 +353,7 @@ export default {
             body: messages.comment.commentDeleteSuccess,
             title: messages.generic.success,
           });
+          this.loading = false;
         })
         .catch(() => {
           eventBus.$emit("show-toast", {
@@ -352,6 +361,7 @@ export default {
             title: messages.generic.error,
             type: ToastType.ERROR,
           });
+          this.loading = false;
         });
     },
     editComments(commentId, comment, toolId, index) {
@@ -371,8 +381,10 @@ export default {
       }
     },
     onSearchParamsChange(param = "") {
+      this.loading = true;
       toolService.searchToolsBy(param).then(sections => {
         this.sections = sections;
+        this.loading = false;
       });
     },
   },
