@@ -128,7 +128,9 @@ router.afterEach((to, from) => {
       name: signedInUser.name,
     };
     console.log(to, store.state);
-    userPageService.addOnlineUser(user);
+    setTimeout(() => {
+      userPageService.addOnlineUser(user);
+    }, 1000);
   }
 });
 
