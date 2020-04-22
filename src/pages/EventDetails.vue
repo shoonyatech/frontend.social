@@ -11,7 +11,9 @@
       >
         <span>{{ event.title }}</span>
         <div>
-          <span class="event-type capsule">{{ getEventTypeName(event.type) }}</span>
+          <span class="event-type capsule">{{
+            getEventTypeName(event.type)
+          }}</span>
           <span
             v-if="event.isOnline"
             class="event-type capsule online"
@@ -22,11 +24,13 @@
     <b-row>
       <b-col md="11">
         <div class="event-date">
-          <span>{{ event.dateFrom | moment("timezone", "Europe/London", "DD MMM YYYY") }}</span>
+          <span>{{
+            event.dateFrom | moment("timezone", "Europe/London", "DD MMM YYYY")
+          }}</span>
           <span v-if="event.dateTo">-</span>
-          <span
-            v-if="event.dateTo"
-          >{{ event.dateTo | moment("timezone", "Europe/London", "DD MMM YYYY") }}</span>
+          <span v-if="event.dateTo">{{
+            event.dateTo | moment("timezone", "Europe/London", "DD MMM YYYY")
+          }}</span>
           in
           <a :href="'/city/' + event.city + '/' + event.country">
             <span class="city">{{ event.city }}, {{ event.country }}</span>
@@ -203,6 +207,10 @@ export default {
   mounted() {
     setTimeout(() => {
       this.loading = false;
+      if (this.signedInUser == null) {
+        this.$router.push("/signin");
+        return;
+      }
     }, 1000);
   },
   methods: {
