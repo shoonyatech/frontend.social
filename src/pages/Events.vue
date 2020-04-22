@@ -102,23 +102,31 @@ export default {
       return this.$store.state.signedInUser;
     },
     categorisedEvents() {
-      const todaysDate = new Date();
+      const today = new Date();
+      const yesterday = new Date(today);
+      yesterday.setDate(yesterday.getDate() - 1);
+
       return {
-        upcomingOnlineEvents: this.events.filter(event => event.isOnline && todaysDate <= new Date(event.dateFrom)),
-        upcomingOfflineEvents: this.events.filter(event => !event.isOnline && todaysDate <= new Date(event.dateFrom)),
-        pastEvents: this.events.filter(event => todaysDate > new Date(event.dateFrom)).sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom)),
-      }
-    },
+        upcomingOnlineEvents: this.events.filter(
+          event => event.isOnline && yesterday <= new Date(event.dateFrom)
+        ),
+        upcomingOfflineEvents: this.events.filter(
+          event => !event.isOnline && yesterday <= new Date(event.dateFrom)
+        ),
+        pastEvents: this.events
+          .filter(event => yesterday > new Date(event.dateFrom))
+          .sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom))
+      };
+    }
   },
   created() {
     eventService.searchEventsBy().then(events => {
       this.events = events;
     });
-
   },
   mounted() {
     setTimeout(() => {
-      this.loading = false
+      this.loading = false;
     }, 1000);
   },
   methods: {
@@ -127,12 +135,21 @@ export default {
       this.showAddEventDialog = true;
     },
     onDeleteEvent(event) {
-      eventService.deleteEvent(event._id)
+      eventService
+        .deleteEvent(event._id)
         .then(() => {
-          eventBus.$emit('show-toast', {body: messages.events.eventDeletedSuccess, title: messages.generic.success});
+          eventBus.$emit("show-toast", {
+            body: messages.events.eventDeletedSuccess,
+            title: messages.generic.success
+          });
           this.events = this.events.filter(e => e._id !== event._id);
-        }).catch(e => {
-          eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        })
+        .catch(e => {
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR
+          });
         });
     },
     onSearchParamsChange(param = "") {
@@ -155,7 +172,11 @@ export default {
       }
     },
     canModify(event) {
-      return this.signedInUser && event.createdBy && event.createdBy.username === this.signedInUser.username
+      return (
+        this.signedInUser &&
+        event.createdBy &&
+        event.createdBy.username === this.signedInUser.username
+      );
     }
   }
 };
