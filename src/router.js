@@ -1,10 +1,12 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./pages/Home.vue";
+import store from "@/vuex/store";
+import userPageService from "@/services/user-page.service";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   linkActiveClass: "active",
@@ -109,5 +111,36 @@ export default new Router({
   ]
 });
 
+router.beforeEach((to, from, next) => {
+  if (store.state.signedInUser) {
+    console.log(from, store.state);
+    userPageService.deleteUserPage();
+  }
+  next();
+});
 
-15% 16
+router.afterEach((to, from) => {
+  const signedInUser = store.state.signedInUser;
+  if (store.state.signedInUser) {
+    var user = {
+      username: signedInUser.username,
+      avatar: signedInUser.profilePic,
+      name: signedInUser.name,
+    };
+    console.log(to, store.state);
+    userPageService.addOnlineUser(user);
+  }
+});
+
+window.onbeforeunload = () => {
+  const authToken = JSON.parse(localStorage.getItem("authToken"));
+  fetch('/userpage', {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${authToken}`
+    },
+    keepalive: true,
+  });
+  userPageService.deleteUserPage();
+}
+export default router;

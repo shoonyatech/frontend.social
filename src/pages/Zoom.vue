@@ -1,23 +1,35 @@
   
 <template>
-  <b-container>
+  <b-container
+    fluid
+    class="meeting-container"
+  >
     <b-breadcrumb :items="items" />
-    <div class="zoom-container">
-      <iframe
-        v-if="zoomUrl"
-        :src="zoomUrl"
-      />
-    </div>
-    <b-row
-      style="margin-top: 20px;"
-    >
-      <h1>Group Topics (Click to Join call)</h1>
-    </b-row>
     <b-row>
-      <b-col md="12">
-        <EventMeetings
-          :event-id="eventId"
-        />
+      <b-col md="9">
+        <b-row>
+          <div class="zoom-container">
+            <iframe
+              v-if="zoomUrl"
+              :src="zoomUrl"
+            />
+          </div>
+        </b-row>
+        <b-row
+          style="margin-top: 20px;"
+        >
+          <h1>Group Topics (Click to Join call)</h1>
+        </b-row>
+        <b-row>
+          <b-col md="12">
+            <EventMeetings
+              :event-id="eventId"
+            />
+          </b-col>
+        </b-row>
+      </b-col>
+      <b-col md="3">
+        <OnlineUsers />
       </b-col>
     </b-row>
   </b-container>
@@ -26,9 +38,12 @@
 <script>
 import eventService from "@/services/event.service";
 import EventMeetings from '@/components/Events/EventMeetings.vue';
+import OnlineUsers from "@/components/OnlineUsers/OnlineUsers.vue";
+
 export default {
   components: {
-    EventMeetings
+    EventMeetings,
+    OnlineUsers,
   },
   data() {
     return {
@@ -81,9 +96,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.meeting-container {
+  padding-left: 5%;
+}
 .zoom-container {
-  width: 80%;
-  margin: 0 10%;
+  width: 100%;
   height: 100%;
   iframe {
     height: 600px;

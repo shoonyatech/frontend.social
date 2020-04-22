@@ -4,114 +4,114 @@
     class="bv-example-row"
   >
     <Loader v-show="loading" />
-    <b-row>
-      <b-col
-        md="12"
-        class="event-title"
-      >
-        <span>{{ event.title }}</span>
-        <div>
-          <span class="event-type capsule">{{
-            getEventTypeName(event.type)
-          }}</span>
-          <span
-            v-if="event.isOnline"
-            class="event-type capsule online"
-          >online</span>
-        </div>
+    <b-row class="event-details-container">
+      <b-col md="9">
+        <b-row>
+          <b-col
+            md="12"
+            class="event-title"
+          >
+            <span>{{ event.title }}</span>
+            <div>
+              <span class="event-type capsule">{{ getEventTypeName(event.type) }}</span>
+              <span
+                v-if="event.isOnline"
+                class="event-type capsule online"
+              >online</span>
+            </div>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="11">
+            <div class="event-date">
+              <span>{{ event.dateFrom | moment("timezone", "Europe/London", "DD MMM YYYY") }}</span>
+              <span v-if="event.dateTo">-</span>
+              <span
+                v-if="event.dateTo"
+              >{{ event.dateTo | moment("timezone", "Europe/London", "DD MMM YYYY") }}</span>
+              in
+              <a :href="'/city/' + event.city + '/' + event.country">
+                <span class="city">{{ event.city }}, {{ event.country }}</span>
+              </a>
+            </div>
+            <SkillTags
+              v-if="event.relatedSkills"
+              :skills="event.relatedSkills"
+            />
+          </b-col>
+          <b-col md="1">
+            <div class="links icon-links">
+              <icon-link
+                v-if="event.youtube"
+                icon="/images/youtube.svg"
+                :url="event.youtube"
+              />
+              <icon-link
+                v-if="event.twitter"
+                icon="/images/twitter.svg"
+                :url="event.twitter"
+              />
+              <icon-link
+                v-if="event.website"
+                icon="/images/web.svg"
+                :url="event.website"
+              />
+              <icon-link
+                v-if="event.onlineLink"
+                icon="/images/play.svg"
+                :url="event.onlineLink"
+              />
+            </div>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="12">
+            <div v-html="event.description" />
+          </b-col>
+        </b-row>
+        <b-row
+          v-if="youtubeVideoId"
+          class="youtube-container"
+        >
+          <b-col md="12">
+            <youtube
+              :video-id="youtubeVideoId"
+              width="100%"
+              height="600"
+            />
+          </b-col>
+        </b-row>
+        <b-row style="margin-top: 20px;">
+          <h1>Group Topics (Click to Join call)</h1>
+        </b-row>
+        <b-row>
+          <b-col md="12">
+            <EventMeetings :event-id="eventId" />
+          </b-col>
+        </b-row>
+        <b-row
+          v-if="!hideComments"
+          style="margin-top: 20px;"
+        >
+          <h1>Comments</h1>
+        </b-row>
+        <b-row v-if="!hideComments && signedInUser">
+          <b-col md="12">
+            <add-comment :on-save="saveComment" />
+          </b-col>
+        </b-row>
+        <b-row v-if="!hideComments">
+          <b-col md="12">
+            <Comment
+              v-for="comment in comments"
+              :key="comment._id"
+              :comment="comment"
+            />
+          </b-col>
+        </b-row>
       </b-col>
-    </b-row>
-    <b-row>
-      <b-col md="11">
-        <div class="event-date">
-          <span>{{
-            event.dateFrom | moment("timezone", "Europe/London", "DD MMM YYYY")
-          }}</span>
-          <span v-if="event.dateTo">-</span>
-          <span v-if="event.dateTo">{{
-            event.dateTo | moment("timezone", "Europe/London", "DD MMM YYYY")
-          }}</span>
-          in
-          <a :href="'/city/' + event.city + '/' + event.country">
-            <span class="city">{{ event.city }}, {{ event.country }}</span>
-          </a>
-        </div>
-        <SkillTags
-          v-if="event.relatedSkills"
-          :skills="event.relatedSkills"
-        />
-      </b-col>
-      <b-col md="1">
-        <div class="links icon-links">
-          <icon-link
-            v-if="event.youtube"
-            icon="/images/youtube.svg"
-            :url="event.youtube"
-          />
-          <icon-link
-            v-if="event.twitter"
-            icon="/images/twitter.svg"
-            :url="event.twitter"
-          />
-          <icon-link
-            v-if="event.website"
-            icon="/images/web.svg"
-            :url="event.website"
-          />
-          <icon-link
-            v-if="event.onlineLink"
-            icon="/images/play.svg"
-            :url="event.onlineLink"
-          />
-        </div>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col md="12">
-        <div v-html="event.description" />
-      </b-col>
-    </b-row>
-    <b-row
-      v-if="youtubeVideoId"
-      class="youtube-container"
-    >
-      <b-col md="12">
-        <youtube
-          :video-id="youtubeVideoId"
-          width="100%"
-          height="600"
-        />
-      </b-col>
-      <!-- <b-col md="3">
-        <div v-for="user in onlineUsers" :key="user._id">Name : {{user.username}}</div>
-      </b-col> -->
-    </b-row>
-    <b-row style="margin-top: 20px;">
-      <h1>Group Topics (Click to Join call)</h1>
-    </b-row>
-    <b-row>
-      <b-col md="12">
-        <EventMeetings :event-id="eventId" />
-      </b-col>
-    </b-row>
-    <b-row
-      v-if="!hideComments"
-      style="margin-top: 20px;"
-    >
-      <h1>Comments</h1>
-    </b-row>
-    <b-row v-if="!hideComments && signedInUser">
-      <b-col md="12">
-        <add-comment :on-save="saveComment" />
-      </b-col>
-    </b-row>
-    <b-row v-if="!hideComments">
-      <b-col md="12">
-        <Comment
-          v-for="comment in comments"
-          :key="comment._id"
-          :comment="comment"
-        />
+      <b-col md="3">
+        <OnlineUsers />
       </b-col>
     </b-row>
   </b-container>
@@ -128,14 +128,14 @@ import AddComment from "@/components/Comment/AddComment.vue";
 import IconLink from "@/components/common/IconLink";
 import SkillTags from "@/components/Skills/SkillTags";
 import EventMeetings from "@/components/Events/EventMeetings.vue";
+import OnlineUsers from "@/components/OnlineUsers/OnlineUsers.vue";
 
 import eventService from "@/services/event.service";
 import { getEventTypeName } from "@/utilities/utils";
-import userPageService from "@/services/user-page.service";
 
 export default {
   name: "EventDetails",
-  components: { Comment, AddComment, SkillTags, IconLink, EventMeetings },
+  components: { Comment, AddComment, SkillTags, IconLink, EventMeetings, OnlineUsers },
   data() {
     return {
       hideComments: true,
@@ -169,7 +169,6 @@ export default {
         }
       ],
       loading: true,
-      onlineUsers: []
     };
   },
   computed: {
@@ -198,11 +197,6 @@ export default {
         this.failedToFindEvent = true;
       });
     this.loadComments();
-
-    this.addDeleteUserPage(true);
-    this.getOnlineUsers();
-    this.setTimer();
-    window.addEventListener("beforeunload", this.addDeleteUserPage(false));
   },
   mounted() {
     setTimeout(() => {
@@ -231,46 +225,6 @@ export default {
         return null;
       }
     },
-    getOnlineUsers() {
-      userPageService
-        .getOnlineUsers()
-        .then(res => {
-          this.onlineUsers = res;
-        })
-        .catch(() => {
-          console.log("failed");
-        });
-    },
-    setTimer() {
-      this.timer = setInterval(this.getOnlineUsers.bind(this), 5000);
-    },
-    addDeleteUserPage(add) {
-      if (add) {
-        //TODO: Add current User
-        //console.log(this.$store.state.signedInUser)
-        var user = {
-          username: "srashtijain",
-          avatar: "",
-          name: "Srashti"
-        };
-        userPageService
-          .addOnlineUser(user)
-          .then(res => {})
-          .catch(() => {
-            console.log("failed");
-          });
-      } else {
-        //TODO: Run this before route change or before close browser tab
-        userPageService
-          .deleteUserPage()
-          .then(res => {
-            console.log("Deleted");
-          })
-          .catch(() => {
-            console.log("failed");
-          });
-      }
-    }
   }
 };
 </script>

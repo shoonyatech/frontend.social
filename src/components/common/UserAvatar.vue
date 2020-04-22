@@ -2,7 +2,7 @@
   <div class="avatar">
     <a :href="`/user/${user.username}`">
       <img
-        :src="user.profilePic"
+        :src="user.profilePic || '/images/avatar.svg'"
         class="profile-photo"
       >
     </a>
