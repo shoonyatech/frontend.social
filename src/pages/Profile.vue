@@ -188,6 +188,21 @@
               @change="onEventChange"
             />
           </Section>
+          <Section
+            title="Activities"
+            class="events-attended"
+            :is-editable="editModeActivity"
+          >
+            <div
+              v-for="(activity, index) in activities"
+              :key="index"
+            >
+              {{ activity.createdAt| moment("timezone","America/Toronto", "DD MMM YYYY") }} - 
+              {{ getActivityType(activity.activityType) }} 
+              {{ getModel(activity.model) }} 
+              <a :href="activity.pageLink">{{ activity.title }}</a>
+            </div>
+          </Section>
         </b-col>
       </b-row>
     </b-container>
@@ -221,7 +236,9 @@ export default {
       editModeEvents: false,
       username: null,
       publicProfile: null,
-      loading: false
+      loading: false,
+      editModeActivity: false,
+      activities: [],
     };
   },
   created() {
@@ -263,6 +280,7 @@ export default {
           this.loading = false
         });
     }
+    this.getActivities();
   },
   methods: {
     onSocialChange: function(social) {
@@ -425,6 +443,34 @@ export default {
           this.$router.push("/");
           this.loading = false;
         });
+    },
+    getActivities() {
+      userService
+        .getActivities()
+        .then(response => {
+          this.activities = response;
+        })
+        .catch(e => {
+          this.$router.push("/");
+        });
+    },
+    getActivityType (type) {
+      switch (type) {
+        case 'c':
+          return "created";
+        case 'd':
+          return "deleted";
+      }
+    },
+    getModel (model) {
+      switch (model) {
+        case 'e':
+          return "Event";
+        case 'j':
+          return "Job";
+        case 'a':
+          return "Article";
+      }
     }
   }
 };
