@@ -19,5 +19,9 @@ export default {
 
   signout: () => {
     localStorage.removeItem("authToken");
+  },
+
+  getActivities: () => {
+    return httpClient.get("useractivity");
   }
 };
