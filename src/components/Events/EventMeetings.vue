@@ -51,7 +51,7 @@ export default {
     this.getMeetings();
     this.interval = setInterval(() => {
       this.getMeetings();
-    }, 5000);
+    }, 10000);
   },
   beforeDestroy() {
     if (this.interval) {
