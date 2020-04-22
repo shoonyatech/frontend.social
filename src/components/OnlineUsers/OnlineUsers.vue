@@ -31,10 +31,10 @@ export default {
     // wait for 1 sec to finish previous API call
     setTimeout(() => {
       this.getOnlineUsers();
-    }, 1000);
+    }, 2000);
     this.interval = setInterval(() => {
       this.getOnlineUsers();
-    }, 10000);
+    }, 4000);
   },
   beforeDestroy() {
     if (this.interval) {
