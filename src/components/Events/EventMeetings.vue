@@ -17,30 +17,40 @@
       v-for="meeting in meetings"
       :key="meeting._id"
     >
-      <a @click="joinMeeting(meeting.meetingId, meeting.title)">{{ meeting.title }}</a>
-      <span class="created-by">{{ meeting.createdBy ? `by ${meeting.createdBy.username}` : '' }}</span>
+      <a
+        @click="joinMeeting(meeting.meetingId, meeting.title)"
+      >{{ meeting.title }}
+        <span
+          v-if="meeting.userCount"
+          class="user-count"
+        >({{ meeting.userCount }})</span></a>
+      <span class="created-by">{{
+        meeting.createdBy ? `by ${meeting.createdBy.username}` : ""
+      }}</span>
     </div>
   </div>
 </template>
 <script>
 import eventService from "@/services/event.service";
+import userPageService from "@/services/user-page.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
+import { uniqBy } from "lodash";
 
 export default {
-  name: 'EventMeetings',
+  name: "EventMeetings",
   props: {
     eventId: {
       type: String,
-      required: true,
+      required: true
     }
   },
   data() {
     return {
-      meetingTitle: '',
+      meetingTitle: "",
       meetings: [],
-      interval: null,
-    }
+      interval: null
+    };
   },
   computed: {
     signedInUser() {
@@ -62,34 +72,51 @@ export default {
     getMeetings() {
       eventService.getMeetings(this.eventId).then(meetings => {
         this.meetings = meetings;
+
+        meetings.forEach(m => {
+          const url = encodeURI(
+            `https://www.frontend.social/join-meeting/${m.meetingId}?eventId=${this.eventId}&title=${m.title}`
+          );
+          userPageService.getOnlineUsersCount(url).then(res => {
+            meetings.userCount = uniqBy(res, x => x.userCount);
+          });
+        });
       });
     },
     createMeetings() {
-      if (this.signedInUser == null) {
-        this.$router.push("/signin");
-        return;
-      }
-      eventService.createMeeting(this.eventId, this.meetingTitle , 'jitsi')
-      .then(res => {
-        this.joinMeeting(res.meetingId, this.meetingTitle);
-      }).catch((e) => {
-        eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
-      });
+      eventService
+        .createMeeting(this.eventId, this.meetingTitle, "jitsi")
+        .then(res => {
+          this.joinMeeting(res.meetingId, this.meetingTitle);
+        })
+        .catch(e => {
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR
+          });
+        });
     },
     joinMeeting(meetingId, title) {
       if (this.signedInUser == null) {
         this.$router.push("/signin");
         return;
       }
-      this.$router.push(`/join-meeting/${meetingId}?eventId=${this.eventId}&title=${title}`);
+      this.$router.push(
+        `/join-meeting/${meetingId}?eventId=${this.eventId}&title=${title}`
+      );
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .created-by {
   color: #8f8f8f;
   font-size: 15px;
   padding-left: 10px;
+}
+
+.user-count {
+  color: #8f8f8f;
 }
 </style>
