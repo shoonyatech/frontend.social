@@ -21,7 +21,7 @@
         @click="joinMeeting(meeting.meetingId, meeting.title)"
       >{{ meeting.title }}
         <span
-          v-if="meeting.userCount"
+          v-if="meeting.userCount > 0"
           class="user-count"
         >({{ meeting.userCount }})</span></a>
       <span class="created-by">{{
@@ -78,7 +78,7 @@ export default {
             `https://www.frontend.social/join-meeting/${m.meetingId}?eventId=${this.eventId}&title=${m.title}`
           );
           userPageService.getOnlineUsersCount(url).then(res => {
-            meetings.userCount = uniqBy(res, x => x.userCount);
+            m.userCount = res.userCount;
           });
         });
       });
