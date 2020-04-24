@@ -70,7 +70,7 @@ export default {
 .profile-photo {
   height: 50px;
   width: 50px;
-  background-color: #aada18;
+  background-color: #114273;
   margin-right: 10px;
   text-align: left;
   padding: 2px;
@@ -88,7 +88,7 @@ export default {
 .menu {
   width: 140px;
   padding: 2px 20px;
-  border: solid 1px #aada18;
+  border: solid 1px #114273;
   position: absolute;
   right: 0px;
   top: 55px;

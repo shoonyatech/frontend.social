@@ -204,7 +204,7 @@ export default {
 
 .filters-wrapper {
   height: 100%;
-  border-left: 1px solid #aada18;
+  border-left: 1px solid #114273;
   flex-direction: column;
   display: flex;
   text-align: start;

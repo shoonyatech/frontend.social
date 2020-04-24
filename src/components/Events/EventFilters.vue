@@ -131,7 +131,7 @@ export default {
 
 .filter-search-box {
   margin: 5px;
-  border: 2px solid #aada18;
+  border: 2px solid #114273;
 
   input {
     width: 100%;
@@ -154,7 +154,7 @@ export default {
 
 .expand-button {
   height: 1.5rem;
-  background-color: #aada18;
+  background-color: #114273;
   color: white;
   text-align: center;
 }

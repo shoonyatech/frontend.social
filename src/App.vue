@@ -111,13 +111,13 @@ body {
 }
 
 .header {
-  border-bottom: 7px solid #aada18;
+  border-bottom: 7px solid #114273;
   position: fixed;
   top: 0;
   z-index: 100;
   width: 100%;
   background-color: white;
-  color: #aada18;
+  color: #114273;
   z-index: 10;
 }
 
@@ -127,7 +127,7 @@ body {
   cursor: pointer;
 
   &:hover {
-    background-color: #ebffae;
+    background-color: #c0e0ff;
     border-radius: 9px;
     border-width: solid transparent 1px;
   }
@@ -169,7 +169,7 @@ h1 {
   font-size: 1.2rem;
   text-align: left;
   width: 100%;
-  border-bottom: 1px solid #aada18;
+  border-bottom: 1px solid #114273;
   padding-bottom: 7px;
 }
 
@@ -191,22 +191,22 @@ ol {
 }
 
 a {
-  color: rgb(35, 180, 173) !important;
+  color: #23bdee !important;
   cursor: pointer;
 }
 
 a:hover {
-  background-color: #aada1834;
+  background-color: #11427334;
   text-decoration: none;
 }
 
 label {
   display: inline-block;
-  color: #aada18;
+  color: #114273;
 }
 
 button {
-  background-color: #aada18;
+  background-color: #114273;
   color: white;
   padding: 0 20px;
   border: 0;
@@ -217,7 +217,7 @@ button {
 }
 
 button:hover {
-  background-color: #c5dd7d;
+  background-color: #38628c;
 
   &.error {
     background-color: rgba(212, 68, 68, 0.733);
@@ -239,7 +239,7 @@ button:hover {
 }
 
 input {
-  border: 3px solid #aada20;
+  border: 3px solid #114273;
   display: inline-block;
   margin: 2px 0;
   font-size: inherit;
@@ -297,7 +297,7 @@ input {
 }
 
 .capsule {
-  background-color: #ebffae;
+  background-color: #c0e0ff;
   padding: 0 10px;
   border-radius: 50px;
   height: 22px;

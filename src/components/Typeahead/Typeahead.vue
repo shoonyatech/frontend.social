@@ -156,16 +156,16 @@ export default {
   list-style: none;
   background-color: #fff;
   width:100%;
-  border: 1px solid #aada20;
+  border: 1px solid #114273;
   li {
-    border-bottom: dotted 1px #aada18;
+    border-bottom: dotted 1px #114273;
     cursor: pointer;
     padding: 2px;
     &:hover {
-      background-color: #aada186c;
+      background-color: #1142736c;
     }
     &.active {
-      background-color: #aada186c;
+      background-color: #1142736c;
     }
   }
 }

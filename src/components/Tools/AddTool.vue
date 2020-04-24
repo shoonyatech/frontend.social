@@ -147,13 +147,13 @@ export default {
 
 <style scoped lang="scss">
 .label {
-  color: #aada18;
+  color: #114273;
   width: 7rem;
   min-width: 7rem;
 }
 
 .editable-value {
-  border: 3px solid #aada20;
+  border: 3px solid #114273;
   display: inline-block;
   margin: 2px 0;
   font-size: inherit;

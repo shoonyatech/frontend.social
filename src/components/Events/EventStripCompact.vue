@@ -130,7 +130,7 @@ export default {
   margin: 10px;
   width: 95%;
   position: relative;
-  border-bottom: dotted 1px #aada20;
+  border-bottom: dotted 1px #114273;
   padding-bottom: 10px;
   margin-right: 20px;
 }
@@ -191,6 +191,6 @@ export default {
   width: 15px;
   display: flex;
   cursor: pointer;
-  color: #aada20;
+  color: #114273;
 }
 </style>

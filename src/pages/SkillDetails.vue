@@ -84,7 +84,7 @@ export default {
 .title {
   font-size: 1.5rem;
   margin-bottom: 20px;
-  color: #aada18;
+  color: #114273;
 }
 
 .skills-tag {

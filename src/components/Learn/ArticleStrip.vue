@@ -85,7 +85,7 @@ export default {
 .layout {
   display: flex;
   flex-direction: columns;
-  border-bottom: dotted 1px #aada20;
+  border-bottom: dotted 1px #114273;
 }
 
 .article-strip {

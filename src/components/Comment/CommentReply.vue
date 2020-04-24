@@ -25,7 +25,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .comment-reply-container {
-  border: 1px solid #aada20;
+  border: 1px solid #114273;
   padding: 10px;
   margin: 2px;
 

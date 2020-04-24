@@ -479,7 +479,7 @@ export default {
 <style scoped lang="scss">
 .profile-photo {
   max-width: 100%;
-  background-color: #aada18;
+  background-color: #114273;
   text-align: left;
   padding: 5px;
 }

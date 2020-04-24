@@ -290,7 +290,7 @@ export default {
       textarea,
       input[type="text"] {
         flex: 1;
-        border: 3px solid #aada18;
+        border: 3px solid #114273;
       }
 
       .multiple-selection {
@@ -330,7 +330,7 @@ export default {
     }
     .form-label {
       width: 150px;
-      color: #aada18;
+      color: #114273;
       min-width: 7rem;
     }
   }
@@ -340,7 +340,7 @@ export default {
   .form-field {
     flex-direction: column;
     .form-label {
-      color: #aada18;
+      color: #114273;
       min-width: 7rem;
     }
   }

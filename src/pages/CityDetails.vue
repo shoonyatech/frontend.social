@@ -127,14 +127,14 @@ export default {
 }
 
 .inputCityDiv {
-  border: 3px solid #aada20;
+  border: 3px solid #114273;
   display: inline-block;
   margin: 0 auto;
   width: 25%;
 }
 ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
-  color: #aada18;
+  color: #114273;
 }
 
 .city-basic-info {

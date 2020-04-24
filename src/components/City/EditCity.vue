@@ -126,17 +126,17 @@ export default {
 }
 
 .city-option {
-  border-bottom: dotted 1px #aada18;
+  border-bottom: dotted 1px #114273;
   cursor: pointer;
 
   &:hover {
-    background-color: #aada186c;
+    background-color: #1142736c;
   }
 }
 
 .error {
   color: rgb(212, 68, 68);
-  background-color: #c5dd7d;
+  background-color: #38628c;
   font-weight: bold;
 }
 

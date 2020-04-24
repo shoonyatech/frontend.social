@@ -89,7 +89,7 @@ export default {
 
 <style scoped lang="scss">
 .section-box {
-  border: 2px solid #aada20;
+  border: 2px solid #114273;
   margin: 0 auto;
   text-align: left;
 }
@@ -99,7 +99,7 @@ export default {
 }
 
 .section-title {
-  background: #aada20;
+  background: #114273;
   color: #fff;
   border: none;
   padding: 4px 15px;

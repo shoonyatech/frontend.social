@@ -102,7 +102,7 @@ export default {
 }
 
 .search-box {
-  border: 3px solid #aada20;
+  border: 3px solid #114273;
   display: inline-block;
   margin: 20px auto;
   width: 15rem;
@@ -112,7 +112,7 @@ export default {
 }
 ::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
-  color: #aada18;
+  color: #114273;
 }
 
 .no-result {

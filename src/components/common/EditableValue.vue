@@ -138,7 +138,7 @@ export default {
 
 <style scoped lang="scss">
 .readonly-value {
-  border-bottom: 1px solid #aada20;
+  border-bottom: 1px solid #114273;
   flex: 1 1 auto;
   margin: 2px auto;
   min-width: 15rem;
@@ -150,7 +150,7 @@ export default {
 }
 
 .editable-value {
-  border: 3px solid #aada20;
+  border: 3px solid #114273;
   display: inline-block;
   margin: 2px auto;
   width: 100%;
@@ -165,11 +165,11 @@ textarea {
 }
 
 .auto-option {
-  border-bottom: dotted 1px #aada18;
+  border-bottom: dotted 1px #114273;
   cursor: pointer;
 
   &:hover {
-    background-color: #aada186c;
+    background-color: #1142736c;
   }
 }
 

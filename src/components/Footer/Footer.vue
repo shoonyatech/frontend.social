@@ -103,10 +103,10 @@ footer {
     display: flex;
     justify-content: space-between;
   }
-  border-top: 2px solid #aada18;
+  border-top: 2px solid #114273;
 
   .copyright-text {
-    background-color: #aada18;
+    background-color: #114273;
     color: #fff;
     font-size: 13px;
     padding: 11px;
@@ -122,7 +122,7 @@ footer {
       height: 50px;
       width: 50px;
       display: flex;
-      background-color: #aada18;
+      background-color: #114273;
       margin-right: 10px;
       border-radius: 50%;
       padding: 8px;
