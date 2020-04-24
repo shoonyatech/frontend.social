@@ -30,12 +30,15 @@ export default {
   },
   created() {
     // wait for 1 sec to finish previous API call
+    // setTimeout(() => {
+    //   this.addOnlineUser();
+    // }, 2000);
+
     setTimeout(() => {
-      this.addOnlineUser();
       this.getOnlineUsers();
     }, 2000);
+    //this.intervalAddOnlineUser = setInterval(() => this.addOnlineUser(), 13000);
     this.interval = setInterval(() => this.getOnlineUsers(), 4000);
-    this.intervalAddOnlineUser = setInterval(() => this.addOnlineUser(), 4000);
   },
   beforeDestroy() {
     if (this.interval) {
@@ -48,9 +51,16 @@ export default {
 
   methods: {
     getOnlineUsers() {
-      var payload = {
+      const signedInUser = this.$store.state.signedInUser;
+    
+    var payload = {
+        createdTime: Date.now(),
+        username: signedInUser.username,
+        avatar: signedInUser.profilePic,
+        name: signedInUser.name,
         currentTime: Date.now()
       };
+
       userPageService.getOnlineUsers(payload).then(res => {
         this.onlineUsers = uniqBy(res, x => x.username);
       });
