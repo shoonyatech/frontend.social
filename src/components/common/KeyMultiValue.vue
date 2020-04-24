@@ -25,14 +25,14 @@
               :auto-select="autoSelect"
               @change="onChange"
             />
-            <button
-              v-if="isEditable"
-              class="delete"
-              :data-index="index"
-              @click="deleteItem"
-            >
-              X
-            </button>
+            <span v-if="isEditable">
+              <img
+                :data-index="index"
+                :src="`/images/delete.svg`"
+                class="icon-button"
+                @click="deleteItem"
+              >
+            </span>
           </span>
         </div>
       </b-col>
@@ -55,7 +55,6 @@
     </b-row>
   </div>
 </template>
-
 <script>
 import EditableValue from "@/components/common/EditableValue";
 
@@ -85,7 +84,9 @@ export default {
     },
     deleteItem: function(event) {
       const index = event.target.dataset.index;
-      this.values.splice(index, 1);
+      if (this.values.length > 1) {
+        this.values.splice(index, 1);
+      }
       this.$emit("change", this.values);
     },
     onChange: function({ val, index }) {
