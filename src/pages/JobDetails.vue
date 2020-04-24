@@ -17,14 +17,11 @@
               </h1>
             </div>
             <div class="skills-required">
-              <SkillTags
-                :skills="jobs.skills"
-              />
+              <SkillTags :skills="jobs.skills" />
               <div class="expertise capsule">
                 {{ getExperienceLevel(jobs.level) }}
               </div>
             </div>
-            
 
             <div
               ref="description"
@@ -38,9 +35,9 @@
               class="location-description mb-2"
             >
               <span v-if="jobs.isFullTime === true">Full Time</span>
-              <span v-if="jobs.isPartTime === true"> | Part Time</span>
-              <span v-if="jobs.isPermanent === true"> | Permanent</span>
-              <span v-if="jobs.isContract === true"> | Contract</span>
+              <span v-if="jobs.isPartTime === true">| Part Time</span>
+              <span v-if="jobs.isPermanent === true">| Permanent</span>
+              <span v-if="jobs.isContract === true">| Contract</span>
             </div>
 
             <div
@@ -48,21 +45,6 @@
               class="job-description"
               v-html="jobs.description"
             />
-          </div>
-          <div class="job">
-            <h6>Contact detail</h6>
-            <div
-              ref="username"
-              class="location-description mb-2"
-            >
-              {{ jobs.createdBy.username }}
-            </div>
-            <div
-              ref="email"
-              class="location-description mb-2"
-            >
-              {{ jobs.createdBy.email }}
-            </div>
           </div>
         </b-col>
       </b-row>
@@ -83,7 +65,7 @@ export default {
   },
   data() {
     return {
-      jobs: '',
+      jobs: "",
       appliedFilters: [],
       currentQuery: "",
       totalPages: 1,
@@ -91,7 +73,7 @@ export default {
       jobTypes: [],
       pageNo: 1,
       showAddJobDialog: false,
-      experienceLevel: '',
+      experienceLevel: "",
       loading: false
     };
   },
@@ -123,7 +105,7 @@ export default {
         this.loading = false;
       });
     },
-    getExperienceLevel (level) {
+    getExperienceLevel(level) {
       switch (level) {
         case 0:
           return "Beginner";
@@ -142,7 +124,6 @@ export default {
 <style scoped lang="scss">
 .job {
   width: 90%;
-  border-bottom: dotted 1px #114273;
   padding: 10px;
   position: relative;
 }
