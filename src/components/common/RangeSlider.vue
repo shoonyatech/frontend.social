@@ -56,7 +56,7 @@ export default {
 }
 
 .editable-value {
-  border: 3px solid #aada20;
+  border: 3px solid #114273;
   flex: 1 1 auto;
   margin: 2px auto;
   width: 100%;

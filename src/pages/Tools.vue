@@ -263,7 +263,7 @@ h2.caption {
   font-size: 16px;
 }
 .tool-box {
-  border-bottom: 1px solid #aada18;
+  border-bottom: 1px solid #114273;
 }
 .up-down-arrow {
   height: 25px;

@@ -177,8 +177,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .comment-container {
-  border: 1px solid #aada20;
-  border-left: 10px solid #aada20;
+  border: 1px solid #114273;
+  border-left: 10px solid #114273;
   padding: 10px;
   margin: 2px;
   margin-top: 10px;

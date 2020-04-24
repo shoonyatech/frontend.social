@@ -147,7 +147,7 @@ export default {
 }
 
 .join-box {
-  border: 2px solid #aada20;
+  border: 2px solid #114273;
   margin: 0 auto;
   padding-bottom: 5px;
   text-align: center;
@@ -158,7 +158,7 @@ export default {
 }
 
 .join-label {
-  background: #aada20;
+  background: #114273;
   color: #fff;
   border: none;
   padding: 4px;
@@ -185,7 +185,7 @@ export default {
 }
 ul li::before {
   content: "\2022";
-  color: #aada20;
+  color: #114273;
   font-weight: bold;
   display: inline-block;
   width: 1em;

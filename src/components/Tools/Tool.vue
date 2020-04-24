@@ -242,7 +242,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .tool-box {
-  border-bottom: 1px solid #aada18;
+  border-bottom: 1px solid #114273;
 }
 .up-down-arrow {
   height: 25px;

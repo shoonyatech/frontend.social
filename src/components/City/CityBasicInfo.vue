@@ -46,7 +46,7 @@ export default {
 <style scoped lang="scss">
 /* style for city basic-info */
 .basic-info {
-  border: solid #aada18 2px;
+  border: solid #114273 2px;
   height: 12rem;
   width: 12rem;
   min-width: 12rem;
@@ -55,7 +55,7 @@ export default {
 }
 
 .basic-info .photo {
-  background-color: #aada18;
+  background-color: #114273;
   height: 5rem;
   width: 100%;
 }

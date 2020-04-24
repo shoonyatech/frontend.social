@@ -35,6 +35,6 @@ export default {
   width: 15px;
   display: flex;
   cursor: pointer;
-  color: #aada20;
+  color: #114273;
 }
 </style>

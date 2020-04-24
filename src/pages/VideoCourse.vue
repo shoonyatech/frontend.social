@@ -256,7 +256,7 @@ export default {
   margin-bottom: 0.8rem;
 }
 .course-heading {
-  color: #23b4ad;
+  color: #23bdee;
   font-size: 17px;
 }
 h1 {

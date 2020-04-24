@@ -262,7 +262,7 @@ export default {
   width: 95%;
   height: 80px;
   position: relative;
-  border-bottom: dotted 1px #aada20;
+  border-bottom: dotted 1px #114273;
   padding-bottom: 10px;
   margin-right: 20px;
 }
@@ -302,7 +302,7 @@ export default {
 }
 
 .label {
-  color: #aada18;
+  color: #114273;
   width: 7rem;
   min-width: 7rem;
 }

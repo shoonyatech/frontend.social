@@ -117,7 +117,7 @@ export default {
 }
 
 .label {
-  color: #aada18;
+  color: #114273;
   width: 7rem;
   min-width: 7rem;
 }
@@ -155,7 +155,7 @@ export default {
   cursor: pointer;
 
   &:hover {
-    background-color: #aada186c;
+    background-color: #1142736c;
   }
 }
 

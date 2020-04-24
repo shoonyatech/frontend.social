@@ -143,7 +143,7 @@ nav {
       font-size: 24px;
       cursor: pointer;
       .nav-item-link {
-        color: #aada18 !important;
+        color: #114273 !important;
         display: flex;
         flex-direction: row-reverse;
         align-items: center;
@@ -211,11 +211,11 @@ nav {
 }
 li.nav-item a.nav-item-link.exact-active.active {
   font-weight: bold;
-  background-color: #aada1834;
+  background-color: #11427334;
   text-decoration: none;
 }
 a.nav-item-link:hover {
-  background-color: #aada1834;
+  background-color: #11427334;
   text-decoration: none;
 }
 a.nav-item-link {

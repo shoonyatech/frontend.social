@@ -67,7 +67,7 @@ export default {
 }
 
 .label {
-  color: #aada18;
+  color: #114273;
   width: 7rem;
   min-width: 7rem;
 }

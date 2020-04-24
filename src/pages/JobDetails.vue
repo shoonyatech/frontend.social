@@ -142,7 +142,7 @@ export default {
 <style scoped lang="scss">
 .job {
   width: 90%;
-  border-bottom: dotted 1px #aada20;
+  border-bottom: dotted 1px #114273;
   padding: 10px;
   position: relative;
 }

@@ -35,7 +35,7 @@ export default {
 
   &:hover {
     border-radius: 50%;
-    border-bottom: solid #aada18 2px;
+    border-bottom: solid #114273 2px;
   }
 
   a {

@@ -23,7 +23,7 @@ export default {
 
 <style scoped lang="scss">
 .avatar {
-  background-color: #aada18;
+  background-color: #114273;
   border-radius: 50%;
   margin-right: 10px;
   display: inline-block;
@@ -32,7 +32,7 @@ export default {
 .profile-photo {
   height: 50px;
   width: 50px;
-  background-color: #aada18;
+  background-color: #114273;
   text-align: left;
   padding: 2px;
   border-radius: 999px;
