@@ -28,25 +28,14 @@ export default {
       intervalAddOnlineUser: null
     };
   },
-  watch: {
-    $route() {
-      const signedInUser = this.$store.state.signedInUser;
-      if (signedInUser) {
-        this.intervalAddOnlineUser = setInterval(
-          () => this.addOnlineUser(),
-          4000
-        );
-      }
-    }
-  },
   created() {
     // wait for 1 sec to finish previous API call
     setTimeout(() => {
+      this.addOnlineUser();
       this.getOnlineUsers();
     }, 2000);
-    this.interval = setInterval(() => {
-      this.getOnlineUsers();
-    }, 4000);
+    this.interval = setInterval(() => this.getOnlineUsers(), 4000);
+    this.intervalAddOnlineUser = setInterval(() => this.addOnlineUser(), 4000);
   },
   beforeDestroy() {
     if (this.interval) {
@@ -74,9 +63,7 @@ export default {
         avatar: signedInUser.profilePic,
         name: signedInUser.name
       };
-      setTimeout(() => {
-        userPageService.addOnlineUser(user);
-      }, 1000);
+      userPageService.addOnlineUser(user);
     }
   }
 };
