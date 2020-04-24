@@ -16,29 +16,26 @@
 <script>
 import userPageService from "@/services/user-page.service";
 import UserAvatar from "@/components/common/UserAvatar";
-import { uniqBy } from 'lodash';
+import { uniqBy } from "lodash";
 export default {
   components: {
     UserAvatar
   },
   data() {
     return {
-      onlineUsers : [],
-      interval : null,
-    }
+      onlineUsers: [],
+      interval: null,
+      intervalAddOnlineUser: null
+    };
   },
   watch: {
     $route() {
       const signedInUser = this.$store.state.signedInUser;
       if (signedInUser) {
-        var user = {
-          username: signedInUser.username,
-          avatar: signedInUser.profilePic,
-          name: signedInUser.name,
-        };
-        setTimeout(() => {
-          userPageService.addOnlineUser(user);
-        }, 1000);
+        this.intervalAddOnlineUser = setInterval(
+          () => this.addOnlineUser(),
+          4000
+        );
       }
     }
   },
@@ -55,25 +52,40 @@ export default {
     if (this.interval) {
       clearInterval(this.interval);
     }
+    if (this.intervalAddOnlineUser) {
+      clearInterval(this.intervalAddOnlineUser);
+    }
   },
 
   methods: {
     getOnlineUsers() {
-      userPageService
-        .getOnlineUsers()
-        .then(res => {
-          this.onlineUsers = uniqBy(res, (x) => x.username);
-        });
+      var payload = {
+        currentTime: Date.now()
+      };
+      userPageService.getOnlineUsers(payload).then(res => {
+        this.onlineUsers = uniqBy(res, x => x.username);
+      });
+    },
+    addOnlineUser() {
+      const signedInUser = this.$store.state.signedInUser;
+      var user = {
+        createdTime: Date.now(),
+        username: signedInUser.username,
+        avatar: signedInUser.profilePic,
+        name: signedInUser.name
+      };
+      setTimeout(() => {
+        userPageService.addOnlineUser(user);
+      }, 1000);
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .online-users {
   padding: 0 20px;
   .user {
     padding: 2px 0;
-    
   }
   .title {
     font-size: 1rem;

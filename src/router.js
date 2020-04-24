@@ -123,6 +123,7 @@ router.afterEach((to, from) => {
   const signedInUser = store.state.signedInUser;
   if (store.state.signedInUser) {
     var user = {
+      createdTime: Date.now(),
       username: signedInUser.username,
       avatar: signedInUser.profilePic,
       name: signedInUser.name,

@@ -1,8 +1,8 @@
 import httpClient from "./http-client";
 
 export default {
-  getOnlineUsers: () => {
-    return httpClient.get(`userpage/online`);
+  getOnlineUsers: (data) => {
+    return httpClient.post(`userpage/online`, data);
   },
 
   getOnlineUsersCount: (url) => {
