@@ -130,6 +130,46 @@
       <b-col
         md="3"
         sm="12"
+      >
+        Private Event
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <Checkbox
+          id="private"
+          label="Yes"
+          :is-checked="event.isPrivate"
+          :on-click="toggleIsPrivate"
+        />
+      </b-col>
+    </b-row>
+
+    <b-row class="row">
+      <b-col
+        md="3"
+        sm="12"
+      >
+        Requires Registration
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <Checkbox
+          id="requiresRegistration"
+          label="Yes"
+          :is-checked="event.isRequiresRegistration"
+          :on-click="toggleIsRequiresRegistration"
+        />
+      </b-col>
+    </b-row>
+
+    <b-row class="row">
+      <b-col
+        md="3"
+        sm="12"
       />
       <b-col
         md="9"
@@ -356,6 +396,12 @@ export default {
     toggleIsOnline() {
       this.event.isOnline = !this.event.isOnline;
     },
+    toggleIsPrivate() {
+      this.event.isPrivate = !this.event.isPrivate;
+    },
+    toggleIsRequiresRegistration() {
+      this.event.isRequiresRegistration = !this.event.isRequiresRegistration;
+    },
     close: function(val) {
       this.$emit("close", {});
     },
@@ -383,7 +429,9 @@ export default {
         linkedin: this.eventDetails.linkedin || "",
         schedule: this.eventDetails.schedule || "",
         isOnline: this.eventDetails.isOnline || false,
-        onlineLink: this.eventDetails.onlineLink || ""
+        onlineLink: this.eventDetails.onlineLink || "",
+        isPrivate: this.eventDetails.isPrivate || false,
+        isRequiresRegistration: this.eventDetails.isRequiresRegistration || false,
       };
     },
     getFormattedDate(date) {
