@@ -64,7 +64,7 @@ export default {
     commentId: {
       type: String,
       default: ""
-    },    
+    },
     isEdit: {
       type: Boolean,
       default: false
@@ -72,14 +72,14 @@ export default {
   },
   data() {
     return {
-      rating: 0,      
+      rating: 0,
       commentText: ""
     };
   },
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
-    }    
+    }
   },
   methods: {
     save() {
@@ -104,7 +104,7 @@ export default {
 
       add
         .then(response => {
-          this.onSave(response);
+          this.onSave(response, this.index);
         })
         .catch(() => {
           eventBus.$emit("show-toast", {
@@ -124,7 +124,7 @@ export default {
       this.$refs.commentBox.selectItem("");
       this.commentText = "";
       this.rating = 0;
-    } 
+    }
   }
 };
 </script>
