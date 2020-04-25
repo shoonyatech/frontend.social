@@ -36,11 +36,15 @@ export default {
     return httpClient.get(`event/${id}`);
   },
 
-  createMeeting(id, title , type)  {
-    return httpClient.post(`event/${id}/create-meeting`, {title , type});
+  createMeeting(id, title, type) {
+    return httpClient.post(`event/${id}/create-meeting`, { title, type });
   },
 
   getMeetings(id) {
     return httpClient.get(`event/${id}/meetings`);
-  }
+  },
+
+  registerUser: (eventregistration) => {
+    return httpClient.post("event/register", eventregistration);
+  },
 };

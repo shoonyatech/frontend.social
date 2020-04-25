@@ -7,7 +7,7 @@
           v-if="canModify"
           class="event-action"
           @click.prevent="deleteEvent(event)"
-        > 
+        >
           <img
             :src="`/images/delete.svg`"
             class="icon-button"
@@ -17,19 +17,16 @@
           v-if="canModify"
           class="event-action"
           @click.prevent="editEvent(event)"
-        > 
+        >
           <img
             :src="`/images/edit.svg`"
             class="icon-button"
           >
         </span>
 
-        <a
-          v-if="!isReadOnly"
-        >
+        <a v-if="!isReadOnly">
           <span @click.prevent="onTitleClick">{{ event.title }}</span>
-          <span class="event-type capsule">
-            {{ getEventTypeName(event.type) }}</span>
+          <span class="event-type capsule">{{ getEventTypeName(event.type) }}</span>
           <span
             v-if="event.isOnline"
             class="event-type capsule online"
@@ -37,8 +34,7 @@
         </a>
         <div v-else>
           <span @click.prevent="onTitleClick">{{ event.title }}</span>
-          <span class="event-type capsule">
-            {{ getEventTypeName(event.type) }}</span>
+          <span class="event-type capsule">{{ getEventTypeName(event.type) }}</span>
           <span
             v-if="event.isOnline"
             class="event-type capsule online"
@@ -49,17 +45,21 @@
     <b-row>
       <b-col md="8">
         <div class="event-date">
-          <span>{{
-            event.dateFrom | moment("timezone", "Europe/London", "DD MMM YYYY")
-          }}</span>
-          <span v-if="event.dateTo"> - </span>
-          <span v-if="event.dateTo">{{
-            event.dateTo | moment("timezone", "Europe/London", "DD MMM YYYY")
-          }}</span>
+          <span>
+            {{
+              event.dateFrom | moment("timezone", "Europe/London", "DD MMM YYYY")
+            }}
+          </span>
+          <span v-if="event.dateTo">-</span>
+          <span v-if="event.dateTo">
+            {{
+              event.dateTo | moment("timezone", "Europe/London", "DD MMM YYYY")
+            }}
+          </span>
           in
-          <a
-            :href="'/city/' + event.city + '/' + event.country"
-          ><span class="city">{{ event.city }}, {{ event.country }}</span></a>
+          <a :href="'/city/' + event.city + '/' + event.country">
+            <span class="city">{{ event.city }}, {{ event.country }}</span>
+          </a>
         </div>
         <SkillTags
           v-if="event.relatedSkills"
@@ -92,6 +92,18 @@
             :url="event.onlineLink"
           />
         </div>
+      </b-col>
+    </b-row>
+    <b-row v-if="event.isRequiresRegistration">
+      <b-col md="10">
+        <div class="registration">
+          This is a close event that requires registration
+        </div>
+      </b-col>
+      <b-col md="2">
+        <button @click="eventRegistration()">
+          Register
+        </button>
       </b-col>
     </b-row>
     <b-row>
@@ -127,7 +139,10 @@
 import IconLink from "@/components/common/IconLink";
 import SkillTags from "@/components/Skills/SkillTags";
 import Arrow from "../Arrow/Arrow";
-import { getEventTypeName } from '@/utilities/utils';
+import { getEventTypeName } from "@/utilities/utils";
+import eventBus from "@/utilities/eventBus";
+import { ToastType, messages } from "@/constants/constants";
+import eventService from "@/services/event.service";
 export default {
   name: "EventStrip",
   components: {
@@ -144,7 +159,7 @@ export default {
     },
     canModify: {
       type: Boolean,
-      default: false,
+      default: false
     }
   },
   data() {
@@ -153,6 +168,11 @@ export default {
       isOverflow: false,
       showArrow: false
     };
+  },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    }
   },
   mounted() {
     var element = this.$refs.description;
@@ -169,15 +189,43 @@ export default {
       this.isOverflow = !this.isOverflow;
     },
     deleteEvent(event) {
-      this.$emit('delete', event);
+      this.$emit("delete", event);
     },
     editEvent(event) {
-      this.$emit('edit', event);
+      this.$emit("edit", event);
     },
     onTitleClick() {
       this.$router.push(`/event/${this.event._id}`);
     },
-    getEventTypeName: getEventTypeName
+    getEventTypeName: getEventTypeName,
+    eventRegistration() {
+      if (this.signedInUser == null) {
+        eventBus.$emit("show-toast", {
+          body: "Please login to register for the event.",
+          title: messages.generic.error,
+          type: ToastType.ERROR
+        });
+      } else {
+        var payload = {
+          eventId: this.event._id
+        };
+        eventService
+          .registerUser(this.payload)
+          .then(res => {
+            eventBus.$emit("show-toast", {
+              body: res.message,
+              title: messages.generic.success
+            });
+          })
+          .catch(e => {
+            eventBus.$emit("show-toast", {
+              body: e.message,
+              title: messages.generic.error,
+              type: ToastType.ERROR
+            });
+          });
+      }
+    }
   }
 };
 </script>
@@ -255,5 +303,8 @@ export default {
 .icon-links {
   display: flex;
   flex-direction: row-reverse;
+}
+.registration {
+  color: #d44444;
 }
 </style>
