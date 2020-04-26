@@ -1,5 +1,22 @@
 <template>
   <div>
+    <b-row
+      v-if="event._id"
+      class="row"
+    >
+      <b-col
+        md="3"
+        sm="12"
+      >
+        <span class="label">Event Link</span>
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <span class="label eventLink">{{ eventLink }}</span>
+      </b-col>
+    </b-row>
     <KeyValue
       label="Event Title"
       :is-editable="true"
@@ -318,6 +335,7 @@ export default {
   data() {
     return {
       event: {
+        _id: null,
         title: "",
         description: "",
         type: "c",
@@ -334,12 +352,19 @@ export default {
         linkedin: "",
         schedule: "",
         isOnline: false,
-        onlineLink: ""
+        onlineLink: "",
+        isPrivate: false,
+        isRequiresRegistration: false
       },
       skillsLookup: [],
       editor: ClassicEditor,
       editorConfig: {}
     };
+  },
+  computed: {
+    eventLink() {
+      return window.origin + "/event/" + this.event._id;
+    }
   },
   async created() {
     if (this.eventDetails) {
@@ -407,6 +432,7 @@ export default {
     },
     intializeEvents() {
       this.event = {
+        _id: this.eventDetails._id,
         title: this.eventDetails.title || "",
         description: this.eventDetails.description || "",
         type: this.eventDetails.type || "c",
@@ -431,7 +457,8 @@ export default {
         isOnline: this.eventDetails.isOnline || false,
         onlineLink: this.eventDetails.onlineLink || "",
         isPrivate: this.eventDetails.isPrivate || false,
-        isRequiresRegistration: this.eventDetails.isRequiresRegistration || false,
+        isRequiresRegistration:
+          this.eventDetails.isRequiresRegistration || false
       };
     },
     getFormattedDate(date) {
@@ -571,5 +598,8 @@ export default {
 
 .row {
   margin-bottom: 15px;
+}
+.eventLink {
+  font-weight: bold;
 }
 </style>

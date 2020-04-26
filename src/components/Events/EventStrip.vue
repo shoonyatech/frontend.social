@@ -31,6 +31,11 @@
             v-if="event.isOnline"
             class="event-type capsule online"
           >online</span>
+
+          <span
+            v-if="event.isPrivate"
+            class="event-type capsule private"
+          >private</span>
         </a>
         <div v-else>
           <span @click.prevent="onTitleClick">{{ event.title }}</span>
@@ -94,6 +99,12 @@
         </div>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col md="12">
+        Event Link:
+        <span class="eventLink">{{ eventLink }}</span>
+      </b-col>
+    </b-row>
     <b-row v-if="event.isRequiresRegistration">
       <b-col md="10">
         <div class="registration">
@@ -143,6 +154,7 @@ import { getEventTypeName } from "@/utilities/utils";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 import eventService from "@/services/event.service";
+const clipboardy = require("clipboardy");
 export default {
   name: "EventStrip",
   components: {
@@ -172,6 +184,9 @@ export default {
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
+    },
+    eventLink() {
+      return window.origin + "/event/" + this.event._id;
     }
   },
   mounted() {
@@ -225,6 +240,9 @@ export default {
             });
           });
       }
+    },
+    copyLink() {
+      clipboardy.writeSync(this.eventLink);
     }
   }
 };
@@ -254,6 +272,11 @@ export default {
   float: right;
 
   &.online {
+    background: #114273;
+    color: white;
+  }
+
+  &.private {
     background: #d44444;
     color: white;
   }
@@ -306,5 +329,8 @@ export default {
 }
 .registration {
   color: #d44444;
+}
+.eventLink {
+  font-weight: bold;
 }
 </style>
