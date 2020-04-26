@@ -5,7 +5,8 @@
       <b-row>
         <b-col md="9">
           <h1>
-            <span>Frontend Conference and Meetups</span><button
+            <span>Frontend Conference and Meetups</span>
+            <button
               v-if="!showAddEventDialog"
               @click="showDialog()"
             >
@@ -16,6 +17,18 @@
             v-if="!showAddEventDialog"
             class="events"
           >
+            <h1 v-if="categorisedEvents.myEvents.length">
+              My Events
+            </h1>
+            <EventStrip
+              v-for="event in categorisedEvents.myEvents"
+              :key="event._id"
+              :event="event"
+              :can-modify="canModify(event)"
+              @edit="onEditEvent"
+              @delete="onDeleteEvent"
+            />
+
             <h1 v-if="categorisedEvents.upcomingOnlineEvents.length">
               Upcoming Online Events
             </h1>
@@ -107,11 +120,20 @@ export default {
       yesterday.setDate(yesterday.getDate() - 1);
 
       return {
+        myEvents: this.events.filter(
+          event => event.createdBy.username === this.signedInUser.username
+        ),
         upcomingOnlineEvents: this.events.filter(
-          event => event.isOnline && yesterday <= new Date(event.dateFrom)
+          event =>
+            event.isOnline &&
+            yesterday <= new Date(event.dateFrom) &&
+            event.createdBy.username !== this.signedInUser.username
         ),
         upcomingOfflineEvents: this.events.filter(
-          event => !event.isOnline && yesterday <= new Date(event.dateFrom)
+          event =>
+            !event.isOnline &&
+            yesterday <= new Date(event.dateFrom) &&
+            event.createdBy.username !== this.signedInUser.username
         ),
         pastEvents: this.events
           .filter(event => yesterday > new Date(event.dateFrom))
