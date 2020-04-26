@@ -148,7 +148,9 @@
         md="3"
         sm="12"
       >
-        Private Event
+        <label
+          title="This event will not be listed in public page. Only those who have the event link can access it."
+        >Private Event (?)</label>
       </b-col>
       <b-col
         md="9"
