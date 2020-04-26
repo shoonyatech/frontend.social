@@ -1,8 +1,7 @@
 <template>
   <div class="section-box">
-    <span
-      class="section-title"
-    >{{ title }}
+    <span class="section-title">
+      {{ title }}
       <img
         v-if="!editMode && isEditable"
         :src="`/images/edit.svg`"
@@ -120,5 +119,14 @@ export default {
 
 .save-button {
   margin-right: 10px;
+}
+
+.icon-button {
+  height: 30px;
+  padding: 5px;
+  cursor: pointer;
+  background-color: #c0e0ff;
+  border-radius: 9px;
+  border-width: solid transparent 1px;
 }
 </style>
