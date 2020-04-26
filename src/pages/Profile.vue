@@ -18,6 +18,7 @@
             :on-edit="editAboutMe"
             :on-save="saveAboutMe"
             :on-cancel="cancelAboutMe"
+            :is-editable="isEditable"
           >
             <input
               v-if="editModeAboutMe"
@@ -69,9 +70,7 @@
                 class="user-name"
               >
                 <span class="light-text">I am a</span>
-                <span>
-                  {{ profile.category == "dev" ? "Developer" : "Designer" }}
-                </span>
+                <span>{{ profile.category == "dev" ? "Developer" : "Designer" }}</span>
               </div>
             </div>
             <edit-city
@@ -91,9 +90,7 @@
                 class="user-public-profile"
                 :href="publicProfile"
                 target="_blank"
-              >
-                {{ publicProfile }}
-              </a>
+              >{{ publicProfile }}</a>
             </div>
           </Section>
         </b-col>
@@ -107,6 +104,7 @@
             :on-edit="editSocials"
             :on-save="saveSocials"
             :on-cancel="cancelSocials"
+            :is-editable="isEditable"
           >
             <KeyValue
               v-for="item in profile.social"
@@ -123,6 +121,7 @@
             :on-edit="editSkills"
             :on-save="saveSkills"
             :on-cancel="cancelSkills"
+            :is-editable="isEditable"
           >
             <div class="skill-list">
               <div class="skill-header">
@@ -179,6 +178,7 @@
             :on-edit="editEvents"
             :on-save="saveEvents"
             :on-cancel="cancelEvents"
+            :is-editable="isEditable"
           >
             <EditEventList
               v-if="profile.eventIds"
@@ -191,16 +191,18 @@
           <Section
             title="Activities"
             class="events-attended"
-            :is-editable="editModeActivity"
+            :is-editable="editModeActivity && isEditable"
           >
             <div
               v-for="(activity, index) in activities"
               :key="index"
             >
-              {{ activity.createdAt| moment("timezone","America/Toronto", "DD MMM YYYY") }} - 
-              {{ getActivityType(activity.activityType) }} 
-              {{ getModel(activity.model) }} 
-              <a :href="activity.pageLink">{{ activity.title }}</a>
+              {{ activity.createdAt| moment("timezone","America/Toronto", "DD MMM YYYY") }} -
+              {{ getActivityType(activity.activityType) }}
+              {{ getModel(activity.model) }}
+              <a
+                :href="activity.pageLink"
+              >{{ activity.title }}</a>
             </div>
           </Section>
         </b-col>
@@ -218,7 +220,6 @@ import SkillLevel from "@/components/Profile/SkillLevel";
 import Section from "@/components/common/Section";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
-
 
 export default {
   components: { KeyValue, EditEventList, EditCity, SkillLevel, Section },
@@ -238,8 +239,16 @@ export default {
       publicProfile: null,
       loading: false,
       editModeActivity: false,
-      activities: [],
+      activities: []
     };
+  },
+  computed: {
+    isEditable() {
+      return this.$store.state.signedInUser &&
+        this.$store.state.signedInUser.username === this.profile.username
+        ? true
+        : false;
+    }
   },
   created() {
     this.username = this.$route.params.username;
@@ -252,32 +261,32 @@ export default {
     }
 
     if (this.username == null) {
-      this.loading = true
+      this.loading = true;
       userService
         .getLoggedInUserProfile()
         .then(user => {
           user.skills = this.sortSkills(user.skills);
           this.profile = user;
           this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
-          this.loading = false
+          this.loading = false;
         })
         .catch(e => {
           userService.signout();
           this.$router.push("/");
         });
     } else {
-      this.loading = true
+      this.loading = true;
       userService
         .getUserProfile(this.username)
         .then(user => {
           user.skills = this.sortSkills(user.skills);
           this.profile = user;
           this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
-          this.loading = false
+          this.loading = false;
         })
         .catch(e => {
           alert("User " + this.username + " not found");
-          this.loading = false
+          this.loading = false;
         });
     }
     this.getActivities();
@@ -395,12 +404,19 @@ export default {
       ) {
         this.profile.skills = [];
       }
-      this.$store.dispatch('createAndUpdateSkills', this.profile.skills.map(x => x.name));
+      this.$store.dispatch(
+        "createAndUpdateSkills",
+        this.profile.skills.map(x => x.name)
+      );
       this.profile.skills = this.sortSkills(this.profile.skills);
       try {
         userService.updateUserProfile(this.profile);
       } catch (e) {
-        eventBus.$emit('show-toast', {body: e.message, title: messages.generic.error, type: ToastType.ERROR});
+        eventBus.$emit("show-toast", {
+          body: e.message,
+          title: messages.generic.error,
+          type: ToastType.ERROR
+        });
       }
     },
     cancelSkills: function(event) {
@@ -454,21 +470,21 @@ export default {
           this.$router.push("/");
         });
     },
-    getActivityType (type) {
+    getActivityType(type) {
       switch (type) {
-        case 'c':
+        case "c":
           return "created";
-        case 'd':
+        case "d":
           return "deleted";
       }
     },
-    getModel (model) {
+    getModel(model) {
       switch (model) {
-        case 'e':
+        case "e":
           return "Event";
-        case 'j':
+        case "j":
           return "Job";
-        case 'a':
+        case "a":
           return "Article";
       }
     }
