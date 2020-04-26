@@ -119,33 +119,57 @@ export default {
       const yesterday = new Date(today);
       yesterday.setDate(yesterday.getDate() - 1);
 
-      return {
-        myEvents: this.events.filter(
-          event => event.createdBy.username === this.signedInUser.username
-        ),
-        upcomingOnlineEvents: this.events.filter(
-          event =>
-            event.isOnline &&
-            yesterday <= new Date(event.dateFrom) &&
-            event.createdBy.username !== this.signedInUser.username &&
-            event.isPrivate !== true
-        ),
-        upcomingOfflineEvents: this.events.filter(
-          event =>
-            !event.isOnline &&
-            yesterday <= new Date(event.dateFrom) &&
-            event.createdBy.username !== this.signedInUser.username &&
-            event.isPrivate !== true
-        ),
-        pastEvents: this.events
-          .filter(
+      if (this.signedInUser) {
+        return {
+          myEvents: this.events.filter(
+            event => event.createdBy.username === this.signedInUser.username
+          ),
+          upcomingOnlineEvents: this.events.filter(
             event =>
-              yesterday > new Date(event.dateFrom) &&
+              event.isOnline &&
+              yesterday <= new Date(event.dateFrom) &&
               event.createdBy.username !== this.signedInUser.username &&
               event.isPrivate !== true
-          )
-          .sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom))
-      };
+          ),
+          upcomingOfflineEvents: this.events.filter(
+            event =>
+              !event.isOnline &&
+              yesterday <= new Date(event.dateFrom) &&
+              event.createdBy.username !== this.signedInUser.username &&
+              event.isPrivate !== true
+          ),
+          pastEvents: this.events
+            .filter(
+              event =>
+                yesterday > new Date(event.dateFrom) &&
+                event.createdBy.username !== this.signedInUser.username &&
+                event.isPrivate !== true
+            )
+            .sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom))
+        };
+      } else {
+        return {
+          myEvents: [],
+          upcomingOnlineEvents: this.events.filter(
+            event =>
+              event.isOnline &&
+              yesterday <= new Date(event.dateFrom) &&
+              event.isPrivate !== true
+          ),
+          upcomingOfflineEvents: this.events.filter(
+            event =>
+              !event.isOnline &&
+              yesterday <= new Date(event.dateFrom) &&
+              event.isPrivate !== true
+          ),
+          pastEvents: this.events
+            .filter(
+              event =>
+                yesterday > new Date(event.dateFrom) && event.isPrivate !== true
+            )
+            .sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom))
+        };
+      }
     }
   },
   created() {
