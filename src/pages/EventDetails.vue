@@ -275,7 +275,7 @@ export default {
   float: right;
 
   &.online {
-    background: #d44444;
+    background: #c50606;
     color: white;
   }
 }

@@ -11,6 +11,7 @@
           <img
             :src="profile.profilePic"
             class="profile-photo"
+            alt="profile"
           >
           <Section
             title="About me"
@@ -158,6 +159,7 @@
                   <img
                     :src="`/images/delete.svg`"
                     class="icon-button"
+                    alt="delete"
                   >
                 </div>
               </span>

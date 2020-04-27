@@ -7,6 +7,7 @@
       <img
         :src="user.profilePic"
         class="profile-photo"
+        alt="profile photo"
       >
       <div
         v-if="showMenu"
@@ -24,6 +25,7 @@
       <img
         src="/images/avatar.svg"
         class="profile-photo placeholder"
+        alt="avatar"
         @click="redirect('/signin')"
       >
     </div>

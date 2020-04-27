@@ -25,6 +25,7 @@
         <div class="social-links">
           <a
             class="social-link"
+            rel="noopener"
             href="https://shoonya-tech.slack.com/archives/CJ6KZLC9M"
             target="_blank"
           >
@@ -35,6 +36,7 @@
           </a>
           <a
             class="social-link"
+            rel="noopener"
             href="https://twitter.com/frontendsocial"
             target="_blank"
           >

@@ -19,6 +19,7 @@
           <img
             :src="`/images/delete.svg`"
             class="icon-button"
+            alt="Delete"
           >
         </div>
       </div>

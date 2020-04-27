@@ -4,6 +4,7 @@
     <img
       class="photo"
       :src="`/images/cities/${city.name}-${city.country}.jpg`"
+      alt="City"
     >
     <div class="details">
       <div class="inline-block">

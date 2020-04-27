@@ -6,7 +6,10 @@
         href="/"
       >
         <span class="image-container">
-          <img src="/images/logo.png">
+          <img
+            src="/images/logo.png"
+            alt="Front.Social"
+          >
         </span>
       </a>
       <Avatar

@@ -3,8 +3,12 @@
     <a
       :href="url"
       target="_blank"
+      rel="noopener"
     >
-      <img :src="icon">
+      <img
+        :src="icon"
+        alt="icon-link"
+      >
     </a>
   </span>
 </template>

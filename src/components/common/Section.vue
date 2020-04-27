@@ -5,6 +5,7 @@
       <img
         v-if="!editMode && isEditable"
         :src="`/images/edit.svg`"
+        alt="Edit"
         class="icon-button edit"
         title="Edit"
         @click="edit"
