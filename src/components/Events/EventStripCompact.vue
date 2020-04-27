@@ -80,12 +80,14 @@
           v-if="!showMore"
           class="arrow"
           :src="'/images/down-arrow.svg'"
+          alt="down-arrow"
           @click="showMore = true"
         >
         <img
           v-if="showMore"
           class="arrow"
           :src="'/images/up-arrow.svg'"
+          alt="up-arrow"
           @click="showMore = false"
         >
       </b-col>

@@ -2,6 +2,7 @@
   <img
     class="arrow"
     :src="`/images/${imgSrc}.svg`"
+    alt="arrow"
     @click="handleClick"
   >
 </template>

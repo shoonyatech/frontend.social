@@ -29,6 +29,7 @@
               <img
                 :data-index="index"
                 :src="`/images/delete.svg`"
+                alt="delete"
                 class="icon-button"
                 @click="deleteItem"
               >

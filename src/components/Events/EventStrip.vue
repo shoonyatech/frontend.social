@@ -11,6 +11,7 @@
           <img
             :src="`/images/delete.svg`"
             class="icon-button"
+            alt="delete"
           >
         </span>
         <span
@@ -21,6 +22,7 @@
           <img
             :src="`/images/edit.svg`"
             class="icon-button"
+            alt="edit"
           >
         </span>
 
@@ -272,7 +274,7 @@ export default {
   float: right;
 
   &.online {
-    background: #114273;
+    background: #c50606;
     color: white;
   }
 

@@ -7,6 +7,7 @@
         <img
           :src="`/images/delete.svg`"
           class="icon-button float-right"
+          alt="delete"
           @click="deleteComment()"
         >
         <!-- <img

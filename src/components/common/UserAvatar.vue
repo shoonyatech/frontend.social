@@ -4,6 +4,7 @@
       <img
         :src="user.profilePic || '/images/avatar.svg'"
         class="profile-photo"
+        alt="Profile Pic"
       >
     </a>
   </div>

@@ -6,6 +6,7 @@
     <img
       class="logo"
       :src="`/images/frameworks/${framework.name}.png`"
+      alt="framework logo"
     >
     <div class="github-stars">
       {{ framework.githubStars }}

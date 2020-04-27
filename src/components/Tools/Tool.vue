@@ -9,14 +9,14 @@
         >
           <img
             :src="`/images/up.svg`"
-            alt
             class="up-down-arrow cursor-pointer"
+            alt="up arrow"
             @click="onUpVote(tool, index)"
           >
           {{ tool.upRating - tool.downRating }}
           <img
             :src="`/images/down.svg`"
-            alt
+            alt="down-arrow"
             class="up-down-arrow cursor-pointer"
             @click="onDownVote(tool, index)"
           >
@@ -28,8 +28,8 @@
         >
           <img
             :src="tool.icon"
+            alt="tool-icon"
             class="w-100"
-            alt
           >
         </b-col>
         <b-col
