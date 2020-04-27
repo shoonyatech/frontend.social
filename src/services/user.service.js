@@ -23,5 +23,9 @@ export default {
 
   getActivities: () => {
     return httpClient.get("useractivity");
-  }
+  },
+
+  udpateUserPreferences: userPreferences => {
+    return httpClient.put("user/preferences", userPreferences);
+  },
 };

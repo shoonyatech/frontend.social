@@ -33,6 +33,10 @@
 </template>
 
 <script>
+import userService from "@/services/user.service";
+
+import eventBus from "@/utilities/eventBus";
+import { ToastType, messages } from "@/constants/constants";
 export default {
   props: {},
   data() {
@@ -40,11 +44,27 @@ export default {
       userAcceptedCookiesYet: true
     };
   },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    }
+  },
   created() {
-    // setTimeout(() => {
-    //   this.userAcceptedCookiesYet =
-    //     $cookies.get("cookies-accepted") === "true" || false;
-    // }, 120000);
+    setTimeout(() => {
+      //Check for if user is signedIn & cookieConsent
+
+      var userSignedIn = this.$store.state.signedInUser;
+      if (
+        !userSignedIn ||
+        (userSignedIn && !userSignedIn.userPreferences) ||
+        (userSignedIn &&
+          userSignedIn.userPreferences &&
+          !userSignedIn.userPreferences.cookieConsent)
+      ) {
+        this.userAcceptedCookiesYet =
+          $cookies.get("cookies-accepted") === "true" || false;
+      }
+    }, 10000);
   },
   methods: {
     decline() {
@@ -53,8 +73,32 @@ export default {
       );
     },
     accept() {
-      $cookies.set("cookies-accepted", true);
-      this.userAcceptedCookiesYet = true;
+      if (this.signedInUser) {
+        var payload = {
+          userPreferences: {
+            cookieConsent: true
+          }
+        };
+        userService
+          .udpateUserPreferences(payload)
+          .then(res => {
+            if (res) {
+              $cookies.set("cookies-accepted", true);
+              this.userAcceptedCookiesYet = true;
+              this.$store.commit("signInUser", res);
+            }
+          })
+          .catch(e => {
+            eventBus.$emit("show-toast", {
+              body: e.message,
+              title: messages.generic.error,
+              type: ToastType.ERROR
+            });
+          });
+      } else {
+        $cookies.set("cookies-accepted", true);
+        this.userAcceptedCookiesYet = true;
+      }
     }
   }
 };
