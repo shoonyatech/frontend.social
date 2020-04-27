@@ -88,7 +88,7 @@ export default {
 }
 
 .menu {
-  width: 140px;
+  width: 150px;
   padding: 2px 20px;
   border: solid 1px #114273;
   position: absolute;
