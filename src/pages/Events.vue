@@ -7,14 +7,12 @@
           <h1>
             <span>Frontend Conference and Meetups</span>
             <button
-              v-if="!showAddEventDialog"
               @click="showDialog()"
             >
               + Add Event
             </button>
           </h1>
           <div
-            v-if="!showAddEventDialog"
             class="events"
           >
             <h1 v-if="categorisedEvents.myEvents.length">
@@ -71,15 +69,9 @@
               </button>
             </div>
           </div>
-          <AddEvent
-            v-else
-            :event-details="editedEvent"
-            @close="refreshPage()"
-          />
         </b-col>
         <b-col md="3">
           <div
-            v-if="!showAddEventDialog"
             class="filters-wrapper"
           >
             <event-filters :on-search-params-change="onSearchParamsChange" />
@@ -93,7 +85,6 @@
 <script>
 import eventService from "@/services/event.service";
 import EventStrip from "@/components/Events/EventStrip";
-import AddEvent from "@/components/Events/AddEvent";
 import EventFilters from "@/components/Events/EventFilters";
 
 import eventBus from "@/utilities/eventBus";
@@ -101,12 +92,10 @@ import { ToastType, messages } from "@/constants/constants";
 
 export default {
   name: "Events",
-  components: { EventStrip, EventFilters, AddEvent },
+  components: { EventStrip, EventFilters },
   data() {
     return {
       events: [],
-      showAddEventDialog: false,
-      editedEvent: null,
       loading: true
     };
   },
@@ -181,8 +170,7 @@ export default {
   },
   methods: {
     onEditEvent(event) {
-      this.editedEvent = event;
-      this.showAddEventDialog = true;
+      this.$router.push(`/event/form/${event._id}`)
     },
     onDeleteEvent(event) {
       this.loading = true;
@@ -214,8 +202,6 @@ export default {
     },
     refreshPage() {
       this.loading = true;
-      this.editedEvent = null;
-      this.showAddEventDialog = false;
       eventService.searchEventsBy().then(events => {
         this.events = events;
         this.loading = false;
@@ -225,7 +211,7 @@ export default {
       if (this.signedInUser == null) {
         this.$router.push("/signin");
       } else {
-        this.showAddEventDialog = true;
+        this.$router.push("/event/form/new");
       }
     },
     canModify(event) {
