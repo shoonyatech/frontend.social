@@ -47,11 +47,10 @@
           <div class="courtesy">
             Courtesy:
             <a
+              :name="`courtesy-${article._id}`"
               :href="article.courtesyUrl"
               target="_blank"
-            >{{
-              article.courtesy
-            }}</a>
+            >{{ article.courtesy }}</a>
           </div>
           <div class="tags">
             Tags:
@@ -70,14 +69,14 @@ import SkillTags from "@/components/Skills/SkillTags";
 export default {
   components: {
     IconLink,
-    SkillTags
+    SkillTags,
   },
   props: {
     article: {
       type: Object,
-      default: () => {}
-    }
-  }
+      default: () => {},
+    },
+  },
 };
 </script>
 

@@ -13,6 +13,7 @@
         <div>
           To find out more or to opt-out, please read
           <a
+            name="privacy"
             href="/privacy"
             class="static-links"
             target="_blank"
@@ -41,13 +42,13 @@ export default {
   props: {},
   data() {
     return {
-      userAcceptedCookiesYet: true
+      userAcceptedCookiesYet: true,
     };
   },
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
-    }
+    },
   },
   created() {
     setTimeout(() => {
@@ -76,31 +77,31 @@ export default {
       if (this.signedInUser) {
         var payload = {
           userPreferences: {
-            cookieConsent: true
-          }
+            cookieConsent: true,
+          },
         };
         userService
           .udpateUserPreferences(payload)
-          .then(res => {
+          .then((res) => {
             if (res) {
               $cookies.set("cookies-accepted", true);
               this.userAcceptedCookiesYet = true;
               this.$store.commit("signInUser", res);
             }
           })
-          .catch(e => {
+          .catch((e) => {
             eventBus.$emit("show-toast", {
               body: e.message,
               title: messages.generic.error,
-              type: ToastType.ERROR
+              type: ToastType.ERROR,
             });
           });
       } else {
         $cookies.set("cookies-accepted", true);
         this.userAcceptedCookiesYet = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
