@@ -94,6 +94,7 @@
                 class="user-public-profile"
                 :href="publicProfile"
                 target="_blank"
+                rel="noopener"
               >{{ publicProfile }}</a>
             </div>
           </Section>

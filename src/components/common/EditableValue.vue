@@ -16,7 +16,7 @@
         :source="typeaheadSource"
         :query.sync="editedValue"
         @select="onChange($event)"
-      > 
+      >
         <input
           v-model="editedValue"
           class="editable-value"
@@ -50,39 +50,42 @@
     v-if="isUrl()"
   ><a
     :href="editedValue"
+    rel="noopener"
     target="_blank"
-  >{{ editedValue }}</a></span><span v-else>{{ editedValue }}</span></span>
+  >{{
+    editedValue
+  }}</a></span><span v-else>{{ editedValue }}</span></span>
 </template>
 
 <script>
 import Typeahead from "@/components/Typeahead/Typeahead";
 
 export default {
-  components: {Typeahead},
+  components: { Typeahead },
   props: {
     multiline: {
       type: Boolean,
-      default: false
+      default: false,
     },
     value: {
       type: [String, Number],
-      default: ""
+      default: "",
     },
     placeholder: {
       type: String,
-      default: ""
+      default: "",
     },
     index: {
       type: Number,
-      default: -1
+      default: -1,
     },
     isEditable: {
       type: Boolean,
-      default: false
+      default: false,
     },
     autoSelect: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     typeahead: {
       type: Boolean,
@@ -92,16 +95,16 @@ export default {
       type: Array,
       default: () => [],
       required: false,
-    }
+    },
   },
   data() {
     return {
-      editedValue: this.value
+      editedValue: this.value,
     };
   },
   methods: {
     onChange: function(e) {
-      const value = typeof e === 'string' ? e : e.target.value;
+      const value = typeof e === "string" ? e : e.target.value;
       if (this.index === -1) {
         this.$emit("change", value);
       } else {
@@ -114,7 +117,7 @@ export default {
           ? this.editedValue.toLowerCase()
           : this.editedValue;
         return this.autoSelect.filter(
-          a => a && a.toLowerCase().indexOf(this.editedValue) > -1
+          (a) => a && a.toLowerCase().indexOf(this.editedValue) > -1
         );
       }
       return [];
@@ -131,8 +134,8 @@ export default {
         );
       }
       return false;
-    }
-  }
+    },
+  },
 };
 </script>
 
