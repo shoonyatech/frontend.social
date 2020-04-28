@@ -8,7 +8,10 @@
         v-for="(skill, index) in skills"
         :key="index"
       >
-        <a :href="`/tech/${skill}`">{{ skill }}</a><span v-if="index != skills.length - 1">, </span>
+        <a
+          :name="`skill-${index}`"
+          :href="`/tech/${skill}`"
+        >{{ skill }}</a><span v-if="index != skills.length - 1">, </span>
       </span>
     </div>
   </div>
@@ -20,12 +23,12 @@ export default {
   components: {},
   props: {
     skills: {
-      type: Array
+      type: Array,
     },
     size: {
-      type: String
-    }
-  }
+      type: String,
+    },
+  },
 };
 </script>
 
