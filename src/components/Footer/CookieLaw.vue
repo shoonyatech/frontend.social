@@ -17,6 +17,7 @@
             href="/privacy"
             class="static-links"
             target="_blank"
+            rel="noopener"
           >Privacy Policy</a>.
         </div>
         <div>

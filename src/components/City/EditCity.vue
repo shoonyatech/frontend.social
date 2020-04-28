@@ -4,7 +4,7 @@
       <div class="input-group">
         <input
           v-model="editedCity"
-          :class="{ 'left-input-width' : addCity, 'left-input': !addCity }"
+          :class="{ 'left-input-width': addCity, 'left-input': !addCity }"
           placeholder="City"
           @input="onSearchCityChange"
         ><span
@@ -15,7 +15,9 @@
             v-b-modal.add-city-modal
             class="mt-0"
             type="button"
-          >Add</button>
+          >
+            Add
+          </button>
         </span>
       </div>
       <AddCity />
@@ -38,7 +40,10 @@
     </div>
     <div v-else>
       <div v-if="city">
-        <a :href="`/city/${city}/${country}`">
+        <a
+          name="city"
+          :href="`/city/${city}/${country}`"
+        >
           <span class="user-city">{{ city }}</span>,
           <span class="user-country">
             {{ country }}
@@ -64,28 +69,28 @@ export default {
   name: "EditCity",
   components: {
     CountrySelect,
-    AddCity
+    AddCity,
   },
   props: {
     editMode: {
-      type: Boolean
+      type: Boolean,
     },
     city: {
-      type: String
+      type: String,
     },
     country: {
-      type: String
+      type: String,
     },
     addCity: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   data() {
     return {
       editedCity: this.city,
       editedCountry: this.country,
-      options: []
+      options: [],
     };
   },
   methods: {
@@ -97,12 +102,12 @@ export default {
     onSearchCityChange: function(e) {
       cityService
         .getCities(this.editedCity, this.editedCountry)
-        .then(cities => {
+        .then((cities) => {
           this.options = cities;
         });
       this.$emit("change", {
         name: this.editedCity,
-        country: this.editedCountry
+        country: this.editedCountry,
       });
     },
     selectCity: function(searchedCity) {
@@ -110,8 +115,8 @@ export default {
       this.editedCity = searchedCity.name;
       this.editedCountry = searchedCity.country;
       this.$emit("change", searchedCity);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -4,9 +4,10 @@
       <b-col md="12">
         <a
           v-if="!isReadOnly"
-          :name="`courtesy-${event._id}`"
+          name="courtesy"
           :href="event.website"
           target="_blank"
+          rel="noopener"
         >
           <span>{{ event.title }}</span>
           <span class="event-type"> {{ getEventTypeName(event.type) }}</span>

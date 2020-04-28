@@ -47,9 +47,10 @@
           <div class="courtesy">
             Courtesy:
             <a
-              :name="`courtesy-${article._id}`"
+              name="courtesy"
               :href="article.courtesyUrl"
               target="_blank"
+              rel="noopener"
             >{{ article.courtesy }}</a>
           </div>
           <div class="tags">
