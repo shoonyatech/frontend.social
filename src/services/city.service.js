@@ -1,7 +1,7 @@
 import httpClient from "./http-client";
 
 export default {
-  getCities: (citySearchText, country) => {
+  getCities: (citySearchText, country, limit = 100, page = 1) => {
     let queryParam = "?";
     if (citySearchText) {
       queryParam += "citySearchText=" + citySearchText;
@@ -9,8 +9,8 @@ export default {
     if (country) {
       queryParam += "&country=" + country;
     }
-
-    return httpClient.get("city" + queryParam);
+    var pagination = "&limit=" + limit + "&page=" + page;
+    return httpClient.get("city" + queryParam + pagination);
   },
 
   getCityDetails: (cityName, countryCode) => {

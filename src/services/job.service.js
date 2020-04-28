@@ -12,14 +12,18 @@ const getQueryForNextPage = (currentQuery, totalPages, currentPage = 1) => {
 };
 
 export default {
-  getJobs: (searchText = "") => {
+  getJobs: (searchText = "", limit = 100, page = 1) => {
+    var pagination = "&limit=" + limit + "&page=" + page;
+
     const searchQuery = searchText.length ? `searchText=${searchText}` : "";
     const jobQuery = `job?${searchQuery}`;
-    return httpClient.get(jobQuery);
+    return httpClient.get(jobQuery + pagination);
   },
-  getJobsOnSearchParamsChange: query => {
+  getJobsOnSearchParamsChange: (query, limit = 100, page = 1) => {
+    var pagination = "&limit=" + limit + "&page=" + page;
+
     const jobQuery = `job?${query}`;
-    return httpClient.get(jobQuery);
+    return httpClient.get(jobQuery + pagination);
   },
   fetchDataForNextPage: (currentQuery, totalPages = 1, currentPage = 1) => {
     const query = getQueryForNextPage(currentQuery, totalPages, currentPage);
