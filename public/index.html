@@ -19,7 +19,10 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <meta name="Description" content="This is a platform for Frontend Developers and Designers. Meet fellow developers and designers in your city meetups, see latest blogs and videos, learn from online courses and find jobs matching your skills!!">
+    <meta
+      name="Description"
+      content="This is a platform for Frontend Developers and Designers. Meet fellow developers and designers in your city meetups, see latest blogs and videos, learn from online courses and find jobs matching your skills!!"
+    />
     <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <title>Frontend Social</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -33,36 +36,38 @@
       href="https://fonts.googleapis.com/css?family=Inconsolata&display=swap"
       rel="stylesheet"
     />
-    
+
     <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          appId: "311503802832589",
-          cookie: true,
-          xfbml: true,
-          version: "v3.2"
-        });
+      setTimeout(() => {
+        window.fbAsyncInit = function() {
+          FB.init({
+            appId: "311503802832589",
+            cookie: true,
+            xfbml: true,
+            version: "v3.2",
+          });
 
-        FB.AppEvents.logPageView();
-      };
+          FB.AppEvents.logPageView();
+        };
 
-      (function(d, s, id) {
-        var js,
-          fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-          return;
+        (function(d, s, id) {
+          var js,
+            fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) {
+            return;
+          }
+          js = d.createElement(s);
+          js.id = id;
+          js.src = "https://connect.facebook.net/en_US/sdk.js";
+          fjs.parentNode.insertBefore(js, fjs);
+        })(document, "script", "facebook-jssdk");
+
+        function checkLoginState() {
+          FB.getLoginStatus(function(response) {
+            statusChangeCallback(response);
+          });
         }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      })(document, "script", "facebook-jssdk");
-
-      function checkLoginState() {
-        FB.getLoginStatus(function(response) {
-          statusChangeCallback(response);
-        });
-      }
+      }, 500);
     </script>
   </head>
   <body>
@@ -75,5 +80,4 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
-
 </html>
