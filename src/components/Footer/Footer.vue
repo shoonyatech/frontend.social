@@ -54,11 +54,11 @@
           <!-- <a
             class="social-link"
             href="https://github.com/shoonyatech/frontend.social/"
-            target="_blank"
+            target="_blank" rel="noopener" 
           >
             <img
               src="https://www.frontend.social/images/github.png"
-              alt="github"
+              alt="github" 
             >
           </a> -->
         </div>
