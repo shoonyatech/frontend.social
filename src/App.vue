@@ -21,60 +21,58 @@ export default {
   components: {
     NavBar,
     Footer,
-    ToastsManager
+    ToastsManager,
   },
   store,
   data: () => ({
     navLinks: [
       {
         text: "Learn",
-        path: "/learn"
+        path: "/learn",
       },
       {
         text: "Jobs",
-        path: "/jobs"
+        path: "/jobs",
       },
       {
         text: "Events",
-        path: "/events"
+        path: "/events",
       },
       {
         text: "City",
-        path: "/city"
+        path: "/city",
       },
       {
         text: "Tools",
-        path: "/tools"
+        path: "/tools",
       },
       {
         text: "Technologies",
-        path: "/tech"
-      }
+        path: "/tech",
+      },
     ],
     copyrightText:
-      "Powered by Shoonya Technologies Ltd. (Canada) © 2020 All Rights Reserved."
+      "Powered by Shoonya Technologies Ltd. (Canada) © 2020 All Rights Reserved.",
   }),
   created() {
     if (localStorage.getItem("authToken")) {
       userService
         .getLoggedInUserProfile()
-        .then(user => {
+        .then((user) => {
           this.$store.commit("signInUser", user);
           if (user && (user.city == null || user.city === "")) {
             this.$router.push({ path: "me", query: { msg: "set-city" } });
           }
         })
-        .catch(e => {});
+        .catch((e) => {});
     }
 
     this.$store.dispatch("fetchSkills");
-  }
+  },
 };
 </script>
 
 <style lang="scss">
-@import "https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css";
-
 html {
   font-size: 22px;
 }
