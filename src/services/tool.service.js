@@ -1,8 +1,9 @@
 import httpClient from "./http-client";
 
 export default {
-  getTools: () => {
-    return httpClient.get(`tool`);
+  getTools: (limit = 100, page = 1) => {
+    var pagination = "&limit=" + limit + "&page=" + page;
+    return httpClient.get(`tool?` + pagination);
   },
 
   addTool: (payload) => {
@@ -41,9 +42,10 @@ export default {
     return httpClient.delete(`tool/review/${commentId}`);
   },
 
-  searchToolsBy: query => {
+  searchToolsBy: (query, limit = 100, page = 1) => {
+    var pagination = "&limit=" + limit + "&page=" + page;
     query = query || "";
-    return httpClient.get("tool?" + query);
+    return httpClient.get("tool?" + query + pagination);
   },
-  
+
 };
