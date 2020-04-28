@@ -4,17 +4,16 @@
       <b-col md="12">
         <a
           v-if="!isReadOnly"
+          :name="`courtesy-${event._id}`"
           :href="event.website"
           target="_blank"
         >
           <span>{{ event.title }}</span>
-          <span class="event-type">
-            {{ getEventTypeName(event.type) }}</span>
+          <span class="event-type"> {{ getEventTypeName(event.type) }}</span>
         </a>
         <div v-else>
           <span>{{ event.title }}</span>
-          <span class="event-type">
-            {{ getEventTypeName(event.type) }}</span>
+          <span class="event-type"> {{ getEventTypeName(event.type) }}</span>
         </div>
       </b-col>
     </b-row>
@@ -98,30 +97,30 @@
 <script>
 import IconLink from "@/components/common/IconLink";
 import SkillTags from "@/components/Skills/SkillTags";
-import { getEventTypeName } from '@/utilities/utils';
+import { getEventTypeName } from "@/utilities/utils";
 
 export default {
   name: "EventStripCompact",
   components: {
     IconLink,
-    SkillTags
+    SkillTags,
   },
   props: {
     event: {
-      type: Object
+      type: Object,
     },
     isReadOnly: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   data() {
     return {
-      showMore: false
+      showMore: false,
     };
   },
   methods: {
-    getEventTypeName: getEventTypeName
-  }
+    getEventTypeName: getEventTypeName,
+  },
 };
 </script>
 
