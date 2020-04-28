@@ -51,7 +51,7 @@
             >
               <label
                 for="email"
-                hidden
+                class="hidden"
               >Email</label>
               <input
                 id="email"
