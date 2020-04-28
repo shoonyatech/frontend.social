@@ -103,6 +103,11 @@ const router = new Router({
       component: () => import("./pages/EventDetails.vue")
     },
     {
+      path: "/event/form/:id",
+      name: "eventDetails",
+      component: () => import("./pages/EventForm.vue")
+    },
+    {
       path: "/join-meeting/:id",
       name: "joinMeeting",
       component: () => import("./pages/Zoom.vue")
