@@ -49,14 +49,19 @@
               invalid-feedback="Email is required"
               class="buttons-box"
             >
+              <label
+                for="email"
+                hidden
+              >Email</label>
               <input
+                id="email"
                 v-model.trim="email"
                 placeholder="Your email"
-                class="w-100 social-button "
+                class="w-100 section-control"
                 required
                 :state="emailState"
               >
-              <button class="w-100 social-button ">
+              <button class="w-100 section-control ">
                 Subscribe
               </button>
             </b-form-group>
@@ -93,7 +98,7 @@ export default {
   mounted() {
     this.checkSignIn();
     setTimeout(() => {
-      this.loading = false
+      this.loading = false;
     }, 1000);
   },
   methods: {
@@ -105,13 +110,13 @@ export default {
       }, 1000);
     },
     checkNewsletterFormValidity() {
-      const valid = this.$refs.form.checkValidity()
-      this.emailState = valid
-      return valid
+      const valid = this.$refs.form.checkValidity();
+      this.emailState = valid;
+      return valid;
     },
     handleNewsletterSubmit() {
       if (!this.checkNewsletterFormValidity()) {
-        return
+        return;
       }
       const payload = {
         email: this.email,
@@ -175,7 +180,7 @@ export default {
   padding-right: 10px;
 }
 
-.social-button {
+.section-control {
   max-width: 230px;
   margin: 5px 10px;
 }
