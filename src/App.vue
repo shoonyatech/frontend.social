@@ -189,7 +189,7 @@ ol {
 }
 
 a {
-  color: #23bdee !important;
+  color: #1d8db1 !important;
   cursor: pointer;
 }
 
