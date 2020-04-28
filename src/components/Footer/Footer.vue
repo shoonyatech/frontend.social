@@ -17,13 +17,18 @@
           We are building a one stop platform for frontend developers and
           designers.
           <br>If you want to contribute to this community driven effort,
-          please <a href="mailto://contact@shoonya.ca">get in touch</a>
+          please
+          <a
+            name="get_in_touch"
+            href="mailto://contact@shoonya.ca"
+          >get in touch</a>
           <br>
         </div>
       </b-col>
       <b-col md="4">
         <div class="social-links">
           <a
+            name="slack"
             class="social-link"
             rel="noopener"
             href="https://shoonya-tech.slack.com/archives/CJ6KZLC9M"
@@ -35,6 +40,7 @@
             >
           </a>
           <a
+            name="twitter"
             class="social-link"
             rel="noopener"
             href="https://twitter.com/frontendsocial"
@@ -78,7 +84,7 @@ import CookieLaw from "@/components/Footer/CookieLaw";
 
 export default {
   components: { CookieLaw },
-  props: { copyrightText: { type: String, required: true } }
+  props: { copyrightText: { type: String, required: true } },
 };
 </script>
 
