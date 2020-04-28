@@ -9,7 +9,7 @@
         :key="index"
       >
         <a
-          :name="`skill-${index}`"
+          :name="`${skill}`"
           :href="`/tech/${skill}`"
         >{{ skill }}</a><span v-if="index != skills.length - 1">, </span>
       </span>
