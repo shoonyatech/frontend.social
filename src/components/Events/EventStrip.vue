@@ -336,5 +336,6 @@ export default {
 }
 .eventLink {
   font-weight: bold;
+  word-break: break-all;
 }
 </style>
