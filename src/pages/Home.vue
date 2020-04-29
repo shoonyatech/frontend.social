@@ -2,6 +2,16 @@
   <b-container>
     <b-row>
       <b-col md="9">
+        <a
+          href="https://geekle.us/"
+          name="home_banner"
+          target="_blank"
+        >
+          <img
+            class="home-banner-top"
+            src="/images/home-banner-top.png"
+            alt="Home page banner"
+          ></a>
         <h1>Find out What's new!</h1>
         <div class="home">
           This is a platform for Frontend Developers and Designers. Meet fellow
@@ -92,13 +102,13 @@ export default {
     return {
       emailState: null,
       email: "",
-      loading: true
+      loading: true,
     };
   },
   computed: {
     isSignedIn() {
       return this.$store.state.signedInUser != null;
-    }
+    },
   },
   mounted() {
     this.checkSignIn();
@@ -124,29 +134,29 @@ export default {
         return;
       }
       const payload = {
-        email: this.email
+        email: this.email,
       };
       this.loading = true;
       newsletterService
         .subscribe(payload)
-        .then(response => {
+        .then((response) => {
           eventBus.$emit("show-toast", {
             body: messages.subscribe.subscribeSuccess,
-            title: messages.generic.success
+            title: messages.generic.success,
           });
           this.email = "";
           this.loading = false;
         })
-        .catch(error => {
+        .catch((error) => {
           eventBus.$emit("show-toast", {
             body: messages.subscribe.subscribeFailure,
             title: messages.generic.error,
-            type: ToastType.ERROR
+            type: ToastType.ERROR,
           });
           this.loading = false;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -200,5 +210,9 @@ ul li::before {
   display: inline-block;
   width: 1em;
   margin-left: -1em;
+}
+
+.home-banner-top {
+  margin-bottom: 40px;
 }
 </style>
