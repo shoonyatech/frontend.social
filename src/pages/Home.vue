@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    `<b-row>
+    <b-row>
       <b-col md="9">
         <h1>Find out What's new!</h1>
         <div class="home">
@@ -8,6 +8,8 @@
           developers and designers in your city meetups, see latest blogs and
           videos, learn from online courses and find jobs matching your skills!!
         </div>
+        <UpcomingEvents />
+        <LatestArticles />
       </b-col>
       <b-col md="3">
         <div
@@ -79,7 +81,7 @@ import { ToastType, messages } from "@/constants/constants";
 
 export default {
   name: "Home",
-  components: { SignInButtons },
+  components: { SignInButtons, LatestArticles, UpcomingEvents },
   data() {
     return {
       emailState: null,
