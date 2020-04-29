@@ -5,7 +5,7 @@
         :src="user.profilePic || '/images/avatar.svg'"
         class="profile-photo"
         alt="Profile Pic"
-      >
+      />
     </a>
   </div>
 </template>
@@ -15,10 +15,10 @@ export default {
   components: {},
 
   props: {
-    user: { type: Object, required: true }
+    user: { type: Object, required: true },
   },
 
-  methods: {}
+  methods: {},
 };
 </script>
 
@@ -27,7 +27,10 @@ export default {
   background-color: #114273;
   border-radius: 50%;
   margin-right: 10px;
-  display: inline-block;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  margin-bottom: 5px;
 }
 
 .profile-photo {
