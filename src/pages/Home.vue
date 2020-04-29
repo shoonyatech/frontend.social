@@ -12,6 +12,7 @@
             src="/images/home-banner-top.png"
             alt="Home page banner"
           ></a>
+
         <h1>Find out What's new!</h1>
         <div class="home">
           This is a platform for Frontend Developers and Designers. Meet fellow
@@ -30,14 +31,14 @@
       <b-col md="3">
         <div
           v-if="!isSignedIn"
-          class="join-box"
+          class="join-box mb-2"
         >
           <span class="join-label">Join for Free</span>
           <div class="buttons">
             <SignInButtons />
           </div>
         </div>
-        <div class="mt-2 join-box">
+        <div class="join-box">
           <span class="join-label">Frontend Newsletter</span>
           <ul class="text-left">
             <li class="newsletter-list">
@@ -214,5 +215,7 @@ ul li::before {
 
 .home-banner-top {
   margin-bottom: 40px;
+  width: 100%;
+  height: auto;
 }
 </style>
