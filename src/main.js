@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { BootstrapVue, BootstrapVueIcons} from "bootstrap-vue";
+import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
 import VueAuthenticate from "vue-authenticate";
@@ -17,8 +17,10 @@ import VueYoutube from 'vue-youtube'
 
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import Loader from '@/components/common/Loader';
+import infiniteScroll from 'vue-infinite-scroll'
 
-Vue.use( CKEditor );
+Vue.use(CKEditor);
+Vue.use(infiniteScroll);
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);

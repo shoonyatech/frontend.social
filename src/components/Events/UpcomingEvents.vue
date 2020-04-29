@@ -1,7 +1,12 @@
 <template>
   <div class="host">
     <h1>Upcoming Events</h1>
-    <div class="events">
+    <div
+      v-infinite-scroll="loadEvents"
+      infinite-scroll-disabled="busy"
+      infinite-scroll-distance="limit"
+      class="events"
+    >
       <div v-if="events.length">
         <EventStrip
           v-for="(event, index) in events"
@@ -27,20 +32,34 @@ export default {
       type: String,
       default: null,
       required: false,
-    },
+      page: 1,
+      limit: 10,
+      busy: false
+    }
   },
   data() {
     return {
-      events: [],
+      events: []
     };
   },
   created() {
     setTimeout(() => {
-      eventService.getUpcomingEvents(this.skill).then((events) => {
-        this.events = events;
-      });
+      this.loadEvents();
     }, 500);
   },
+  methods: {
+    loadEvents() {
+      this.busy = false;
+      this.limit = this.limit || 10;
+      this.page = ++this.page || 1;
+      eventService
+        .getUpcomingEvents(this.skill, this.limit, this.page)
+        .then(events => {
+          this.events = this.events.concat(events);
+          this.busy = true;
+        });
+    }
+  }
 };
 </script>
 
