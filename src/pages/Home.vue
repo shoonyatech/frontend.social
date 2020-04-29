@@ -1,7 +1,6 @@
 <template>
   <b-container>
-    <Loader v-show="loading" />
-    <b-row>
+    `<b-row>
       <b-col md="9">
         <h1>Find out What's new!</h1>
         <div class="home">
