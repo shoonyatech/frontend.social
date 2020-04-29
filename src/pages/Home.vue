@@ -8,8 +8,14 @@
           developers and designers in your city meetups, see latest blogs and
           videos, learn from online courses and find jobs matching your skills!!
         </div>
-        <UpcomingEvents />
-        <LatestArticles />
+        <UpcomingEvents
+          :infinite-scroll="false"
+          :limit="4"
+        />
+        <LatestArticles
+          :infinite-scroll="false"
+          :limit="2"
+        />
       </b-col>
       <b-col md="3">
         <div
@@ -60,7 +66,7 @@
                 required
                 :state="emailState"
               >
-              <button class="w-100 section-control ">
+              <button class="w-100 section-control">
                 Subscribe
               </button>
             </b-form-group>
@@ -86,13 +92,13 @@ export default {
     return {
       emailState: null,
       email: "",
-      loading: true,
+      loading: true
     };
   },
   computed: {
     isSignedIn() {
       return this.$store.state.signedInUser != null;
-    },
+    }
   },
   mounted() {
     this.checkSignIn();
@@ -118,29 +124,29 @@ export default {
         return;
       }
       const payload = {
-        email: this.email,
+        email: this.email
       };
       this.loading = true;
       newsletterService
         .subscribe(payload)
-        .then((response) => {
+        .then(response => {
           eventBus.$emit("show-toast", {
             body: messages.subscribe.subscribeSuccess,
-            title: messages.generic.success,
+            title: messages.generic.success
           });
           this.email = "";
           this.loading = false;
         })
-        .catch((error) => {
+        .catch(error => {
           eventBus.$emit("show-toast", {
             body: messages.subscribe.subscribeFailure,
             title: messages.generic.error,
-            type: ToastType.ERROR,
+            type: ToastType.ERROR
           });
           this.loading = false;
         });
-    },
-  },
+    }
+  }
 };
 </script>
 

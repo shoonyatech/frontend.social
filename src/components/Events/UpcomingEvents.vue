@@ -1,9 +1,16 @@
 <template>
   <div class="host">
-    <h1>Upcoming Events</h1>
+    <h1>
+      Upcoming Events
+      <!-- <span v-if="!infiniteScroll" class="navigation-button">
+        <button :disabled="events.length === 0" @click="loadEvents(1)">Next</button>
+        <button :disabled="page === 1" @click="loadEvents(-1)">Previous</button>
+      </span> -->
+    </h1>
+
     <div
       v-infinite-scroll="loadEvents"
-      infinite-scroll-disabled="busy"
+      infinite-scroll-disabled="isDisableInfiniteScroll"
       infinite-scroll-distance="limit"
       class="events"
     >
@@ -31,10 +38,15 @@ export default {
     skill: {
       type: String,
       default: null,
-      required: false,
-      page: 1,
-      limit: 10,
-      busy: false
+      required: false
+    },
+    infiniteScroll: {
+      type: Boolean,
+      default: true
+    },
+    limit: {
+      type: Number,
+      default: 10
     }
   },
   data() {
@@ -42,21 +54,34 @@ export default {
       events: []
     };
   },
-  created() {},
+  computed: {
+    isDisableInfiniteScroll() {
+      return !this.infiniteScroll || this.busy;
+    }
+  },
+  created() {
+    if (!this.infiniteScroll) {
+      this.loadEvents();
+    }
+  },
   methods: {
-    loadEvents() {
+    loadEvents(action) {
       this.busy = false;
       this.limit = this.limit || 10;
-      this.page = this.page || 1;
+      this.page = action + this.page || this.page || 1;
+
       eventService
         .getUpcomingEvents(this.skill, this.limit, this.page)
         .then(events => {
-          this.events = this.events.concat(events);
-          this.busy = true;
-          if (events.length > 0) {
-            //incrementing value of page so it will point to next page
-            ++this.page;
+          if (!this.infiniteScroll) {
+            this.events = events;
+          } else {
+            this.events = this.events.concat(events);
+            if (events.length > 0) {
+              ++this.page;
+            }
           }
+          this.busy = true;
         });
     }
   }
@@ -78,5 +103,9 @@ export default {
 .courtesy {
   font-size: 0.75rem;
   text-align: right;
+}
+
+.navigation-button {
+  float: right;
 }
 </style>
