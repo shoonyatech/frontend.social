@@ -73,6 +73,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css";
+
 html {
   font-size: 22px;
 }
