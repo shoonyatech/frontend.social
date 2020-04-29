@@ -26,19 +26,21 @@ export default {
     skill: {
       type: String,
       default: null,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
-      articles: []
+      articles: [],
     };
   },
   created() {
-    learnService.getLatestArticles(this.skill).then(articles => {
-      this.articles = articles;
-    });
-  }
+    setTimeout(() => {
+      learnService.getLatestArticles(this.skill).then((articles) => {
+        this.articles = articles;
+      });
+    }, 500);
+  },
 };
 </script>
 

@@ -51,32 +51,34 @@ export default {
     skill: {
       type: String,
       default: null,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
       articles: [],
-      showAddArticleDialog: false
+      showAddArticleDialog: false,
     };
   },
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
-    }
+    },
   },
   created() {
     this.$parent.loading = true;
-    learnService.getLatestArticles(this.skill).then(articles => {
-      this.articles = articles;
-      this.$parent.loading = false;
-    });
+    setTimeout(() => {
+      learnService.getLatestArticles(this.skill).then((articles) => {
+        this.articles = articles;
+        this.$parent.loading = false;
+      });
+    }, 100);
   },
   methods: {
     refreshPage() {
       this.$parent.loading = true;
       this.showAddArticleDialog = false;
-      learnService.getLatestArticles(this.skill).then(articles => {
+      learnService.getLatestArticles(this.skill).then((articles) => {
         this.articles = articles;
         this.$parent.loading = false;
       });
@@ -87,8 +89,8 @@ export default {
       } else {
         this.showAddArticleDialog = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -26,19 +26,21 @@ export default {
     skill: {
       type: String,
       default: null,
-      required: false
-    }
+      required: false,
+    },
   },
   data() {
     return {
-      events: []
+      events: [],
     };
   },
   created() {
-    eventService.getUpcomingEvents(this.skill).then(events => {
-      this.events = events;
-    });
-  }
+    setTimeout(() => {
+      eventService.getUpcomingEvents(this.skill).then((events) => {
+        this.events = events;
+      });
+    }, 500);
+  },
 };
 </script>
 
