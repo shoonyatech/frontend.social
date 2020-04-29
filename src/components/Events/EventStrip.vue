@@ -63,10 +63,12 @@
               event.dateTo | moment("timezone", "Europe/London", "DD MMM YYYY")
             }}
           </span>
-          in
-          <a :href="'/city/' + event.city + '/' + event.country">
-            <span class="city">{{ event.city }}, {{ event.country }}</span>
-          </a>
+          <span v-if="!event.isOnline">
+            in
+            <a :href="'/city/' + event.city + '/' + event.country">
+              <span class="city">{{ event.city }}, {{ event.country }}</span>
+            </a>
+          </span>
         </div>
         <SkillTags
           v-if="event.relatedSkills"

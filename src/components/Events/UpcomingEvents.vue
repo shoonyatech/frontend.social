@@ -42,21 +42,21 @@ export default {
       events: []
     };
   },
-  created() {
-    setTimeout(() => {
-      this.loadEvents();
-    }, 500);
-  },
+  created() {},
   methods: {
     loadEvents() {
       this.busy = false;
       this.limit = this.limit || 10;
-      this.page = ++this.page || 1;
+      this.page = this.page || 1;
       eventService
         .getUpcomingEvents(this.skill, this.limit, this.page)
         .then(events => {
           this.events = this.events.concat(events);
           this.busy = true;
+          if (events.length > 0) {
+            //incrementing value of page so it will point to next page
+            ++this.page;
+          }
         });
     }
   }

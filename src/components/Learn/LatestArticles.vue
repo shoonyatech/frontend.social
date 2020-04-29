@@ -1,7 +1,12 @@
 <template>
   <div class="host">
     <h1>Latest talks & articles on Frontend</h1>
-    <div class="articles">
+    <div
+      v-infinite-scroll="loadArticles"
+      infinite-scroll-disabled="busy"
+      infinite-scroll-distance="limit"
+      class="articles"
+    >
       <div v-if="articles.length">
         <article-strip
           v-for="(article, index) in articles"
@@ -27,20 +32,34 @@ export default {
       type: String,
       default: null,
       required: false,
-    },
+      page: 1,
+      limit: 10,
+      busy: false
+    }
   },
   data() {
     return {
-      articles: [],
+      articles: []
     };
   },
-  created() {
-    setTimeout(() => {
-      learnService.getLatestArticles(this.skill).then((articles) => {
-        this.articles = articles;
-      });
-    }, 500);
-  },
+  created() {},
+  methods: {
+    loadArticles() {
+      this.busy = false;
+      this.limit = this.limit || 10;
+      this.page = this.page || 1;
+      learnService
+        .getLatestArticles(this.skill, this.limit, this.page)
+        .then(articles => {
+          this.articles = this.articles.concat(articles);
+          this.busy = true;
+          if (articles.length > 0) {
+            //incrementing value of page so it will point to next page
+            ++this.page;
+          }
+        });
+    }
+  }
 };
 </script>
 
