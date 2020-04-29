@@ -14,7 +14,7 @@
         />
         <LatestArticles
           :infinite-scroll="false"
-          :limit="2"
+          :limit="4"
         />
       </b-col>
       <b-col md="3">
