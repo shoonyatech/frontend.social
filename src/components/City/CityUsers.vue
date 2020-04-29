@@ -36,5 +36,6 @@ export default {
 .city-users {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 </style>
