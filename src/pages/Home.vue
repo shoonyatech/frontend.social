@@ -9,8 +9,6 @@
           developers and designers in your city meetups, see latest blogs and
           videos, learn from online courses and find jobs matching your skills!!
         </div>
-        <UpcomingEvents />
-        <LatestArticles />
       </b-col>
       <b-col md="3">
         <div
@@ -82,7 +80,7 @@ import { ToastType, messages } from "@/constants/constants";
 
 export default {
   name: "Home",
-  components: { SignInButtons, LatestArticles, UpcomingEvents },
+  components: { SignInButtons },
   data() {
     return {
       emailState: null,
