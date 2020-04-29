@@ -1,40 +1,47 @@
 <template>
   <div class="host">
-    <h1>
-      <span>Latest talks & articles on Frontend</span><button
-        v-if="!showAddArticleDialog"
-        @click="showDialog()"
-      >
-        + Add
-      </button>
-    </h1>
     <div
-      v-if="!showAddArticleDialog"
-      class="articles"
+      v-infinite-scroll="loadArticles"
+      infinite-scroll-disabled="isDisableInfiniteScroll"
+      infinite-scroll-distance="limit"
     >
-      <div v-if="articles.length">
-        <article-strip
-          v-for="(article, index) in articles"
-          :key="index"
-          :article="article"
-        />
-      </div>
-      <div v-else>
-        No articles found!
-      </div>
-      <div class="center-content">
+      <h1>
+        <span>Latest talks & articles on Frontend</span>
         <button
-          class="mt-4"
+          v-if="!showAddArticleDialog"
           @click="showDialog()"
         >
-          + Add more
+          + Add
         </button>
+      </h1>
+      <div
+        v-if="!showAddArticleDialog"
+        class="articles"
+      >
+        <div v-if="articles.length">
+          <article-strip
+            v-for="(article, index) in articles"
+            :key="index"
+            :article="article"
+          />
+        </div>
+        <div v-else>
+          No articles found!
+        </div>
+        <div class="center-content">
+          <button
+            class="mt-4"
+            @click="showDialog()"
+          >
+            + Add more
+          </button>
+        </div>
       </div>
+      <AddArticle
+        v-else
+        @close="refreshPage()"
+      />
     </div>
-    <AddArticle
-      v-else
-      @close="refreshPage()"
-    />
   </div>
 </template>
 
@@ -51,37 +58,40 @@ export default {
     skill: {
       type: String,
       default: null,
-      required: false,
+      required: false
     },
+    infiniteScroll: {
+      type: Boolean,
+      default: true
+    },
+    limit: {
+      type: Number,
+      default: 10
+    }
   },
   data() {
     return {
       articles: [],
-      showAddArticleDialog: false,
+      showAddArticleDialog: false
     };
   },
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
     },
+    isDisableInfiniteScroll() {
+      return !this.infiniteScroll || this.busy;
+    }
   },
   created() {
-    this.$parent.loading = true;
-    setTimeout(() => {
-      learnService.getLatestArticles(this.skill).then((articles) => {
-        this.articles = articles;
-        this.$parent.loading = false;
-      });
-    }, 100);
+    if (!this.infiniteScroll) {
+      this.loadArticles();
+    }
   },
   methods: {
     refreshPage() {
-      this.$parent.loading = true;
       this.showAddArticleDialog = false;
-      learnService.getLatestArticles(this.skill).then((articles) => {
-        this.articles = articles;
-        this.$parent.loading = false;
-      });
+      this.loadArticles("refresh");
     },
     showDialog() {
       if (this.signedInUser == null) {
@@ -90,7 +100,31 @@ export default {
         this.showAddArticleDialog = true;
       }
     },
-  },
+    loadArticles(action) {
+      if (action === "refresh") {
+        this.articles = [];
+        action = 0;
+        this.page = 1;
+      }
+      this.busy = false;
+      this.limit = this.limit || 10;
+      this.page = action + this.page || this.page || 1;
+
+      learnService
+        .getLatestArticles(this.skill, this.limit, this.page)
+        .then(articles => {
+          if (!this.infiniteScroll) {
+            this.articles = articles;
+          } else {
+            this.articles = this.articles.concat(articles);
+            if (articles.length > 0) {
+              ++this.page;
+            }
+          }
+          this.busy = true;
+        });
+    }
+  }
 };
 </script>
 
