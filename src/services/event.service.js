@@ -39,12 +39,16 @@ export default {
     return httpClient.get(`event/${id}`);
   },
 
-  createMeeting(id, title, type) {
-    return httpClient.post(`event/${id}/create-meeting`, { title, type });
+  createMeeting(id, title, type, isPrivate) {
+    return httpClient.post(`event/${id}/create-meeting`, { title, type, isPrivate });
   },
 
   getMeetings(id) {
     return httpClient.get(`event/${id}/meetings`);
+  },
+
+  getPrivateMeetings(id) {
+    return httpClient.get(`event/${id}/privateMeetings`);
   },
 
   registerUser: (eventregistration) => {
