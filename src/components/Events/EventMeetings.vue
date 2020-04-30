@@ -25,6 +25,7 @@
           class="user-count"
         >({{ meeting.userCount }})</span></a>
       <span class="created-by">{{
+        isPrivate ? 'by You' :
         meeting.createdBy ? `by ${meeting.createdBy.username}` : ""
       }}</span>
     </div>
@@ -43,6 +44,10 @@ export default {
     eventId: {
       type: String,
       required: true
+    },
+    isPrivate: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -70,9 +75,9 @@ export default {
   },
   methods: {
     getMeetings() {
-      eventService.getMeetings(this.eventId).then(meetings => {
+      const promise = this.isPrivate ? eventService.getPrivateMeetings(this.eventId) : eventService.getMeetings(this.eventId);
+      promise.then(meetings => {
         this.meetings = meetings;
-
         meetings.forEach(m => {
           const url = encodeURI(
             `https://www.frontend.social/join-meeting/${m.meetingId}?eventId=${this.eventId}&title=${m.title}`
@@ -85,7 +90,7 @@ export default {
     },
     createMeetings() {
       eventService
-        .createMeeting(this.eventId, this.meetingTitle, "jitsi")
+        .createMeeting(this.eventId, this.meetingTitle, "jitsi", this.isPrivate)
         .then(res => {
           this.joinMeeting(res.meetingId, this.meetingTitle);
         })

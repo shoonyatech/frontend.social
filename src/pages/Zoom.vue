@@ -27,6 +27,17 @@
             />
           </b-col>
         </b-row>
+        <b-row style="margin-top: 20px;">
+          <h1>Private Video Rooms (Click to Join call)</h1>
+        </b-row>
+        <b-row>
+          <b-col md="12">
+            <EventMeetings
+              :event-id="eventId"
+              :is-private="true"
+            />
+          </b-col>
+        </b-row>
       </b-col>
       <b-col md="3">
         <OnlineUsers />
