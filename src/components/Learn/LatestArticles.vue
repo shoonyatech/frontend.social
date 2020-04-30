@@ -2,10 +2,19 @@
   <div class="host">
     <h1>
       Latest talks & articles on Frontend
-      <!-- <span v-if="!infiniteScroll" class="navigation-button">
-        <button :disabled="articles.length === 0" @click="loadArticles(1)">Next</button>
-        <button :disabled="page === 1" @click="loadArticles(-1)">Previous</button>
-      </span> -->
+      <span
+        v-if="!infiniteScroll"
+        class="navigation-button"
+      >
+        <button
+          :disabled="articles.length === 0"
+          @click="loadArticles('next')"
+        >&#8250;</button>
+        <button
+          :disabled="page === 1"
+          @click="loadArticles('previous')"
+        >&#8249;</button>
+      </span>
     </h1>
 
     <div
@@ -66,9 +75,21 @@ export default {
   },
   methods: {
     loadArticles(action) {
+      switch (action) {
+        case "previous":
+          action = -1;
+          break;
+        case "next":
+          action = 1;
+          break;
+        default:
+          action = 0;
+          break;
+      }
+
       this.busy = false;
       this.limit = this.limit || 10;
-      this.page = action + this.page || this.page || 1;
+      this.page = action + this.page || 1;
 
       learnService
         .getLatestArticles(this.skill, this.limit, this.page)
