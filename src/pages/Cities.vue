@@ -1,6 +1,11 @@
 <template>
   <!-- div for searching city -->
-  <div class="learn">
+  <div
+    v-infinite-scroll="loadCities"
+    class="learn"
+    infinite-scroll-disabled="isDisableInfiniteScroll"
+    infinite-scroll-distance="limit"
+  >
     <Loader v-show="loading" />
     <b-container>
       <b-row>
@@ -45,23 +50,36 @@
 <script>
 import CityThumbnail from "@/components/City/CityThumbnail";
 import cityService from "@/services/city.service";
-
+import { uniqBy } from "lodash";
 export default {
   components: {
     CityThumbnail
   },
+  props: {
+    infiniteScroll: {
+      type: Boolean,
+      default: true
+    },
+    limit: {
+      type: Number,
+      default: 10
+    }
+  },
   data() {
     return {
       cities: [],
-      loading: true,
+      loading: false
     };
   },
+  computed: {
+    isDisableInfiniteScroll() {
+      return !this.infiniteScroll || this.busy;
+    }
+  },
   created() {
-    this.loading = true;
-    cityService.getCities().then(cities => {
-      this.cities = cities
-      this.loading = false;
-    });
+    if (!this.infiniteScroll) {
+      this.loadCities();
+    }
   },
   methods: {
     citySearch(e) {
@@ -69,9 +87,34 @@ export default {
       const citySearchText = e.target.value
         .replace(/^\s+/, "")
         .replace(/\s+$/, "");
+
+      this.loadCities(citySearchText);
+    },
+    loadCities(searchText) {
+      if (searchText) {
+        this.page = 1;
+      }
+
+      this.busy = false;
+      this.limit = this.limit || 10;
+      this.page = this.page || 1;
+
       cityService
-        .getCities(citySearchText)
-        .then(cities => (this.cities = cities));
+        .getCities(searchText, "", this.limit, this.page)
+        .then(cities => {
+          if (!this.infiniteScroll || searchText) {
+            this.cities = cities;
+          } else {
+            this.cities = this.cities.concat(cities);
+            this.cities = uniqBy(this.cities, x => x._id);
+            this.cities = _.orderBy(this.cities, ["name"], ["asc"]);
+
+            if (cities.length > 0) {
+              ++this.page;
+            }
+          }
+          this.busy = true;
+        });
     }
   }
 };
