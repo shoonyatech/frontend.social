@@ -6,15 +6,11 @@
         <b-col md="9">
           <h1>
             <span>Frontend Conference and Meetups</span>
-            <button
-              @click="showDialog()"
-            >
+            <button @click="showDialog()">
               + Add Event
             </button>
           </h1>
-          <div
-            class="events"
-          >
+          <div class="events">
             <h1 v-if="categorisedEvents.myEvents.length">
               My Events
             </h1>
@@ -27,38 +23,22 @@
               @delete="onDeleteEvent"
             />
 
-            <h1 v-if="categorisedEvents.upcomingOnlineEvents.length">
-              Upcoming Online Events
-            </h1>
-            <EventStrip
-              v-for="event in categorisedEvents.upcomingOnlineEvents"
-              :key="event._id"
-              :event="event"
-              :can-modify="canModify(event)"
-              @edit="onEditEvent"
-              @delete="onDeleteEvent"
+            <UpcomingOnlineEvents
+              ref="upcomingOnlineEvents"
+              :infinite-scroll="false"
+              :limit="5"
             />
-            <h1 v-if="categorisedEvents.upcomingOfflineEvents.length">
-              Upcoming Offline Events
-            </h1>
-            <EventStrip
-              v-for="event in categorisedEvents.upcomingOfflineEvents"
-              :key="event._id"
-              :event="event"
-              :can-modify="canModify(event)"
-              @edit="onEditEvent"
-              @delete="onDeleteEvent"
+
+            <UpcomingOfflineEvents
+              ref="upcomingOfflineEvents"
+              :infinite-scroll="false"
+              :limit="5"
             />
-            <h1 v-if="categorisedEvents.pastEvents.length">
-              Past Events
-            </h1>
-            <EventStrip
-              v-for="event in categorisedEvents.pastEvents"
-              :key="event._id"
-              :event="event"
-              :can-modify="canModify(event)"
-              @edit="onEditEvent"
-              @delete="onDeleteEvent"
+
+            <PastEvents
+              ref="pastEvents"
+              :infinite-scroll="false"
+              :limit="5"
             />
             <div class="center-content">
               <button
@@ -71,9 +51,7 @@
           </div>
         </b-col>
         <b-col md="3">
-          <div
-            class="filters-wrapper"
-          >
+          <div class="filters-wrapper">
             <event-filters :on-search-params-change="onSearchParamsChange" />
           </div>
         </b-col>
@@ -86,13 +64,22 @@
 import eventService from "@/services/event.service";
 import EventStrip from "@/components/Events/EventStrip";
 import EventFilters from "@/components/Events/EventFilters";
+import UpcomingOnlineEvents from "@/components/Events/UpcomingOnlineEvents";
+import UpcomingOfflineEvents from "@/components/Events/UpcomingOfflineEvents";
+import PastEvents from "@/components/Events/PastEvents";
 
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 
 export default {
   name: "Events",
-  components: { EventStrip, EventFilters },
+  components: {
+    EventStrip,
+    EventFilters,
+    UpcomingOnlineEvents,
+    UpcomingOfflineEvents,
+    PastEvents
+  },
   data() {
     return {
       events: [],
@@ -170,7 +157,7 @@ export default {
   },
   methods: {
     onEditEvent(event) {
-      this.$router.push(`/event/form/${event._id}`)
+      this.$router.push(`/event/form/${event._id}`);
     },
     onDeleteEvent(event) {
       this.loading = true;
@@ -195,6 +182,10 @@ export default {
     },
     onSearchParamsChange(param = "") {
       this.loading = true;
+      this.$refs.upcomingOnlineEvents.loadEvents(param);
+      this.$refs.upcomingOfflineEvents.loadEvents(param);
+      this.$refs.pastEvents.loadEvents(param);
+
       eventService.searchEventsBy(param).then(events => {
         this.loading = false;
         this.events = events;

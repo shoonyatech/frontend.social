@@ -54,4 +54,24 @@ export default {
   registerUser: (eventregistration) => {
     return httpClient.post("event/register", eventregistration);
   },
+  getMyEvents: (query, limit = 100, page = 1) => {
+    var pagination = "&limit=" + limit + "&page=" + page;
+    query = query || "";
+    return httpClient.get("event/get/myevent?" + query + pagination);
+  },
+  getUpcomingOnlineEvents: (query, limit = 100, page = 1) => {
+    var pagination = "&limit=" + limit + "&page=" + page;
+    query = query || "";
+    return httpClient.get("event/get/upcoming/online?" + query + pagination);
+  },
+  getUpcomingOfflineEvents: (query, limit = 100, page = 1) => {
+    var pagination = "&limit=" + limit + "&page=" + page;
+    query = query || "";
+    return httpClient.get("event/get/upcoming/offline?" + query + pagination);
+  },
+  getPastEvents: (query, limit = 100, page = 1) => {
+    var pagination = "&limit=" + limit + "&page=" + page;
+    query = query || "";
+    return httpClient.get("event/get/past?" + query + pagination);
+  }
 };
