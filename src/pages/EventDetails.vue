@@ -13,7 +13,9 @@
           >
             <span>{{ event.title }}</span>
             <div>
-              <span class="event-type capsule">{{ getEventTypeName(event.type) }}</span>
+              <span class="event-type capsule">{{
+                getEventTypeName(event.type)
+              }}</span>
               <span
                 v-if="event.isOnline"
                 class="event-type capsule online"
@@ -24,11 +26,15 @@
         <b-row>
           <b-col md="11">
             <div class="event-date">
-              <span>{{ event.dateFrom | moment("timezone", "Europe/London", "DD MMM YYYY") }}</span>
+              <span>{{
+                event.dateFrom
+                  | moment("timezone", "Europe/London", "DD MMM YYYY")
+              }}</span>
               <span v-if="event.dateTo">-</span>
-              <span
-                v-if="event.dateTo"
-              >{{ event.dateTo | moment("timezone", "Europe/London", "DD MMM YYYY") }}</span>
+              <span v-if="event.dateTo">{{
+                event.dateTo
+                  | moment("timezone", "Europe/London", "DD MMM YYYY")
+              }}</span>
               in
               <a :href="'/city/' + event.city + '/' + event.country">
                 <span class="city">{{ event.city }}, {{ event.country }}</span>
@@ -82,24 +88,21 @@
           </b-col>
         </b-row>
         <b-row style="margin-top: 20px;">
-          <h1>Group Topics (Click to Join call)</h1>
+          <h1>Video Rooms (Click to join call)</h1>
         </b-row>
         <b-row>
           <b-col md="12">
             <EventMeetings :event-id="eventId" />
           </b-col>
         </b-row>
-        <b-row style="margin-top: 20px;">
+        <!-- <b-row style="margin-top: 20px;">
           <h1>Private Video Rooms (Click to Join call)</h1>
         </b-row>
         <b-row>
           <b-col md="12">
-            <EventMeetings
-              :event-id="eventId"
-              :is-private="true"
-            />
+            <EventMeetings :event-id="eventId" :is-private="true" />
           </b-col>
-        </b-row>
+        </b-row> -->
         <b-row
           v-if="!hideComments"
           style="margin-top: 20px;"
@@ -122,7 +125,7 @@
         <b-row v-if="!hideComments">
           <b-col md="12">
             <Comment
-              v-for="(comment,index) in comments"
+              v-for="(comment, index) in comments"
               :key="comment._id"
               :index="index"
               :comment-id="comment._id"
@@ -214,7 +217,7 @@ export default {
         this.failedToFindEvent = true;
         this.loading = false;
       });
-      
+
     this.getComments();
   },
   mounted() {
