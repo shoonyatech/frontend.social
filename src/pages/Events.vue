@@ -2,7 +2,11 @@
   <div class="events">
     <Loader v-show="loading" />
     <b-container>
-      <b-row>
+      <b-row
+        v-infinite-scroll="loadEvents"
+        infinite-scroll-disabled="isDisableInfiniteScroll"
+        infinite-scroll-distance="limit"
+      >
         <b-col md="9">
           <h1>
             <span>Frontend Conference and Meetups</span>
@@ -11,18 +15,32 @@
             </button>
           </h1>
           <div class="events">
-            <h1 v-if="categorisedEvents.myEvents.length">
-              My Events
-            </h1>
-            <EventStrip
-              v-for="event in categorisedEvents.myEvents"
-              :key="event._id"
-              :event="event"
-              :can-modify="canModify(event)"
-              @edit="onEditEvent"
-              @delete="onDeleteEvent"
-            />
-
+            <div v-if="signedInUser">
+              <h1>
+                My Events
+                <span
+                  v-if="!infiniteScroll"
+                  class="navigation-button"
+                >
+                  <button
+                    :disabled="events.length === 0"
+                    @click="loadEvents('','next')"
+                  >&#8250;</button>
+                  <button
+                    :disabled="page === 1"
+                    @click="loadEvents('','previous')"
+                  >&#8249;</button>
+                </span>
+              </h1>
+              <EventStrip
+                v-for="event in events"
+                :key="event._id"
+                :event="event"
+                :can-modify="canModify(event)"
+                @edit="onEditEvent"
+                @delete="onDeleteEvent"
+              />
+            </div>
             <UpcomingOnlineEvents
               ref="upcomingOnlineEvents"
               :infinite-scroll="false"
@@ -80,80 +98,37 @@ export default {
     UpcomingOfflineEvents,
     PastEvents
   },
+  props: {
+    infiniteScroll: {
+      type: Boolean,
+      default: false
+    },
+    limit: {
+      type: Number,
+      default: 5
+    }
+  },
   data() {
     return {
       events: [],
-      loading: true
+      loading: false,
+      page: 1
     };
   },
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
     },
-    categorisedEvents() {
-      const today = new Date();
-      const yesterday = new Date(today);
-      yesterday.setDate(yesterday.getDate() - 1);
-
-      if (this.signedInUser) {
-        return {
-          myEvents: this.events.filter(
-            event => event.createdBy.username === this.signedInUser.username
-          ),
-          upcomingOnlineEvents: this.events.filter(
-            event =>
-              event.isOnline &&
-              yesterday <= new Date(event.dateFrom) &&
-              event.createdBy.username !== this.signedInUser.username &&
-              event.isPrivate !== true
-          ),
-          upcomingOfflineEvents: this.events.filter(
-            event =>
-              !event.isOnline &&
-              yesterday <= new Date(event.dateFrom) &&
-              event.createdBy.username !== this.signedInUser.username &&
-              event.isPrivate !== true
-          ),
-          pastEvents: this.events
-            .filter(
-              event =>
-                yesterday > new Date(event.dateFrom) &&
-                event.createdBy.username !== this.signedInUser.username &&
-                event.isPrivate !== true
-            )
-            .sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom))
-        };
-      } else {
-        return {
-          myEvents: [],
-          upcomingOnlineEvents: this.events.filter(
-            event =>
-              event.isOnline &&
-              yesterday <= new Date(event.dateFrom) &&
-              event.isPrivate !== true
-          ),
-          upcomingOfflineEvents: this.events.filter(
-            event =>
-              !event.isOnline &&
-              yesterday <= new Date(event.dateFrom) &&
-              event.isPrivate !== true
-          ),
-          pastEvents: this.events
-            .filter(
-              event =>
-                yesterday > new Date(event.dateFrom) && event.isPrivate !== true
-            )
-            .sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom))
-        };
-      }
+    isDisableInfiniteScroll() {
+      return !this.infiniteScroll || this.busy;
     }
   },
   created() {
-    this.loading = true;
-    eventService.searchEventsBy().then(events => {
-      this.loading = false;
-      this.events = events;
-    });
+    setTimeout(() => {
+      if (!this.infiniteScroll) {
+        this.loadEvents();
+      }
+    }, 500);
   },
   methods: {
     onEditEvent(event) {
@@ -185,18 +160,13 @@ export default {
       this.$refs.upcomingOnlineEvents.loadEvents(param);
       this.$refs.upcomingOfflineEvents.loadEvents(param);
       this.$refs.pastEvents.loadEvents(param);
-
-      eventService.searchEventsBy(param).then(events => {
-        this.loading = false;
-        this.events = events;
-      });
+      this.loadEvents(param);
     },
     refreshPage() {
-      this.loading = true;
-      eventService.searchEventsBy().then(events => {
-        this.events = events;
-        this.loading = false;
-      });
+      this.$refs.upcomingOnlineEvents.loadEvents();
+      this.$refs.upcomingOfflineEvents.loadEvents();
+      this.$refs.pastEvents.loadEvents();
+      this.loadEvents();
     },
     showDialog() {
       if (this.signedInUser == null) {
@@ -211,6 +181,42 @@ export default {
         event.createdBy &&
         event.createdBy.username === this.signedInUser.username
       );
+    },
+    loadEvents(param, action) {
+      switch (action) {
+        case "previous":
+          action = -1;
+          break;
+        case "next":
+          action = 1;
+          break;
+        default:
+          action = 0;
+          break;
+      }
+      let query = "";
+      if (this.signedInUser) {
+        query = "&username=" + this.signedInUser.username;
+      }
+
+      this.busy = false;
+      this.limit = this.limit || 10;
+      this.page = action + this.page || 1;
+
+      eventService
+        .getMyEvents(param + query, this.limit, this.page)
+        .then(events => {
+          if (!this.infiniteScroll) {
+            this.events = events;
+          } else {
+            this.events = this.events.concat(events);
+            if (events.length > 0) {
+              ++this.page;
+            }
+          }
+          this.busy = true;
+          this.loading = false;
+        });
     }
   }
 };
