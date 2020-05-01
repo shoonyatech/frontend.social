@@ -14,6 +14,9 @@ npm install
 npm run serve
 ```
 
+### Local Dev
+Use github to login for local development on the frontend app.
+
 ### Compiles and minifies for production
 
 ```
@@ -37,5 +40,3 @@ npm run lint
 ```
 npm run test
 ```
-
-### Customize configuration
