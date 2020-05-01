@@ -216,10 +216,7 @@
         @change="onOnlineLinkChange"
       />
 
-      <b-row
-        v-show="!event.isOnline"
-        class="row"
-      >
+      <b-row class="row">
         <b-col
           md="3"
           sm="12"
@@ -370,9 +367,9 @@ export default {
   },
   async created() {
     const eventId = this.$route.params.id;
-    if (eventId && eventId !== 'new') {
+    if (eventId && eventId !== "new") {
       this.loading = true;
-      const eventDetails = (await eventService.getEventById(eventId));
+      const eventDetails = await eventService.getEventById(eventId);
       this.intializeEvents(eventDetails);
     }
     this.loading = false;
@@ -463,8 +460,7 @@ export default {
         isOnline: eventDetails.isOnline || false,
         onlineLink: eventDetails.onlineLink || "",
         isPrivate: eventDetails.isPrivate || false,
-        isRequiresRegistration:
-          eventDetails.isRequiresRegistration || false
+        isRequiresRegistration: eventDetails.isRequiresRegistration || false
       };
     },
     getFormattedDate(date) {
@@ -486,7 +482,7 @@ export default {
       }
 
       const eventId = this.$route.params.id;
-      if (eventId !== 'new') {
+      if (eventId !== "new") {
         eventService
           .updateEvent(eventId, this.event)
           .then(() => {

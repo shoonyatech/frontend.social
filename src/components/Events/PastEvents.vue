@@ -61,7 +61,8 @@ export default {
   },
   data() {
     return {
-      events: []
+      events: [],
+      page: 1
     };
   },
   computed: {
