@@ -104,7 +104,7 @@ const router = new Router({
     },
     {
       path: "/event/form/:id",
-      name: "eventDetails",
+      name: "eventForm",
       component: () => import("./pages/EventForm.vue")
     },
     {
