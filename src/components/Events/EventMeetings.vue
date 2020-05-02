@@ -20,10 +20,7 @@
       <a
         @click="joinMeeting(meeting.meetingId, meeting.title)"
       >{{ meeting.title }}
-        <span
-          v-if="meeting.userCount != null && meeting.userCount !== 0"
-          class="user-count"
-        >({{ meeting.userCount }})</span></a>
+        <span class="user-count">({{ meeting.userCount }})</span></a>
       <span class="created-by">{{
         isPrivate
           ? "by You"
@@ -82,13 +79,20 @@ export default {
         ? eventService.getPrivateMeetings(this.eventId)
         : eventService.getMeetings(this.eventId);
       promise.then(meetings => {
-        this.meetings = meetings;
-        meetings.forEach(m => {
+        let userCount = 0;
+        this.meetings = meetings.map(m => ({
+          ...m
+        }));
+        this.meetings.map(m => {
           const url = encodeURI(
             `https://www.frontend.social/join-meeting/${m.meetingId}?eventId=${this.eventId}&title=${m.title}`
           );
           userPageService.getOnlineUsersCount(url).then(res => {
-            m.userCount = res.userCount;
+            let meeting = this.meetings.find(mt => mt._id === m._id);
+            if (meeting) {
+              meeting.userCount = res.userCount;
+              this.$forceUpdate();
+            }
           });
         });
       });
