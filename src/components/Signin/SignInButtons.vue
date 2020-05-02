@@ -71,11 +71,11 @@ export default {
               this_.response = authResponse;
             }
 
-            if (user.city == null || user.city === "") {
-              this_.$router.push({ path: "me", query: { msg: "set-city" } });
-            } else {
-              this_.$router.go(-1);
-            }
+            // if (user.city == null || user.city === "") {
+            //   this_.$router.push({ path: "me", query: { msg: "set-city" } });
+            // } else {
+            this_.$router.go(-1);
+            // }
           }
         })
         .catch(function(err) {
