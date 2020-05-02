@@ -21,12 +21,15 @@
         @click="joinMeeting(meeting.meetingId, meeting.title)"
       >{{ meeting.title }}
         <span
-          v-if="meeting.userCount > 0"
+          v-if="meeting.userCount != null && meeting.userCount !== 0"
           class="user-count"
         >({{ meeting.userCount }})</span></a>
       <span class="created-by">{{
-        isPrivate ? 'by You' :
-        meeting.createdBy ? `by ${meeting.createdBy.username}` : ""
+        isPrivate
+          ? "by You"
+          : meeting.createdBy
+            ? `by ${meeting.createdBy.username}`
+            : ""
       }}</span>
     </div>
   </div>
@@ -75,7 +78,9 @@ export default {
   },
   methods: {
     getMeetings() {
-      const promise = this.isPrivate ? eventService.getPrivateMeetings(this.eventId) : eventService.getMeetings(this.eventId);
+      const promise = this.isPrivate
+        ? eventService.getPrivateMeetings(this.eventId)
+        : eventService.getMeetings(this.eventId);
       promise.then(meetings => {
         this.meetings = meetings;
         meetings.forEach(m => {
