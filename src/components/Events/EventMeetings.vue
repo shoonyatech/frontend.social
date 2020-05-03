@@ -18,7 +18,7 @@
       :key="meeting._id"
     >
       <a
-        @click="joinMeeting(meeting.meetingId, meeting.title)"
+        @click="validateAndJoinMeeting(meeting)"
       >{{ meeting.title }}
         <span class="user-count">({{ meeting.userCount }})</span></a>
       <img
@@ -144,6 +144,19 @@ export default {
             type: ToastType.ERROR
           });
         });
+    },
+    validateAndJoinMeeting(meeting) {
+      let canJoinMeeting = false;
+      if (!meeting.isPrivate || this.canModify(meeting)) {
+        canJoinMeeting = true;
+      } else {
+        const allowedUsers = meeting.allowedUsers || [];
+        canJoinMeeting = allowedUsers.some(x => x.username = this.signedInUser.username);
+      }
+
+      if (canJoinMeeting) {
+        this.joinMeeting(meeting.meetingId, meeting.title);
+      }
     },
     joinMeeting(meetingId, title) {
       if (this.signedInUser == null) {
