@@ -4,7 +4,7 @@
       <div
         v-for="(item, index) in items"
         :key="index"
-        class="events"
+        class="items"
       >
         <slot :item="item" />
         <div
@@ -34,7 +34,7 @@
           class="value"
         >
           <div
-            class="select-event"
+            class="select-item"
             @click="add(option)"
           >
             <slot
@@ -121,19 +121,10 @@ export default {
   flex: 1 1 auto;
 }
 
-.add {
-  flex: 0 0 auto;
-  margin: 2px 0 0 10px;
-  height: 1.5rem;
-}
 
-.events {
+.items {
   display: flex;
   width: 100%;
-}
-
-.event-strip-selected {
-  flex: 1 1 auto;
 }
 
 .delete {
@@ -141,7 +132,7 @@ export default {
   margin-left: 10px;
 }
 
-.select-event {
+.select-item {
   width: 100%;
   cursor: pointer;
 
