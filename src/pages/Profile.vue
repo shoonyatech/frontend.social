@@ -1,4 +1,4 @@
-<template>
+j<template>
   <div class="profile">
     <Loader v-show="loading" />
     <b-container>
@@ -71,9 +71,11 @@
                 class="user-name"
               >
                 <span class="light-text">I am a</span>
-                <span>{{
-                  profile.category == "dev" ? "Developer" : "Designer"
-                }}</span>
+                <span>
+                  {{
+                    profile.category == "dev" ? "Developer" : "Designer"
+                  }}
+                </span>
               </div>
             </div>
             <edit-city
@@ -210,7 +212,24 @@
               -
               {{ getActivityType(activity.activityType) }}
               {{ getModel(activity.model) }}
-              <a :href="activity.pageLink">{{ activity.title }}</a>
+              <a
+                :href="activity.pageLink"
+              >{{ activity.title }}</a>
+            </div>
+          </Section>
+
+          <Section
+            v-if="!username"
+            title="Referrals"
+            class="user-referrals-section"
+            :is-editable="false"
+          >
+            <div class="user-referrals">
+              <user-avatar
+                v-for="referral in referrals"
+                :key="referral.username"
+                :user="referral"
+              />
             </div>
           </Section>
         </b-col>
@@ -228,9 +247,17 @@ import SkillLevel from "@/components/Profile/SkillLevel";
 import Section from "@/components/common/Section";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
+import UserAvatar from "@/components/common/UserAvatar";
 
 export default {
-  components: { KeyValue, EditEventList, EditCity, SkillLevel, Section },
+  components: {
+    KeyValue,
+    EditEventList,
+    EditCity,
+    SkillLevel,
+    Section,
+    UserAvatar
+  },
   data() {
     return {
       profile: {},
@@ -239,6 +266,7 @@ export default {
       social: [],
       skills: [],
       events: [],
+      referrals: [],
       editModeAboutMe: false,
       editModeSocials: false,
       editModeSkills: false,
@@ -247,7 +275,7 @@ export default {
       publicProfile: null,
       loading: false,
       editModeActivity: false,
-      activities: [],
+      activities: []
     };
   },
   computed: {
@@ -256,7 +284,7 @@ export default {
         this.$store.state.signedInUser.username === this.profile.username
         ? true
         : false;
-    },
+    }
   },
   created() {
     this.username = this.$route.params.username;
@@ -272,13 +300,14 @@ export default {
       this.loading = true;
       userService
         .getLoggedInUserProfile()
-        .then((user) => {
+        .then(user => {
           user.skills = this.sortSkills(user.skills);
+          this.getReferrals();
           this.profile = user;
           this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
           this.loading = false;
         })
-        .catch((e) => {
+        .catch(e => {
           userService.signout();
           this.$router.push("/");
         });
@@ -286,13 +315,13 @@ export default {
       this.loading = true;
       userService
         .getUserProfile(this.username)
-        .then((user) => {
+        .then(user => {
           user.skills = this.sortSkills(user.skills);
           this.profile = user;
           this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
           this.loading = false;
         })
-        .catch((e) => {
+        .catch(e => {
           alert("User " + this.username + " not found");
           this.loading = false;
         });
@@ -302,7 +331,7 @@ export default {
   methods: {
     onSocialChange: function(social) {
       let updatedSocial = this.profile.social.find(
-        (s) => s.label == social.label
+        s => s.label == social.label
       );
       if (updatedSocial) {
         updatedSocial.value = social.value;
@@ -354,11 +383,11 @@ export default {
       this.loading = true;
       userService
         .getLoggedInUserProfile()
-        .then((user) => {
+        .then(user => {
           this.profile = user;
           this.loading = false;
         })
-        .catch((e) => {
+        .catch(e => {
           userService.signout();
           this.$router.push("/");
           this.loading = false;
@@ -383,12 +412,12 @@ export default {
       this.loading = true;
       userService
         .getLoggedInUserProfile()
-        .then((user) => {
+        .then(user => {
           this.profile = user;
           this.editModeSocials = false;
           this.loading = false;
         })
-        .catch((e) => {
+        .catch(e => {
           userService.signout();
           this.$router.push("/");
           this.loading = false;
@@ -400,7 +429,7 @@ export default {
         this.profile.skills.push({
           name: "",
           noOfYears: "",
-          expertiseLevel: 0,
+          expertiseLevel: 0
         });
       }
     },
@@ -414,7 +443,7 @@ export default {
       }
       this.$store.dispatch(
         "createAndUpdateSkills",
-        this.profile.skills.map((x) => x.name)
+        this.profile.skills.map(x => x.name)
       );
       this.profile.skills = this.sortSkills(this.profile.skills);
       try {
@@ -423,18 +452,18 @@ export default {
         eventBus.$emit("show-toast", {
           body: e.message,
           title: messages.generic.error,
-          type: ToastType.ERROR,
+          type: ToastType.ERROR
         });
       }
     },
     cancelSkills: function(event) {
       userService
         .getLoggedInUserProfile()
-        .then((user) => {
+        .then(user => {
           this.profile = user;
           this.editModeSkills = false;
         })
-        .catch((e) => {
+        .catch(e => {
           userService.signout();
           this.$router.push("/");
         });
@@ -457,12 +486,12 @@ export default {
       this.loading = true;
       userService
         .getLoggedInUserProfile()
-        .then((user) => {
+        .then(user => {
           this.profile = user;
           this.editModeEvents = false;
           this.loading = false;
         })
-        .catch((e) => {
+        .catch(e => {
           userService.signout();
           this.$router.push("/");
           this.loading = false;
@@ -471,10 +500,10 @@ export default {
     getActivities() {
       userService
         .getActivities()
-        .then((response) => {
+        .then(response => {
           this.activities = response;
         })
-        .catch((e) => {
+        .catch(e => {
           this.$router.push("/");
         });
     },
@@ -496,7 +525,17 @@ export default {
           return "Article";
       }
     },
-  },
+    getReferrals() {
+      userService
+        .getReferrals()
+        .then(response => {
+          this.referrals = response.filter(x => x != null);
+        })
+        .catch(e => {
+          this.$router.push("/");
+        });
+    }
+  }
 };
 </script>
 
@@ -619,5 +658,15 @@ export default {
 
 .user-public-profile {
   word-wrap: break-word;
+}
+
+.user-referrals-section {
+  margin-bottom: 20px;
+}
+
+.user-referrals {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 </style>
