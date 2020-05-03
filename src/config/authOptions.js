@@ -3,7 +3,7 @@ import config from "./config";
 export function getCookieDomainUrl() {
   try {
     return window.location.hostname;
-  } catch (e) {}
+  } catch (e) { }
 
   return "";
 }
@@ -13,7 +13,7 @@ export function getRedirectUri(uri) {
     return uri != null
       ? `${window.location.origin}${uri}`
       : window.location.origin;
-  } catch (e) {}
+  } catch (e) { }
 
   return uri || null;
 }
@@ -26,7 +26,7 @@ export default {
   providers: {
     facebook: {
       name: "facebook",
-      url: "/auth/facebook",
+      url: "/auth/facebook?referrer=" + getParameterByName("referrer"),
       authorizationEndpoint: "https://www.facebook.com/v5.0/dialog/oauth",
       redirectUri: getRedirectUri("/signin/callback"),
       requiredUrlParams: ["display", "scope"],
@@ -40,7 +40,7 @@ export default {
 
     github: {
       name: "github",
-      url: "/auth/github",
+      url: "/auth/github?referrer=" + getParameterByName("referrer"),
       authorizationEndpoint: "https://github.com/login/oauth/authorize",
       redirectUri: getRedirectUri("/signin/callback"),
       optionalUrlParams: ["scope"],
@@ -53,7 +53,7 @@ export default {
 
     twitter: {
       name: "twitter",
-      url: "/auth/twitter",
+      url: "/auth/twitter?referrer=" + getParameterByName("referrer"),
       authorizationEndpoint: "https://api.twitter.com/oauth/authenticate",
       redirectUri: getRedirectUri("/signin/callback"),
       oauthType: "1.0",
@@ -63,7 +63,7 @@ export default {
 
     google: {
       name: "google",
-      url: "/auth/google",
+      url: "/auth/google?referrer=" + getParameterByName("referrer"),
       authorizationEndpoint: "https://accounts.google.com/o/oauth2/auth",
       redirectUri: getRedirectUri("/signin/callback"),
       requiredUrlParams: ["scope"],
@@ -79,7 +79,7 @@ export default {
 
     bitbucket: {
       name: "bitbucket",
-      url: "/auth/bitbucket",
+      url: "/auth/bitbucket?referrer=" + getParameterByName("referrer"),
       authorizationEndpoint: "https://bitbucket.org/site/oauth2/authorize",
       redirectUri: getRedirectUri("/"),
       optionalUrlParams: ["scope"],
@@ -91,7 +91,7 @@ export default {
 
     linkedin: {
       name: "linkedin",
-      url: "/auth/linkedin",
+      url: "/auth/linkedin?referrer=" + getParameterByName("referrer"),
       authorizationEndpoint: "https://www.linkedin.com/oauth/v2/authorization",
       redirectUri: getRedirectUri(),
       requiredUrlParams: ["state"],
@@ -103,3 +103,13 @@ export default {
     }
   }
 };
+
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, '\\$&');
+  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
