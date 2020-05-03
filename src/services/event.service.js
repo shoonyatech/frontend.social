@@ -43,6 +43,14 @@ export default {
     return httpClient.post(`event/${id}/create-meeting`, { title, type, isPrivate });
   },
 
+  updateMeeting(id, meetingId, meeting) {
+    return httpClient.put(`event/${id}/update-meeting/${meetingId}`, meeting);
+  },
+
+  deleteMeeting(id, meetingId) {
+    return httpClient.delete(`event/${id}/update-meeting/${meetingId}`);
+  },
+
   getMeetings(id) {
     return httpClient.get(`event/${id}/meetings`);
   },
