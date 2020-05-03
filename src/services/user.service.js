@@ -28,7 +28,12 @@ export default {
   udpateUserPreferences: userPreferences => {
     return httpClient.put("user/preferences", userPreferences);
   },
+
   getReferrals: () => {
     return httpClient.get("/user/get/referrals");
+  },
+
+  getAllUsers(searchText) {
+    return httpClient.get(`users?searchText=${searchText}`);
   },
 };

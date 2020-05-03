@@ -21,6 +21,12 @@
         @click="joinMeeting(meeting.meetingId, meeting.title)"
       >{{ meeting.title }}
         <span class="user-count">({{ meeting.userCount }})</span></a>
+      <img
+        v-if="meeting.isPrivate"
+        src="/images/lock.svg"
+        alt="private"
+        class="icon-button"
+      >
       <span class="created-by">{{
         isPrivate
           ? "by You"
@@ -28,10 +34,35 @@
             ? `by ${meeting.createdBy.username}`
             : ""
       }}</span>
+      <div
+        v-if="canModify(meeting)"
+        class="float-right"
+      >
+        <img
+          src="/images/settings.svg"
+          alt="settings"
+          class="icon-button"
+          @click="onSettingsClick(meeting)"
+        >
+        <img
+          src="/images/delete.svg"
+          alt="delete"
+          class="icon-button"
+          @click="onDeleteClick(meeting)"
+        >
+      </div>
     </div>
+
+    <MeetingSettings
+      v-if="meetingToEdit"
+      :meeting="meetingToEdit"
+      @ok="onUpdateMeeting"
+      @cancel="onUpdateCancel"
+    />
   </div>
 </template>
 <script>
+import MeetingSettings from './MeetingSettings.vue';
 import eventService from "@/services/event.service";
 import userPageService from "@/services/user-page.service";
 import eventBus from "@/utilities/eventBus";
@@ -40,6 +71,7 @@ import { uniqBy } from "lodash";
 
 export default {
   name: "EventMeetings",
+  components: {MeetingSettings},
   props: {
     eventId: {
       type: String,
@@ -54,7 +86,9 @@ export default {
     return {
       meetingTitle: "",
       meetings: [],
-      interval: null
+      showSettingsDialog: false,
+      interval: null,
+      meetingToEdit: null,
     };
   },
   computed: {
@@ -119,7 +153,37 @@ export default {
       this.$router.push(
         `/join-meeting/${meetingId}?eventId=${this.eventId}&title=${title}`
       );
-    }
+    },
+    onSettingsClick(meeting) {
+      this.meetingToEdit = meeting;
+      this.showSettingsDialog = true;
+      console.log(meeting);
+    },
+    onDeleteClick(meeting) {
+       eventService
+        .deleteMeeting(this.eventId, meeting._id)
+        .then(() => {
+          this.getMeetings();
+        })
+    },
+    onUpdateMeeting(meeting) {
+       eventService
+        .updateMeeting(this.eventId, this.meetingToEdit._id, meeting)
+        .then(() => {
+          this.meetingToEdit = null;
+          this.getMeetings();
+        })
+    }, 
+    onUpdateCancel() {
+      this.meetingToEdit = null;
+    },
+    canModify(meeting) {
+      return (
+        this.signedInUser &&
+        meeting.createdBy &&
+        meeting.createdBy.username === this.signedInUser.username
+      );
+    },
   }
 };
 </script>
