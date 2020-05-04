@@ -2,20 +2,22 @@
   <div class="comment-container">
     <div v-show="!isEdit">
       <div class="comment-by">
-        {{ comment.createdBy.username }} 
+        {{ comment.createdBy.username }}
         <!-- {{ comment.createdAt| moment("timezone","America/Toronto", "DD MMM YYYY HH:mm") }} -->
         <img
+          v-if="signedInUser.username==comment.createdBy.username"
           :src="`/images/delete.svg`"
           class="icon-button float-right"
           alt="delete"
           @click="deleteComment()"
         >
         <!-- <img
+          v-if="signedInUser.username==comment.createdBy.username"
           :src="`/images/edit.svg`"
           class="icon-button edit float-right"
           title="Edit"
           @click="toggleEdit()"
-        />-->
+        /> -->
       </div>
       <star-rating
         v-show="showRating"
@@ -73,6 +75,7 @@ import AddComment from "@/components/Comment/AddComment";
 import AddCommentReply from "@/components/Comment/AddCommentReply";
 import commentService from "@/services/comment.service";
 import eventBus from "@/utilities/eventBus";
+import { ToastType, messages } from "@/constants/constants";
 
 export default {
   name: "Comment",
@@ -120,6 +123,11 @@ export default {
     return {
       isEdit: false
     };
+  },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    }
   },
   created() {},
   methods: {
