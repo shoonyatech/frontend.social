@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div v-if="isEditable">
       <input
         v-model="meetingTitle"
         type="text"
@@ -27,15 +27,11 @@
         alt="private"
         class="icon-button"
       >
-      <span class="created-by">{{
-        isPrivate
-          ? "by You"
-          : meeting.createdBy
-            ? `by ${meeting.createdBy.username}`
-            : ""
-      }}</span>
+      <span class="created-by">
+        {{ meeting.createdBy ? `by ${meeting.createdBy.username}` : "" }}
+      </span>
       <div
-        v-if="canModify(meeting)"
+        v-if="canModify(meeting) && isEditable"
         class="float-right"
       >
         <img
@@ -63,7 +59,7 @@
 </template>
 <script>
 import MeetingSettings from './MeetingSettings.vue';
-import eventService from "@/services/event.service";
+import meetingService from "@/services/meeting.service";
 import userPageService from "@/services/user-page.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
@@ -73,13 +69,17 @@ export default {
   name: "EventMeetings",
   components: {MeetingSettings},
   props: {
-    eventId: {
+    id: {
       type: String,
       required: true
     },
-    isPrivate: {
+    type: {
+      type: String,
+      required: true,
+    },
+    isEditable: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
   data() {
@@ -94,6 +94,12 @@ export default {
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
+    },
+    eventId() {
+      return this.type === 'EVENT' ? this.id : null;
+    },
+    userId() {
+      return this.type === 'USER' ? this.id : null;
     }
   },
   mounted() {
@@ -109,9 +115,9 @@ export default {
   },
   methods: {
     getMeetings() {
-      const promise = this.isPrivate
-        ? eventService.getPrivateMeetings(this.eventId)
-        : eventService.getMeetings(this.eventId);
+      const promise = this.type === 'EVENT' ? meetingService.getMeetingsByEventId(this.id) 
+        : meetingService.getMeetingsByUserId(this.id);
+
       promise.then(meetings => {
         let userCount = 0;
         this.meetings = meetings.map(m => ({
@@ -119,7 +125,7 @@ export default {
         }));
         this.meetings.map(m => {
           const url = encodeURI(
-            `https://www.frontend.social/join-meeting/${m.meetingId}?eventId=${this.eventId}&title=${m.title}`
+            `https://www.frontend.social/join-meeting/${m.meetingId}?params=${this.constructQueryParams(m.title)}`
           );
           userPageService.getOnlineUsersCount(url).then(res => {
             let meeting = this.meetings.find(mt => mt._id === m._id);
@@ -132,8 +138,8 @@ export default {
       });
     },
     createMeetings() {
-      eventService
-        .createMeeting(this.eventId, this.meetingTitle, "jitsi", this.isPrivate)
+      meetingService
+        .createMeeting({eventId: this.eventId, userId: this.userId, title: this.meetingTitle, isPrivate: false})
         .then(res => {
           this.joinMeeting(res.meetingId, this.meetingTitle);
         })
@@ -164,7 +170,7 @@ export default {
         return;
       }
       this.$router.push(
-        `/join-meeting/${meetingId}?eventId=${this.eventId}&title=${title}`
+        `/join-meeting/${meetingId}?params=${this.constructQueryParams(title)}`
       );
     },
     onSettingsClick(meeting) {
@@ -173,15 +179,15 @@ export default {
       console.log(meeting);
     },
     onDeleteClick(meeting) {
-       eventService
-        .deleteMeeting(this.eventId, meeting._id)
+       meetingService
+        .deleteMeeting(meeting._id)
         .then(() => {
           this.getMeetings();
         })
     },
     onUpdateMeeting(meeting) {
-       eventService
-        .updateMeeting(this.eventId, this.meetingToEdit._id, meeting)
+       meetingService
+        .updateMeeting(this.meetingToEdit._id, {...meeting, eventId: this.eventId, userId: this.userId})
         .then(() => {
           this.meetingToEdit = null;
           this.getMeetings();
@@ -197,6 +203,9 @@ export default {
         meeting.createdBy.username === this.signedInUser.username
       );
     },
+    constructQueryParams(title) {
+      return btoa(`eventId=${this.eventId || ''}&userId=${this.userId || ''}&title=${title}`)
+    }
   }
 };
 </script>

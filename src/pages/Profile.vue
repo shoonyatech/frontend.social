@@ -232,6 +232,19 @@ j<template>
               />
             </div>
           </Section>
+
+          <Section
+            v-if="profile._id"
+            title="Private Video Rooms (Click to Join call)"
+            class="private-video-section"
+            :is-editable="false"
+          >
+            <EventMeetings
+              :id="profile._id"
+              type="USER"
+              :is-editable="!username"
+            />
+          </Section>
         </b-col>
       </b-row>
     </b-container>
@@ -245,6 +258,7 @@ import EditEventList from "@/components/Events/EditEventList";
 import EditCity from "@/components/City/EditCity";
 import SkillLevel from "@/components/Profile/SkillLevel";
 import Section from "@/components/common/Section";
+import EventMeetings from "@/components/Events/EventMeetings.vue";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 import UserAvatar from "@/components/common/UserAvatar";
@@ -256,7 +270,8 @@ export default {
     EditCity,
     SkillLevel,
     Section,
-    UserAvatar
+    UserAvatar,
+    EventMeetings
   },
   data() {
     return {
@@ -275,7 +290,7 @@ export default {
       publicProfile: null,
       loading: false,
       editModeActivity: false,
-      activities: []
+      activities: [],
     };
   },
   computed: {
@@ -652,16 +667,12 @@ export default {
   margin-top: 20px;
 }
 
-.events-attended {
+.events-attended, .user-referrals-section, .private-video-section {
   margin-bottom: 20px;
 }
 
 .user-public-profile {
   word-wrap: break-word;
-}
-
-.user-referrals-section {
-  margin-bottom: 20px;
 }
 
 .user-referrals {
