@@ -38,27 +38,6 @@ export default {
   getEventById: (id) => {
     return httpClient.get(`event/${id}`);
   },
-
-  createMeeting(id, title, type, isPrivate) {
-    return httpClient.post(`event/${id}/create-meeting`, { title, type, isPrivate });
-  },
-
-  updateMeeting(id, meetingId, meeting) {
-    return httpClient.put(`event/${id}/update-meeting/${meetingId}`, meeting);
-  },
-
-  deleteMeeting(id, meetingId) {
-    return httpClient.delete(`event/${id}/update-meeting/${meetingId}`);
-  },
-
-  getMeetings(id) {
-    return httpClient.get(`event/${id}/meetings`);
-  },
-
-  getPrivateMeetings(id) {
-    return httpClient.get(`event/${id}/privateMeetings`);
-  },
-
   registerUser: (eventregistration) => {
     return httpClient.post("event/register", eventregistration);
   },

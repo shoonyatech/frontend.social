@@ -4,7 +4,10 @@
     fluid
     class="meeting-container"
   >
-    <b-breadcrumb :items="items" />
+    <b-breadcrumb
+      v-if="eventId"
+      :items="items"
+    />
     <b-row>
       <b-col md="9">
         <b-row>
@@ -23,7 +26,8 @@
         <b-row>
           <b-col md="12">
             <EventMeetings
-              :event-id="eventId"
+              :id="eventId || userId"
+              :type="eventId ? 'EVENT' : 'USER'"
             />
           </b-col>
         </b-row>
@@ -50,6 +54,7 @@ export default {
       eventTitle: '',
       eventId: '',
       groupTopic: '',
+      userId: '',
     }
   },
   computed: {
@@ -94,9 +99,14 @@ export default {
   },
   methods: {
     updateBreadcrumb() {
-      const urlParams = new URLSearchParams(window.location.search);
+      let urlParams = new URLSearchParams(window.location.search);
+      const params = urlParams.get('params');
+      urlParams = new URLSearchParams(atob(params));
       this.groupTopic = urlParams.get("title");
       this.eventId = urlParams.get("eventId");
+      this.userId = urlParams.get("userId");
+      if (!this.eventId) return;
+
       eventService.getEventById(this.eventId)
       .then((event) => {
         this.eventTitle = event.title;
