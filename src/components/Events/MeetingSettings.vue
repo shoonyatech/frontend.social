@@ -23,10 +23,16 @@
       :search-fn="searchUsers"
     >
       <template v-slot:default="slotProps">
-        {{ slotProps.item.name }} ({{ slotProps.item.username }})
+        <div class="user-info">
+          <UserAvatar :user="slotProps.item" />
+          {{ slotProps.item.name }} ({{ slotProps.item.username }})
+        </div>
       </template>
       <template v-slot:option="slotProps">
-        {{ slotProps.option.name }} ({{ slotProps.option.username }})
+        <div class="user-info">
+          <UserAvatar :user="slotProps.option" />
+          {{ slotProps.option.name }} ({{ slotProps.option.username }})
+        </div>
       </template>
     </MultiSelect>
   </b-modal>
@@ -36,6 +42,7 @@ import KeyValue from "@/components/common/KeyValue";
 import Checkbox from "@/components/Checkbox/Checkbox";
 import MultiSelect from '@/components/MultiSelect/MultiSelect';
 import UserService from '@/services/user.service';
+import UserAvatar from "@/components/common/UserAvatar";
 import {cloneDeep} from 'lodash';
 
 export default {
@@ -43,7 +50,8 @@ export default {
   components: {
     KeyValue,
     Checkbox,
-    MultiSelect
+    MultiSelect,
+    UserAvatar,
   },
   props: {
     meeting: {
@@ -89,3 +97,10 @@ export default {
   }, 
 }
 </script>
+<style lang="scss" scoped>
+.user-info {
+  display: flex;
+    align-items: center;
+    padding: 4px 0;
+}
+</style>
