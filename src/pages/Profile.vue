@@ -235,7 +235,7 @@ j<template>
 
           <Section
             v-if="profile._id"
-            title="Private Video Rooms (Click to Join call)"
+            :title=" `${profile.name}'s Video Rooms (Click to Join call)`"
             class="private-video-section"
             :is-editable="false"
           >
