@@ -94,7 +94,7 @@ const router = new Router({
     },
     {
       path: "/learn/videocourse",
-      name: "course",
+      name: "videocourse",
       component: () => import("./pages/VideoCourse.vue")
     },
     {
@@ -111,7 +111,12 @@ const router = new Router({
       path: "/join-meeting/:id",
       name: "joinMeeting",
       component: () => import("./pages/Zoom.vue")
-    }
+    },
+    {
+      path: "/course",
+      name: "course",
+      component: () => import("./pages/Course.vue")
+    },
 
   ]
 });
