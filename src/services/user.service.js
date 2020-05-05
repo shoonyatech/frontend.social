@@ -30,7 +30,7 @@ export default {
   },
 
   getReferrals: () => {
-    return httpClient.get("/user/get/referrals");
+    return httpClient.get("user/get/referrals");
   },
 
   getAllUsers(searchText) {
