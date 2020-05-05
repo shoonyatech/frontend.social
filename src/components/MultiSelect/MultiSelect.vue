@@ -125,10 +125,11 @@ export default {
 .items {
   display: flex;
   width: 100%;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .delete {
-  flex: 1 1 auto;
   margin-left: 10px;
 }
 
