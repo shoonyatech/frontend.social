@@ -5,7 +5,7 @@
         {{ comment.createdBy.username }}
         <!-- {{ comment.createdAt| moment("timezone","America/Toronto", "DD MMM YYYY HH:mm") }} -->
         <img
-          v-if="signedInUser.username==comment.createdBy.username"
+          v-if="signedInUser && signedInUser.username==comment.createdBy.username"
           :src="`/images/delete.svg`"
           class="icon-button float-right"
           alt="delete"
@@ -17,7 +17,7 @@
           class="icon-button edit float-right"
           title="Edit"
           @click="toggleEdit()"
-        /> -->
+        />-->
       </div>
       <star-rating
         v-show="showRating"
@@ -37,7 +37,7 @@
         >Reply</a>
       </div>
     </div>
-    <div v-show="isEdit">
+    <div v-show="isEdit && signedInUser">
       <add-comment
         ref="addcomment"
         :comment-id="commentId"
@@ -58,7 +58,7 @@
       :reply="reply"
     />
     <add-comment-reply
-      v-show="isAddReply"
+      v-show="signedInUser && isAddReply "
       ref="addreply"
       :on-save="addReply"
       :on-cancel="toggleAddComment"
