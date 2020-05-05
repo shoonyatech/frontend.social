@@ -76,11 +76,6 @@
             </div>
           </b-col>
         </b-row>
-        <b-row>
-          <b-col md="12">
-            <div v-html="event.description" />
-          </b-col>
-        </b-row>
         <b-row
           v-if="youtubeVideoId"
           class="youtube-container"
@@ -93,6 +88,12 @@
             />
           </b-col>
         </b-row>
+        <b-row>
+          <b-col md="12">
+            <div v-html="event.description" />
+          </b-col>
+        </b-row>
+
         <b-row style="margin-top: 20px;">
           <h1>Video Rooms (Click to join call)</h1>
         </b-row>
@@ -314,5 +315,10 @@ export default {
 
 .youtube-container {
   padding: 10px 0;
+}
+
+.icon-links {
+  display: flex;
+  flex-direction: row-reverse;
 }
 </style>
