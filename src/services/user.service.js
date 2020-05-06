@@ -36,4 +36,8 @@ export default {
   getAllUsers(searchText) {
     return httpClient.get(`users?searchText=${searchText}`);
   },
+
+  getUserByUserId(userId) {
+    return httpClient.get(`users?userId=${userId}`);
+  }
 };

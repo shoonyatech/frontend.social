@@ -547,7 +547,7 @@ export default {
           this.referrals = response.filter(x => x != null);
         })
         .catch(e => {
-          this.$router.push("/");
+          console.log("failed to fetch referals")
         });
     }
   }

@@ -82,6 +82,7 @@ export default {
         _id: x._id,
         name: x.name,
         username: x.username,
+        profilePic: x.profilePic,
       }))
       const {meetingId} = this.meeting;
       this.$emit('ok', {title : this.name, isPrivate: this.isPrivate, allowedUsers: allowedUsers, meetingId})

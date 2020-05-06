@@ -5,7 +5,6 @@
     class="meeting-container"
   >
     <b-breadcrumb
-      v-if="eventId"
       :items="items"
     />
     <b-row>
@@ -82,6 +81,7 @@ import EventMeetings from "@/components/Events/EventMeetings.vue";
 import OnlineUsers from "@/components/OnlineUsers/OnlineUsers.vue";
 
 import commentService from "@/services/comment.service";
+import UserService from '@/services/user.service';
 import Comment from "@/components/Comment/Comment.vue";
 import AddComment from "@/components/Comment/AddComment.vue";
 import eventBus from "@/utilities/eventBus";
@@ -96,6 +96,7 @@ export default {
   data() {
     return {
       eventTitle: "",
+      roomOwner: {},
       eventId: "",
       groupTopic: "",
       userId: "",
@@ -116,6 +117,7 @@ export default {
       return this.$store.state.signedInUser;
     },
     items() {
+      if (this.eventId) {
       return [
         {
           text: "Events",
@@ -130,6 +132,19 @@ export default {
           active: true
         }
       ];
+
+      } else {
+        return [
+        {
+          text: `${this.roomOwner.name}'s Video Rooms`,
+          to: this.signedInUser && this.signedInUser.username === this.roomOwner.username ? '/me' : `/user/${this.roomOwner.username}`
+        },
+        {
+          text: this.groupTopic,
+          active: true
+        }
+        ]
+      }
     },
     meetingId() {
       //This will be used into the database to save and fetch comments
@@ -160,12 +175,18 @@ export default {
       this.groupTopic = urlParams.get("title");
       this.eventId = urlParams.get("eventId");
       this.userId = urlParams.get("userId");
-      if (!this.eventId) return;
+      if (this.eventId) {
+        eventService.getEventById(this.eventId).then(event => {
+          this.eventTitle = event.title;
+        });
 
-      eventService.getEventById(this.eventId).then(event => {
-        this.eventTitle = event.title;
-      });
-
+      } else if (this.userId) {
+        UserService.getUserByUserId(this.userId).then((users) => {
+          if (users.length) {
+            this.roomOwner = users[0];
+          }
+        });
+      };
       this.getComments();
     },
     getComments() {
