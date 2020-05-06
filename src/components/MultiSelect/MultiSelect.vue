@@ -29,7 +29,7 @@
           @input="onSearchTextChange"
         >
         <span
-          v-for="(option, index) in options"
+          v-for="(option, index) in typeaheadOptions"
           :key="index"
           class="value"
         >
@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import {uniqBy} from 'lodash';
+import {uniqBy, differenceBy} from 'lodash';
 
 export default {
   name: 'MultiSelect',
@@ -78,6 +78,11 @@ export default {
       searchText: "",
       options: [],
     };
+  },
+  computed: {
+    typeaheadOptions() {
+      return differenceBy(this.options, this.items, '_id');
+    }
   },
   methods: {
     add: function(item) {
