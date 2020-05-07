@@ -16,23 +16,25 @@
     <div
       v-for="meeting in meetings"
       :key="meeting._id"
+      class="meeting-row"
     >
-      <a
-        @click="validateAndJoinMeeting(meeting)"
-      >{{ meeting.title }}
-        <span class="user-count">({{ meeting.userCount }})</span></a>
-      <img
-        v-if="meeting.isPrivate"
-        src="/images/lock.svg"
-        alt="private"
-        class="icon-button"
-      >
-      <span class="created-by">
-        {{ meeting.createdBy ? `by ${meeting.createdBy.username}` : "" }}
-      </span>
+      <div>
+        <a
+          @click="validateAndJoinMeeting(meeting)"
+        >{{ meeting.title }}
+          <span class="user-count">({{ meeting.userCount }})</span></a>
+        <img
+          v-if="meeting.isPrivate"
+          src="/images/lock.svg"
+          alt="private"
+          class="icon-button"
+        >
+        <span class="created-by">
+          {{ meeting.createdBy ? `by ${meeting.createdBy.username}` : "" }}
+        </span>
+      </div>
       <div
         v-if="canModify(meeting) && isEditable"
-        class="float-right"
       >
         <img
           src="/images/settings.svg"
@@ -125,7 +127,7 @@ export default {
         }));
         this.meetings.map(m => {
           const url = encodeURI(
-            `https://www.frontend.social/join-meeting/${m.meetingId}?params=${this.constructQueryParams(m.title)}`
+            `https://www.frontend.social/join-meeting/${m.meetingId}?${this.constructQueryParams(m.title)}`
           );
           userPageService.getOnlineUsersCount(url).then(res => {
             let meeting = this.meetings.find(mt => mt._id === m._id);
@@ -170,7 +172,7 @@ export default {
         return;
       }
       this.$router.push(
-        `/join-meeting/${meetingId}?params=${this.constructQueryParams(title)}`
+        `/join-meeting/${meetingId}?${this.constructQueryParams(title)}`
       );
     },
     onSettingsClick(meeting) {
@@ -204,7 +206,7 @@ export default {
       );
     },
     constructQueryParams(title) {
-      return btoa(`eventId=${this.eventId || ''}&userId=${this.userId || ''}&title=${title}`)
+      return `eventId=${this.eventId || ''}&userId=${this.userId || ''}&title=${title}`
     }
   }
 };
@@ -218,5 +220,10 @@ export default {
 
 .user-count {
   color: #8f8f8f;
+}
+
+.meeting-row {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
