@@ -201,7 +201,8 @@ export default {
       loading: true,
       showRating: false,
       allowReply: false,
-      commentId: ""
+      commentId: "",
+      interval: null
     };
   },
   computed: {
@@ -234,6 +235,8 @@ export default {
       });
 
     this.getComments();
+
+    this.interval = setInterval(() => this.getComments(), 10000);
   },
   mounted() {
     setTimeout(() => {
@@ -242,6 +245,11 @@ export default {
         return;
       }
     }, 1000);
+  },
+  beforeDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   },
   methods: {
     getEventTypeName: getEventTypeName,
