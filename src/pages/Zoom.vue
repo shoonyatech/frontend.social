@@ -148,7 +148,7 @@ export default {
     },
     meetingId() {
       //This will be used into the database to save and fetch comments
-      return this.event + this.groupTopic;
+      return this.$route.params.id;
     }
   },
   watch: {
@@ -170,8 +170,6 @@ export default {
   methods: {
     updateBreadcrumb() {
       let urlParams = new URLSearchParams(window.location.search);
-      const params = urlParams.get("params");
-      urlParams = new URLSearchParams(atob(params));
       this.groupTopic = urlParams.get("title");
       this.eventId = urlParams.get("eventId");
       this.userId = urlParams.get("userId");
