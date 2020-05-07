@@ -3,7 +3,7 @@
     <Loader v-show="loading" />
     <b-container>
       <b-row
-        v-infinite-scroll="loadCourses"
+        v-infinite-scroll="loadCourses('')"
         infinite-scroll-disabled="isDisableInfiniteScroll"
         infinite-scroll-distance="limit"
       >
@@ -24,7 +24,14 @@
 
         <b-col md="3">
           <div class="filters-wrapper">
-            <event-filters :on-search-params-change="onSearchParamsChange" />
+            <Filters
+              :on-search-input-change="searchCoursesWithSearchTerm"
+              :on-search-params-change="onSearchParamsChange"
+              :skills="skills"
+              :job-types="jobTypes"
+              :expertise-level="expertiseLevel"
+              :hide-city="true"
+            />
           </div>
         </b-col>
       </b-row>
@@ -33,16 +40,16 @@
 </template>
 
 <script>
-import EventFilters from "@/components/Events/EventFilters";
+import Filters from "@/components/Filters/Filters";
 import CourseStrip from "@/components/Course/CourseStrip";
-import eventService from "@/services/event.service";
+import courseService from "@/services/course.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 
 export default {
   name: "Course",
   components: {
-    EventFilters,
+    Filters,
     CourseStrip
   },
   props: {
@@ -58,6 +65,12 @@ export default {
   data() {
     return {
       courses: [],
+      skills: [
+        { name: "React", id: "react", type: "MULTISELECT", selected: false },
+        { name: "Angular", id: "angular", type: "MULTISELECT", selected: false }
+      ],
+      expertiseLevel: [],
+      jobTypes: [],
       loading: false,
       page: 1
     };
@@ -73,7 +86,7 @@ export default {
   created() {
     setTimeout(() => {
       if (!this.infiniteScroll) {
-        this.loadCourses();
+        this.loadCourses("");
       }
     }, 500);
   },
@@ -103,9 +116,10 @@ export default {
       this.limit = this.limit || 10;
       this.page = action + this.page || 1;
 
-      eventService
-        .getMyEvents(param + query, this.limit, this.page)
-        .then(courses => {
+      courseService
+        .getCourses(param + query, this.limit, this.page)
+        .then(res => {
+          var courses = res.results;
           if (!this.infiniteScroll) {
             this.courses = courses;
           } else {
@@ -117,6 +131,14 @@ export default {
           this.busy = true;
           this.loading = false;
         });
+    },
+    searchCoursesWithSearchTerm(searchText = "") {
+      this.loading = true;
+      searchText.replace(/^\s+/, "").replace(/\s+$/, "");
+      jobService.getJobs(searchText).then(jobs => {
+        this.mapJobResponse(jobs);
+        this.loading = false;
+      });
     }
   }
 };

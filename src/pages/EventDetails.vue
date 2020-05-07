@@ -201,7 +201,8 @@ export default {
       loading: true,
       showRating: false,
       allowReply: false,
-      commentId: ""
+      commentId: "",
+      interval: null
     };
   },
   computed: {
@@ -234,14 +235,21 @@ export default {
       });
 
     this.getComments();
+
+    this.interval = setInterval(() => this.getComments(), 5000);
   },
   mounted() {
-    setTimeout(() => {
-      if (this.signedInUser == null) {
-        this.$router.push("/signin");
-        return;
-      }
-    }, 1000);
+    // setTimeout(() => {
+    //   if (this.signedInUser == null) {
+    //     this.$router.push("/signin");
+    //     return;
+    //   }
+    // }, 1000);
+  },
+  beforeDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   },
   methods: {
     getEventTypeName: getEventTypeName,

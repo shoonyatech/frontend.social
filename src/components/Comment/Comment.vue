@@ -37,7 +37,7 @@
         >Reply</a>
       </div>
     </div>
-    <div v-show="isEdit && signedInUser">
+    <div v-if="signedInUser && isEdit">
       <add-comment
         ref="addcomment"
         :comment-id="commentId"
@@ -51,14 +51,14 @@
       />
     </div>
     <CommentReply
-      v-for="(reply, index) in comment.replies"
+      v-for="(reply, replyIndex) in comment.replies"
       v-show="allowReply"
       :key="reply._id"
-      :index="index"
+      :index="replyIndex"
       :reply="reply"
     />
     <add-comment-reply
-      v-show="signedInUser && isAddReply "
+      v-if="signedInUser && isAddReply "
       ref="addreply"
       :on-save="addReply"
       :on-cancel="toggleAddComment"

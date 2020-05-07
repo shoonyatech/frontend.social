@@ -1,12 +1,9 @@
-  
 <template>
   <b-container
     fluid
     class="meeting-container"
   >
-    <b-breadcrumb
-      :items="items"
-    />
+    <b-breadcrumb :items="items" />
     <b-row>
       <b-col md="9">
         <b-row>
@@ -81,7 +78,7 @@ import EventMeetings from "@/components/Events/EventMeetings.vue";
 import OnlineUsers from "@/components/OnlineUsers/OnlineUsers.vue";
 
 import commentService from "@/services/comment.service";
-import UserService from '@/services/user.service';
+import UserService from "@/services/user.service";
 import Comment from "@/components/Comment/Comment.vue";
 import AddComment from "@/components/Comment/AddComment.vue";
 import eventBus from "@/utilities/eventBus";
@@ -104,46 +101,51 @@ export default {
       showRating: false,
       allowReply: false,
       commentId: "",
-      hideComments: false
+      hideComments: false,
+      interval: null,
+      fakeUserId: Math.round(new Date().getTime() / 1000)
     };
   },
   computed: {
     zoomUrl() {
       return this.signedInUser
         ? `/jitsi.html?id=${this.$route.params.id}&name=${this.signedInUser.username}`
-        : "";
+        : `/jitsi.html?id=${this.$route.params.id}&name=Anonymous${this.fakeUserId}`;
     },
     signedInUser() {
       return this.$store.state.signedInUser;
     },
     items() {
       if (this.eventId) {
-      return [
-        {
-          text: "Events",
-          to: "/events"
-        },
-        {
-          text: this.eventTitle,
-          to: `/event/${this.eventId}`
-        },
-        {
-          text: this.groupTopic,
-          active: true
-        }
-      ];
-
+        return [
+          {
+            text: "Events",
+            to: "/events"
+          },
+          {
+            text: this.eventTitle,
+            to: `/event/${this.eventId}`
+          },
+          {
+            text: this.groupTopic,
+            active: true
+          }
+        ];
       } else {
         return [
-        {
-          text: `${this.roomOwner.name}'s Video Rooms`,
-          to: this.signedInUser && this.signedInUser.username === this.roomOwner.username ? '/me' : `/user/${this.roomOwner.username}`
-        },
-        {
-          text: this.groupTopic,
-          active: true
-        }
-        ]
+          {
+            text: `${this.roomOwner.name}'s Video Rooms`,
+            to:
+              this.signedInUser &&
+              this.signedInUser.username === this.roomOwner.username
+                ? "/me"
+                : `/user/${this.roomOwner.username}`
+          },
+          {
+            text: this.groupTopic,
+            active: true
+          }
+        ];
       }
     },
     meetingId() {
@@ -160,12 +162,17 @@ export default {
     this.updateBreadcrumb();
   },
   mounted() {
-    setTimeout(() => {
-      if (this.signedInUser == null) {
-        this.$router.push("/signin");
-        return;
-      }
-    }, 1000);
+    // setTimeout(() => {
+    //   if (this.signedInUser == null) {
+    //     this.$router.push("/signin");
+    //     return;
+    //   }
+    // }, 1000);
+  },
+  beforeDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   },
   methods: {
     updateBreadcrumb() {
@@ -177,15 +184,15 @@ export default {
         eventService.getEventById(this.eventId).then(event => {
           this.eventTitle = event.title;
         });
-
       } else if (this.userId) {
-        UserService.getUserByUserId(this.userId).then((users) => {
+        UserService.getUserByUserId(this.userId).then(users => {
           if (users.length) {
             this.roomOwner = users[0];
           }
         });
-      };
+      }
       this.getComments();
+      this.interval = setInterval(() => this.getComments(), 5000);
     },
     getComments() {
       commentService

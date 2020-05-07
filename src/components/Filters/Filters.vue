@@ -4,7 +4,7 @@
     :class="{ closed: !showFilters }"
   >
     <div
-      class="expand-button  d-block d-md-none"
+      class="expand-button d-block d-md-none"
       @click="toggleFilterViewVisibilityInMobile"
     >
       {{ `${showFilters ? "Hide" : "Show"} Filters` }}
@@ -16,12 +16,16 @@
         @input="handleInputChange"
       >
       <EditCity
+        v-show="!hideCity"
         :edit-mode="true"
         :city="city"
         :country="country"
         @change="onCityChange"
       />
-      <div class="skills-filter">
+      <div
+        v-show="skills.length > 0"
+        class="skills-filter"
+      >
         <div class="filter-label">
           Skills
         </div>
@@ -36,7 +40,10 @@
           :on-click="handleSkillSelection"
         />
       </div>
-      <div class="job-type-time">
+      <div
+        v-show="jobTypes.length > 0"
+        class="job-type-time"
+      >
         <div class="filter-label">
           Job Type
         </div>
@@ -51,7 +58,10 @@
           :on-click="handleJobSelection"
         />
       </div>
-      <div class="expertise-level-filters">
+      <div
+        v-show="expertiseLevel.length > 0"
+        class="expertise-level-filters"
+      >
         <div class="filter-label">
           Experience Level
         </div>
@@ -120,17 +130,27 @@ export default {
     jobTypes: {
       type: Array,
       required: true
+    },
+    expertiseLevel: {
+      type: Array,
+      required: false,
+      default: function() {
+        const { beginner, expert, intermediate } = filtersSet;
+        return [beginner, intermediate, expert];
+      }
+    },
+    hideCity: {
+      type: Boolean,
+      default: false
     }
   },
   data: function() {
-    const { beginner, expert, intermediate } = filtersSet;
     let selectedLevel;
     return {
       filterTypes: {
         CHECKBOX: "checkbox",
         RADIO: "radio"
       },
-      expertiseLevel: [beginner, intermediate, expert],
       showFilters: true,
       selectedLevel,
       city: null,
