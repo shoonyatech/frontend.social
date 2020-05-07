@@ -25,7 +25,8 @@ export default {
     return {
       onlineUsers: [],
       interval: null,
-      intervalAddOnlineUser: null
+      intervalAddOnlineUser: null,
+      fakeUserId: Math.round(new Date().getTime() / 1000)
     };
   },
   created() {
@@ -51,9 +52,17 @@ export default {
 
   methods: {
     getOnlineUsers() {
-      const signedInUser = this.$store.state.signedInUser;
-    
-    var payload = {
+      var signedInUser = this.$store.state.signedInUser;
+
+      if (!signedInUser) {
+        signedInUser = {
+          username: "Anonymous" + this.fakeUserId,
+          profilePic: null,
+          name: "Anonymous User"
+        };
+      }
+
+      var payload = {
         createdTime: Date.now(),
         username: signedInUser.username,
         avatar: signedInUser.profilePic,
