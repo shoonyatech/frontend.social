@@ -110,7 +110,7 @@ export default {
     zoomUrl() {
       return this.signedInUser
         ? `/jitsi.html?id=${this.$route.params.id}&name=${this.signedInUser.username}`
-        : '' //`/jitsi.html?id=${this.$route.params.id}&name=Anonymous${this.fakeUserId}`;
+        : ""; //`/jitsi.html?id=${this.$route.params.id}&name=Anonymous${this.fakeUserId}`;
     },
     signedInUser() {
       return this.$store.state.signedInUser;
@@ -159,6 +159,15 @@ export default {
     }
   },
   created() {
+    if (
+      window.location.href.includes(
+        "params=ZXZlbnRJZD01ZThmNWFjMWExZDQxYzAwMTczMTc0M2YmdXNlcklkPSZ0aXRsZT1BZnRlciBQYXJ0eQ%3D%3D"
+      )
+    ) {
+      window.location.href =
+        "https://www.frontend.social/join-meeting/After%20Party-d82562dd-06f7-4ef1-9a60-0bc89000fcd5?eventId=5e8f5ac1a1d41c001731743f&userId=&title=After%20Party";
+    }
+
     this.updateBreadcrumb();
   },
   mounted() {
