@@ -110,7 +110,7 @@ export default {
     zoomUrl() {
       return this.signedInUser
         ? `/jitsi.html?id=${this.$route.params.id}&name=${this.signedInUser.username}`
-        : `/jitsi.html?id=${this.$route.params.id}&name=Anonymous${this.fakeUserId}`;
+        : '' //`/jitsi.html?id=${this.$route.params.id}&name=Anonymous${this.fakeUserId}`;
     },
     signedInUser() {
       return this.$store.state.signedInUser;
@@ -162,12 +162,12 @@ export default {
     this.updateBreadcrumb();
   },
   mounted() {
-    // setTimeout(() => {
-    //   if (this.signedInUser == null) {
-    //     this.$router.push("/signin");
-    //     return;
-    //   }
-    // }, 1000);
+    setTimeout(() => {
+      if (this.signedInUser == null) {
+        this.$router.push("/signin");
+        return;
+      }
+    }, 1000);
   },
   beforeDestroy() {
     if (this.interval) {
