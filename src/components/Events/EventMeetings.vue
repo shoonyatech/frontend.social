@@ -101,7 +101,7 @@ export default {
       return this.type === 'EVENT' ? this.id : null;
     },
     userId() {
-      return this.type === 'USER' ? this.id : 'Anonymous';
+      return this.type === 'USER' ? this.id : null;
     }
   },
   mounted() {
