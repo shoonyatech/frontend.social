@@ -236,15 +236,15 @@ export default {
 
     this.getComments();
 
-    this.interval = setInterval(() => this.getComments(), 10000);
+    this.interval = setInterval(() => this.getComments(), 5000);
   },
   mounted() {
-    setTimeout(() => {
-      if (this.signedInUser == null) {
-        this.$router.push("/signin");
-        return;
-      }
-    }, 1000);
+    // setTimeout(() => {
+    //   if (this.signedInUser == null) {
+    //     this.$router.push("/signin");
+    //     return;
+    //   }
+    // }, 1000);
   },
   beforeDestroy() {
     if (this.interval) {

@@ -101,7 +101,7 @@ export default {
       return this.type === 'EVENT' ? this.id : null;
     },
     userId() {
-      return this.type === 'USER' ? this.id : null;
+      return this.type === 'USER' ? this.id : 'Anonymous';
     }
   },
   mounted() {
@@ -167,10 +167,10 @@ export default {
       }
     },
     joinMeeting(meetingId, title) {
-      if (this.signedInUser == null) {
-        this.$router.push("/signin");
-        return;
-      }
+      // if (this.signedInUser == null) {
+      //   this.$router.push("/signin");
+      //   return;
+      // }
       this.$router.push(
         `/join-meeting/${meetingId}?${this.constructQueryParams(title)}`
       );

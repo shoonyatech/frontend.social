@@ -102,14 +102,15 @@ export default {
       allowReply: false,
       commentId: "",
       hideComments: false,
-      interval: null
+      interval: null,
+      fakeUserId: Math.round(new Date().getTime() / 1000)
     };
   },
   computed: {
     zoomUrl() {
       return this.signedInUser
         ? `/jitsi.html?id=${this.$route.params.id}&name=${this.signedInUser.username}`
-        : "";
+        : `/jitsi.html?id=${this.$route.params.id}&name=Anonymous${this.fakeUserId}`;
     },
     signedInUser() {
       return this.$store.state.signedInUser;
@@ -161,12 +162,12 @@ export default {
     this.updateBreadcrumb();
   },
   mounted() {
-    setTimeout(() => {
-      if (this.signedInUser == null) {
-        this.$router.push("/signin");
-        return;
-      }
-    }, 1000);
+    // setTimeout(() => {
+    //   if (this.signedInUser == null) {
+    //     this.$router.push("/signin");
+    //     return;
+    //   }
+    // }, 1000);
   },
   beforeDestroy() {
     if (this.interval) {
@@ -191,7 +192,7 @@ export default {
         });
       }
       this.getComments();
-      this.interval = setInterval(() => this.getComments(), 10000);
+      this.interval = setInterval(() => this.getComments(), 5000);
     },
     getComments() {
       commentService
