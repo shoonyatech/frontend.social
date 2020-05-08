@@ -8,7 +8,22 @@
         infinite-scroll-distance="limit"
       >
         <b-col md="9">
-          <h1>Courses</h1>
+          <h1>
+            Courses
+            <span
+              v-if="!infiniteScroll"
+              class="navigation-button"
+            >
+              <button
+                :disabled="courses.length === 0"
+                @click="loadCourses('','next')"
+              >&#8250;</button>
+              <button
+                :disabled="page === 1"
+                @click="loadCourses('','previous')"
+              >&#8249;</button>
+            </span>
+          </h1>
           <course-strip
             v-for="(course, index) in courses"
             :key="index"
@@ -50,11 +65,11 @@ export default {
   props: {
     infiniteScroll: {
       type: Boolean,
-      default: false
+      default: true
     },
     limit: {
       type: Number,
-      default: 5
+      default: 10
     }
   },
   data() {
@@ -102,30 +117,24 @@ export default {
           action = 0;
           break;
       }
-      let query = "";
-      if (this.signedInUser) {
-        query = "&username=" + this.signedInUser.username;
-      }
 
       this.busy = false;
       this.limit = this.limit || 10;
       this.page = action + this.page || 1;
 
-      courseService
-        .getCourses(param + query, this.limit, this.page)
-        .then(res => {
-          var courses = res.results;
-          if (!this.infiniteScroll) {
-            this.courses = courses;
-          } else {
-            this.courses = this.courses.concat(courses);
-            if (courses.length > 0) {
-              ++this.page;
-            }
+      courseService.getCourses(param, this.limit, this.page).then(res => {
+        var courses = res.results;
+        if (!this.infiniteScroll) {
+          this.courses = courses;
+        } else {
+          this.courses = this.courses.concat(courses);
+          if (courses.length > 0) {
+            ++this.page;
           }
-          this.busy = true;
-          this.loading = false;
-        });
+        }
+        this.busy = true;
+        this.loading = false;
+      });
     },
     searchCoursesWithSearchTerm(searchText = "") {
       this.loading = true;
