@@ -119,9 +119,9 @@ export default {
 
       courseService.getCourses(param, this.limit, this.page).then(res => {
         var courses = res.results;
-        if (this.skills.length != res.meta.filters.skills.length) {
-          this.skills = res.meta.filters.skills;
-        }
+
+        this.skills = res.meta.filters.skills;
+
         if (!this.infiniteScroll) {
           this.courses = courses;
         } else {
