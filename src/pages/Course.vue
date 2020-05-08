@@ -2,11 +2,10 @@
   <div class="events">
     <Loader v-show="loading" />
     <b-container>
-      <b-row
-        v-infinite-scroll="loadCourses('')"
-        infinite-scroll-disabled="isDisableInfiniteScroll"
-        infinite-scroll-distance="limit"
-      >
+      <b-row>
+        <!-- v-infinite-scroll="loadCourses('')"
+        infinite-scroll-disabled="true"
+        infinite-scroll-distance="limit"-->
         <b-col md="9">
           <h1>
             Courses
@@ -35,7 +34,6 @@
         <b-col md="3">
           <div class="filters-wrapper">
             <Filters
-              :on-search-input-change="searchCoursesWithSearchTerm"
               :on-search-params-change="onSearchParamsChange"
               :skills="skills"
               :job-types="jobTypes"
@@ -65,7 +63,7 @@ export default {
   props: {
     infiniteScroll: {
       type: Boolean,
-      default: true
+      default: false
     },
     limit: {
       type: Number,
@@ -75,10 +73,7 @@ export default {
   data() {
     return {
       courses: [],
-      skills: [
-        { name: "React", id: "react", type: "MULTISELECT", selected: false },
-        { name: "Angular", id: "angular", type: "MULTISELECT", selected: false }
-      ],
+      skills: [],
       expertiseLevel: [],
       jobTypes: [],
       loading: false,
@@ -124,6 +119,9 @@ export default {
 
       courseService.getCourses(param, this.limit, this.page).then(res => {
         var courses = res.results;
+        if (this.skills.length != res.meta.filters.skills.length) {
+          this.skills = res.meta.filters.skills;
+        }
         if (!this.infiniteScroll) {
           this.courses = courses;
         } else {
@@ -133,14 +131,6 @@ export default {
           }
         }
         this.busy = true;
-        this.loading = false;
-      });
-    },
-    searchCoursesWithSearchTerm(searchText = "") {
-      this.loading = true;
-      searchText.replace(/^\s+/, "").replace(/\s+$/, "");
-      jobService.getJobs(searchText).then(jobs => {
-        this.mapJobResponse(jobs);
         this.loading = false;
       });
     }
