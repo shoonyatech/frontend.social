@@ -9,17 +9,12 @@
       >
         <b-col md="9">
           <h1>Courses</h1>
-          <div
+          <course-strip
             v-for="(course, index) in courses"
             :key="index"
-          >
-            <div class="course-card-container">
-              <course-strip
-                :course="course"
-                class="course-card"
-              />
-            </div>
-          </div>
+            :course="course"
+            class="course-card"
+          />
         </b-col>
 
         <b-col md="3">
@@ -171,12 +166,8 @@ export default {
 }
 
 .course-card {
-  margin-bottom: 1rem;
-  display: inline-block;
-}
-
-.course-card-container {
-  width: 100%;
+  margin: 0.5rem;
+  display: inline-flex;
   text-align: center;
 }
 </style>

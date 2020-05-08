@@ -1,30 +1,16 @@
 <template>
   <!-- div for searching course -->
-  <router-link :to="'/course/' + course.name + '/' + course.country">
+  <router-link :to="'/course/' + course._id ">
     <div class="thumbnail">
-      <img
-        class="photo"
-        :src="`/images/cities/${course.name}-${course.country}.jpg`"
-        alt="course"
-      >
       <div class="details">
-        <div class="inline-block">
-          <span>{{ course.name }}</span>
-          <span v-if="course.oldName"> ({{ course.oldName }})</span>,
-          <span>{{ course.country }}</span>
+        <div class="course-title">
+          {{ course.courseName }}
         </div>
-        <div class="text-xs tiny-details">
-          <tiny-key-value
-            v-for="(skill, index) in course.topSkills"
-            :key="index"
-            :label="skill.skill"
-            :value="skill.count"
-            class="half-width pr-2"
-          />
+        <div class="course-description">
+          {{ course.description }}
         </div>
-        <div class="text-xs inline-block">
-          <span>{{ course.latestEvent != null ? course.latestEvent.join(", ") : "" }}
-          </span>
+        <div class="button">
+          <Button label="Explore" />
         </div>
       </div>
     </div>
@@ -32,11 +18,11 @@
 </template>
 
 <script>
-import TinyKeyValue from "@/components/common/TinyKeyValue";
+import Button from "@/components/Buttons/Button";
 
 export default {
   components: {
-    TinyKeyValue
+    Button
   },
   props: {
     course: { type: Object, required: true }
@@ -75,5 +61,23 @@ export default {
 
 .pr-2 {
   padding-right: 10px;
+}
+
+.course-title {
+  font-weight: bold;
+  text-align: center;
+  padding: 1rem;
+}
+
+.course-description {
+  font-size: 0.6rem;
+  block-size: 5.5rem;
+  overflow: hidden;
+}
+
+.button {
+  text-align: center;
+  position: inherit;
+  padding: 1rem;
 }
 </style>
