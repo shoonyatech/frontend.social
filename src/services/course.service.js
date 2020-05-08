@@ -4,8 +4,7 @@ export default {
     getCourses: (searchText = "", limit = 100, page = 1) => {
         var pagination = "&limit=" + limit + "&page=" + page;
 
-        const searchQuery = searchText.length ? `searchText=${searchText}` : "";
-        const courseQuery = `course?${searchQuery}`;
+        const courseQuery = `course?${searchText}`;
         return httpClient.get(courseQuery + pagination);
     },
 

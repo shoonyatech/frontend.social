@@ -6,11 +6,17 @@
         <div class="course-title">
           {{ course.courseName }}
         </div>
+        <div class="course-technology">
+          {{ course.technology }}
+        </div>
         <div class="course-description">
           {{ course.description }}
         </div>
         <div class="button">
-          <Button label="Explore" />
+          <Button
+            label="Explore"
+            :click="onExploreClick"
+          />
         </div>
       </div>
     </div>
@@ -28,7 +34,11 @@ export default {
     course: { type: Object, required: true }
   },
 
-  methods: {}
+  methods: {
+    onExploreClick() {
+      this.$router.push("/course/" + course._id);
+    }
+  }
 };
 </script>
 
@@ -41,12 +51,6 @@ export default {
   min-width: 12rem;
   color: #2c3e50;
   text-decoration: none;
-}
-
-.thumbnail .photo {
-  background-color: #114273;
-  height: 5rem;
-  width: 100%;
 }
 
 .details {
@@ -66,18 +70,25 @@ export default {
 .course-title {
   font-weight: bold;
   text-align: center;
-  padding: 1rem;
+  padding-top: 0.8rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.course-technology {
+  font-size: 0.6rem;
+  font-weight: bold;
+  text-align: center;
 }
 
 .course-description {
   font-size: 0.6rem;
-  block-size: 5.5rem;
+  block-size: 6.5rem;
   overflow: hidden;
 }
 
 .button {
   text-align: center;
   position: inherit;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 </style>
