@@ -1,42 +1,39 @@
 <template>
-  <!-- div for searching course -->
-  <router-link :to="'/learn/course/' + course._id ">
-    <div class="thumbnail">
-      <div class="details">
-        <div class="course-title">
-          {{ course.title }}
-        </div>
-        <div class="course-technology">
-          {{ course.technology }}
-        </div>
-        <div class="course-description">
-          {{ course.description }}
-        </div>
-        <div class="button">
-          <Button
-            label="Explore"
-            :click="onExploreClick"
-          />
-        </div>
-      </div>
-    </div>
-  </router-link>
+  <div>
+    <b-card>
+      <b-card v-b-toggle="'collapse-' +chapter._id">
+        {{ chapter.title }}
+      </b-card>
+      <b-collapse
+        :id="'collapse-'+chapter._id"
+        class="mt-2"
+      >
+        <b-card
+          v-for="(section, index) in chapter.sections"
+          :key="index"
+        >
+          <div>Chapter {{ index+1 }}: {{ section.title }}</div>
+        </b-card>
+      </b-collapse>
+    </b-card>
+  </div>
 </template>
 
 <script>
-import Button from "@/components/Buttons/Button";
-
 export default {
-  components: {
-    Button
-  },
+  name: "ChapterStrip",
+  components: {},
   props: {
-    course: { type: Object, required: true }
+    chapter: { type: Object, required: true }
   },
-
+  data() {
+    return {
+      showSections: false
+    };
+  },
   methods: {
-    onExploreClick() {
-      this.$router.push("/learn/course/" + course._id);
+    toggleShowSections() {
+      this.showSections = !this.showSections;
     }
   }
 };

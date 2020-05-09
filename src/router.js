@@ -113,9 +113,14 @@ const router = new Router({
       component: () => import("./pages/Zoom.vue")
     },
     {
-      path: "/course",
+      path: "/learn/course/:id",
       name: "course",
-      component: () => import("./pages/Course.vue")
+      component: () => import("./pages/CourseDetails.vue")
+    },
+    {
+      path: "/learn/course",
+      name: "course",
+      component: () => import("./pages/Courses.vue")
     },
 
   ]

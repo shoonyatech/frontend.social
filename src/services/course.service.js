@@ -7,6 +7,10 @@ export default {
         const courseQuery = `course?${searchText}`;
         return httpClient.get(courseQuery + pagination);
     },
+    getCoursesById: (id) => {
+        const courseQuery = `course/${id}`;
+        return httpClient.get(courseQuery);
+    },
 
     addCourse: payload => {
         return httpClient.post("course", payload);
