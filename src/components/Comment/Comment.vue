@@ -56,6 +56,7 @@
       :key="reply._id"
       :index="replyIndex"
       :reply="reply"
+      :on-delete-reply="deleteReply"
     />
     <add-comment-reply
       v-if="signedInUser && isAddReply "
@@ -98,10 +99,12 @@ export default {
       default: ""
     },
     onEdit: {
-      type: Function
+      type: Function,
+      required: true
     },
     index: {
-      type: Number
+      type: Number,
+      required: true
     },
     allowReply: {
       type: Boolean,
@@ -112,7 +115,8 @@ export default {
       default: false
     },
     onSave: {
-      type: Function
+      type: Function,
+      required: true
     },
     commentId: {
       type: String,
@@ -138,6 +142,23 @@ export default {
       var add = commentService.editComment(this.commentId, this.comment);
 
       add
+        .then(response => {
+          //this.toggleAddComment();
+        })
+        .catch(() => {
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR
+          });
+        });
+    },
+    deleteReply(index) {
+      this.comment.replies.splice(index, 1);
+
+      var del = commentService.editComment(this.commentId, this.comment);
+
+      del
         .then(response => {
           //this.toggleAddComment();
         })
