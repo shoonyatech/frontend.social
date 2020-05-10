@@ -5,7 +5,13 @@
       <span
         class="float-right cursor-pointer"
       >
-        <b-icon-pencil />
+        <img
+          v-if="signedInUser && signedInUser.username==reply.createdBy"
+          :src="`/images/delete.svg`"
+          class="icon-button float-right"
+          alt="delete"
+          @click="onDeleteReply(index)"
+        >
       </span>
     </div>
     <div>{{ reply.replyText }}</div>
@@ -15,12 +21,26 @@
 export default {
   name: "CommentReply",
   props: {
+    index: {
+      type: Number,
+      required: true
+    },
     reply: {
       type: Object,
       required: true
+    },
+    onDeleteReply: {
+      type: Function,
+      required: true
     }
   },
-  created() {}
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    }
+  },
+  created() {},
+  methods: {}
 };
 </script>
 <style lang="scss" scoped>
