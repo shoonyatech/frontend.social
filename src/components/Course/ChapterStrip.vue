@@ -12,7 +12,7 @@
           v-for="(topic, index) in chapter.topics"
           :key="index"
         >
-          <router-link :to="'/learn/course/topic/'+ topic._id ">
+          <router-link :to="'/learn/course/'+courseId+'/'+chapter.chapterNo+'/'+ topic._id ">
             <div class="topic-container">
               {{ topic.title }}
             </div>

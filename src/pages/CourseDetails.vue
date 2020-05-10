@@ -110,7 +110,7 @@ export default {
     return {
       course: {},
       hideComments: false,
-      showRating: false,
+      showRating: true,
       allowReply: true,
       commentId: "",
       comments: []
