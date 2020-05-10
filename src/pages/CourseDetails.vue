@@ -7,41 +7,61 @@
           md="6"
           sm="12"
         >
-          <ChapterStrip
+          <chapter-strip
             v-for="(chapter, index) in course.chapters"
             :key="index"
             :chapter="chapter"
+            :course-id="course._id"
           />
         </b-col>
         <b-col
           md="6"
           sm="12"
         >
-          <b-row>
-            <b-col>
-              <youtube
-                ref="youtube"
-                :video-id="course.introductoryVideoId"
-                width="100%"
-                height="400"
-              />
-            </b-col>
-          </b-row>
-          <b-row>
-            <b-col>
-              <div
-                ref="description"
-                class="course-description"
-                v-html="course.description"
-              />
-            </b-col>
-          </b-row>
+          <youtube
+            ref="youtube"
+            :video-id="course.introductoryVideoUrl"
+            width="100%"
+            height="400"
+          />
+        </b-col>
+      </b-row>
+      <b-row class="description">
+        <b-col md="1" />
+        <b-col
+          md="10"
+          sm="12"
+        >
+          <h1>Course Description</h1>
+          <div
+            ref="description"
+            class="course-description"
+            v-html="course.description"
+          />
+        </b-col>
+      </b-row>
+      <b-row
+        v-if="course.author"
+        class="description"
+      >
+        <b-col md="1" />
+        <b-col
+          md="10"
+          sm="12"
+        >
+          <h1>About Author</h1>
+          {{ course.author.name }}
+          <div
+            ref="description"
+            class="course-author-description"
+            v-html="course.author.description"
+          />
         </b-col>
       </b-row>
 
       <b-row v-if="!hideComments">
-        <b-col md="2" />
-        <b-col md="8">
+        <b-col md="1" />
+        <b-col md="10">
           <add-comment
             ref="addcomment"
             :comment-id="commentId"
@@ -89,7 +109,6 @@ export default {
   data() {
     return {
       course: {},
-      videoId: "7iUqMA2Y6xA",
       hideComments: false,
       showRating: false,
       allowReply: true,
@@ -182,5 +201,12 @@ h1 {
 }
 .course-description {
   font-size: 0.8rem;
+}
+.course-author-description {
+  font-size: 0.8rem;
+}
+.description {
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
 </style>

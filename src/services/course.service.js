@@ -8,8 +8,7 @@ export default {
         return httpClient.get(courseQuery + pagination);
     },
     getCoursesById: (id) => {
-        const courseQuery = `course/${id}`;
-        return httpClient.get(courseQuery);
+        return httpClient.get(`course/${id}`);
     },
 
     addCourse: payload => {

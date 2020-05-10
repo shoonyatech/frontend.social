@@ -1,19 +1,23 @@
 <template>
   <div>
     <b-card>
-      <b-card v-b-toggle="'collapse-' +chapter._id">
-        {{ chapter.title }}
-      </b-card>
+      <div v-b-toggle="'collapse-' +chapter._id">
+        Chapter {{ chapter.chapterNo }}:{{ chapter.title }}
+      </div>
       <b-collapse
         :id="'collapse-'+chapter._id"
         class="mt-2"
       >
-        <b-card
-          v-for="(section, index) in chapter.sections"
+        <div
+          v-for="(topic, index) in chapter.topics"
           :key="index"
         >
-          <div>Chapter {{ index+1 }}: {{ section.title }}</div>
-        </b-card>
+          <router-link :to="'/learn/course/topic/'+ topic._id ">
+            <div class="topic-container">
+              {{ topic.title }}
+            </div>
+          </router-link>
+        </div>
       </b-collapse>
     </b-card>
   </div>
@@ -24,7 +28,14 @@ export default {
   name: "ChapterStrip",
   components: {},
   props: {
-    chapter: { type: Object, required: true }
+    chapter: {
+      type: Object,
+      required: true
+    },
+    courseId: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {
@@ -87,5 +98,13 @@ export default {
   text-align: center;
   position: inherit;
   padding: 0.5rem;
+}
+
+.topic-container {
+  border-style: solid;
+  padding: 10px;
+  border-color: #dfdfdf;
+  border-width: 1px;
+  margin-bottom: 1px;
 }
 </style>
