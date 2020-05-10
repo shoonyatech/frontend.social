@@ -13,5 +13,8 @@ export default {
 
     addCourse: payload => {
         return httpClient.post("course", payload);
-    }
+    },
+    getByTopicId: (id) => {
+        return httpClient.get(`course/topic/${id}`);
+    },
 };

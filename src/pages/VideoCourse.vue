@@ -1,17 +1,7 @@
 <template>
   <div class="host">
     <b-container>
-      <b-row>
-        <b-col
-          md="12"
-          sm="12"
-        >
-          <span class="course-heading">{{ course }} > {{ courseName }}</span>
-          <h1>
-            <span>{{ courseTopic }}</span>
-          </h1>
-        </b-col>
-      </b-row>
+      <b-breadcrumb :items="items" />
       <b-row>
         <b-col
           md="6"
@@ -36,7 +26,7 @@
         >
           <youtube
             ref="youtube"
-            :video-id="videoId"
+            :video-id="topic.videoUrl"
             width="100%"
             height="400"
           />
@@ -49,16 +39,20 @@
           <CodeEditor :url="codeEditorURL" />
         </b-col>
       </b-row>
-      <b-row v-if="!hideComments">
-        <b-col md="2" />
-        <b-col md="8">
+      <b-row
+        v-if="!hideComments"
+        class="comment-section"
+      >
+        <b-col md="1" />
+        <b-col md="10">
+          <h1>Questions and Answers</h1>
           <add-comment
             ref="addcomment"
             :comment-id="commentId"
             :on-save="saveComment"
             :on-cancel="cancelComment"
             :show-rating="showRating"
-            :parent-id="courseId"
+            :parent-id="topic._id"
             class="mt-1"
           />
           <Comment
@@ -86,7 +80,9 @@ import Checkbox from "@/components/Checkbox/Checkbox";
 import Comment from "@/components/Comment/Comment";
 import AddComment from "@/components/Comment/AddComment";
 import commentService from "@/services/comment.service";
+import courseService from "@/services/course.service";
 import eventBus from "@/utilities/eventBus";
+import { ToastType, messages } from "@/constants/constants";
 export default {
   name: "VideoCourse",
   components: {
@@ -95,26 +91,11 @@ export default {
     Comment,
     AddComment
   },
-  props: {
-    course: {
-      type: String,
-      default: "Angular"
-    },
-    courseName: {
-      type: String,
-      default: "Basic Angular"
-    },
-    courseTopic: {
-      type: String,
-      default: "Data Binding"
-    }
-  },
+  props: {},
   data() {
     return {
-      courseId: "5e9d7d650018553a2cc5366a",
-      videoId: "7iUqMA2Y6xA",
-      codeEditorURL:
-        "https://codesandbox.io/embed/xenodochial-browser-5hhd3?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fcomponents%2FHelloWorld.vue&theme=dark",
+      courseId: "",
+      codeEditorURL: "",
       isAutoSync: true,
       timer: "",
       videoSRTData: [
@@ -165,12 +146,37 @@ export default {
       showRating: false,
       allowReply: true,
       commentId: "",
-      comments: []
+      comments: [],
+      course: {},
+      topic: {}
     };
+  },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    },
+    items() {
+      return [
+        {
+          text: "Courses",
+          to: "/learn/course"
+        },
+        {
+          text: this.course.title,
+          to: "/learn/course/" + this.course._id
+        },
+        {
+          text: this.topic.title,
+          active: true
+        }
+      ];
+    }
+  },
+  mounted() {
+    this.loadTopic(this.$route.params.chapterno, this.$route.params.topicid);
   },
   created() {
     this.setTimer();
-    this.getComments();
   },
   beforeDestroy() {
     clearInterval(this.timer);
@@ -205,7 +211,7 @@ export default {
     setCodeEditorURL(videoTimeInSeconds) {
       var time = this.convertSecondToTimeFormat(videoTimeInSeconds);
 
-      const result = this.videoSRTData
+      const result = this.topic.codeSubtitles
         .filter(x => x.time == time)
         .map(y => y.file);
 
@@ -213,7 +219,7 @@ export default {
     },
     getComments() {
       commentService
-        .getComment(this.courseId)
+        .getComment(this.topic._id)
         .then(response => {
           this.comments = response; //.push(...response);
         })
@@ -245,7 +251,18 @@ export default {
     editComment(commentId) {
       this.commentId = commentId;
     },
-    cancelComment(){}
+    cancelComment() {},
+    loadTopic(chapterNo, topicId) {
+      courseService.getByTopicId(topicId).then(res => {
+        this.course = res;
+
+        this.topic = res.chapters
+          .find(x => x.chapterNo == chapterNo)
+          .topics.find(x => x._id === topicId);
+        this.codeEditorURL = this.topic.codeLink;
+        this.getComments();
+      });
+    }
   }
 };
 </script>
@@ -255,11 +272,7 @@ export default {
   width: 100%;
   margin-bottom: 0.8rem;
 }
-.course-heading {
-  color: #23bdee;
-  font-size: 17px;
-}
-h1 {
-  font-size: 0.9rem;
+.comment-section {
+  margin-top: 20px;
 }
 </style>
