@@ -36,6 +36,7 @@
     "vue-cookies": "^1.6.1",
     "vue-country-region-select": "^2.0.11",
     "vue-infinite-scroll": "^2.0.2",
+    "vue-markdown": "^2.2.4",
     "vue-moment": "^4.1.0",
     "vue-router": "^3.1.5",
     "vue-star-rating": "^1.6.1",
