@@ -83,6 +83,7 @@
             </b-form-group>
           </form>
         </div>
+        <ComicStrips />
       </b-col>
     </b-row>
   </b-container>
@@ -93,12 +94,13 @@ import SignInButtons from "@/components/Signin/SignInButtons";
 import LatestArticles from "@/components/Learn/LatestArticles";
 import UpcomingEvents from "@/components/Events/UpcomingEvents";
 import newsletterService from "@/services/newsletter.service";
+import ComicStrips from '@/components/ComicStrips/ComicStrips';
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 
 export default {
   name: "Home",
-  components: { SignInButtons, LatestArticles, UpcomingEvents },
+  components: { SignInButtons, LatestArticles, UpcomingEvents, ComicStrips },
   data() {
     return {
       emailState: null,
