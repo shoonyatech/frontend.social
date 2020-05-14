@@ -11,9 +11,15 @@
         v-for="(image, index) in images"
         :key="index"
         :img-src="image"
-        @click.native="onClick"
       />
     </b-carousel>
+    <div
+      class="twitter-handle"
+      @click="onClick"
+    >
+      <img src="/images/twitter.svg">
+      <span>@FrontendCity</span>
+    </div>
   </div>
 </template>
 
@@ -54,5 +60,16 @@ export default {
   margin-bottom: 12px;
   width: 100%;
   display: inline-block;
+}
+
+.twitter-handle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  img {
+    height: 30px;
+    width: 30px;
+  }
 }
 </style>
