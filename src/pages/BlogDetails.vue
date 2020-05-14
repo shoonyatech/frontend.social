@@ -3,7 +3,7 @@
     <b-container>
       <b-row class="description">
         <b-col>
-          <h1>Blog Name</h1>
+          <h1>{{ blog.title }}</h1>
           <vue-markdown :source="blogData" />
         </b-col>
       </b-row>
