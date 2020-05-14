@@ -109,7 +109,7 @@ const router = new Router({
     },
     {
       path: "/learn/course/:id",
-      name: "course",
+      name: "courseDetails",
       component: () => import("./pages/CourseDetails.vue")
     },
     {
@@ -123,7 +123,7 @@ const router = new Router({
       component: () => import("./pages/VideoCourse.vue")
     },
     {
-      path: "/blog/:blogdetailid/:blogname",
+      path: "/blog/:id/:blogname",
       name: "blogDetails",
       component: () => import("./pages/BlogDetails.vue")
     },

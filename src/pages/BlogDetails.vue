@@ -43,7 +43,7 @@
 import Comment from "@/components/Comment/Comment";
 import AddComment from "@/components/Comment/AddComment";
 import commentService from "@/services/comment.service";
-// import blogService from "@/services/blog.service";
+import blogService from "@/services/blog.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 import VueMarkdown from "vue-markdown";
@@ -80,7 +80,7 @@ export default {
     }
   },
   mounted() {
-    this.loadBlog(this.$route.params.blogid);
+    this.loadBlog(this.$route.params.id);
   },
   created() {},
   beforeDestroy() {
@@ -89,30 +89,20 @@ export default {
 
   methods: {
     loadBlog(blogId) {
-      this.blogData = `
+      blogService.getBlogById(blogId).then(res => {
+        this.blog = res;
+        fetch(this.blog.markdownUrl)
+          .then(response => response.text())
+          .then(response => (this.blogData = response));
 
-
-## **A Good Choice for Anyone Familiar with Word**
-
-Microsoft Word is the de facto productivity software for millions of users. Writage helps you become familiar with the no-frills utility of Markdown. It has a simple syntax, and using it every day can make you skilled at it.
-
-I will recommend Markdown (and Writage) at the top of my voice if you have any kind of a writing job.
-
-**Don’t forget to come back here and tell us what you feel about Markdown in general and Writage as a Markdown converter.**
-
-Want to write Markdown from scratch? Use our [Markdown cheat sheet](https://www.makeuseof.com/tag/printable-markdown-cheat-sheet/) and [learn to make a table in Markdown](https://www.makeuseof.com/tag/create-markdown-table/)!
-
-      `;
-      //   blogService.getBlogById(blogId).then(res => {
-      //     this.blog = res;
-      //     this.getComments();
-      //   });
+        this.getComments();
+      });
     },
     getComments() {
       commentService
         .getComment(this.blog._id)
         .then(response => {
-          this.comments = response; //.push(...response);
+          this.comments = response;
         })
         .catch(() => {
           eventBus.$emit("show-toast", {
