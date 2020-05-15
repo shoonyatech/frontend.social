@@ -65,6 +65,8 @@ export default {
           // }
         })
         .catch(e => {});
+    } else if(localStorage.getItem('GUEST_USER')) {
+      this.$store.commit('setGuestUser', JSON.parse(localStorage.getItem('GUEST_USER')));
     }
 
     this.$store.dispatch("fetchSkills");

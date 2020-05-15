@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     signedInUser: null,
     skills: [],
+    guestUser: null,
   },
   mutations: {
     signInUser(state, user) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     setSkills(state, skills) {
       state.skills = skills;
+    },
+    setGuestUser(state, guestUser) {
+      state.guestUser = guestUser;
     }
   },
   actions: {

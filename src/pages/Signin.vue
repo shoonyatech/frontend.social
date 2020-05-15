@@ -14,11 +14,33 @@
         </div>
       </b-col>
     </b-row>
+    <b-row>
+      <b-col
+        md="12"
+        class="guest-user"
+      >
+        <div>Or</div>
+        <div>
+          <input
+            v-model.trim="guestUsername"
+            type="text"
+            placeholder="Username"
+          >
+          <button
+            :disabled="!guestUsername"
+            @click="signInAsUser"
+          >
+            Continue as Guest
+          </button>
+        </div>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
 <script>
 import SignInButtons from "@/components/Signin/SignInButtons";
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   components: {
@@ -26,7 +48,8 @@ export default {
   },
   data() {
     return {
-      loading: true
+      loading: true,
+      guestUsername: '',
     };
   },
   created() {},
@@ -35,7 +58,14 @@ export default {
       this.loading = false;
     }, 1000);
   },
-  methods: {}
+  methods: {
+    signInAsUser() {
+      const user = {name: this.guestUsername, username: uuidv4()};
+      localStorage.setItem('GUEST_USER', JSON.stringify(user));
+      this.$store.commit('setGuestUser', user);
+      this.$router.go(-1);
+    }
+  }
 };
 </script>
 
@@ -48,5 +78,10 @@ export default {
   .label {
     margin-bottom: 20px;
   }
+}
+.guest-user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
