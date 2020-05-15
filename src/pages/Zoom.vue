@@ -108,12 +108,16 @@ export default {
   },
   computed: {
     zoomUrl() {
-      return this.signedInUser
-        ? `/jitsi.html?id=${this.$route.params.id}&name=${this.signedInUser.username}`
+      const username = this.signedInUser ? this.signedInUser.username : this.guestUser ? this.guestUser.name : null;
+      return username
+        ? `/jitsi.html?id=${this.$route.params.id}&name=${username}`
         : ""; //`/jitsi.html?id=${this.$route.params.id}&name=Anonymous${this.fakeUserId}`;
     },
     signedInUser() {
       return this.$store.state.signedInUser;
+    },
+    guestUser() {
+      return this.$store.state.guestUser;
     },
     items() {
       if (this.eventId) {
@@ -163,7 +167,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      if (this.signedInUser == null) {
+      if (this.signedInUser == null && this.guestUser == null) {
         this.$router.push("/signin");
         return;
       }

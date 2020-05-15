@@ -209,6 +209,9 @@ export default {
     signedInUser() {
       return this.$store.state.signedInUser;
     },
+    guestUser() {
+      return this.$store.state.guestUser;
+    },
     youtubeVideoId() {
       return this.event.youtube
         ? this.parseYoutubeVideoId(this.event.youtube)
@@ -240,7 +243,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      if (this.signedInUser == null) {
+      if (this.signedInUser == null && this.guestUser == null) {
         this.$router.push("/signin");
         return;
       }
