@@ -1,6 +1,6 @@
 <template>
   <div class="comic-box">
-    <span class="label">Frontend City Comic</span>
+    <h1>Frontend City Comic</h1>
     <b-carousel
       fade
       indicators
@@ -15,10 +15,16 @@
     </b-carousel>
     <div
       class="twitter-handle"
-      @click="onClick"
     >
-      <img src="/images/twitter.svg">
-      <span>@FrontendCity</span>
+      <span class="created-by">Created by</span>
+      <a
+        class="link"
+        href="https://twitter.com/FrontendCity"
+        target="_blank"
+      >
+        <img src="/images/twitter.svg">
+        <span>@FrontendCity</span>
+      </a>
     </div>
   </div>
 </template>
@@ -45,31 +51,36 @@ export default {
 </script>
 <style scoped lang="scss">
 .comic-box {
-  border: 2px solid #114273;
-  margin: 0 auto;
-  padding-bottom: 5px;
-  text-align: center;
   margin-top: 10px;
 }
 
-.label {
-  background: #114273;
-  color: #fff;
-  border: none;
-  padding: 4px;
-  margin-bottom: 12px;
-  width: 100%;
-  display: inline-block;
-}
-
 .twitter-handle {
+  margin-top: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   img {
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
+  }
+}
+.link {
+  color: #1d8db1 !important;
+  cursor: pointer;
+  font-size: 0.65rem;
+}
+.created-by {
+  font-size: 0.65rem;
+}
+
+</style>
+<style lang="scss">
+.carousel-indicators {
+  bottom: -40px !important;
+  li {
+    background-color: black;
+    opacity: 0.2;
   }
 }
 </style>
