@@ -1,7 +1,13 @@
 <template>
-  <div id="app">
+  <div
+    id="app"
+    :class="{ 'theme-dark': isdarkMode, 'theme-light': !isdarkMode }"
+  >
     <div class="header">
       <NavBar :nav-links="navLinks" />
+      <!-- <button @click="isdarkMode=!isdarkMode">
+        Mode
+      </button> -->
     </div>
     <div class="main">
       <router-view />
@@ -51,6 +57,7 @@ export default {
         path: "/tech"
       }
     ],
+    isdarkMode: false,
     copyrightText:
       "Powered by Shoonya Technologies Ltd. (Canada) © 2020 All Rights Reserved."
   }),
@@ -76,6 +83,20 @@ export default {
 
 <style lang="scss">
 @import "https://unpkg.com/ionicons@4.2.2/dist/css/ionicons.min.css";
+
+ .theme-dark {
+  --fs-bg: #282c35;
+  --fs-primary-color: #b8daff;
+  --fs-secondary-color: #2693FF;  //#114273;
+  --fs-link-color: #74DAFC;
+}
+
+.theme-light {
+  --fs-bg: #fff;
+  --fs-primary-color: #2c3e50;
+  --fs-secondary-color: #114273;  //#114273;
+  --fs-link-color: #1d8db1;
+}
 
 html {
   font-size: 22px;
@@ -103,7 +124,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
-  color: #2c3e50;
+  color: var(--fs-primary-color);
+  background-color: var(--fs-bg);
   .main {
     min-height: 70vh;
     margin-top: 87px;
@@ -114,14 +136,15 @@ body {
 }
 
 .header {
-  border-bottom: 7px solid #114273;
+  border-bottom: 7px solid var(--fs-secondary-color);
   position: fixed;
   top: 0;
   z-index: 100;
   width: 100%;
   background-color: white;
-  color: #114273;
+  color: var(--fs-secondary-color);
   z-index: 10;
+  background: var(--fs-bg);
 }
 
 .icon-button {
@@ -194,7 +217,7 @@ ol {
 }
 
 a {
-  color: #1d8db1 !important;
+  color: var(--fs-link-color) !important;
   cursor: pointer;
 }
 
@@ -300,7 +323,8 @@ input {
 }
 
 .capsule {
-  background-color: #c0e0ff;
+  color: var(--fs-bg);
+  background-color: var(--fs-primary-color);
   padding: 0 10px;
   border-radius: 50px;
   height: 22px;

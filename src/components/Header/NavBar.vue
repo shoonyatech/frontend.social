@@ -146,7 +146,7 @@ nav {
       font-size: 24px;
       cursor: pointer;
       .nav-item-link {
-        color: #114273 !important;
+        color: var(--fs-secondary-color) !important;
         display: flex;
         flex-direction: row-reverse;
         align-items: center;

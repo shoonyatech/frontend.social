@@ -49,11 +49,11 @@ export default {
 <style scoped lang="scss">
 /* style for city thumbnail */
 .thumbnail {
-  border: solid #114273 2px;
+  border: solid var(--fs-primary-color) 2px;
   height: 12rem;
   width: 12rem;
   min-width: 12rem;
-  color: #2c3e50;
+  color: var(--fs-primary-color);
   text-decoration: none;
 }
 

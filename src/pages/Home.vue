@@ -208,7 +208,7 @@ export default {
 }
 ul li::before {
   content: "\2022";
-  color: #114273;
+  color: var(--fs-primary-color);
   font-weight: bold;
   display: inline-block;
   width: 1em;

@@ -67,7 +67,7 @@ export default {
 }
 
 .label {
-  color: #114273;
+  color: var(--fs-primary-color);
   width: 7rem;
   min-width: 7rem;
 }
