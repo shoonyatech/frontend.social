@@ -141,7 +141,7 @@ export default {
 
 <style scoped lang="scss">
 .readonly-value {
-  border-bottom: 1px solid #114273;
+  border-bottom: 1px solid var(--fs-primary-color);
   flex: 1 1 auto;
   margin: 2px auto;
   min-width: 15rem;

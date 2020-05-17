@@ -161,7 +161,7 @@ export default {
 
 .event-date {
   font-size: 0.65rem;
-  color: #2c3e50;
+  color: var(--fs-primary-color);;
 }
 
 .icon-links {
