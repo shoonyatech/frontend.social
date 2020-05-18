@@ -105,6 +105,12 @@ j<template>
           md="9"
           sm="12"
         >
+          <KeyValue
+            v-if="!username"
+            :label="'Referral link:'"
+            :value="referralLink"
+            :is-editable="false"
+          />
           <Section
             title="Portfolio and Social links"
             class="portfolio"
@@ -290,7 +296,7 @@ export default {
       publicProfile: null,
       loading: false,
       editModeActivity: false,
-      activities: [],
+      activities: []
     };
   },
   computed: {
@@ -299,6 +305,11 @@ export default {
         this.$store.state.signedInUser.username === this.profile.username
         ? true
         : false;
+    },
+    referralLink() {
+      return (
+        window.origin + "?referrer=" + this.$store.state.signedInUser.username
+      );
     }
   },
   created() {
@@ -547,7 +558,7 @@ export default {
           this.referrals = response.filter(x => x != null);
         })
         .catch(e => {
-          console.log("failed to fetch referals")
+          console.log("failed to fetch referals");
         });
     }
   }
@@ -667,7 +678,9 @@ export default {
   margin-top: 20px;
 }
 
-.events-attended, .user-referrals-section, .private-video-section {
+.events-attended,
+.user-referrals-section,
+.private-video-section {
   margin-bottom: 20px;
 }
 
