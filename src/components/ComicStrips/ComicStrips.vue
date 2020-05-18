@@ -13,9 +13,7 @@
         :img-src="image"
       />
     </b-carousel>
-    <div
-      class="twitter-handle"
-    >
+    <div class="twitter-handle">
       <span class="created-by">Created by</span>
       <a
         class="link"
@@ -30,36 +28,35 @@
 </template>
 
 <script>
-
 export default {
-  name: 'ComicStrips',
+  name: "ComicStrips",
   data() {
     return {
       images: [
-        '/images/comics/Page-01.jpg',
-        '/images/comics/Page-02.jpg',
-        '/images/comics/Page-03.jpg',
-        '/images/comics/Page-04.jpg',]
-    }
+        "/images/comics/Page-01.jpg",
+        "/images/comics/Page-02.jpg",
+        "/images/comics/Page-03.jpg",
+        "/images/comics/Page-04.jpg",
+      ],
+    };
   },
   methods: {
     onClick() {
-      window.open('https://twitter.com/FrontendCity', '_blank')
-    }
-  }
+      window.open("https://twitter.com/FrontendCity", "_blank");
+    },
+  },
 };
 </script>
 <style scoped lang="scss">
 .comic-box {
-  margin-top: 10px;
+  margin-top: 70px;
 }
 
 .twitter-handle {
   margin-top: 30px;
+  margin-right: 10px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  justify-content: flex-end;
   img {
     height: 20px;
     width: 20px;
@@ -72,8 +69,8 @@ export default {
 }
 .created-by {
   font-size: 0.65rem;
+  margin-right: 10px;
 }
-
 </style>
 <style lang="scss">
 .carousel-indicators {
