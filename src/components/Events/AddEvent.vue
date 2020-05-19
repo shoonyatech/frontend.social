@@ -481,6 +481,15 @@ export default {
         return;
       }
 
+      // onSave change dates to UTC
+      if (this.event.dateFrom) {
+        this.event.dateFrom = moment(this.event.dateFrom).utc().toString();
+      }
+
+      if (this.event.dateTo) {
+        this.event.dateTo = moment(this.event.dateTo).utc().toString();
+      }
+
       const eventId = this.$route.params.id;
       if (eventId !== "new") {
         eventService

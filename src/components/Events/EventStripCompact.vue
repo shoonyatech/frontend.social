@@ -22,11 +22,11 @@
       <b-col md="8">
         <div class="event-date">
           <span>{{
-            event.dateFrom | moment("timezone", "Europe/London", "DD MMM YYYY")
+            event.dateFrom | moment("DD MMM YYYY")
           }}</span>
           <span v-if="event.dateTo"> - </span>
           <span v-if="event.dateTo">{{
-            event.dateTo | moment("timezone", "Europe/London", "DD MMM YYYY")
+            event.dateTo | moment("DD MMM YYYY")
           }}</span>
           in
           <a
