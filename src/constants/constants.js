@@ -7,6 +7,11 @@ export const messages = {
     jobAddSuccess: 'Job added successfully!',
     jobAddFailure: 'Error adding new job, Please fill all fields and try again.',
   },
+  challenge: {
+    challengeAddSuccess: 'Challenge added successfully!',
+    challengeAddFailure: 'Error adding new Challenge',
+  },
+
   city: {
     cityAddSuccess: 'City added successfully!',
     cityAddFailure: 'Error adding new city, Please fill all fields and try again.',
