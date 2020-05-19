@@ -31,14 +31,14 @@
               <span>
                 {{
                   event.dateFrom
-                    | moment("timezone", "Europe/London", "DD MMM YYYY")
+                    | moment("DD MMM YYYY")
                 }}
               </span>
               <span v-if="event.dateTo">-</span>
               <span v-if="event.dateTo">
                 {{
                   event.dateTo
-                    | moment("timezone", "Europe/London", "DD MMM YYYY")
+                    | moment("DD MMM YYYY")
                 }}
               </span>
               in
