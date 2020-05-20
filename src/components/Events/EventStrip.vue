@@ -54,14 +54,17 @@
         <div class="event-date">
           <span>
             {{
-              event.dateFrom | moment("DD MMM YYYY")
+              event.dateFrom | moment("DD MMM YYYY HH:MM")
             }}
           </span>
           <span v-if="event.dateTo">-</span>
           <span v-if="event.dateTo">
             {{
-              event.dateTo | moment("DD MMM YYYY")
+              event.dateTo | moment("DD MMM YYYY HH:MM")
             }}
+          </span>
+          <span event.timezone>
+            {{ event.timezone }}
           </span>
           <span v-if="!event.isOnline">
             in
