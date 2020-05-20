@@ -272,7 +272,6 @@ export default {
 
 .event-type {
   font-size: 0.65rem;
-  color: #2c3e50;
   float: right;
 
   &.online {
