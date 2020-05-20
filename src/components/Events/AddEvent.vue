@@ -514,6 +514,11 @@ export default {
         dateTo: eventDetails.dateTo
           ? this.getFormattedDate(eventDetails.dateTo)
           : null,
+        startTime: eventDetails.startTime ?
+          moment(eventDetails.dateTo).format('LT'): this.event.startTime,
+        endTime: eventDetails.endTime ?
+          moment(eventDetails.dateTo).format('LT'): this.event.endTime,
+        timezone: event.timezone || moment.tz.guess(),
       }
     },
     getFormattedDate(date) {
