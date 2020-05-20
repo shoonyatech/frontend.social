@@ -41,9 +41,6 @@
                     | moment("DD MMM YYYY")
                 }}
               </span>
-              <span event.timezone>
-                {{ event.timezone }}
-              </span>
               in
               <a :href="'/city/' + event.city + '/' + event.country">
                 <span class="city">{{ event.city }}, {{ event.country }}</span>
