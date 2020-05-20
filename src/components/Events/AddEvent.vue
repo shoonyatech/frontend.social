@@ -119,6 +119,24 @@
             :value="event.dateFrom"
             @change="onStartDateChange"
           >
+          <select v-model="event.startTime">
+            <option
+              v-for="val in timeDropdownValues"
+              :key="val"
+              :value="val"
+            >
+              {{ val }}
+            </option> 
+          </select>
+          <select v-model="event.timezone">
+            <option
+              v-for="val in timezones"
+              :key="val"
+              :value="val"
+            >
+              {{ val }}
+            </option> 
+          </select>
         </b-col>
       </b-row>
 
@@ -145,6 +163,24 @@
             :value="event.dateTo"
             @change="onEndDateChange"
           >
+          <select v-model="event.endTime">
+            <option
+              v-for="val in timeDropdownValues"
+              :key="val"
+              :value="val"
+            >
+              {{ val }}
+            </option> 
+          </select>
+          <select v-model="event.timezone">
+            <option
+              v-for="val in timezones"
+              :key="val"
+              :value="val"
+            >
+              {{ val }}
+            </option> 
+          </select>
         </b-col>
       </b-row>
 
@@ -310,7 +346,7 @@
 </template>
 
 <script>
-import moment from "moment";
+import moment from "moment-timezone";
 import KeyValue from "@/components/common/KeyValue";
 import KeyMultiValue from "@/components/common/KeyMultiValue";
 import EditCity from "@/components/City/EditCity";
@@ -321,6 +357,9 @@ import skillService from "@/services/skill.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { getTimeDropdownValues } from '@/utilities/utils.js';
+
+
 // TODO: Rename thie component to EventForm
 export default {
   name: "AddEvent",
@@ -342,6 +381,9 @@ export default {
         country: null,
         dateFrom: null,
         dateTo: null,
+        startTime: '10:00 AM',
+        endTime: '11:00 AM',
+        timezone: moment.tz.guess(),
         relatedSkills: [""],
         website: "",
         twitter: "",
@@ -363,6 +405,12 @@ export default {
   computed: {
     eventLink() {
       return window.origin + "/event/" + this.event._id;
+    },
+    timeDropdownValues() {
+      return getTimeDropdownValues();
+    },
+    timezones() {
+      return moment.tz.names();
     }
   },
   async created() {
@@ -441,12 +489,6 @@ export default {
         type: eventDetails.type || "c",
         city: eventDetails.city || null,
         country: eventDetails.country || null,
-        dateFrom: eventDetails.dateFrom
-          ? this.getFormattedDate(eventDetails.dateFrom)
-          : null,
-        dateTo: eventDetails.dateTo
-          ? this.getFormattedDate(eventDetails.dateTo)
-          : null,
         relatedSkills: eventDetails.relatedSkills
           ? [...eventDetails.relatedSkills]
           : [""],
@@ -460,8 +502,19 @@ export default {
         isOnline: eventDetails.isOnline || false,
         onlineLink: eventDetails.onlineLink || "",
         isPrivate: eventDetails.isPrivate || false,
-        isRequiresRegistration: eventDetails.isRequiresRegistration || false
+        isRequiresRegistration: eventDetails.isRequiresRegistration || false,
+        ...this.populateDates(eventDetails)
       };
+    },
+    populateDates(eventDetails) {
+      return {
+        dateFrom: eventDetails.dateFrom
+          ? this.getFormattedDate(eventDetails.dateFrom)
+          : null,
+        dateTo: eventDetails.dateTo
+          ? this.getFormattedDate(eventDetails.dateTo)
+          : null,
+      }
     },
     getFormattedDate(date) {
       return moment(date).format("YYYY-MM-DD");
@@ -483,11 +536,11 @@ export default {
 
       // onSave change dates to UTC
       if (this.event.dateFrom) {
-        this.event.dateFrom = moment(this.event.dateFrom).utc().toString();
+        this.event.dateFrom = moment.tz(`${this.event.dateFrom} ${this.event.startTime}`, this.event.timezone).format();
       }
 
       if (this.event.dateTo) {
-        this.event.dateTo = moment(this.event.dateTo).utc().toString();
+        this.event.dateTo = moment.tz(`${this.event.dateTo} ${this.event.endTime}`, this.event.timezone);
       }
 
       const eventId = this.$route.params.id;
@@ -616,5 +669,15 @@ export default {
 }
 .eventLink {
   font-weight: bold;
+}
+
+select {
+  border: 3px solid #114273;
+  display: inline-block;
+  margin: 2px 0;
+  font-size: inherit;
+  line-height: inherit;
+  height: 1.5rem;
+  padding: 0 10px;
 }
 </style>
