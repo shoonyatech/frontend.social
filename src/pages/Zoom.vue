@@ -103,14 +103,15 @@ export default {
       commentId: "",
       hideComments: false,
       interval: null,
-      fakeUserId: Math.round(new Date().getTime() / 1000)
+      fakeUserId: Math.round(new Date().getTime() / 1000),
+      isAdmin: false,
     };
   },
   computed: {
     zoomUrl() {
       const username = this.signedInUser ? this.signedInUser.username : this.guestUser ? this.guestUser.name : null;
       return username
-        ? `/jitsi.html?id=${this.$route.params.id}&name=${username}`
+        ? `/jitsi.html?id=${this.$route.params.id}&name=${username}&t=${this.isAdmin ? 1: 0}`
         : ""; //`/jitsi.html?id=${this.$route.params.id}&name=Anonymous${this.fakeUserId}`;
     },
     signedInUser() {
@@ -187,11 +188,15 @@ export default {
       if (this.eventId) {
         eventService.getEventById(this.eventId).then(event => {
           this.eventTitle = event.title;
+          if (this.signedInUser) {
+            this.isAdmin = event.createdBy.username === this.signedInUser.username;
+          }
         });
       } else if (this.userId) {
         UserService.getUserByUserId(this.userId).then(users => {
           if (users.length) {
             this.roomOwner = users[0];
+            this.isAdmin = event.createdBy.username === this.roomOwner.username;
           }
         });
       }
