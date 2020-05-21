@@ -9,6 +9,15 @@
           const urlParams = new URLSearchParams(window.location.search);
           const meetingId = urlParams.get("id");
           const nickName = urlParams.get("name");
+          const t = urlParams.get("t");
+          let toolbarOptions = ['microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+                  'fodeviceselection', 'hangup', 'profile', 'chat', 'raisehand','videoquality', 'filmstrip', 
+                  'tileview', 'videobackgroundblur'];
+
+          if (t == 1) {
+            toolbarOptions = [...toolbarOptions, 'livestreaming',
+                  'recording', 'settings',  'stats', 'mute-everyone']
+          }
 
           const domain = "meet.jit.si";
           const options = {
@@ -19,9 +28,7 @@
             configOverwrite: {},
             interfaceConfigOverwrite: {
               filmStripOnly: false,
-                TOOLBAR_BUTTONS: ['microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen', 'livestreaming',
-                  'fodeviceselection', 'hangup', 'profile', 'chat', 'recording', 'settings', 'raisehand','videoquality', 'filmstrip', 'stats', 
-                  'tileview', 'videobackgroundblur',  'mute-everyone'],
+                TOOLBAR_BUTTONS: toolbarOptions
               },
               desktopSharingChromeSources: [ 'screen', 'window', 'tab'],
               userInfo: {
