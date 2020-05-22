@@ -64,8 +64,7 @@ export default {
       open: true,
       name : '',
       isPrivate: false,
-      users: [{
-      }]
+      users: []
     }
   },
   created() {
