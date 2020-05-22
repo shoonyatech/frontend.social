@@ -22,6 +22,7 @@
             <EventMeetings
               :id="eventId || userId"
               :type="eventId ? 'EVENT' : 'USER'"
+              :is-editable="isAdmin"
             />
           </b-col>
         </b-row>
@@ -83,6 +84,8 @@ import Comment from "@/components/Comment/Comment.vue";
 import AddComment from "@/components/Comment/AddComment.vue";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
+import {isEmpty} from 'lodash';
+
 export default {
   components: {
     EventMeetings,
@@ -104,7 +107,7 @@ export default {
       hideComments: false,
       interval: null,
       fakeUserId: Math.round(new Date().getTime() / 1000),
-      isAdmin: false,
+      event: {},
     };
   },
   computed: {
@@ -119,6 +122,18 @@ export default {
     },
     guestUser() {
       return this.$store.state.guestUser;
+    },
+    isAdmin() {
+      if (!this.signedInUser) return false;
+
+      const username = this.signedInUser.username.toLowerCase();
+      if (!isEmpty(this.event)) {
+        const adminUsers = this.event.adminUsers || [];
+        return this.event.createdBy.username.toLowerCase() === username || adminUsers.some(x => x.username.toLowerCase() === username);
+      } else if (!isEmpty(this.roomOwner)) {
+        return username === this.roomOwner.username.toLowerCase();
+      }
+      return false;
     },
     items() {
       if (this.eventId) {
@@ -188,15 +203,12 @@ export default {
       if (this.eventId) {
         eventService.getEventById(this.eventId).then(event => {
           this.eventTitle = event.title;
-          if (this.signedInUser) {
-            this.isAdmin = event.createdBy.username === this.signedInUser.username;
-          }
+          this.event = event;
         });
       } else if (this.userId) {
         UserService.getUserByUserId(this.userId).then(users => {
           if (users.length) {
             this.roomOwner = users[0];
-            this.isAdmin = event.createdBy.username === this.roomOwner.username;
           }
         });
       }

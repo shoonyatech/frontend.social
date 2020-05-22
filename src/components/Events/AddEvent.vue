@@ -294,6 +294,26 @@
         @change="onScheduleChange"
       />
 
+      <h1>Admins</h1>
+      <MultiSelect
+        :is-editable="true"
+        :items.sync="admins"
+        :search-fn="searchUsers"
+      >
+        <template v-slot:default="slotProps">
+          <div class="user-info">
+            <UserAvatar :user="slotProps.item" />
+            {{ slotProps.item.name }} ({{ slotProps.item.username }})
+          </div>
+        </template>
+        <template v-slot:option="slotProps">
+          <div class="user-info">
+            <UserAvatar :user="slotProps.option" />
+            {{ slotProps.option.name }} ({{ slotProps.option.username }})
+          </div>
+        </template>
+      </MultiSelect>
+
       <div class="action-buttons">
         <button
           class="save-button"
@@ -315,12 +335,16 @@ import KeyValue from "@/components/common/KeyValue";
 import KeyMultiValue from "@/components/common/KeyMultiValue";
 import EditCity from "@/components/City/EditCity";
 import Checkbox from "@/components/Checkbox/Checkbox";
+import MultiSelect from '@/components/MultiSelect/MultiSelect';
 
 import eventService from "@/services/event.service";
 import skillService from "@/services/skill.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import UserService from '@/services/user.service';
+import UserAvatar from "@/components/common/UserAvatar";
+
 // TODO: Rename thie component to EventForm
 export default {
   name: "AddEvent",
@@ -328,7 +352,9 @@ export default {
     KeyValue,
     KeyMultiValue,
     EditCity,
-    Checkbox
+    Checkbox,
+    MultiSelect,
+    UserAvatar
   },
   data() {
     return {
@@ -357,7 +383,8 @@ export default {
       },
       skillsLookup: [],
       editor: ClassicEditor,
-      editorConfig: {}
+      editorConfig: {},
+      admins: []
     };
   },
   computed: {
@@ -378,6 +405,9 @@ export default {
   methods: {
     onTitleChange(e) {
       this.event.title = e.value;
+    },
+    async searchUsers(query) {
+      return UserService.getAllUsers(query);
     },
     onDescriptionChange(e) {
       this.event.description = e.value;
@@ -462,6 +492,8 @@ export default {
         isPrivate: eventDetails.isPrivate || false,
         isRequiresRegistration: eventDetails.isRequiresRegistration || false
       };
+
+      this.admins = eventDetails.adminUsers || [];
     },
     getFormattedDate(date) {
       return moment(date).format("YYYY-MM-DD");
@@ -489,6 +521,15 @@ export default {
       if (this.event.dateTo) {
         this.event.dateTo = moment(this.event.dateTo).utc().toString();
       }
+
+
+      this.event.adminUsers = this.admins.map(x => ({
+        _id: x._id,
+        name: x.name,
+        username: x.username,
+        profilePic: x.profilePic,
+      }))
+
 
       const eventId = this.$route.params.id;
       if (eventId !== "new") {
@@ -616,5 +657,11 @@ export default {
 }
 .eventLink {
   font-weight: bold;
+}
+
+.user-info {
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 </style>

@@ -102,17 +102,10 @@
             <EventMeetings
               :id="eventId"
               type="EVENT"
+              :is-editable="isAdmin"
             />
           </b-col>
         </b-row>
-        <!-- <b-row style="margin-top: 20px;">
-          <h1>Private Video Rooms (Click to Join call)</h1>
-        </b-row>
-        <b-row>
-          <b-col md="12">
-            <EventMeetings :event-id="eventId" :is-private="true" />
-          </b-col>
-        </b-row>-->
         <b-row
           v-if="!hideComments"
           style="margin-top: 20px;"
@@ -216,6 +209,14 @@ export default {
       return this.event.youtube
         ? this.parseYoutubeVideoId(this.event.youtube)
         : null;
+    },
+    isAdmin() {
+      if (this.signedInUser && this.event) {
+        const username = this.signedInUser.username.toLowerCase();
+        const adminUsers = this.event.adminUsers || [];
+        return (this.event.createdBy && this.event.createdBy.username === username) || adminUsers.some(x => x.username.toLowerCase() === username);
+      }
+      return false
     }
   },
   async created() {
