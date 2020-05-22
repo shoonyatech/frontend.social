@@ -10,13 +10,13 @@
           const meetingId = urlParams.get("id");
           const nickName = urlParams.get("name");
           const t = urlParams.get("t");
-          let toolbarOptions = ['microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+          let toolbarOptions = ['microphone', 'camera', 'closedcaptions','fullscreen',
                   'fodeviceselection', 'hangup', 'profile', 'chat', 'raisehand','videoquality', 'filmstrip', 
                   'tileview', 'videobackgroundblur'];
 
           if (t == 1) {
             toolbarOptions = [...toolbarOptions, 'livestreaming',
-                  'recording', 'settings',  'stats', 'mute-everyone']
+                  'recording', 'settings',  'stats', 'mute-everyone', 'desktop', ]
           }
 
           const domain = "meet.jit.si";

@@ -176,11 +176,11 @@ export default {
       }
     },
     canModify(event) {
-      return (
-        this.signedInUser &&
-        event.createdBy &&
-        event.createdBy.username === this.signedInUser.username
-      );
+      if (!this.signedInUser) return false;
+
+      const username = this.signedInUser.username.toLowerCase();
+      const admins = event.adminUsers || [];
+      return (event.createdBy && event.createdBy.username.toLowerCase() === username) || admins.some(x => x.username.toLowerCase() === username);
     },
     loadEvents(param, action) {
       switch (action) {

@@ -294,25 +294,41 @@
         @change="onScheduleChange"
       />
 
-      <h1>Admins</h1>
-      <MultiSelect
-        :is-editable="true"
-        :items.sync="admins"
-        :search-fn="searchUsers"
-      >
-        <template v-slot:default="slotProps">
-          <div class="user-info">
-            <UserAvatar :user="slotProps.item" />
-            {{ slotProps.item.name }} ({{ slotProps.item.username }})
-          </div>
-        </template>
-        <template v-slot:option="slotProps">
-          <div class="user-info">
-            <UserAvatar :user="slotProps.option" />
-            {{ slotProps.option.name }} ({{ slotProps.option.username }})
-          </div>
-        </template>
-      </MultiSelect>
+      <h1 class="admin-heading">
+        Admin
+      </h1>
+      <b-row class="row">
+        <b-col
+          md="3"
+          sm="12"
+        >
+          <span class="label">Add event organizers</span>
+        </b-col>
+        <b-col
+          md="9"
+          sm="12"
+        >
+          <MultiSelect
+            :is-editable="true"
+            :items.sync="admins"
+            :search-fn="searchUsers"
+          >
+            <template v-slot:default="slotProps">
+              <div class="user-info">
+                <UserAvatar :user="slotProps.item" />
+                {{ slotProps.item.name }} ({{ slotProps.item.username }})
+              </div>
+            </template>
+            <template v-slot:option="slotProps">
+              <div class="user-info">
+                <UserAvatar :user="slotProps.option" />
+                {{ slotProps.option.name }} ({{ slotProps.option.username }})
+              </div>
+            </template>
+          </MultiSelect>
+        </b-col>
+      </b-row>
+
 
       <div class="action-buttons">
         <button
@@ -390,7 +406,10 @@ export default {
   computed: {
     eventLink() {
       return window.origin + "/event/" + this.event._id;
-    }
+    },
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    },
   },
   async created() {
     const eventId = this.$route.params.id;
@@ -398,9 +417,22 @@ export default {
       this.loading = true;
       const eventDetails = await eventService.getEventById(eventId);
       this.intializeEvents(eventDetails);
+      if(!this.canModify(eventDetails)) {
+        this.$router.push("/");
+      }
+    } else if (this.signedInUser){
+      this.admins = [this.signedInUser];
     }
     this.loading = false;
     this.skillsLookup = (await skillService.fetchSkills()).map(s => s.name);
+  },
+  mounted() {
+    setTimeout(() => {
+      if (this.signedInUser == null) {
+        this.$router.push("/signin");
+        return;
+      }
+    }, 1000);
   },
   methods: {
     onTitleChange(e) {
@@ -462,6 +494,14 @@ export default {
     },
     close: function(val) {
       this.$router.back();
+    },
+    canModify(event) {
+      if (!this.signedInUser) return false;
+
+      const username = this.signedInUser.username.toLowerCase();
+      const admins = event.adminUsers || [];
+      return (event.createdBy &&
+        event.createdBy.username.toLowerCase() === username) || admins.some(x => x.username.toLowerCase() === username);
     },
     intializeEvents(eventDetails) {
       this.event = {
@@ -663,5 +703,9 @@ export default {
   display: flex;
   width: 100%;
   align-items: center;
+}
+
+.admin-heading {
+  margin-top: 25px;
 }
 </style>
