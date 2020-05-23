@@ -29,16 +29,15 @@ export default {
       fakeUserId: Math.round(new Date().getTime() / 1000)
     };
   },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser || this.$store.state.guestUser;
+    }
+  },
   created() {
-    // wait for 1 sec to finish previous API call
-    // setTimeout(() => {
-    //   this.addOnlineUser();
-    // }, 2000);
-
     setTimeout(() => {
       this.getOnlineUsers();
     }, 2000);
-    //this.intervalAddOnlineUser = setInterval(() => this.addOnlineUser(), 13000);
     this.interval = setInterval(() => this.getOnlineUsers(), 4000);
   },
   beforeDestroy() {
@@ -52,21 +51,11 @@ export default {
 
   methods: {
     getOnlineUsers() {
-      var signedInUser = this.$store.state.signedInUser;
-
-      if (!signedInUser) {
-        signedInUser = {
-          username: "Anonymous" + this.fakeUserId,
-          profilePic: null,
-          name: "Anonymous User"
-        };
-      }
-
       var payload = {
         createdTime: Date.now(),
-        username: signedInUser.username,
-        avatar: signedInUser.profilePic,
-        name: signedInUser.name,
+        username: this.signedInUser.username,
+        avatar: this.signedInUser.profilePic,
+        name: this.signedInUser.name,
         currentTime: Date.now()
       };
 
@@ -75,12 +64,11 @@ export default {
       });
     },
     addOnlineUser() {
-      const signedInUser = this.$store.state.signedInUser;
       var user = {
         createdTime: Date.now(),
-        username: signedInUser.username,
-        avatar: signedInUser.profilePic,
-        name: signedInUser.name
+        username: this.signedInUser.username,
+        avatar: this.signedInUser.profilePic,
+        name: this.signedInUser.name
       };
       userPageService.addOnlineUser(user);
     }
