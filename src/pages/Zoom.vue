@@ -115,7 +115,7 @@ export default {
       const username = this.signedInUser ? this.signedInUser.username : this.guestUser ? this.guestUser.name : null;
       return username
         ? `/jitsi.html?id=${this.$route.params.id}&name=${username}&t=${this.isAdmin ? 1: 0}`
-        : ""; //`/jitsi.html?id=${this.$route.params.id}&name=Anonymous${this.fakeUserId}`;
+        : "";
     },
     signedInUser() {
       return this.$store.state.signedInUser;
