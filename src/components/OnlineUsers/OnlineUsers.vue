@@ -25,8 +25,7 @@ export default {
     return {
       onlineUsers: [],
       interval: null,
-      intervalAddOnlineUser: null,
-      fakeUserId: Math.round(new Date().getTime() / 1000)
+      intervalAddOnlineUser: null
     };
   },
   computed: {
