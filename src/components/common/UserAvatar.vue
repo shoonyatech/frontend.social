@@ -1,6 +1,16 @@
 <template>
   <div class="avatar">
-    <a :href="`/user/${user.username}`">
+    <div v-if="user.isGuest">
+      <img
+        :src="'/images/avatar.svg'"
+        class="profile-photo"
+        alt="Profile Pic"
+      >
+    </div>
+    <a
+      v-else
+      :href="`/user/${user.username}`"
+    >
       <img
         :src="user.profilePic || '/images/avatar.svg'"
         class="profile-photo"
@@ -15,10 +25,10 @@ export default {
   components: {},
 
   props: {
-    user: { type: Object, required: true },
+    user: { type: Object, required: true }
   },
 
-  methods: {},
+  methods: {}
 };
 </script>
 
