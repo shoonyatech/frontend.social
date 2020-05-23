@@ -106,7 +106,6 @@ export default {
       commentId: "",
       hideComments: false,
       interval: null,
-      fakeUserId: Math.round(new Date().getTime() / 1000),
       event: {},
     };
   },
