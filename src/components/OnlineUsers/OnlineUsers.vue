@@ -56,21 +56,13 @@ export default {
         username: this.signedInUser.username,
         avatar: this.signedInUser.profilePic,
         name: this.signedInUser.name,
-        currentTime: Date.now()
+        currentTime: Date.now(),
+        isGuest: this.signedInUser.isGuest || false
       };
 
       userPageService.getOnlineUsers(payload).then(res => {
         this.onlineUsers = uniqBy(res, x => x.username);
       });
-    },
-    addOnlineUser() {
-      var user = {
-        createdTime: Date.now(),
-        username: this.signedInUser.username,
-        avatar: this.signedInUser.profilePic,
-        name: this.signedInUser.name
-      };
-      userPageService.addOnlineUser(user);
     }
   }
 };

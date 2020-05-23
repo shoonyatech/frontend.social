@@ -45,6 +45,7 @@ export default {
 
           if (this_.isSignedIn) {
             let user;
+            localStorage.removeItem("GUEST_USER");
             if (provider === "facebook") {
               user = authResponse.data;
               localStorage.setItem("authToken", JSON.stringify(user.authToken));

@@ -40,7 +40,7 @@
 
 <script>
 import SignInButtons from "@/components/Signin/SignInButtons";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export default {
   components: {
@@ -49,7 +49,7 @@ export default {
   data() {
     return {
       loading: true,
-      guestUsername: '',
+      guestUsername: ""
     };
   },
   created() {},
@@ -60,9 +60,13 @@ export default {
   },
   methods: {
     signInAsUser() {
-      const user = {name: this.guestUsername, username: uuidv4()};
-      localStorage.setItem('GUEST_USER', JSON.stringify(user));
-      this.$store.commit('setGuestUser', user);
+      const user = {
+        name: this.guestUsername,
+        username: uuidv4(),
+        isGuest: true
+      };
+      localStorage.setItem("GUEST_USER", JSON.stringify(user));
+      this.$store.commit("setGuestUser", user);
       this.$router.go(-1);
     }
   }
