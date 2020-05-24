@@ -1,26 +1,37 @@
-# Frontend-social
+# Frontend Social
 
-Frontend Social website
+frontend.social website
 
 ## Project setup
+
+Fork (upstream): https://github.com/shoonyatech/frontend.social
+
+### Clone the repo on your local box
+
+```
+git clone <your forked git repo>
+```
+
+### Add upstream as remote git repo
+
+```
+git remote add upstream git@github.com:shoonyatech/frontend.social.git
+```
+
+## Run the site on local
+
+Rename `src/config/keys.uat.js` file to `keys.js`
+
+### Get project dependancies
 
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Run on local dev web server
 
 ```
 npm run serve
-```
-
-### Local Dev
-Use github to login for local development on the frontend app.
-
-### Compiles and minifies for production
-
-```
-npm run build
 ```
 
 ### Run your tests
@@ -35,8 +46,19 @@ npm run test
 npm run lint
 ```
 
-### Run your unit tests
+## Create PR
+
+### Rebase with upstream
 
 ```
-npm run test
+git checkout master
+git pull upstream master --rebase
 ```
+
+### Create local commit
+
+```
+git push origin master -f
+```
+
+Create new PR from your GitHub repo to upstream repo
