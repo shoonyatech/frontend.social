@@ -100,17 +100,27 @@ j<template>
               >{{ publicProfile }}</a>
             </div>
           </Section>
+          <Section
+            v-if="!username"
+            title="Referral link"
+            class="referral-link"
+            :is-editable="false"
+          >
+            <div>
+              <a
+                name="referrallink"
+                class="user-referral-link"
+                :href="referralLink"
+                target="_blank"
+                rel="noopener"
+              >{{ referralLink }}</a>
+            </div>
+          </Section>
         </b-col>
         <b-col
           md="9"
           sm="12"
         >
-          <KeyValue
-            v-if="!username"
-            :label="'Referral link:'"
-            :value="referralLink"
-            :is-editable="false"
-          />
           <Section
             title="Portfolio and Social links"
             class="portfolio"
@@ -674,7 +684,8 @@ export default {
 .about-me,
 .public-profile,
 .my-skills,
-.events-attended {
+.events-attended,
+.referral-link {
   margin-top: 20px;
 }
 
@@ -684,7 +695,8 @@ export default {
   margin-bottom: 20px;
 }
 
-.user-public-profile {
+.user-public-profile,
+.user-referral-link {
   word-wrap: break-word;
 }
 
