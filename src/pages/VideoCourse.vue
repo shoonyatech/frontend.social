@@ -56,7 +56,7 @@
             class="mt-1"
           />
           <Comment
-            v-for="(comment,index) in comments"
+            v-for="(comment, index) in comments"
             :key="comment._id"
             :index="index"
             :comment-id="comment._id"
@@ -89,7 +89,7 @@ export default {
     CodeEditor,
     Checkbox,
     Comment,
-    AddComment
+    AddComment,
   },
   props: {},
   data() {
@@ -103,44 +103,44 @@ export default {
           time: "00:04:05",
           file:
             "https://codesandbox.io/s/zen-rain-sw407?fontsize=14&hidenavigation=1&module=%2Fpackage.json&theme=dark",
-          line: "3"
+          line: "3",
         },
         {
           time: "00:04:06",
           file:
             "https://codesandbox.io/s/zen-rain-sw407?fontsize=14&hidenavigation=1&module=%2Fpackage.json&theme=dark",
-          line: "3"
+          line: "3",
         },
         {
           time: "00:04:07",
           file:
             "https://codesandbox.io/s/zen-rain-sw407?fontsize=14&hidenavigation=1&module=%2Fpackage.json&theme=dark",
-          line: "3"
+          line: "3",
         },
         {
           time: "00:04:10",
           file:
             "https://codesandbox.io/s/zen-rain-sw407?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fassets%2Flogo.png&theme=dark",
-          line: "3"
+          line: "3",
         },
         {
           time: "00:04:33",
           file:
             "https://codesandbox.io/s/zen-rain-sw407?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fcomponents%2FHelloWorld.vue&theme=dark",
-          line: "3"
+          line: "3",
         },
         {
           time: "00:04:35",
           file:
             "https://codesandbox.io/s/zen-rain-sw407?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fcomponents%2FHelloWorld.vue&theme=dark",
-          line: "3"
+          line: "3",
         },
         {
           time: "00:04:37",
           file:
             "https://codesandbox.io/s/zen-rain-sw407?fontsize=14&hidenavigation=1&module=%2Fsrc%2Fcomponents%2FHelloWorld.vue&theme=dark",
-          line: "3"
-        }
+          line: "3",
+        },
       ],
       hideComments: false,
       showRating: false,
@@ -148,7 +148,7 @@ export default {
       commentId: "",
       comments: [],
       course: {},
-      topic: {}
+      topic: {},
     };
   },
   computed: {
@@ -159,21 +159,21 @@ export default {
       return [
         {
           text: "Courses",
-          to: "/learn/course"
+          to: "/learn/course",
         },
         {
           text: this.course.title,
-          to: "/learn/course/" + this.course._id
+          to: "/learn/course/" + this.course._id,
         },
         {
           text: this.topic.title,
-          active: true
-        }
+          active: true,
+        },
       ];
-    }
+    },
   },
   mounted() {
-    this.loadTopic(this.$route.params.chapterno, this.$route.params.topicid);
+    this.loadTopic(this.$route.params.chapterno, this.$route.params.topicurl);
   },
   created() {
     this.setTimer();
@@ -212,22 +212,22 @@ export default {
       var time = this.convertSecondToTimeFormat(videoTimeInSeconds);
 
       const result = this.topic.codeSubtitles
-        .filter(x => x.time == time)
-        .map(y => y.file);
+        .filter((x) => x.time == time)
+        .map((y) => y.file);
 
       if (result.length > 0) this.codeEditorURL = result[0];
     },
     getComments() {
       commentService
         .getComment(this.topic._id)
-        .then(response => {
+        .then((response) => {
           this.comments = response; //.push(...response);
         })
         .catch(() => {
           eventBus.$emit("show-toast", {
             body: e.message,
             title: messages.generic.error,
-            type: ToastType.ERROR
+            type: ToastType.ERROR,
           });
         });
     },
@@ -241,7 +241,7 @@ export default {
 
       eventBus.$emit("show-toast", {
         body: messages.comment.commentAddSuccess,
-        title: messages.generic.success
+        title: messages.generic.success,
       });
     },
     deleteComment(index) {
@@ -252,18 +252,18 @@ export default {
       this.commentId = commentId;
     },
     cancelComment() {},
-    loadTopic(chapterNo, topicId) {
-      courseService.getByTopicId(topicId).then(res => {
+    loadTopic(chapterNo, topicUrl) {
+      courseService.getByTopicUrl(topicUrl).then((res) => {
         this.course = res;
 
         this.topic = res.chapters
-          .find(x => x.chapterNo == chapterNo)
-          .topics.find(x => x._id === topicId);
+          .find((x) => x.chapterNo == chapterNo)
+          .topics.find((x) => x.url === topicUrl);
         this.codeEditorURL = this.topic.codeLink;
         this.getComments();
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

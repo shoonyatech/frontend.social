@@ -15,119 +15,119 @@ const router = new Router({
     {
       path: "/",
       name: "home",
-      component: Home
+      component: Home,
     },
     {
       path: "/city/:cityName/:countryCode",
       name: "CityDetails",
-      component: () => import("./pages/CityDetails.vue")
+      component: () => import("./pages/CityDetails.vue"),
     },
     {
       path: "/city",
       name: "city",
-      component: () => import("./pages/Cities.vue")
+      component: () => import("./pages/Cities.vue"),
     },
     {
       path: "/jobs",
       name: "jobs",
-      component: () => import("./pages/Jobs.vue")
+      component: () => import("./pages/Jobs.vue"),
     },
     {
       path: "/jobs/:jobId",
       name: "jobDetails",
-      component: () => import("./pages/JobDetails.vue")
+      component: () => import("./pages/JobDetails.vue"),
     },
     {
       path: "/events",
       name: "events",
-      component: () => import("./pages/Events.vue")
+      component: () => import("./pages/Events.vue"),
     },
     {
       path: "/learn",
       name: "learn",
-      component: () => import("./pages/Learn.vue")
+      component: () => import("./pages/Learn.vue"),
     },
     {
       path: "/tools",
       name: "tools",
-      component: () => import("./pages/Tools.vue")
+      component: () => import("./pages/Tools.vue"),
     },
     {
       path: "/tech/:skill",
       name: "techdetails",
-      component: () => import("./pages/SkillDetails.vue")
+      component: () => import("./pages/SkillDetails.vue"),
     },
     {
       path: "/tech",
       name: "tech",
-      component: () => import("./pages/Skills.vue")
+      component: () => import("./pages/Skills.vue"),
     },
     {
       path: "/signin",
       name: "signin",
-      component: () => import("./pages/Signin.vue")
+      component: () => import("./pages/Signin.vue"),
     },
     {
       path: "/signin/callback",
       name: "signincallback",
-      component: () => import("./pages/HandleFBResponse.vue")
+      component: () => import("./pages/HandleFBResponse.vue"),
     },
     {
       path: "/privacy",
       name: "privacy",
-      component: () => import("./pages/PrivacyPolicy.vue")
+      component: () => import("./pages/PrivacyPolicy.vue"),
     },
     {
       path: "/terms",
       name: "terms",
-      component: () => import("./pages/TermsOfUse.vue")
+      component: () => import("./pages/TermsOfUse.vue"),
     },
     {
       path: "/me",
       name: "me",
-      component: () => import("./pages/Profile.vue?me")
+      component: () => import("./pages/Profile.vue?me"),
     },
     {
       path: "/user/:username",
       name: "profile",
-      component: () => import("./pages/Profile.vue")
+      component: () => import("./pages/Profile.vue"),
     },
     {
       path: "/event/:id",
       name: "eventDetails",
-      component: () => import("./pages/EventDetails.vue")
+      component: () => import("./pages/EventDetails.vue"),
     },
     {
       path: "/event/form/:id",
       name: "eventForm",
-      component: () => import("./pages/EventForm.vue")
+      component: () => import("./pages/EventForm.vue"),
     },
     {
       path: "/join-meeting/:id",
       name: "joinMeeting",
-      component: () => import("./pages/Zoom.vue")
+      component: () => import("./pages/Zoom.vue"),
     },
     {
       path: "/learn/course/:id",
       name: "courseDetails",
-      component: () => import("./pages/CourseDetails.vue")
+      component: () => import("./pages/CourseDetails.vue"),
     },
     {
       path: "/learn/course",
       name: "course",
-      component: () => import("./pages/Courses.vue")
+      component: () => import("./pages/Courses.vue"),
     },
     {
-      path: "/learn/course/:courseid/:chapterno/:topicid",
+      path: "/learn/course/:courseid/:chapterno/:topicurl",
       name: "videocourse",
-      component: () => import("./pages/VideoCourse.vue")
+      component: () => import("./pages/VideoCourse.vue"),
     },
     {
       path: "/blog/:id/:blogname",
       name: "blogDetails",
-      component: () => import("./pages/BlogDetails.vue")
+      component: () => import("./pages/BlogDetails.vue"),
     },
-  ]
+  ],
 });
 
 router.beforeEach((to, from, next) => {
@@ -156,13 +156,13 @@ router.afterEach((to, from) => {
 
 window.onbeforeunload = () => {
   const authToken = JSON.parse(localStorage.getItem("authToken"));
-  fetch('/userpage', {
+  fetch("/userpage", {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${authToken}`
+      Authorization: `Bearer ${authToken}`,
     },
     keepalive: true,
   });
   userPageService.deleteUserPage();
-}
+};
 export default router;

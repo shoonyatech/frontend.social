@@ -1,18 +1,27 @@
 <template>
   <div>
     <b-card>
-      <div v-b-toggle="'collapse-' +chapter._id">
+      <div v-b-toggle="'collapse-' + chapter._id">
         Chapter {{ chapter.chapterNo }}:{{ chapter.title }}
       </div>
       <b-collapse
-        :id="'collapse-'+chapter._id"
+        :id="'collapse-' + chapter._id"
         class="mt-2"
       >
         <div
           v-for="(topic, index) in chapter.topics"
           :key="index"
         >
-          <router-link :to="'/learn/course/'+courseId+'/'+chapter.chapterNo+'/'+ topic._id ">
+          <router-link
+            :to="
+              '/learn/course/' +
+                courseId +
+                '/' +
+                chapter.chapterNo +
+                '/' +
+                topic.url
+            "
+          >
             <div class="topic-container">
               {{ topic.title }}
             </div>
@@ -30,23 +39,23 @@ export default {
   props: {
     chapter: {
       type: Object,
-      required: true
+      required: true,
     },
     courseId: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      showSections: false
+      showSections: false,
     };
   },
   methods: {
     toggleShowSections() {
       this.showSections = !this.showSections;
-    }
-  }
+    },
+  },
 };
 </script>
 
