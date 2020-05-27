@@ -24,7 +24,7 @@
           <input
             v-model.trim="guestUsername"
             type="text"
-            placeholder="Username"
+            placeholder="Screen name"
           >
           <button
             :disabled="!guestUsername"
@@ -44,12 +44,12 @@ import { v4 as uuidv4 } from "uuid";
 
 export default {
   components: {
-    SignInButtons
+    SignInButtons,
   },
   data() {
     return {
       loading: true,
-      guestUsername: ""
+      guestUsername: "",
     };
   },
   created() {},
@@ -63,13 +63,13 @@ export default {
       const user = {
         name: this.guestUsername,
         username: uuidv4(),
-        isGuest: true
+        isGuest: true,
       };
       localStorage.setItem("GUEST_USER", JSON.stringify(user));
       this.$store.commit("setGuestUser", user);
       this.$router.go(-1);
-    }
-  }
+    },
+  },
 };
 </script>
 
