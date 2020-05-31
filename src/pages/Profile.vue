@@ -259,6 +259,7 @@ j<template>
               :id="profile._id"
               type="USER"
               :is-editable="!username"
+              :admins="[]"
             />
           </Section>
         </b-col>

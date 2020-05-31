@@ -23,6 +23,7 @@
               :id="eventId || userId"
               :type="eventId ? 'EVENT' : 'USER'"
               :is-editable="isAdmin"
+              :admins="event ? event.adminUsers : []"
             />
           </b-col>
         </b-row>

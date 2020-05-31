@@ -82,6 +82,12 @@ export default {
     isEditable: {
       type: Boolean,
       default: true
+    },
+    admins: {
+      type: Array,
+      default: () => {
+        return [];
+      }
     }
   },
   data() {
@@ -199,11 +205,10 @@ export default {
       this.meetingToEdit = null;
     },
     canModify(meeting) {
-      return (
-        this.signedInUser &&
-        meeting.createdBy &&
-        meeting.createdBy.username === this.signedInUser.username
-      );
+      if (!this.signedInUser) return false;
+
+      const username = this.signedInUser.username.toLowerCase();
+      return (meeting.createdBy && meeting.createdBy.username.toLowerCase() === username) || (this.admins || []).some(x => x.username.toLowerCase() === username);
     },
     constructQueryParams(title) {
       return `eventId=${this.eventId || ''}&userId=${this.userId || ''}&title=${title}`
