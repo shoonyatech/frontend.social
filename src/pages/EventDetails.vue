@@ -103,6 +103,7 @@
               :id="eventId"
               type="EVENT"
               :is-editable="isAdmin"
+              :admins="event.adminUsers || []"
             />
           </b-col>
         </b-row>
