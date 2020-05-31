@@ -10,9 +10,15 @@
           const meetingId = urlParams.get("id");
           const nickName = urlParams.get("name");
           const t = urlParams.get("t");
+          const isPrivate = urlParams.get("private");
+
           let toolbarOptions = ['microphone', 'camera', 'closedcaptions','fullscreen',
                   'fodeviceselection', 'hangup', 'profile', 'chat', 'raisehand','videoquality', 'filmstrip', 
                   'tileview', 'videobackgroundblur'];
+
+          if (isPrivate == 1) {
+            toolbarOptions = [...toolbarOptions, 'desktop']
+          }
 
           if (t == 1) {
             toolbarOptions = [...toolbarOptions, 'livestreaming',
