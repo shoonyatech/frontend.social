@@ -23,30 +23,32 @@
             v-model="problemStatement"
             :editor="editor"
             :config="editorConfig"
-            style="width: 100%"
+            class="editor"
           />
         </div>
         <div class="form-field">
           <div class="form-label">
             Date
           </div>
-          <div class="form-field">
-            <span class="date">Start</span>
-            <input
-              type="date"
-              class="editable-value"
-              :value="startDate"
-              @change="onStartDateChange"
-            >
-          </div>
-          <div class="form-field">
-            <span class="date">End</span>
-            <input
-              type="date"
-              class="editable-value"
-              :value="endDate"
-              @change="onEndDateChange"
-            >
+          <div class="form-field date">
+            <div>
+              <span class="date">Start</span>
+              <input
+                type="date"
+                class="editable-value"
+                :value="startDate"
+                @change="onStartDateChange"
+              >
+            </div>
+            <div>
+              <span class="date">End</span>
+              <input
+                type="date"
+                class="editable-value"
+                :value="endDate"
+                @change="onEndDateChange"
+              >  
+            </div>
           </div>
         </div> 
         <div class="tags form-field">
@@ -138,7 +140,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .form-container {
   h1 span {
     padding-left: 10px;
@@ -147,6 +149,11 @@ export default {
   justify-content: center;
   #addChallengeForm {
     width: 83%;
+
+  .ck-editor {
+    width: 100%;
+  }
+
     @media screen and (max-width: 1024px) {
       width: 100%;
       padding: 10px;
@@ -154,13 +161,21 @@ export default {
     .form-field {
       display: flex;
       margin-bottom: 10px;
-      .city-selection {
-        flex: 1;
+
+      .form-field.date {
+        display: flex;
+      flex-direction: column;
+      span {
+        display: inline-block;
+        width: 100px;
       }
+      }
+      
+      
       textarea,
       input[type="text"] {
         flex: 1;
-        border: 3px solid #114273;
+        border: 3px solid var(--fs-secondary-color);
       }
 
       .multiple-selection {
@@ -218,10 +233,6 @@ export default {
     justify-content: space-between;
   }
 }
-.ck-editor {
-  width: 80%;
-}
-.ck-editor__editable p {
-  margin: 0 !important;
-}
+
+
 </style>

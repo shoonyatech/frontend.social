@@ -8,13 +8,13 @@
     <div>
       <span v-if="challenge.startTime">
         {{
-          challenge.startTime | moment("timezone", "Europe/London", "DD MMM YYYY")
+          challenge.startTime | moment("DD MMM YYYY")
         }}
       </span>
       <span v-if="challenge.endTime">-</span>
       <span v-if="challenge.endTime">
         {{
-          challenge.endTime | moment("timezone", "Europe/London", "DD MMM YYYY")
+          challenge.endTime | moment("DD MMM YYYY")
         }}
       </span>
     </div>
@@ -78,7 +78,7 @@ export default {
       this.isOverflow = !this.isOverflow;
     },
     onClick() {
-      this.$router.go(`/challenge/${this.challenge._id}`)
+      this.$router.push(`/challenge/${this.challenge._id}`)
     }
   }
 };
