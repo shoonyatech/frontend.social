@@ -37,6 +37,7 @@ export default {
         "/images/comics/Page-02.jpg",
         "/images/comics/Page-03.jpg",
         "/images/comics/Page-04.jpg",
+        "/images/comics/Page-05.jpg",
       ],
     };
   },

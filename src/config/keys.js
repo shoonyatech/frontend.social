@@ -4,8 +4,8 @@ export default {
     clientSecret: ""
   },
   github: {
-    clientId: "a2c46d9414bce6b94446",
-    clientSecret: ""
+    clientId: "a1cb0b33dc6baa52d49f",
+    clientSecret: "264016e56bf207a4e1b37d94ef812b8d4968cb85",
   },
   twitter: {
     clientId: "gtq302zK8hjvczfzbHHJm5ChO",
