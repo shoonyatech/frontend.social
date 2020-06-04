@@ -13,6 +13,28 @@
           >
             <span>{{ event.title }}</span>
             <div>
+              <span
+                v-if="canModify"
+                class="event-action"
+                @click.prevent="onDeleteEvent"
+              >
+                <img
+                  :src="`/images/delete.svg`"
+                  class="icon-button"
+                  alt="delete"
+                >
+              </span>
+              <span
+                v-if="canModify"
+                class="event-action"
+                @click.prevent="onEditEvent"
+              >
+                <img
+                  :src="`/images/edit.svg`"
+                  class="icon-button"
+                  alt="edit"
+                >
+              </span>
               <span class="event-type capsule">
                 {{
                   getEventTypeName(event.type)
@@ -218,6 +240,13 @@ export default {
         return (this.event.createdBy && this.event.createdBy.username === username) || adminUsers.some(x => x.username.toLowerCase() === username);
       }
       return false
+    },
+    canModify() {
+      if (!this.signedInUser || !this.event) return false;
+
+      const username = this.signedInUser.username.toLowerCase();
+      const admins = this.event.adminUsers || [];
+      return (this.event.createdBy && this.event.createdBy.username.toLowerCase() === username) || admins.some(x => x.username.toLowerCase() === username);
     }
   },
   async created() {
@@ -301,7 +330,31 @@ export default {
     editComment(commentId) {
       this.commentId = commentId;
     },
-    cancelComment() {}
+    cancelComment() {},
+    onEditEvent() {
+      this.$router.push(`/event/form/${this.event._id}`);
+    },
+    onDeleteEvent() {
+      this.loading = true;
+      eventService
+        .deleteEvent(this.event._id)
+        .then(() => {
+          eventBus.$emit("show-toast", {
+            body: messages.events.eventDeletedSuccess,
+            title: messages.generic.success
+          });
+          this.loading = false;
+          this.$router.back();
+        })
+        .catch(e => {
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR
+          });
+          this.loading = false;
+        });
+    },
   }
 };
 </script>
@@ -333,4 +386,10 @@ export default {
   display: flex;
   flex-direction: row-reverse;
 }
+
+.event-action {
+  float: right;
+  margin-top: -7px;
+}
+
 </style>
