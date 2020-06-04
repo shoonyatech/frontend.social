@@ -492,8 +492,12 @@ export default {
     toggleIsRequiresRegistration() {
       this.event.isRequiresRegistration = !this.event.isRequiresRegistration;
     },
-    close: function(val) {
-      this.$router.back();
+    close: function(id) {
+      if (id) {
+        this.$router.push(`/event/${id}`);
+      } else {
+        this.$router.back();
+      }
     },
     canModify(event) {
       if (!this.signedInUser) return false;
@@ -580,7 +584,7 @@ export default {
               body: messages.events.eventsUpdateSuccess,
               title: messages.generic.success
             });
-            this.close();
+            this.close(eventId);
           })
           .catch(e => {
             eventBus.$emit("show-toast", {
@@ -592,12 +596,12 @@ export default {
       } else {
         eventService
           .addEvent(this.event)
-          .then(() => {
+          .then((resp) => {
             eventBus.$emit("show-toast", {
               body: messages.events.eventsAddSuccess,
               title: messages.generic.success
             });
-            this.close();
+            this.close(resp._id);
           })
           .catch(e => {
             eventBus.$emit("show-toast", {
