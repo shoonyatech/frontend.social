@@ -129,18 +129,19 @@ export default {
       promise.then(meetings => {
         let userCount = 0;
         this.meetings = meetings.map(m => ({
-          ...m
+          ...m,
+          userCount,
         }));
-        this.meetings.map(m => {
+        const promises = this.meetings.map(m => {
           const url = encodeURI(
             `https://www.frontend.social/join-meeting/${m.meetingId}?${this.constructQueryParams(m.title)}`
           );
-          userPageService.getOnlineUsersCount(url).then(res => {
-            let meeting = this.meetings.find(mt => mt._id === m._id);
-            if (meeting) {
-              meeting.userCount = res.userCount;
-              this.$forceUpdate();
-            }
+          return userPageService.getOnlineUsersCount(url);
+        });
+
+        Promise.all(promises).then((results) => {
+          this.meetings = this.meetings.map((m, index) => {
+            return {...m, userCount: results[index] ? results[index].userCount : 0};
           });
         });
       });
