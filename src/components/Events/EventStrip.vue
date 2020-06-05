@@ -168,10 +168,12 @@ export default {
   },
   props: {
     event: {
-      type: Object
+      type: Object,
+      required: true,
     },
     isReadOnly: {
-      type: Boolean
+      type: Boolean,
+      default: true,
     },
     canModify: {
       type: Boolean,

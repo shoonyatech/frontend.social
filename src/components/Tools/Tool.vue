@@ -62,9 +62,9 @@
             />
             <b-col md="12 mb-2">
               <Comment
-                v-for="(comment,index) in comments"
+                v-for="(comment, i) in comments"
                 :key="comment._id"
-                :index="index"
+                :index="i"
                 :comment-id="comment._id"
                 :comment="comment"
                 :show-rating="showRating"

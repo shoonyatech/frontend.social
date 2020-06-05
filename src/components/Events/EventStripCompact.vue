@@ -109,9 +109,11 @@ export default {
   props: {
     event: {
       type: Object,
+      default: () => {}
     },
     isReadOnly: {
       type: Boolean,
+      default: true
     },
   },
   data() {

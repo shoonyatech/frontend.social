@@ -74,12 +74,15 @@ export default {
   props: {
     editMode: {
       type: Boolean,
+      default: false,
     },
     city: {
       type: String,
+      default: '',
     },
     country: {
       type: String,
+      default: '',
     },
     addCity: {
       type: Boolean,

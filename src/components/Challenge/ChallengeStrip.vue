@@ -53,7 +53,8 @@ export default {
   },
   props: {
     challenge: {
-      type: Object
+      type: Object,
+      required: true,
     }
   },
   data() {

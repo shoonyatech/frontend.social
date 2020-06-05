@@ -24,9 +24,11 @@ export default {
   props: {
     skills: {
       type: Array,
+      default: () => []
     },
     size: {
       type: String,
+      default: ''
     },
   },
 };
