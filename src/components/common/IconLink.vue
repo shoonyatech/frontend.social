@@ -17,10 +17,12 @@
 export default {
   props: {
     url: {
-      type: String
+      type: String,
+      required: true,
     },
     icon: {
-      type: String
+      type: String,
+      required: true,
     }
   }
 };

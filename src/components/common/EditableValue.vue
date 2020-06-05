@@ -34,8 +34,8 @@
     </div>
     <div v-if="autoSelect">
       <div
-        v-for="(item, index) in filteredList()"
-        :key="index"
+        v-for="(item, i) in filteredList()"
+        :key="i"
         class="auto-option"
         @click="selectItem(item)"
       >

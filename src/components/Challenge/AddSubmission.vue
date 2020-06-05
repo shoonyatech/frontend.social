@@ -38,7 +38,8 @@ export default {
   },
   props: {
     challengeId: {
-      type: String
+      type: String,
+      required: true
     }
   },
   data() {
