@@ -10,6 +10,8 @@ export const messages = {
   challenge: {
     challengeAddSuccess: 'Challenge added successfully!',
     challengeAddFailure: 'Error adding new Challenge',
+    challengeUpdateSuccess: 'Challenge updated successfully!',
+    challengeUpdateFailure: 'Error updating Challenge',
   },
 
   city: {

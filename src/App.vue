@@ -354,4 +354,8 @@ input {
 .hidden {
   display: none;
 }
+
+.sub-text {
+  font-size: 0.65rem;
+}
 </style>

@@ -12,11 +12,19 @@
             class="challenge-title"
           >
             <span>{{ challenge.title }}</span>
+            <span
+              v-if="challenge.published"
+              class="capsule"
+            >Vote the winner</span>
+            <span
+              v-else
+              class="capsule"
+            >Active</span>
           </b-col>
         </b-row>
         <b-row>
           <b-col md="11">
-            <div class="challenge-date">
+            <div class="challenge-date sub-text">
               From : 
               <span v-if="challenge.startTime">
                 {{
@@ -35,7 +43,10 @@
           </b-col>
         </b-row>
         <b-row>
-          <b-col md="12">
+          <b-col
+            md="12"
+            class="sub-text"
+          >
             Tags:
             {{ (challenge.tags || []).join(", ") }}
           </b-col>
@@ -59,6 +70,7 @@
             <Submission
               v-for="submission in submissions"
               :key="submission._id"
+              :published="challenge.published"
               :submission="submission"
               @upvote="onUpVote(submission._id)"
               @downvote="onDownVote(submission._id)"
@@ -144,19 +156,19 @@ export default {
         })
     },
     async onUpVote(id) {
-      await challengeService.upVote(id);
+      const submission = await challengeService.upVote(id);
       this.submissions = this.submissions.map((s) => {
         if (s._id === id) {
-          return {...s, upVote: s.upVote + 1}
+          return submission;
         }
         return s;
       });
     },
     async onDownVote(id) {
-      await challengeService.downVote(id);
-            this.submissions = this.submissions.map((s) => {
+      const submission = await challengeService.downVote(id);
+      this.submissions = this.submissions.map((s) => {
         if (s._id === id) {
-          return {...s, downVote: s.downVote + 1}
+          return submission;
         }
         return s;
       });
@@ -192,4 +204,9 @@ export default {
   display: flex;
   flex-direction: row-reverse;
 }
+
+.capsule {
+  font-size: 0.65rem;
+}
+
 </style>
