@@ -64,6 +64,7 @@
           <b-col md="12">
             <h1>Submissions</h1>
             <AddSubmission
+              v-if="!challenge.published"
               :challenge-id="challengeId"
               @save="onSubmit"
             />
