@@ -1,28 +1,65 @@
 <template>
   <div class="challenge">
-    <div>
+    <div class="challenge-title">
       <a @click="onClick">
         {{ challenge.title }}
       </a>
+      <div class="info-section">
+        <span
+          v-if="challenge.published"
+          class="capsule"
+        >Vote the winner</span>
+        <span
+          v-else
+          class="capsule"
+        >Active</span>
+        <span
+          v-if="canModify"
+          class="event-action"
+          @click.prevent="editChallenge"
+        >
+          <img
+            :src="`/images/edit.svg`"
+            class="icon-button"
+            alt="edit"
+          >
+        </span>
+        <span
+          v-if="canModify"
+          class="event-action"
+          @click.prevent="deleteChallenge"
+        >
+          <img
+            :src="`/images/delete.svg`"
+            class="icon-button"
+            alt="delete"
+          >
+        </span>
+      </div>
     </div>
     <div>
-      <span v-if="challenge.startTime">
+      <span
+        v-if="challenge.startTime"
+        class="sub-text"
+      >
         {{
           challenge.startTime | moment("DD MMM YYYY")
         }}
       </span>
       <span v-if="challenge.endTime">-</span>
-      <span v-if="challenge.endTime">
+      <span
+        v-if="challenge.endTime"
+        class="sub-text"
+      >
         {{
           challenge.endTime | moment("DD MMM YYYY")
         }}
       </span>
     </div>
-    <div class="tags">
+    <div class="tags sub-text">
       Tags:
       {{ challenge.tags.join(", ") }}
     </div>
-
     <div
       ref="description"
       :class="{
@@ -63,6 +100,11 @@ export default {
       showArrow: false
     };
   },
+  computed: {
+    canModify() {
+      return true;
+    }
+  },
   mounted() {
     var element = this.$refs.description;
     if (element) {
@@ -79,6 +121,12 @@ export default {
     },
     onClick() {
       this.$router.push(`/challenge/${this.challenge._id}`)
+    },
+    deleteChallenge() {
+      this.$emit('delete', this.challenge._id);
+    },
+    editChallenge() {
+      this.$router.push(`/challenge/form/${this.challenge._id}`)
     }
   }
 };
@@ -120,5 +168,15 @@ export default {
 .company {
   font-weight: bold;
 }
-
+.challenge-title {
+  display: flex;
+  justify-content: space-between;
+}
+.capsule {
+  font-size: 0.65rem;
+}
+.info-section {
+  display: flex;
+  align-items: center;
+}
 </style>

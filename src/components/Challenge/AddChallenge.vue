@@ -60,6 +60,15 @@
             type="text"
           >
         </div>
+        <div class="form-field">
+          <div class="form-label" />
+          <Checkbox
+            id="published"
+            label="Published"
+            :is-checked="published"
+            :on-click="togglePublished"
+          />
+        </div>
         <div class="action-links">
           <button
             type="submit"
@@ -82,15 +91,21 @@ import moment from 'moment';
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Checkbox from "@/components/Checkbox/Checkbox";
+import challengesService from "@/services/challenges.service";
+
 export default {
   name: "AddChallenge",
   components: {
+    Checkbox,
   },
   data() {
     return {
+      id: null,
       title: "",
       problemStatement: "",
       tags: "",
+      published: false,
       startDate: null,
       endDate: null,
       editor: ClassicEditor,
@@ -100,6 +115,21 @@ export default {
       }
     };
   },
+  async created() {
+    const id = this.$route.params.id;
+    if (id && id !== "new") {
+      this.id = id;
+      this.loading = true;
+      const details = await challengesService.getChallengeById(id);
+      this.title = details.title;
+      this.problemStatement = details.problemStatement;
+      this.tags = details.tags.join();
+      this.startDate = this.getFormattedDate(this.startTime);
+      this.endDate = this.getFormattedDate(this.endTime);
+      this.published = details.published || false;
+    }
+    this.loading = false;
+  },
   methods: {
     processForm(event) {
       const payload = {
@@ -108,15 +138,29 @@ export default {
         tags: this.getTags(),
         startTime: this.startDate,
         endTime: this.endDate,
+        published: this.published,
       };
 
-      challengeService.addChallenge(payload).then(response => {
-        eventBus.$emit('show-toast', {body: messages.challenge.challengeAddSuccess, title: messages.generic.success});
-        this.close();
-      })
-      .catch(error => {
-        eventBus.$emit('show-toast', {body: messages.challenge.challengeAddFailure, title: messages.generic.error, type: ToastType.ERROR});
-      });
+      if (this.id) {
+        challengesService.updateChallenge(this.id, payload)
+        .then(response => {
+          eventBus.$emit('show-toast', {body: messages.challenge.challengeUpdateSuccess, title: messages.generic.success});
+          this.close();
+        })
+        .catch(error => {
+          eventBus.$emit('show-toast', {body: messages.challenge.challengeUpdateFailure, title: messages.generic.error, type: ToastType.ERROR});
+        });
+      } else {
+        challengeService.addChallenge(payload)
+        .then(response => {
+          eventBus.$emit('show-toast', {body: messages.challenge.challengeAddSuccess, title: messages.generic.success});
+          this.close();
+        })
+        .catch(error => {
+          eventBus.$emit('show-toast', {body: messages.challenge.challengeAddFailure, title: messages.generic.error, type: ToastType.ERROR});
+        });
+      }
+
     },
     getTags() {
       const tags = this.tags.split(",");
@@ -135,6 +179,9 @@ export default {
     },
     close() {
       this.$router.back();
+    },
+    togglePublished() {
+      this.published = !this.published;
     }
   }
 };
@@ -164,11 +211,11 @@ export default {
 
       .form-field.date {
         display: flex;
-      flex-direction: column;
-      span {
-        display: inline-block;
-        width: 100px;
-      }
+        flex-direction: column;
+        span {
+          display: inline-block;
+          width: 100px;
+        }
       }
       
       

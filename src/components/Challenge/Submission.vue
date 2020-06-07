@@ -6,18 +6,21 @@
           md="1"
           sm="1"
           class="col-xs-1 rating-container"
+          :class="{disabled: published}"
         >
           <img
             :src="`/images/up.svg`"
             class="up-down-arrow cursor-pointer"
             alt="up arrow"
+            :class="{'disabled':!canUpVote}"
             @click="onUpVote"
           >
-          {{ submission.upVote - submission.downVote }}
+          {{ votes }}
           <img
             :src="`/images/down.svg`"
             alt="down-arrow"
             class="up-down-arrow cursor-pointer"
+            :class="{'disabled':!canDownVote}"
             @click="onDownVote"
           >
         </b-col>
@@ -52,6 +55,10 @@ export default {
     submission: {
       type: Object,
       default: () => {}
+    },
+    published: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -59,7 +66,25 @@ export default {
       showRating: true,
     };
   },
-  
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    },
+    isAuthor() {
+      return this.signedInUser && this.signedInUser.username === this.submission.submittedBy.username;
+    },
+    canUpVote() {
+      if (this.isAuthor) return false;
+      return !(this.submission.votes || []).find(x => x.username === this.signedInUser.username && x.vote === 1);
+    },
+    canDownVote() {
+      if (this.isAuthor) return false;
+      return !(this.submission.votes || []).find(x => x.username === this.signedInUser.username && x.vote === -1);
+    },
+    votes() {
+      return (this.submission.votes || []).reduce((acc, val) => acc + val.vote , 0)
+    }
+  },
   methods: {
     onUpVote() {
       this.$emit('upvote', this.submission._id)
@@ -101,5 +126,9 @@ pre {
     line-height: 1.45;
     background-color: #f6f8fa;
     border-radius: 3px;
+}
+.disabled {
+  pointer-events: none;
+  opacity: .5;
 }
 </style>

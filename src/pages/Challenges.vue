@@ -5,7 +5,7 @@
       <b-row>
         <b-col md="12">
           <h1>
-            <span>Frontend Challengs</span>
+            <span>Coding Challenge</span>
             <button @click="onAddChallenge">
               + Add Challenge
             </button>
@@ -17,6 +17,7 @@
               v-for="challenge in challenges"
               :key="challenge.id"
               :challenge="challenge"
+              @delete="onDelete($event)"
             />
           </div>
         </b-col>
@@ -49,14 +50,22 @@ export default {
   },
   mounted() {
     this.loading = true;
-    challengesService.getChallenges().then(resp => {
-      this.challenges = resp;
-      this.loading = false;
-    })
+    challengesService.getChallenges()
+      .then(resp => {
+        this.challenges = resp;
+        this.loading = false;
+      });
   },
   methods: {
     onAddChallenge() {
       this.$router.push("/challenge/form/new");
+    },
+    onDelete(id) {
+      this.loading = true;
+      challengesService.deleteChallenge(id).then(resp => {
+        this.challenges = this.challenges.filter(challenge => challenge._id !== id);
+        this.loading = false;
+      });
     }
   }
 };
