@@ -2,7 +2,7 @@
   <b-container>
     <b-row>
       <b-col md="9">
-        <a
+        <!-- <a
           href="https://geekle.us/"
           name="home_banner"
           target="_blank"
@@ -11,7 +11,7 @@
             class="home-banner-top"
             src="/images/home-banner-top.png"
             alt="Home page banner"
-          ></a>
+          ></a> -->
 
         <h1>Find out What's new!</h1>
         <div class="home">
@@ -94,7 +94,7 @@ import SignInButtons from "@/components/Signin/SignInButtons";
 import LatestArticles from "@/components/Learn/LatestArticles";
 import UpcomingEvents from "@/components/Events/UpcomingEvents";
 import newsletterService from "@/services/newsletter.service";
-import ComicStrips from '@/components/ComicStrips/ComicStrips';
+import ComicStrips from "@/components/ComicStrips/ComicStrips";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 
