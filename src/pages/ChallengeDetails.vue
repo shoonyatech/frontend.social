@@ -25,7 +25,6 @@
         <b-row>
           <b-col md="11">
             <div class="challenge-date sub-text">
-              From : 
               <span v-if="challenge.startTime">
                 {{
                   challenge.startTime
@@ -47,8 +46,10 @@
             md="12"
             class="sub-text"
           >
-            Tags:
-            {{ (challenge.tags || []).join(", ") }}
+            <SkillTags
+              v-if="challenge.tags"
+              :skills="challenge.tags"
+            />
           </b-col>
         </b-row>
         <b-row>
@@ -94,12 +95,14 @@ import Submission from '@/components/Challenge/Submission';
 import challengeService from "@/services/challenges.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
+import SkillTags from "@/components/Skills/SkillTags";
 
 export default {
   name: "ChallengeDetails",
   components: {
     AddSubmission,
-    Submission
+    Submission,
+    SkillTags,
   },
   data() {
     return {

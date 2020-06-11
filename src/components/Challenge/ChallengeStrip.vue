@@ -57,8 +57,10 @@
       </span>
     </div>
     <div class="tags sub-text">
-      Tags:
-      {{ challenge.tags.join(", ") }}
+      <SkillTags
+        v-if="challenge.tags"
+        :skills="challenge.tags"
+      />
     </div>
     <div
       ref="description"
@@ -82,11 +84,13 @@
 
 <script>
 import Arrow from "../Arrow/Arrow";
+import SkillTags from "@/components/Skills/SkillTags";
 
 export default {
   name: "ChallengeStrip",
   components: {
     Arrow,
+    SkillTags
   },
   props: {
     challenge: {
