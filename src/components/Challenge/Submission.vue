@@ -3,10 +3,10 @@
     <b-container>
       <b-row>
         <b-col
+          v-if="published"
           md="1"
           sm="1"
           class="col-xs-1 rating-container"
-          :class="{disabled: published}"
         >
           <img
             :src="`/images/up.svg`"
@@ -25,8 +25,7 @@
           >
         </b-col>
         <b-col
-          md="11"
-          sm="11"
+          :md="published ? 11 : 12"
           class="challenge-box mb-5 col-xs-9"
         >
           <div class="submitted-by">
@@ -37,19 +36,29 @@
               <pre>{{ submission.submission }}</pre>
             </div>
           </div>
+          <!-- <b-row v-if="published">
+              <b-col md="11">
+                <AddComment :showRating="false" :onSave="addComment" :onCancel="cancelComment"></AddComment>
+              </b-col>
+              <b-col>
+                <Comment v-for="comment in submission.comments" :comment="comment" :showRating="false"  :key="comment.id"></Comment>
+              </b-col>
+          </b-row> -->
         </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
 <script>
-import Comment from "@/components/Comment/Comment.vue";
 import eventBus from "@/utilities/eventBus";
+// import Comment from "@/components/Comment/Comment.vue";
+// import AddComment from "@/components/Comment/AddComment.vue";
 
 export default {
   name: "Submission",
   components: {
-
+    // Comment,
+    // AddComment,
   },
   props: {
     submission: {
@@ -92,6 +101,12 @@ export default {
     onDownVote() {
       this.$emit('downvote', this.submission._id)
     },
+    async addComment() {
+
+    },
+    cancelComment() {
+
+    }
   }
 };
 </script>

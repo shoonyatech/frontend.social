@@ -27,5 +27,14 @@ export default {
     },
     downVote(id) {
         return httpClient.put(`/submission/downVote/${id}`);
+    },
+    addSubmissionComment(id, comment) {
+        return httpClient.post(`/submissions/${id}/comment`, {comment});
+    },
+    deleteSubmissionComment(id, commentId) {
+        return httpClient.delete(`/submissions/${id}/comment/${commentId}`)
+    },
+    updateSubmissionComment(id, commentId, comment) {
+        return httpClient.put(`/submissions/${id}/comment/${commentId}`, {comment})
     }
 };
