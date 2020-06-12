@@ -39,5 +39,13 @@ export default {
 
   getUserByUserId(userId) {
     return httpClient.get(`users?userId=${userId}`);
+  },
+
+  getRewardPoints() {
+    return httpClient.get('reward-points');
+  },
+
+  redeemRewardPoints(redeemAmount) {
+    return httpClient.post('redeem', {redeemAmount});
   }
 };

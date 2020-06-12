@@ -74,6 +74,7 @@
               :key="submission._id"
               :published="challenge.published"
               :submission="submission"
+              :winner-id="challenge.winnerSubmissionId"
               @upvote="onUpVote(submission._id)"
               @downvote="onDownVote(submission._id)"
             />

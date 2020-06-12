@@ -197,6 +197,38 @@ j<template>
             </div>
           </Section>
           <Section
+            v-if="!username"
+            :title="`Reward Points: ${rewardPoints}`"
+            class="reward-points"
+            :is-editable="false"
+          >
+            <input
+              v-model="pointsToRedeem"
+              type="number"
+            >
+            <button
+              :disabled="!pointsToRedeem"
+              @click="redeemRewardPoints()"
+            >
+              Redeem
+            </button>
+            <button
+              style="float: right"
+              @click="showRewardTransactions = !showRewardTransactions"
+            >
+              Transactions
+            </button>
+            <b-collapse
+              id="collapse-1"
+              v-model="showRewardTransactions"
+              class="mt-2"
+            >
+              <b-card>
+                <RewardPointsTransactions :values="rewardPointsTransactions" />
+              </b-card>
+            </b-collapse>
+          </Section>
+          <Section
             title="Events attended"
             class="events-attended"
             :on-edit="editEvents"
@@ -279,6 +311,7 @@ import EventMeetings from "@/components/Events/EventMeetings.vue";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 import UserAvatar from "@/components/common/UserAvatar";
+import RewardPointsTransactions from '@/components/Profile/RewardPointsTransactions.vue';
 
 export default {
   components: {
@@ -288,7 +321,8 @@ export default {
     SkillLevel,
     Section,
     UserAvatar,
-    EventMeetings
+    EventMeetings,
+    RewardPointsTransactions
   },
   data() {
     return {
@@ -307,7 +341,10 @@ export default {
       publicProfile: null,
       loading: false,
       editModeActivity: false,
-      activities: []
+      activities: [],
+      rewardPointsTransactions: [],
+      showRewardTransactions: false,
+      pointsToRedeem: null,
     };
   },
   computed: {
@@ -321,6 +358,16 @@ export default {
       return (
         window.origin + "?referrer=" + this.$store.state.signedInUser.username
       );
+    },
+    rewardPoints() {
+      return this.rewardPointsTransactions.reduce((acc, val) => {
+        if (val.credited) {
+          return acc + val.credited;
+        } else if (val.debited) {
+          return acc - val.debited;
+        }
+        return acc;
+      }, 0)
     }
   },
   created() {
@@ -340,6 +387,7 @@ export default {
         .then(user => {
           user.skills = this.sortSkills(user.skills);
           this.getReferrals();
+          this.getRewardPoints();
           this.profile = user;
           this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
           this.loading = false;
@@ -571,6 +619,39 @@ export default {
         .catch(e => {
           console.log("failed to fetch referals");
         });
+    },
+    getRewardPoints() {
+      userService
+      .getRewardPoints()
+      .then((response) => {
+        this.rewardPointsTransactions = response;
+      })
+    },
+    redeemRewardPoints() {
+      if (this.pointsToRedeem > this.rewardPoints) {
+        eventBus.$emit("show-toast", {
+          body: messages.rewardPoints.invalidAmount,
+          title: messages.generic.error,
+          type: ToastType.ERROR
+        });
+        return;
+      }
+
+      userService.redeemRewardPoints(this.pointsToRedeem).then(() => {
+        eventBus.$emit("show-toast", {
+          body: messages.rewardPoints.success,
+          title: messages.generic.success,
+        });
+
+        this.pointsToRedeem = null;
+        this.getRewardPoints();
+      }).catch(() => {
+        eventBus.$emit("show-toast", {
+          body: messages.rewardPoints.error,
+          title: messages.generic.error,
+          type: ToastType.ERROR
+        });
+      });
     }
   }
 };
@@ -686,6 +767,7 @@ export default {
 .public-profile,
 .my-skills,
 .events-attended,
+.reward-points,
 .referral-link {
   margin-top: 20px;
 }
