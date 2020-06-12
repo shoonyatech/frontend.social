@@ -45,6 +45,11 @@ export const messages = {
     rateAddSuccess: 'Rate added successfully!',
     rateDeleteSuccess: 'Rate deleted successfully!',
     rateAlreadyAdded: 'You already rated this tool.'
+  },
+  rewardPoints: {
+    success: 'Request has been submitted',
+    error: 'Failed to Redeem points',
+    invalidAmount: 'Invalid amount to redeem'
   }
 }
 

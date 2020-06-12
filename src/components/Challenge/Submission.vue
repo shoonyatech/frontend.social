@@ -33,7 +33,7 @@
           </div>
           <div class="subtitle">
             <div class="mb-2">
-              <pre>{{ submission.submission }}</pre>
+              <pre :class="{winner: submission._id === winnerId}">{{ submission.submission }}</pre>
             </div>
           </div>
           <!-- <b-row v-if="published">
@@ -68,6 +68,10 @@ export default {
     published: {
       type: Boolean,
       default: false,
+    },
+    winnerId: {
+      type: String,
+      default: '',
     }
   },
   data() {
@@ -141,6 +145,9 @@ pre {
     line-height: 1.45;
     background-color: #f6f8fa;
     border-radius: 3px;
+}
+pre.winner {
+  border: 2px solid green;
 }
 .disabled {
   pointer-events: none;
