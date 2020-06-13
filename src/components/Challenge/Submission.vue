@@ -30,6 +30,19 @@
         >
           <div class="submitted-by">
             {{ submission.submittedBy.username }}
+
+            <span
+              v-if="!published"
+              class="event-action"
+              style="float: right"
+              @click.prevent="deleteSubmission"
+            >
+              <img
+                :src="`/images/delete.svg`"
+                class="icon-button"
+                alt="delete"
+              >
+            </span>
           </div>
           <div class="subtitle">
             <div class="mb-2">
@@ -105,6 +118,9 @@ export default {
     onDownVote() {
       this.$emit('downvote', this.submission._id)
     },
+    deleteSubmission() {
+      this.$emit('delete', this.submission._id);
+    },
     async addComment() {
 
     },
@@ -140,11 +156,12 @@ export default {
 }
 pre {
   padding: 16px;
-    overflow: auto;
-    font-size: 85%;
-    line-height: 1.45;
-    background-color: #f6f8fa;
-    border-radius: 3px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  width: 100%;
 }
 pre.winner {
   border: 2px solid green;
