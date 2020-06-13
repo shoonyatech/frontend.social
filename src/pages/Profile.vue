@@ -628,7 +628,7 @@ export default {
       })
     },
     redeemRewardPoints() {
-      if (this.pointsToRedeem > this.rewardPoints) {
+      if (this.pointsToRedeem == 0 || this.pointsToRedeem > this.rewardPoints) {
         eventBus.$emit("show-toast", {
           body: messages.rewardPoints.invalidAmount,
           title: messages.generic.error,
