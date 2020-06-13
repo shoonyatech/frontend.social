@@ -1,11 +1,15 @@
 <template>
   <div>
     <b-table
+      v-if="items.length"
       small
       striped
       hover
       :items="items"
     />
+    <div v-else>
+      No Transactions
+    </div>
   </div>
 </template>
 
