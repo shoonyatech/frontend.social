@@ -77,6 +77,7 @@
               :winner-id="challenge.winnerSubmissionId"
               @upvote="onUpVote(submission._id)"
               @downvote="onDownVote(submission._id)"
+              @delete="onDelete(submission._id)"
             />
           </b-col> 
         </b-row>
@@ -177,6 +178,10 @@ export default {
         }
         return s;
       });
+    },
+    async onDelete(id) {
+      await challengeService.deleteSubmission(id);
+      this.submissions = this.submissions.filter(s => s._id !== id);
     }
   }
 };
