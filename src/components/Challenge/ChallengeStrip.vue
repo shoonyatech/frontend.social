@@ -107,7 +107,7 @@ export default {
   },
   computed: {
     canModify() {
-      return true;
+      return this.$store.getters.isAdmin;
     }
   },
   mounted() {

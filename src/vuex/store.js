@@ -39,5 +39,10 @@ export default new Vuex.Store({
         dispatch('fetchSkills');
       })
     }
+  },
+  getters: {
+    isAdmin(state) {
+      return state.signedInUser ? !!state.signedInUser.admin : false
+    }
   }
 });
