@@ -6,7 +6,10 @@
         <b-col md="12">
           <h1>
             <span>Coding Challenge</span>
-            <button @click="onAddChallenge">
+            <button
+              v-if="$store.getters.isAdmin"
+              @click="onAddChallenge"
+            >
               + Add Challenge
             </button>
           </h1>

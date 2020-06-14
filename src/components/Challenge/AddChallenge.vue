@@ -130,6 +130,14 @@ export default {
     }
     this.loading = false;
   },
+  mounted() {
+    setTimeout(() => {
+      if (!this.$store.getters.isAdmin) {
+        this.$router.push("/");
+        return;
+      }
+    }, 1000);
+  },
   methods: {
     processForm(event) {
       const payload = {
