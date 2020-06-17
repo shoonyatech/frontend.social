@@ -201,23 +201,24 @@ j<template>
             :title="`Reward Points: ${rewardPoints}`"
             class="reward-points"
             :is-editable="false"
-          >
-            <input
-              v-model="pointsToRedeem"
-              type="number"
-            >
-            <button
-              :disabled="!pointsToRedeem"
-              @click="redeemRewardPoints()"
-            >
-              Redeem
-            </button>
-            <button
-              style="float: right"
-              @click="showRewardTransactions = !showRewardTransactions"
-            >
-              Transactions
-            </button>
+          > 
+            <div class="reward-points-options">
+              <div>
+                <input
+                  v-model="pointsToRedeem"
+                  type="number"
+                >
+                <button
+                  :disabled="!pointsToRedeem"
+                  @click="redeemRewardPoints()"
+                >
+                  Redeem
+                </button>
+              </div>
+              <button @click="showRewardTransactions = !showRewardTransactions">
+                Transactions
+              </button>
+            </div>
             <b-collapse
               id="collapse-1"
               v-model="showRewardTransactions"
@@ -787,5 +788,15 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+}
+
+.reward-points-options {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  button {
+    margin: 2px;
+  }
 }
 </style>
