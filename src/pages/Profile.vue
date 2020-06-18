@@ -207,9 +207,10 @@ j<template>
                 <input
                   v-model="pointsToRedeem"
                   type="number"
+                  :disabled="rewardPoints < 1000"
                 >
                 <button
-                  :disabled="!pointsToRedeem"
+                  :disabled="!pointsToRedeem || rewardPoints < 1000"
                   @click="redeemRewardPoints()"
                 >
                   Redeem
@@ -218,6 +219,9 @@ j<template>
               <button @click="showRewardTransactions = !showRewardTransactions">
                 Transactions
               </button>
+            </div>
+            <div class="small-text">
+              (You can Redeem only if reward points more than 1000)
             </div>
             <b-collapse
               id="collapse-1"
@@ -638,15 +642,6 @@ export default {
         return;
       }
 
-      if (this.rewardPoints < 1000) {
-        eventBus.$emit("show-toast", {
-          body: messages.rewardPoints.lessAmount,
-          title: messages.generic.error,
-          type: ToastType.ERROR
-        });
-        return;
-      }
-
       userService.redeemRewardPoints(this.pointsToRedeem).then(() => {
         eventBus.$emit("show-toast", {
           body: messages.rewardPoints.success,
@@ -807,5 +802,9 @@ export default {
   button {
     margin: 2px;
   }
+}
+
+.small-text {
+  font-size: 15px;
 }
 </style>
