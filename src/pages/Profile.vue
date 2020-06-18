@@ -638,6 +638,15 @@ export default {
         return;
       }
 
+      if (this.rewardPoints < 1000) {
+        eventBus.$emit("show-toast", {
+          body: messages.rewardPoints.lessAmount,
+          title: messages.generic.error,
+          type: ToastType.ERROR
+        });
+        return;
+      }
+
       userService.redeemRewardPoints(this.pointsToRedeem).then(() => {
         eventBus.$emit("show-toast", {
           body: messages.rewardPoints.success,
