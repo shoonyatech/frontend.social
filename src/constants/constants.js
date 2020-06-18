@@ -49,7 +49,8 @@ export const messages = {
   rewardPoints: {
     success: 'Request has been submitted',
     error: 'Failed to Redeem points',
-    invalidAmount: 'Invalid amount to redeem'
+    invalidAmount: 'Invalid amount to redeem',
+    lessAmount: 'You can Redeem only if reward points more than 1000'
   }
 }
 
