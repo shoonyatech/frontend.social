@@ -1,11 +1,10 @@
 <template>
   <b-container
-    fluid
     class="meeting-container"
   >
     <b-breadcrumb :items="items" />
     <b-row>
-      <b-col md="9">
+      <b-col md="12">
         <b-row>
           <div class="zoom-container">
             <iframe
@@ -67,9 +66,9 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-col md="3">
+      <!-- <b-col md="3">
         <OnlineUsers />
-      </b-col>
+      </b-col> -->
     </b-row>
   </b-container>
 </template>
@@ -77,7 +76,7 @@
 <script>
 import eventService from "@/services/event.service";
 import EventMeetings from "@/components/Events/EventMeetings.vue";
-import OnlineUsers from "@/components/OnlineUsers/OnlineUsers.vue";
+// import OnlineUsers from "@/components/OnlineUsers/OnlineUsers.vue";
 
 import commentService from "@/services/comment.service";
 import UserService from "@/services/user.service";
@@ -90,7 +89,7 @@ import {isEmpty} from 'lodash';
 export default {
   components: {
     EventMeetings,
-    OnlineUsers,
+    // OnlineUsers,
     Comment,
     AddComment
   },
