@@ -807,4 +807,8 @@ export default {
 .small-text {
   font-size: 15px;
 }
+
+.portfolio {
+  word-break: break-all;
+}
 </style>
