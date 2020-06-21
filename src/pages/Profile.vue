@@ -249,7 +249,7 @@ j<template>
               @change="onEventChange"
             />
           </Section>
-          <Section
+          <!-- <Section
             title="Activities"
             class="events-attended"
             :is-editable="editModeActivity && isEditable"
@@ -269,7 +269,7 @@ j<template>
                 :href="activity.pageLink"
               >{{ activity.title }}</a>
             </div>
-          </Section>
+          </Section> -->
 
           <Section
             v-if="!username"
