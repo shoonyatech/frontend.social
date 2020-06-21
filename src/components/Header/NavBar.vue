@@ -35,6 +35,7 @@
         <router-link
           :to="link.path"
           class="nav-item-link"
+          @click.native="onClick"
         >
           {{ link.text }}
         </router-link>
@@ -91,6 +92,10 @@ export default {
     redirect(path) {
       this.toggleNav();
       this.$router.push(path);
+    },
+    onClick() {
+      const nav = this.$refs.nav.classList;
+      nav.remove("active")
     }
   }
 };
