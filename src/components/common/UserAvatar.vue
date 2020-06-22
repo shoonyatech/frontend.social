@@ -10,6 +10,7 @@
     <a
       v-else
       :href="`/user/${user.username}`"
+      :title="user.username"
     >
       <img
         :src="user.profilePic || '/images/avatar.svg'"
