@@ -416,7 +416,6 @@ export default {
           this.loading = false;
         });
     }
-    this.getActivities();
   },
   methods: {
     onSocialChange: function(social) {
