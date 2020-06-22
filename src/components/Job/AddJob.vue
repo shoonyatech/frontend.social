@@ -261,7 +261,7 @@ export default {
       return Object.keys(this.skillsMap).filter(item => this.skillsMap[item]);
     },
     getTags() {
-      const tags = this.tags.split(",");
+      const tags = this.tags.split(",").map(x => x.trim());
       return tags ? tags : [];
     }
   }
