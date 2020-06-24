@@ -22,6 +22,10 @@ export default {
     query = query || "";
     return httpClient.get("event?" + query + pagination);
   },
+  getEvents: (limit = 100, page = 1) => {
+    var pagination = "limit=" + limit + "&page=" + page;
+    return httpClient.get("event?" + pagination);
+  },
 
   addEvent: event => {
     return httpClient.post("event", event);
