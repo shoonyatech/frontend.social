@@ -1,6 +1,6 @@
 <template>
   <div class="host">
-    <h1>
+    <!-- <h1>
       All Events
       <span
         v-if="!infiniteScroll"
@@ -15,7 +15,7 @@
           @click="loadEvents('','previous')"
         >&#8249;</button>
       </span>
-    </h1>
+    </h1> -->
 
     <div
       v-infinite-scroll="loadEvents"

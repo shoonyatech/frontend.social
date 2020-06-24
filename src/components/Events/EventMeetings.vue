@@ -113,8 +113,8 @@ export default {
   mounted() {
     this.getMeetings();
     this.interval = setInterval(() => {
-      this.getMeetings();
-    }, 10000);
+      this.getOnlineUsersForMeetings();
+    }, 30000);
   },
   beforeDestroy() {
     if (this.interval) {
@@ -132,17 +132,21 @@ export default {
           ...m,
           userCount,
         }));
-        const promises = this.meetings.map(m => {
-          const url = encodeURI(
-            `https://www.frontend.social/join-meeting/${m.meetingId}?${this.constructQueryParams(m.title)}`
-          );
-          return userPageService.getOnlineUsersCount(url);
-        });
 
-        Promise.all(promises).then((results) => {
-          this.meetings = this.meetings.map((m, index) => {
-            return {...m, userCount: results[index] ? results[index].userCount : 0};
-          });
+        this.getOnlineUsersForMeetings();
+      });
+    },
+    getOnlineUsersForMeetings() {
+      const promises = this.meetings.map(m => {
+        const url = encodeURI(
+          `https://www.frontend.social/join-meeting/${m.meetingId}?${this.constructQueryParams(m.title)}`
+        );
+        return userPageService.getOnlineUsersCount(url);
+      });
+
+      Promise.all(promises).then((results) => {
+        this.meetings = this.meetings.map((m, index) => {
+          return {...m, userCount: results[index] ? results[index].userCount : 0};
         });
       });
     },
