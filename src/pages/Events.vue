@@ -15,7 +15,7 @@
             </button>
           </h1>
           <div class="events">
-            <div v-if="signedInUser">
+            <!-- <div v-if="signedInUser">
               <h1>
                 My Events
                 <span
@@ -40,7 +40,7 @@
                 @edit="onEditEvent"
                 @delete="onDeleteEvent"
               />
-            </div>
+            </div> -->
             <AllEvents
               :infinite-scroll="false"
               :limit="20"
@@ -84,7 +84,7 @@
 
 <script>
 import eventService from "@/services/event.service";
-import EventStrip from "@/components/Events/EventStrip";
+//import EventStrip from "@/components/Events/EventStrip";
 import EventFilters from "@/components/Events/EventFilters";
 import AllEvents from "@/components/Events/AllEvents";
 
@@ -98,7 +98,7 @@ import { ToastType, messages } from "@/constants/constants";
 export default {
   name: "Events",
   components: {
-    EventStrip,
+    // EventStrip,
     EventFilters,
     AllEvents,
     // UpcomingOnlineEvents,
