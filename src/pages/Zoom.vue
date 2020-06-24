@@ -212,7 +212,7 @@ export default {
         });
       }
       this.getComments();
-      this.interval = setInterval(() => this.getComments(), 5000);
+      this.interval = setInterval(() => this.getComments(), 20000);
     },
     getComments() {
       commentService

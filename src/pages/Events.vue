@@ -42,7 +42,7 @@
               />
             </div> -->
             <AllEvents
-              :infinite-scroll="false"
+              :infinite-scroll="true"
               :limit="EventPageLimit"
             />
             <!-- <UpcomingOnlineEvents
