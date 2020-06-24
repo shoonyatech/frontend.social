@@ -83,7 +83,7 @@ import UserService from "@/services/user.service";
 import Comment from "@/components/Comment/Comment.vue";
 import AddComment from "@/components/Comment/AddComment.vue";
 import eventBus from "@/utilities/eventBus";
-import { ToastType, messages } from "@/constants/constants";
+import { ToastType, messages, INTERVALS } from "@/constants/constants";
 import {isEmpty} from 'lodash';
 
 export default {
@@ -212,7 +212,7 @@ export default {
         });
       }
       this.getComments();
-      this.interval = setInterval(() => this.getComments(), 20000);
+      this.interval = setInterval(() => this.getComments(), INTERVALS.TwentySeconds);
     },
     getComments() {
       commentService

@@ -64,7 +64,7 @@ import MeetingSettings from './MeetingSettings.vue';
 import meetingService from "@/services/meeting.service";
 import userPageService from "@/services/user-page.service";
 import eventBus from "@/utilities/eventBus";
-import { ToastType, messages } from "@/constants/constants";
+import { ToastType, messages, INTERVALS } from "@/constants/constants";
 import { uniqBy } from "lodash";
 
 export default {
@@ -114,7 +114,7 @@ export default {
     this.getMeetings();
     this.interval = setInterval(() => {
       this.getOnlineUsersForMeetings();
-    }, 30000);
+    }, INTERVALS.ThirtySeconds);
   },
   beforeDestroy() {
     if (this.interval) {

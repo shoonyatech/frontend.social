@@ -27,7 +27,10 @@
         </span>
 
         <a v-if="!isReadOnly">
-          <span @click.prevent="onTitleClick">{{ event.title }}</span>
+          <span
+            class="event-title"
+            @click.prevent="onTitleClick"
+          >{{ event.title }}</span>
           <span class="event-type capsule">{{ getEventTypeName(event.type) }}</span>
           <span
             v-if="event.isOnline"
@@ -40,7 +43,10 @@
           >private</span>
         </a>
         <div v-else>
-          <span @click.prevent="onTitleClick">{{ event.title }}</span>
+          <span
+            class="event-title"
+            @click.prevent="onTitleClick"
+          >{{ event.title }}</span>
           <span class="event-type capsule">{{ getEventTypeName(event.type) }}</span>
           <span
             v-if="event.isOnline"
@@ -103,12 +109,12 @@
         </div>
       </b-col>
     </b-row>
-    <b-row>
+    <!-- <b-row>
       <b-col md="12">
         Event Link:
         <span class="eventLink">{{ eventLink }}</span>
       </b-col>
-    </b-row>
+    </b-row> -->
     <b-row v-if="event.isRequiresRegistration">
       <b-col md="10">
         <div class="registration">
@@ -338,5 +344,8 @@ export default {
 .eventLink {
   font-weight: bold;
   word-break: break-all;
+}
+.event-title {
+  cursor: pointer;
 }
 </style>
