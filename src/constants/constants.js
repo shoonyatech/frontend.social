@@ -65,3 +65,5 @@ export const EventType = {
   w: 'workshop',
   i: 'interview',
 }
+
+export const EventPageLimit = 20;
