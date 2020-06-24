@@ -43,7 +43,7 @@
             </div> -->
             <AllEvents
               :infinite-scroll="false"
-              :limit="20"
+              :limit="EventPageLimit"
             />
             <!-- <UpcomingOnlineEvents
               ref="upcomingOnlineEvents"
@@ -93,7 +93,7 @@ import AllEvents from "@/components/Events/AllEvents";
 // import PastEvents from "@/components/Events/PastEvents";
 
 import eventBus from "@/utilities/eventBus";
-import { ToastType, messages } from "@/constants/constants";
+import { ToastType, messages, EventPageLimit } from "@/constants/constants";
 
 export default {
   name: "Events",
@@ -119,7 +119,8 @@ export default {
     return {
       events: [],
       loading: false,
-      page: 1
+      page: 1,
+      EventPageLimit,
     };
   },
   computed: {
