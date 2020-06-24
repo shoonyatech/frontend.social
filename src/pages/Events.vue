@@ -41,7 +41,11 @@
                 @delete="onDeleteEvent"
               />
             </div>
-            <UpcomingOnlineEvents
+            <AllEvents
+              :infinite-scroll="false"
+              :limit="20"
+            />
+            <!-- <UpcomingOnlineEvents
               ref="upcomingOnlineEvents"
               :infinite-scroll="false"
               :limit="5"
@@ -57,7 +61,7 @@
               ref="pastEvents"
               :infinite-scroll="false"
               :limit="5"
-            />
+            /> -->
             <div class="center-content">
               <button
                 class="mt-4"
@@ -82,9 +86,11 @@
 import eventService from "@/services/event.service";
 import EventStrip from "@/components/Events/EventStrip";
 import EventFilters from "@/components/Events/EventFilters";
-import UpcomingOnlineEvents from "@/components/Events/UpcomingOnlineEvents";
-import UpcomingOfflineEvents from "@/components/Events/UpcomingOfflineEvents";
-import PastEvents from "@/components/Events/PastEvents";
+import AllEvents from "@/components/Events/AllEvents";
+
+// import UpcomingOnlineEvents from "@/components/Events/UpcomingOnlineEvents";
+// import UpcomingOfflineEvents from "@/components/Events/UpcomingOfflineEvents";
+// import PastEvents from "@/components/Events/PastEvents";
 
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
@@ -94,9 +100,10 @@ export default {
   components: {
     EventStrip,
     EventFilters,
-    UpcomingOnlineEvents,
-    UpcomingOfflineEvents,
-    PastEvents
+    AllEvents,
+    // UpcomingOnlineEvents,
+    // UpcomingOfflineEvents,
+    // PastEvents
   },
   props: {
     infiniteScroll: {
@@ -157,15 +164,15 @@ export default {
     },
     onSearchParamsChange(param = "") {
       this.loading = true;
-      this.$refs.upcomingOnlineEvents.loadEvents(param);
-      this.$refs.upcomingOfflineEvents.loadEvents(param);
-      this.$refs.pastEvents.loadEvents(param);
+      // this.$refs.upcomingOnlineEvents.loadEvents(param);
+      // this.$refs.upcomingOfflineEvents.loadEvents(param);
+      // this.$refs.pastEvents.loadEvents(param);
       this.loadEvents(param);
     },
     refreshPage() {
-      this.$refs.upcomingOnlineEvents.loadEvents();
-      this.$refs.upcomingOfflineEvents.loadEvents();
-      this.$refs.pastEvents.loadEvents();
+      // this.$refs.upcomingOnlineEvents.loadEvents();
+      // this.$refs.upcomingOfflineEvents.loadEvents();
+      // this.$refs.pastEvents.loadEvents();
       this.loadEvents();
     },
     showDialog() {
