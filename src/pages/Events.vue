@@ -2,11 +2,7 @@
   <div class="events">
     <Loader v-show="loading" />
     <b-container>
-      <b-row
-        v-infinite-scroll="loadEvents"
-        infinite-scroll-disabled="isDisableInfiniteScroll"
-        infinite-scroll-distance="limit"
-      >
+      <b-row>
         <b-col md="9">
           <h1>
             <span>Frontend Conference and Meetups</span>
@@ -14,63 +10,34 @@
               + Add Event
             </button>
           </h1>
-          <div class="events">
-            <!-- <div v-if="signedInUser">
-              <h1>
-                My Events
-                <span
-                  v-if="!infiniteScroll"
-                  class="navigation-button"
-                >
-                  <button
-                    :disabled="events.length === 0"
-                    @click="loadEvents('','next')"
-                  >&#8250;</button>
-                  <button
-                    :disabled="page === 1"
-                    @click="loadEvents('','previous')"
-                  >&#8249;</button>
-                </span>
-              </h1>
-              <EventStrip
-                v-for="event in events"
-                :key="event._id"
-                :event="event"
-                :can-modify="canModify(event)"
-                @edit="onEditEvent"
-                @delete="onDeleteEvent"
-              />
-            </div> -->
-            <AllEvents
-              :infinite-scroll="true"
-              :limit="EventPageLimit"
-            />
-            <!-- <UpcomingOnlineEvents
-              ref="upcomingOnlineEvents"
-              :infinite-scroll="false"
-              :limit="5"
-            />
-
-            <UpcomingOfflineEvents
-              ref="upcomingOfflineEvents"
-              :infinite-scroll="false"
-              :limit="5"
-            />
-
-            <PastEvents
-              ref="pastEvents"
-              :infinite-scroll="false"
-              :limit="5"
-            /> -->
-            <div class="center-content">
-              <button
-                class="mt-4"
-                @click="showDialog()"
-              >
-                + Add Event
-              </button>
+          <div>
+            <div
+              v-infinite-scroll="loadEvents"
+              :infinite-scroll-distance="limit"
+              :infinite-scroll-disabled="isDisableInfiniteScroll"
+            >
+              <div v-if="events.length">
+                <EventStrip
+                  v-for="(event, index) in events"
+                  :key="index"
+                  :event="event"
+                />
+              </div>
+              <div v-else>
+                No events found!
+              </div>
             </div>
           </div>
+
+          <div class="center-content">
+            <button
+              class="mt-4"
+              @click="showDialog()"
+            >
+              + Add Event
+            </button>
+          </div>
+          <div class="host" />
         </b-col>
         <b-col md="3">
           <div class="filters-wrapper">
@@ -84,13 +51,8 @@
 
 <script>
 import eventService from "@/services/event.service";
-//import EventStrip from "@/components/Events/EventStrip";
+import EventStrip from "@/components/Events/EventStrip";
 import EventFilters from "@/components/Events/EventFilters";
-import AllEvents from "@/components/Events/AllEvents";
-
-// import UpcomingOnlineEvents from "@/components/Events/UpcomingOnlineEvents";
-// import UpcomingOfflineEvents from "@/components/Events/UpcomingOfflineEvents";
-// import PastEvents from "@/components/Events/PastEvents";
 
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages, EventPageLimit } from "@/constants/constants";
@@ -98,29 +60,17 @@ import { ToastType, messages, EventPageLimit } from "@/constants/constants";
 export default {
   name: "Events",
   components: {
-    // EventStrip,
+    EventStrip,
     EventFilters,
-    AllEvents,
-    // UpcomingOnlineEvents,
-    // UpcomingOfflineEvents,
-    // PastEvents
   },
   props: {
-    infiniteScroll: {
-      type: Boolean,
-      default: false
-    },
-    limit: {
-      type: Number,
-      default: 5
-    }
   },
   data() {
     return {
       events: [],
       loading: false,
       page: 1,
-      EventPageLimit,
+      limit: EventPageLimit,
     };
   },
   computed: {
@@ -128,15 +78,8 @@ export default {
       return this.$store.state.signedInUser;
     },
     isDisableInfiniteScroll() {
-      return !this.infiniteScroll || this.busy;
+      return !this.busy;
     }
-  },
-  created() {
-    setTimeout(() => {
-      if (!this.infiniteScroll) {
-        this.loadEvents();
-      }
-    }, 500);
   },
   methods: {
     onEditEvent(event) {
@@ -165,16 +108,7 @@ export default {
     },
     onSearchParamsChange(param = "") {
       this.loading = true;
-      // this.$refs.upcomingOnlineEvents.loadEvents(param);
-      // this.$refs.upcomingOfflineEvents.loadEvents(param);
-      // this.$refs.pastEvents.loadEvents(param);
-      this.loadEvents(param);
-    },
-    refreshPage() {
-      // this.$refs.upcomingOnlineEvents.loadEvents();
-      // this.$refs.upcomingOfflineEvents.loadEvents();
-      // this.$refs.pastEvents.loadEvents();
-      this.loadEvents();
+      this.loadEvents(param, true);
     },
     showDialog() {
       if (this.signedInUser == null) {
@@ -190,39 +124,24 @@ export default {
       const admins = event.adminUsers || [];
       return (event.createdBy && event.createdBy.username.toLowerCase() === username) || admins.some(x => x.username.toLowerCase() === username);
     },
-    loadEvents(param, action) {
-      switch (action) {
-        case "previous":
-          action = -1;
-          break;
-        case "next":
-          action = 1;
-          break;
-        default:
-          action = 0;
-          break;
-      }
+    loadEvents(param = "", filter = false) {
       let query = "";
-      if (this.signedInUser) {
-        query = "&username=" + this.signedInUser.username;
-      }
 
-      this.busy = false;
+      this.busy = true;
       this.limit = this.limit || 10;
-      this.page = action + this.page || 1;
+      this.page = filter ? 1 : this.page || 1;
 
       eventService
-        .getMyEvents(param + query, this.limit, this.page)
+        .getEvents(param, this.limit, this.page)
         .then(events => {
-          if (!this.infiniteScroll) {
+          if (filter) {
             this.events = events;
-          } else {
+          } else
             this.events = this.events.concat(events);
             if (events.length > 0) {
               ++this.page;
-            }
           }
-          this.busy = true;
+          this.busy = false;
           this.loading = false;
         });
     }
