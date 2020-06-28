@@ -1,5 +1,8 @@
 <template>
-  <div class="section-box">
+  <div
+    :key="componentKey"
+    class="section-box"
+  >
     <span class="section-title">
       {{ title }}
       <img
@@ -61,7 +64,8 @@ export default {
   },
   data() {
     return {
-      editMode: false
+      editMode: false,
+      componentKey: 0,
     };
   },
   methods: {
@@ -82,6 +86,9 @@ export default {
       if (this.onCancel) {
         this.onCancel();
       }
+    },
+    refresh() {
+      this.componentKey += 1;
     }
   }
 };

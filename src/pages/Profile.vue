@@ -122,6 +122,7 @@ j<template>
           sm="12"
         >
           <Section
+            ref="portfolio"
             title="Portfolio and Social links"
             class="portfolio"
             :on-edit="editSocials"
@@ -139,6 +140,7 @@ j<template>
             />
           </Section>
           <Section
+            ref="mySkills"
             title="My skills"
             class="my-skills"
             :on-edit="editSkills"
@@ -234,6 +236,7 @@ j<template>
             </b-collapse>
           </Section>
           <Section
+            ref="eventsAttended"
             title="Events attended"
             class="events-attended"
             :on-edit="editEvents"
@@ -502,6 +505,7 @@ export default {
       userService
         .getLoggedInUserProfile()
         .then(user => {
+          this.$refs.portfolio.refresh();
           this.profile = user;
           this.editModeSocials = false;
           this.loading = false;
@@ -549,6 +553,7 @@ export default {
       userService
         .getLoggedInUserProfile()
         .then(user => {
+          this.$refs.mySkills.refresh();
           this.profile = user;
           this.editModeSkills = false;
         })
@@ -576,6 +581,7 @@ export default {
       userService
         .getLoggedInUserProfile()
         .then(user => {
+          this.$refs.eventsAttended.refresh();
           this.profile = user;
           this.editModeEvents = false;
           this.loading = false;
