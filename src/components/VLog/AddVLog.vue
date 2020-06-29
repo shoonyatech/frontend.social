@@ -39,7 +39,7 @@
         <div class="action-links">
           <button
             type="submit"
-            class="btn-add-job"
+            class="btn-add-vlog"
           >
             Save
           </button>
@@ -195,7 +195,7 @@ export default {
         }
       }
     }
-    .btn-add-job,
+    .btn-add-vlog,
     .btn-cancel {
       margin-right: 10px;
       min-width: 100px;
