@@ -142,6 +142,21 @@ const router = new Router({
       name: "challengeForm",
       component: () => import("./pages/ChallengeForm.vue")
     },
+    {
+      path: "/vlog",
+      name: "vLog",
+      component: () => import("./pages/VLogs.vue")
+    },
+    {
+      path: "/vlog/:id",
+      name: "vLogDetails",
+      component: () => import("./pages/VLogDetails.vue")
+    },
+    {
+      path: "/vlog/form/:id",
+      name: "vLogForm",
+      component: () => import("./pages/VLogForm.vue")
+    },
   ],
 });
 
