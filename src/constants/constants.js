@@ -13,7 +13,12 @@ export const messages = {
     challengeUpdateSuccess: 'Challenge updated successfully!',
     challengeUpdateFailure: 'Error updating Challenge',
   },
-
+  vLog: {
+    addSuccess: 'VLog added successfully!',
+    addFailure: 'Error adding new VLog',
+    updateSuccess: 'VLog updated successfully!',
+    updateFailure: 'Error updating VLog',
+  },
   city: {
     cityAddSuccess: 'City added successfully!',
     cityAddFailure: 'Error adding new city, Please fill all fields and try again.',
