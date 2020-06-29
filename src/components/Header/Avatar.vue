@@ -16,9 +16,6 @@
         <div @click="redirect('/me')">
           Profile
         </div>
-        <div @click="redirect('/vlog')">
-          Gup-Shup
-        </div>
         <div @click="signout()">
           Sign out
         </div>

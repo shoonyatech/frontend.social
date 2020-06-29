@@ -38,6 +38,9 @@
             <SignInButtons />
           </div>
         </div>
+        <div class="vlog-text">
+          <a @click="onVLogClick()">Gup-Shup</a>
+        </div>
         <div class="join-box">
           <span class="join-label">Frontend Newsletter</span>
           <ul class="text-left">
@@ -120,6 +123,9 @@ export default {
     }, 1000);
   },
   methods: {
+    onVLogClick() {
+      this.$router.push('/vlog');
+    },
     checkSignIn() {
       setTimeout(() => {
         this.email = this.isSignedIn
@@ -174,6 +180,13 @@ export default {
   margin: 0 auto;
   padding-bottom: 5px;
   text-align: center;
+}
+
+.vlog-text {
+  border: 2px solid #114273;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 5px;
 }
 
 .join-box .msg {
