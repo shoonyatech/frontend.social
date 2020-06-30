@@ -157,6 +157,16 @@ const router = new Router({
       name: "vLogForm",
       component: () => import("./pages/VLogForm.vue")
     },
+    {
+      path: "/tips",
+      name: "tips",
+      component: () => import("./pages/Tips.vue")
+    },
+    {
+      path: "/tip/form/:id",
+      name: "tipForm",
+      component: () => import("./pages/TipForm.vue")
+    },
   ],
 });
 

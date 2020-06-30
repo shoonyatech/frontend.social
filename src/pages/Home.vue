@@ -41,6 +41,9 @@
         <div class="vlog-text">
           <a @click="onVLogClick()">Gup-Shup</a>
         </div>
+        <div class="tool-tip-text">
+          <a @click="onToolTipClick()">Tool Tip</a>
+        </div>
         <div class="join-box">
           <span class="join-label">Frontend Newsletter</span>
           <ul class="text-left">
@@ -126,6 +129,9 @@ export default {
     onVLogClick() {
       this.$router.push('/vlog');
     },
+    onToolTipClick() {
+      this.$router.push('/tips');
+    },
     checkSignIn() {
       setTimeout(() => {
         this.email = this.isSignedIn
@@ -182,7 +188,7 @@ export default {
   text-align: center;
 }
 
-.vlog-text {
+.vlog-text, .tool-tip-text {
   border: 2px solid #114273;
   margin: 0 auto;
   text-align: center;
