@@ -6,16 +6,11 @@
         <b-col md="12">
           <h1>
             <span>Tool Tips</span>
-            <button
-              v-if="$store.getters.isAdmin"
-              @click="onAddTips"
-            >
+            <button @click="onAddTips">
               + Add Tips
             </button>
           </h1>
-          <div
-            class="tips"
-          >
+          <div class="tips">
             <TipStrip
               v-for="tip in tips"
               :key="tip.id"
@@ -43,21 +38,20 @@ export default {
       tips: [],
       totalPages: 1,
       pageNo: 1,
-      loading: false
+      loading: false,
     };
   },
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
-    }
+    },
   },
   mounted() {
     this.loading = true;
-    tipsService.getTips()
-      .then(resp => {
-        this.tips = resp;
-        this.loading = false;
-      });
+    tipsService.getTips().then((resp) => {
+      this.tips = resp;
+      this.loading = false;
+    });
   },
   methods: {
     onAddTips() {
@@ -65,12 +59,12 @@ export default {
     },
     onDelete(id) {
       this.loading = true;
-      tipsService.deleteTip(id).then(resp => {
-        this.tips = this.tips.filter(tip => tip._id !== id);
+      tipsService.deleteTip(id).then((resp) => {
+        this.tips = this.tips.filter((tip) => tip._id !== id);
         this.loading = false;
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
