@@ -5,9 +5,9 @@
       <b-row>
         <b-col md="12">
           <h1>
-            <span>Tool Tips</span>
+            <span>Tool Tip</span>
             <button @click="onAddTips">
-              + Add Tips
+              + Add
             </button>
           </h1>
           <div class="tips">
@@ -27,6 +27,7 @@
 <script>
 import TipStrip from "@/components/tips/TipStrip";
 import tipsService from "@/services/tips.service";
+import { orderBy } from "lodash";
 
 export default {
   name: "Tips",
@@ -49,7 +50,7 @@ export default {
   mounted() {
     this.loading = true;
     tipsService.getTips().then((resp) => {
-      this.tips = resp;
+      this.tips = orderBy(resp, ["createdAt"], ["desc"]);
       this.loading = false;
     });
   },
