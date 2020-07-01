@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="vlog-text">
-          <a @click="onVLogClick()">Gup-Shup</a>
+          <!-- <a @click="onVLogClick()">Gup-Shup</a> -->
         </div>
         <div class="tool-tip-text">
           <a @click="onToolTipClick()">Tool Tip</a>
@@ -127,10 +127,10 @@ export default {
   },
   methods: {
     onVLogClick() {
-      this.$router.push('/vlog');
+      this.$router.push("/vlog");
     },
     onToolTipClick() {
-      this.$router.push('/tips');
+      this.$router.push("/tips");
     },
     checkSignIn() {
       setTimeout(() => {
@@ -188,7 +188,8 @@ export default {
   text-align: center;
 }
 
-.vlog-text, .tool-tip-text {
+.vlog-text,
+.tool-tip-text {
   border: 2px solid #114273;
   margin: 0 auto;
   text-align: center;
