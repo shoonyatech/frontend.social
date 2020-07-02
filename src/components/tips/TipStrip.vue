@@ -71,6 +71,12 @@ export default {
   min-width: 500px;
 }
 
+@media screen and (max-width: 700px) { 
+  .tip {
+    min-width: 300px;
+  }
+}
+
 .tip-title {
   display: flex;
   justify-content: flex-end;
