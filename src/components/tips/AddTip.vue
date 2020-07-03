@@ -21,7 +21,7 @@
           </div>
           <input
             v-model="tags"
-            placeholder="Add comma seperated tags"
+            placeholder="Add comma separated tags"
             type="text"
           >
         </div>
