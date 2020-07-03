@@ -21,6 +21,7 @@
           </div>
           <input
             v-model="tags"
+            placeholder="Add comma seperated tags"
             type="text"
           >
         </div>
@@ -106,7 +107,11 @@ export default {
     },
     getTags() {
       const tags = this.tags.split(",");
-      return tags ? tags : [];
+      return tags ? tags.map(this.formateTag) : [];
+    },
+    formateTag(tag) {
+      let _tag = tag.trim().replace(' ', '_');
+      return _tag[0] === '#' ? _tag.slice(1) : _tag;
     },
     close() {
       this.$router.back();

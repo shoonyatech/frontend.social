@@ -38,9 +38,9 @@
             <SignInButtons />
           </div>
         </div>
-        <div class="vlog-text">
-          <!-- <a @click="onVLogClick()">Gup-Shup</a> -->
-        </div>
+        <!-- <div class="vlog-text">
+          <a @click="onVLogClick()">Gup-Shup</a>
+        </div> -->
         <div class="tool-tip-text">
           <a @click="onToolTipClick()">Tool Tip</a>
         </div>
