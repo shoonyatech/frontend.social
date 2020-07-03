@@ -1,8 +1,11 @@
 import httpClient from "./http-client";
 
 export default {
-    getTips: () => {
-        return httpClient.get('tip');
+    getTips: (params) => {
+        return httpClient.get('tip?' + params);
+    },
+    getTags() {
+        return httpClient.get('tips/tags');
     },
     getTipById: (id) => {
         return httpClient.get(`tip/${id}`);

@@ -27,6 +27,9 @@
       </div>
     </div>
     <Tweet :id="tweetId" />
+    <div class="tool-tip-tags">
+      {{ tags }}
+    </div>
   </div>
 </template>
 
@@ -50,6 +53,9 @@ export default {
     },
     tweetId() {
       return this.tip.twitterLink.split('/status/')[1];
+    },
+    tags() {
+      return this.tip.tags.map(tip => `#${tip}`).join(' ');
     }
   },
   methods: {
@@ -80,5 +86,9 @@ export default {
 .tip-title {
   display: flex;
   justify-content: flex-end;
+}
+
+.tool-tip-tags {
+  color: rgb(27, 149, 224);
 }
 </style>
