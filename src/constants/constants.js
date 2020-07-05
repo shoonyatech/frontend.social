@@ -78,6 +78,7 @@ export const EventType = {
 }
 
 export const EventPageLimit = 20;
+export const TipPageLimit = 5;
 
 export const INTERVALS = {
   TwentySeconds: 20000,

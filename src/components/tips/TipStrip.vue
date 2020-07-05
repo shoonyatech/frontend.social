@@ -26,7 +26,14 @@
         </span>
       </div>
     </div>
-    <Tweet :id="tweetId" />
+    <Tweet
+      :id="tweetId"
+      class="tip-wrapper"
+    >
+      <div class="spinner">
+        loading...
+      </div>
+    </Tweet>
     <div class="tool-tip-tags">
       {{ tags }}
     </div>
@@ -90,5 +97,9 @@ export default {
 
 .tool-tip-tags {
   color: rgb(27, 149, 224);
+}
+
+.tip-wrapper {
+  min-height: 200px;
 }
 </style>
