@@ -10,7 +10,12 @@
               + Add
             </button>
           </h1>
-          <div class="tips">
+          <div
+            v-infinite-scroll="getTips"
+            class="tips"
+            :infinite-scroll-distance="limit"
+            :infinite-scroll-disabled="isDisableInfiniteScroll"
+          >
             <TipStrip
               v-for="tip in tips"
               :key="tip.id"
@@ -38,6 +43,7 @@ import TipStrip from "@/components/tips/TipStrip";
 import TipsFilter from "@/components/tips/TipsFilter";
 import tipsService from "@/services/tips.service";
 import { orderBy } from "lodash";
+import { TipPageLimit } from "@/constants/constants";
 
 export default {
   name: "Tips",
@@ -49,27 +55,48 @@ export default {
     return {
       tips: [],
       tags: [],
-      totalPages: 1,
-      pageNo: 1,
       loading: false,
+      page: 1,
+      limit: TipPageLimit,
+      queryParam: '',
     };
   },
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
     },
+    isDisableInfiniteScroll() {
+      return this.busy;
+    }
   },
   async mounted() {
     this.loading = true;
     
-    await Promise.all([this.getTips(), this.getTags()]);
+    await this.getTags();
 
     this.loading = false;
   },
   methods: {
-    getTips(param = "") {
-      return tipsService.getTips(param).then((resp) => {
-        this.tips = orderBy(resp, ["createdAt"], ["desc"]);
+    getTips(param = "", filter) {
+      if (this.busy) return;
+
+      let query = "";
+
+      this.busy = true;
+      this.page = filter ? 1 : this.page || 1;
+      this.queryParam = filter ? param : this.queryParam;
+
+      return tipsService.getTips(this.queryParam, this.limit, this.page).then((resp) => {
+
+          if (filter) {
+            this.tips = resp;
+          } else {
+            this.tips = this.tips.concat(resp);
+            if (resp.length > 0) {
+              ++this.page;
+            }
+          }
+          this.busy = false;
       });
     },
     getTags() {
@@ -89,7 +116,7 @@ export default {
     },
     onSearchParamsChange(param = "") {
       this.loading = true;
-      this.getTips(param).then(() => {
+      this.getTips(param, true).then(() => {
         this.loading = false;
       });
       

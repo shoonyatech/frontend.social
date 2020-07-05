@@ -58,6 +58,11 @@ export default {
       tags: "",
     };
   },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    },
+  },
   async created() {
     const id = this.$route.params.id;
     if (id && id !== "new") {
@@ -71,7 +76,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      if (!this.$store.getters.isAdmin) {
+      if (this.signedInUser == null) {
         this.$router.push("/");
         return;
       }
@@ -106,6 +111,8 @@ export default {
 
     },
     getTags() {
+      if (!this.tags.trim()) return [];
+
       const tags = this.tags.split(",");
       return tags ? tags.map(this.formateTag) : [];
     },

@@ -1,8 +1,9 @@
 import httpClient from "./http-client";
 
 export default {
-    getTips: (params) => {
-        return httpClient.get('tip?' + params);
+    getTips: (params = "", limit = 100, page = 1) => {
+        const pagination = "limit=" + limit + "&page=" + page;
+        return httpClient.get('tip?' + pagination + (params ? ('&' + params) : ''));
     },
     getTags() {
         return httpClient.get('tips/tags');
