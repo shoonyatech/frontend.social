@@ -12,6 +12,7 @@
           sm="12"
         >
           <Checkbox
+            v-if="codeEditorURL"
             id="isautoSync"
             label="Auto sync code with video"
             :is-checked="isAutoSync"
@@ -36,7 +37,11 @@
           md="6"
           sm="12"
         >
-          <CodeEditor :url="codeEditorURL" />
+          <CodeEditor
+            v-if="codeEditorURL"
+            :url="codeEditorURL"
+          />
+          <span v-else>No code available for this topic</span>
         </b-col>
       </b-row>
       <b-row
