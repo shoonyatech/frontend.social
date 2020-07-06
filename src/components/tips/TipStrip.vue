@@ -55,8 +55,11 @@ export default {
     }
   },
   computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    },
     canModify() {
-      return this.$store.getters.isAdmin;
+      return this.$store.getters.isAdmin || this.signedInUser && this.signedInUser.username === this.tip.createdBy.username;
     },
     tweetId() {
       return this.tip.twitterLink.split('/status/')[1];
