@@ -42,7 +42,7 @@
           <a @click="onVLogClick()">Gup-Shup</a>
         </div> -->
         <div class="tool-tip-text">
-          <a @click="onToolTipClick()">Tool Tip</a>
+          <a @click="onToolTipClick()">Tech Tip</a>
         </div>
         <div class="join-box">
           <span class="join-label">Frontend Newsletter</span>
@@ -51,7 +51,7 @@
               Find out online events
             </li>
             <li class="newsletter-list">
-              Influencer of the week
+              Influencer of the week 
             </li>
             <li class="newsletter-list">
               Latest blogs and videos

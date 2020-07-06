@@ -5,8 +5,8 @@
       <b-row>
         <b-col md="9">
           <h1>
-            <span>Tool Tip</span>
-            <button @click="onAddTips">
+            <span>Tech Tip</span>
+            <button @click="onAddTips"> 
               + Add
             </button>
           </h1>
