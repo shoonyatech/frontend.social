@@ -18,7 +18,7 @@
           >
             <VLogStrip
               v-for="vLog in vLogs"
-              :key="vLog.id"
+              :key="vLog._id"
               :vlog="vLog"
               @delete="onDelete($event)"
             />
