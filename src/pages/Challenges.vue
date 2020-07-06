@@ -18,7 +18,7 @@
           >
             <ChallengeStrip
               v-for="challenge in challenges"
-              :key="challenge.id"
+              :key="challenge._id"
               :challenge="challenge"
               @delete="onDelete($event)"
             />

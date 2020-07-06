@@ -18,7 +18,7 @@
           >
             <TipStrip
               v-for="tip in tips"
-              :key="tip.id"
+              :key="tip._id"
               :tip="tip"
               @delete="onDelete($event)"
             />
