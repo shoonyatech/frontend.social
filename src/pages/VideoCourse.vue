@@ -178,7 +178,7 @@ export default {
     },
   },
   mounted() {
-    this.loadTopic(this.$route.params.chapterno, this.$route.params.topicurl);
+    this.loadTopic(this.$route.params.chapterno, this.$route.params.topicurl, this.$route.params.courseid);
   },
   created() {
     this.setTimer();
@@ -257,13 +257,12 @@ export default {
       this.commentId = commentId;
     },
     cancelComment() {},
-    loadTopic(chapterNo, topicUrl) {
-      courseService.getByTopicUrl(topicUrl).then((res) => {
+    loadTopic(chapterNo, topicUrl, courseId) {
+      courseService.getCoursesById(courseId).then((res) => {
         this.course = res;
-
         this.topic = res.chapters
           .find((x) => x.chapterNo == chapterNo)
-          .topics.find((x) => x.url === topicUrl);
+          .topics.find((x) => x.videoUrl === topicUrl);
         this.codeEditorURL = this.topic.codeLink;
         this.getComments();
       });

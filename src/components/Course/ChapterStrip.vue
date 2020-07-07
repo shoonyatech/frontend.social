@@ -19,7 +19,7 @@
                 '/' +
                 chapter.chapterNo +
                 '/' +
-                topic.url
+                topic.videoUrl
             "
           >
             <div class="topic-container">
