@@ -68,6 +68,10 @@ export default {
     isEdit: {
       type: Boolean,
       default: false
+    },
+    allowOnlyRating: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -84,7 +88,7 @@ export default {
   methods: {
     save() {
       if (
-        this.$refs.commentBox.editedValue == "" ||
+        (this.$refs.commentBox.editedValue == "" && !this.allowOnlyRating) ||
         (this.showRating && !this.rating)
       )
         return;

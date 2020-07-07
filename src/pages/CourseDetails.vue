@@ -69,6 +69,7 @@
             :on-cancel="cancelComment"
             :show-rating="showRating"
             :parent-id="course._id"
+            :allow-only-rating="true"
             class="mt-1"
           />
           <Comment
