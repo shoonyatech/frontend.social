@@ -30,6 +30,7 @@
             :video-id="topic.videoUrl"
             width="100%"
             height="400"
+            :player-vars="playerVars"
           />
           <!-- <button @click="getCurrentTime">Get Current Time</button> -->
         </b-col>
@@ -99,6 +100,9 @@ export default {
   props: {},
   data() {
     return {
+      playerVars: {
+        autoplay: 1
+      },
       courseId: "",
       codeEditorURL: "",
       isAutoSync: true,
