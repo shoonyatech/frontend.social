@@ -143,17 +143,17 @@ const router = new Router({
       component: () => import("./pages/ChallengeForm.vue")
     },
     {
-      path: "/vlog",
+      path: "/catchup",
       name: "vLog",
       component: () => import("./pages/VLogs.vue")
     },
     {
-      path: "/vlog/:id",
+      path: "/catchup/:id",
       name: "vLogDetails",
       component: () => import("./pages/VLogDetails.vue")
     },
     {
-      path: "/vlog/form/:id",
+      path: "/catchup/form/:id",
       name: "vLogForm",
       component: () => import("./pages/VLogForm.vue")
     },

@@ -7,6 +7,9 @@ export default {
     getVLogById: (id) => {
         return httpClient.get(`vlog/${id}`);
     },
+    getVLogByUniqueId(id) {
+        return httpClient.get(`/vlog/catchup/${id}`)
+    },
     addVLog(payload) {
         return httpClient.post('vlog', payload);
     },
