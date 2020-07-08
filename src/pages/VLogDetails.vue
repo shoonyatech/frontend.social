@@ -12,6 +12,7 @@
         >
           <b-col md="12">
             <youtube
+              ref="youtube"
               :video-id="youtubeVideoId"
               width="100%"
               height="600"
@@ -33,6 +34,20 @@
             class="description"
           >
             <div v-html="vlog.description" />
+          </b-col>
+        </b-row>
+        <b-row v-if="vlog.segments && vlog.segments.length">
+          <b-col
+            md="12"
+            class="description"
+          >
+            <p>Question Asked:</p>
+            <p
+              v-for="(segemnt, index) in vlog.segments"
+              :key="index"
+            >
+              <a @click="onSegmentClick(segemnt.time)">[{{ formattedTime(segemnt.time) }}]</a> {{ segemnt.description }}
+            </p>
           </b-col>
         </b-row>
       </b-col>
@@ -122,6 +137,11 @@ export default {
     this.getVLog();
   },
   methods: {
+    formattedTime(time) {
+      const date = new Date(0);
+      date.setSeconds(time);
+      return date.toISOString().substr(11, 8);
+    },
     getVLog() {
       return vLogService
       .getVLogByUniqueId(this.vLogId)
@@ -178,7 +198,12 @@ export default {
     editComment(commentId) {
       this.commentId = commentId;
     },
-    cancelComment() {}
+    cancelComment() {},
+    onSegmentClick(time) {
+      if (this.$refs.youtube) {
+        this.$refs.youtube.player.seekTo(time);
+      }
+    }
   }
 };
 </script>

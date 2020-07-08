@@ -36,6 +36,12 @@
             required
           >
         </div>
+        <div class="form-field">
+          <div class="form-label">
+            Segments
+          </div>
+          <AddVLogSegments :segments.sync="segments" />
+        </div>
         <div class="action-links">
           <button
             type="submit"
@@ -58,10 +64,12 @@ import moment from 'moment';
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import AddVLogSegments from './AddVLogSegment.vue';
 
 export default {
   name: "AddVLog",
   components: {
+    AddVLogSegments
   },
   data() {
     return {
@@ -69,6 +77,7 @@ export default {
       title: "",
       description: "",
       link: "",
+      segments: [],
       editor: ClassicEditor,
       editorData: '<p>Content of the editor.</p>',
       editorConfig: {
@@ -85,6 +94,7 @@ export default {
       this.title = details.title;
       this.description = details.description;
       this.link = details.link;
+      this.segments = details.segments || [];
     }
     this.loading = false;
   },
@@ -102,8 +112,8 @@ export default {
         title: this.title,
         description: this.description,
         link: this.link,
+        segments: this.getSegments(),
       };
-
       if (this.id) {
         vLogService.updateVLog(this.id, payload)
         .then(response => {
@@ -123,11 +133,13 @@ export default {
           eventBus.$emit('show-toast', {body: messages.vLog.addFailure, title: messages.generic.error, type: ToastType.ERROR});
         });
       }
-
     },
     close() {
       this.$router.back();
     },
+    getSegments() {
+      return this.segments.filter(x => x.time && x.description);
+    }
   }
 };
 </script>
