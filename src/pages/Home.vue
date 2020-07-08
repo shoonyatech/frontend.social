@@ -38,9 +38,9 @@
             <SignInButtons />
           </div>
         </div>
-        <!-- <div class="vlog-text">
-          <a @click="onVLogClick()">Gup-Shup</a>
-        </div> -->
+        <div class="vlog-text">
+          <a @click="onVLogClick()">Catch up with...</a>
+        </div>
         <div class="tool-tip-text">
           <a @click="onToolTipClick()">Tech Tip</a>
         </div>
@@ -127,7 +127,7 @@ export default {
   },
   methods: {
     onVLogClick() {
-      this.$router.push("/vlog");
+      this.$router.push("/catchup");
     },
     onToolTipClick() {
       this.$router.push("/tips");

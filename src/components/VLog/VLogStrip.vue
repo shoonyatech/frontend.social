@@ -90,13 +90,13 @@ export default {
       this.isOverflow = !this.isOverflow;
     },
     onClick() {
-      this.$router.push(`/vlog/${this.vlog._id}`)
+      this.$router.push(`/catchup/${this.vlog.uniqueId}`)
     },
     deleteVLog() {
       this.$emit('delete', this.vlog._id);
     },
     editVLog() {
-      this.$router.push(`/vlog/form/${this.vlog._id}`)
+      this.$router.push(`/catchup/form/${this.vlog._id}`)
     }
   }
 };

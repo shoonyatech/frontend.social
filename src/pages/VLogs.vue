@@ -5,7 +5,7 @@
       <b-row>
         <b-col md="12">
           <h1>
-            <span>Gup-Shup</span>
+            <span>Catch up with...</span>
             <button
               v-if="$store.getters.isAdmin"
               @click="onAddVlog"
@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     onAddVlog() {
-      this.$router.push("/vlog/form/new");
+      this.$router.push("/catchup/form/new");
     },
     onDelete(id) {
       this.loading = true;

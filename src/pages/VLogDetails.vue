@@ -37,6 +37,32 @@
         </b-row>
       </b-col>
     </b-row>
+    <b-row class="vlog-comment">
+      <b-col md="12">
+        <add-comment
+          ref="addcomment"
+          :comment-id="commentId"
+          :on-save="saveComment"
+          :on-cancel="cancelComment"
+          :show-rating="showRating"
+          :parent-id="vlog._id"
+          :allow-only-rating="true"
+          class="mt-1"
+        />
+        <Comment
+          v-for="(comment,index) in comments"
+          :key="comment._id"
+          :index="index"
+          :comment-id="comment._id"
+          :comment="comment"
+          :show-rating="showRating"
+          :allow-reply="allowReply"
+          :on-delete="deleteComment"
+          :on-edit="editComment"
+          :on-save="saveComment"
+        />
+      </b-col>
+    </b-row>
   </b-container>
   <h1
     v-else
@@ -46,6 +72,10 @@
   </h1>
 </template>
 <script>
+import Comment from "@/components/Comment/Comment";
+import AddComment from "@/components/Comment/AddComment";
+import commentService from "@/services/comment.service";
+
 import vLogService from "@/services/vlog.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
@@ -53,7 +83,8 @@ import { ToastType, messages } from "@/constants/constants";
 export default {
   name: "VLogDetails",
   components: {
-
+    Comment,
+    AddComment,
   },
   data() {
     return {
@@ -61,7 +92,10 @@ export default {
       vLogId: null,
       vlog: {},
       loading: true,
-      submissions: [],
+      showRating: true,
+      allowReply: true,
+      commentId: "",
+      comments: []
     };
   },
   computed: {
@@ -70,7 +104,7 @@ export default {
     },
   },
   computed: {
-        youtubeVideoId() {
+    youtubeVideoId() {
       return this.vlog.link
         ? this.parseYoutubeVideoId(this.vlog.link)
         : null;
@@ -90,9 +124,10 @@ export default {
   methods: {
     getVLog() {
       return vLogService
-      .getVLogById(this.vLogId)
+      .getVLogByUniqueId(this.vLogId)
       .then(vlog => {
         this.vlog = vlog;
+        this.getComments();
         this.loading = false;
       })
       .catch(() => {
@@ -109,6 +144,41 @@ export default {
         return null;
       }
     },
+    getComments() {
+      commentService
+        .getComment(this.vlog._id)
+        .then(response => {
+          this.comments = response;
+        })
+        .catch(() => {
+          eventBus.$emit("show-toast", {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR
+          });
+        });
+    },
+    saveComment(response, index) {
+      if (this.commentId != "") {
+        this.comments.splice(index, 1, response);
+        this.commentId = "";
+      } else {
+        this.comments.push(response);
+      }
+
+      eventBus.$emit("show-toast", {
+        body: messages.comment.commentAddSuccess,
+        title: messages.generic.success
+      });
+    },
+    deleteComment(index) {
+      console.log(index);
+      this.comments.splice(index, 1);
+    },
+    editComment(commentId) {
+      this.commentId = commentId;
+    },
+    cancelComment() {}
   }
 };
 </script>
@@ -124,5 +194,9 @@ export default {
 
 .description {
   font-size: 0.75rem;
+}
+
+.vlog-comment {
+  margin-bottom: 10px;
 }
 </style>
