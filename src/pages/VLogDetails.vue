@@ -41,7 +41,7 @@
             md="12"
             class="description"
           >
-            <p>Question Asked:</p>
+            <p>Questions Asked:</p>
             <p
               v-for="(segemnt, index) in vlog.segments"
               :key="index"
