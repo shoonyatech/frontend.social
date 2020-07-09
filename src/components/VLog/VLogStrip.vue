@@ -51,6 +51,7 @@
 
 <script>
 import Arrow from "../Arrow/Arrow";
+import { VLogType } from "@/constants/constants";
 
 export default {
   name: "VLogStrip",
@@ -60,6 +61,10 @@ export default {
   props: {
     vlog: {
       type: Object,
+      required: true,
+    },
+    type: {
+      type: String,
       required: true,
     }
   },
@@ -90,13 +95,17 @@ export default {
       this.isOverflow = !this.isOverflow;
     },
     onClick() {
-      this.$router.push(`/catchup/${this.vlog.uniqueId}`)
+      if(this.type === VLogType.CATCHUP) {
+        this.$router.push(`/catchup/${this.vlog.uniqueId}`)
+      } else {
+        this.$router.push(`/freelancing/${this.vlog.uniqueId}`)
+      }
     },
     deleteVLog() {
       this.$emit('delete', this.vlog._id);
     },
     editVLog() {
-      this.$router.push(`/catchup/form/${this.vlog._id}`)
+      this.$router.push(`/vlog/form/${this.vlog._id}`);
     }
   }
 };

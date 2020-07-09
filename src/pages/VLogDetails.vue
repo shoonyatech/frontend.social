@@ -93,7 +93,7 @@ import commentService from "@/services/comment.service";
 
 import vLogService from "@/services/vlog.service";
 import eventBus from "@/utilities/eventBus";
-import { ToastType, messages } from "@/constants/constants";
+import { ToastType, messages, VLogType } from "@/constants/constants";
 
 export default {
   name: "VLogDetails",
@@ -117,6 +117,9 @@ export default {
     signedInUser() {
       return this.$store.state.signedInUser;
     },
+    type() {
+      return this.$route.name === 'catchupDetails' ? VLogType.CATCHUP : VLogType.FREELANCING;
+    }
   },
   computed: {
     youtubeVideoId() {

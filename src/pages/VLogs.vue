@@ -5,12 +5,13 @@
       <b-row>
         <b-col md="12">
           <h1>
-            <span>Catch up with...</span>
+            <span v-if="type === 'CATCHUP'">Catch up with...</span>
+            <span v-else>Freelancing</span>
             <button
               v-if="$store.getters.isAdmin"
               @click="onAddVlog"
             >
-              + Add VLog
+              + Add
             </button>
           </h1>
           <div
@@ -20,6 +21,7 @@
               v-for="vLog in vLogs"
               :key="vLog._id"
               :vlog="vLog"
+              :type="type"
               @delete="onDelete($event)"
             />
           </div>
@@ -32,6 +34,7 @@
 <script>
 import VLogStrip from "@/components/VLog/VLogStrip";
 import vLogService from "@/services/vlog.service";
+import { VLogType } from "@/constants/constants";
 
 export default {
   name: "VLogs",
@@ -49,11 +52,14 @@ export default {
   computed: {
     signedInUser() {
       return this.$store.state.signedInUser;
+    },
+    type() {
+      return this.$route.name === 'catchup' ? VLogType.CATCHUP : VLogType.FREELANCING;
     }
   },
   mounted() {
     this.loading = true;
-    vLogService.getVLogs()
+    vLogService.getVLogs(this.type)
       .then(resp => {
         this.vLogs = resp;
         this.loading = false;
@@ -61,7 +67,7 @@ export default {
   },
   methods: {
     onAddVlog() {
-      this.$router.push("/catchup/form/new");
+      this.$router.push("/vlog/form/new");
     },
     onDelete(id) {
       this.loading = true;
