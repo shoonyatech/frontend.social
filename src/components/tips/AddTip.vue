@@ -77,7 +77,7 @@ export default {
   mounted() {
     setTimeout(() => {
       if (this.signedInUser == null) {
-        this.$router.push("/");
+        this.$router.push("/signin");
         return;
       }
     }, 1000);

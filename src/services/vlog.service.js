@@ -1,8 +1,8 @@
 import httpClient from "./http-client";
 
 export default {
-    getVLogs: () => {
-        return httpClient.get('vlog');
+    getVLogs: (type) => {
+        return httpClient.get(`vlog?type=${type}`);
     },
     getVLogById: (id) => {
         return httpClient.get(`vlog/${id}`);

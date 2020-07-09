@@ -144,16 +144,26 @@ const router = new Router({
     },
     {
       path: "/catchup",
-      name: "vLog",
+      name: "catchup",
       component: () => import("./pages/VLogs.vue")
     },
     {
       path: "/catchup/:id",
-      name: "vLogDetails",
+      name: "catchupDetails",
       component: () => import("./pages/VLogDetails.vue")
     },
     {
-      path: "/catchup/form/:id",
+      path: "/freelancing",
+      name: "freelancing",
+      component: () => import("./pages/VLogs.vue")
+    },
+    {
+      path: "/freelancing/:id",
+      name: "freelancingDetails",
+      component: () => import("./pages/VLogDetails.vue")
+    },
+    {
+      path: "/vlog/form/:id",
       name: "vLogForm",
       component: () => import("./pages/VLogForm.vue")
     },

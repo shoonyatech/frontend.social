@@ -84,3 +84,8 @@ export const INTERVALS = {
   TwentySeconds: 20000,
   ThirtySeconds: 30000,
 }
+
+export const VLogType = {
+  CATCHUP : 'CATCHUP',
+  FREELANCING: 'FREELANCING',
+}

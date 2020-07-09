@@ -41,6 +41,9 @@
         <div class="vlog-text">
           <a @click="onVLogClick()">Catch up with...</a>
         </div>
+        <div class="vlog-text">
+          <a @click="onFreelancingClick()">Freelancing</a>
+        </div>
         <div class="tool-tip-text">
           <a @click="onToolTipClick()">Tech Tip</a>
         </div>
@@ -131,6 +134,9 @@ export default {
     },
     onToolTipClick() {
       this.$router.push("/tips");
+    },
+    onFreelancingClick() {
+      this.$router.push("/freelancing");
     },
     checkSignIn() {
       setTimeout(() => {

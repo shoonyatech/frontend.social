@@ -33,8 +33,32 @@
           <input
             v-model="link"
             type="text"
+            class="radio-input"
             required
           >
+        </div>
+        <div class="form-field">
+          <div class="form-label">
+            Type
+          </div>
+          <div class="radio-container">
+            <span class="vlog-type">
+              <input
+                v-model="type"
+                type="radio"
+                value="CATCHUP"
+              >
+              <span class="radio-label">Catch Up</span>
+            </span>
+            <span class="vlog-type">
+              <input
+                v-model="type"
+                type="radio"
+                value="FREELANCING"
+              >
+              <span class="radio-label">Freelancing</span>
+            </span>
+          </div>
         </div>
         <div class="form-field">
           <div class="form-label">
@@ -62,7 +86,7 @@
 import vLogService from "@/services/vlog.service";
 import moment from 'moment';
 import eventBus from "@/utilities/eventBus";
-import { ToastType, messages } from "@/constants/constants";
+import { ToastType, messages, VLogType } from "@/constants/constants";
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import AddVLogSegments from './AddVLogSegment.vue';
 
@@ -77,6 +101,7 @@ export default {
       title: "",
       description: "",
       link: "",
+      type: VLogType.CATCHUP,
       segments: [],
       editor: ClassicEditor,
       editorData: '<p>Content of the editor.</p>',
@@ -94,6 +119,7 @@ export default {
       this.title = details.title;
       this.description = details.description;
       this.link = details.link;
+      this.type = details.type || VLogType.CATCHUP;
       this.segments = details.segments || [];
     }
     this.loading = false;
@@ -113,6 +139,7 @@ export default {
         description: this.description,
         link: this.link,
         segments: this.getSegments(),
+        type: this.type,
       };
       if (this.id) {
         vLogService.updateVLog(this.id, payload)
@@ -135,7 +162,11 @@ export default {
       }
     },
     close() {
-      this.$router.back();
+      if (this.type === VLogType.CATCHUP) {
+        this.$router.push("/catchup");
+      } else {
+        this.$router.push("/freelancing");
+      }
     },
     getSegments() {
       return this.segments.filter(x => x.time && x.description);
@@ -151,12 +182,33 @@ export default {
   }
   display: flex;
   justify-content: center;
+  .radio {
+    margin-right: 1rem;
+  }
   #addVLogForm {
     width: 83%;
 
   .ck-editor {
     width: 100%;
   }
+
+  .radio-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .vlog-type {
+    display: flex;
+    input {
+      width: auto;;
+    }
+
+    .radio-label {
+      margin-left: 10px;
+    }
+  }
+
 
     @media screen and (max-width: 1024px) {
       width: 100%;
