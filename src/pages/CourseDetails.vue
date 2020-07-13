@@ -2,6 +2,20 @@
   <div class="host">
     <b-container>
       <b-breadcrumb :items="items" />
+      <b-row v-if="course.rating">
+        <b-col
+          md="6"
+          sm="12"
+          class="course-rating"
+        >
+          <star-rating
+            :rating="course.rating"
+            :star-size="25"
+            :read-only="true"
+            :show-rating="false"
+          />
+        </b-col>
+      </b-row>
       <b-row>
         <b-col
           md="6"
@@ -99,12 +113,15 @@ import commentService from "@/services/comment.service";
 import courseService from "@/services/course.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
+import StarRating from "vue-star-rating";
+
 export default {
   name: "CourseDetails",
   components: {
     Comment,
     AddComment,
-    ChapterStrip
+    ChapterStrip,
+    StarRating,
   },
   props: {},
   data() {
@@ -209,5 +226,10 @@ h1 {
 .description {
   margin-top: 10px;
   margin-bottom: 30px;
+}
+.course-rating {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 5px;
 }
 </style>

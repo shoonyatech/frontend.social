@@ -6,10 +6,24 @@
         <div class="course-title">
           {{ course.title }}
         </div>
+        <div
+          v-if="course.rating"
+          class="course-rating"
+        >
+          <star-rating
+            :rating="course.rating"
+            :star-size="15"
+            :read-only="true"
+            :show-rating="false"
+          />
+        </div>
         <div class="course-technology">
           {{ course.technology }}
         </div>
-        <div class="course-description">
+        <div
+          class="course-description"
+          :class="{'has-rating': course.rating}"
+        >
           {{ course.description }}
         </div>
         <div class="button">
@@ -25,10 +39,12 @@
 
 <script>
 import Button from "@/components/Buttons/Button";
+import StarRating from "vue-star-rating";
 
 export default {
   components: {
-    Button
+    Button,
+    StarRating
   },
   props: {
     course: { type: Object, required: true }
@@ -67,6 +83,10 @@ export default {
   padding-right: 10px;
 }
 
+.course-rating {
+  display: flex;
+  justify-content: center;
+}
 .course-title {
   font-weight: bold;
   text-align: center;
@@ -84,6 +104,9 @@ export default {
   font-size: 0.6rem;
   block-size: 6.5rem;
   overflow: hidden;
+  &.has-rating {
+    block-size: 5rem;
+  }
 }
 
 .button {
