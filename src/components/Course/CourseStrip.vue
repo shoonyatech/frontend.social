@@ -1,6 +1,9 @@
 <template>
   <!-- div for searching course -->
-  <router-link :to="'/learn/course/' + course._id ">
+  <router-link
+    :to="'/learn/course/' + course._id "
+    :class="{disabled: course.isDisabled}"
+  >
     <div class="thumbnail">
       <div class="details">
         <div class="course-title">
@@ -28,7 +31,7 @@
         </div>
         <div class="button">
           <Button
-            label="Explore"
+            :label="course.isDisabled ? 'Coming Soon' : 'Explore'"
             :click="onExploreClick"
           />
         </div>
@@ -113,5 +116,9 @@ export default {
   text-align: center;
   position: inherit;
   padding: 0.5rem;
+}
+
+.disabled {
+  pointer-events: none;
 }
 </style>
