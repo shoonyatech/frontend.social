@@ -45,6 +45,25 @@
           <span v-else>No code available for this topic</span>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col md="6">
+          <button
+            v-if="previousLink"
+            @click="onPreviouse"
+          >
+            Previous
+          </button>
+        </b-col>
+        <b-col md="6">
+          <button
+            v-if="nextLink"
+            style="float:right"
+            @click="onNext"
+          >
+            Next
+          </button>
+        </b-col>
+      </b-row>
       <b-row
         v-if="!hideComments"
         class="comment-section"
@@ -158,6 +177,8 @@ export default {
       comments: [],
       course: {},
       topic: {},
+      previousLink: null,
+      nextLink: null,
     };
   },
   computed: {
@@ -267,10 +288,41 @@ export default {
         this.topic = res.chapters
           .find((x) => x.chapterNo == chapterNo)
           .topics.find((x) => x.videoUrl === topicUrl);
+
         this.codeEditorURL = this.topic.codeLink;
+        const chapters = res.chapters.map(c => c.topics.map(t => ({...t, chapterNo: c.chapterNo}))).flat();
+        const currentIndex = chapters.findIndex(c => c.videoUrl === topicUrl && chapterNo === chapterNo);
+        const previousChapter = chapters[currentIndex - 1];
+        const nextChapter = chapters[currentIndex + 1]
+
+        if (previousChapter) {
+         this.previousLink = '/learn/course/' +
+                courseId +
+                '/' +
+                previousChapter.chapterNo +
+                '/' +
+                previousChapter.videoUrl;
+
+        }
+
+        if (nextChapter) {
+         this.nextLink = '/learn/course/' +
+                courseId +
+                '/' +
+                nextChapter.chapterNo +
+                '/' +
+                nextChapter.videoUrl;
+        }
+
         this.getComments();
       });
     },
+    onPrevious() {
+      this.$router.push(this.previousLink);
+    },
+    onNext() {
+      this.$router.push(this.nextLink);
+    }
   },
 };
 </script>
