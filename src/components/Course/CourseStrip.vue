@@ -1,7 +1,7 @@
 <template>
   <!-- div for searching course -->
   <router-link
-    :to="'/learn/course/' + course._id "
+    :to="'/learn/course/' + course.uniqueId "
     :class="{disabled: course.isDisabled}"
   >
     <div class="thumbnail">
@@ -55,7 +55,7 @@ export default {
 
   methods: {
     onExploreClick() {
-      this.$router.push("/learn/course/" + course._id);
+      this.$router.push("/learn/course/" + course.uniqueId);
     }
   }
 };

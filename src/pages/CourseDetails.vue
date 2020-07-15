@@ -25,7 +25,7 @@
             v-for="(chapter, index) in course.chapters"
             :key="index"
             :chapter="chapter"
-            :course-id="course._id"
+            :course-id="course.uniqueId"
           />
         </b-col>
         <b-col

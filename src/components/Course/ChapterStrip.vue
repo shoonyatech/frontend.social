@@ -17,9 +17,9 @@
               '/learn/course/' +
                 courseId +
                 '/' +
-                chapter.chapterNo +
+                getUrlFriendlyTitle(chapter.title || '') +
                 '/' +
-                topic.videoUrl
+                getUrlFriendlyTitle(topic.title || '')
             "
           >
             <div class="topic-container">
@@ -33,6 +33,8 @@
 </template>
 
 <script>
+import {getUrlFriendlyTitle} from '@/utilities/utils';
+
 export default {
   name: "ChapterStrip",
   components: {},
@@ -55,6 +57,7 @@ export default {
     toggleShowSections() {
       this.showSections = !this.showSections;
     },
+    getUrlFriendlyTitle: getUrlFriendlyTitle,
   },
 };
 </script>

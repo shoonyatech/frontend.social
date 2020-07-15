@@ -10,7 +10,7 @@
       </button> -->
     </div>
     <div class="main">
-      <router-view />
+      <router-view :key="path" />
     </div>
     <Footer :copyright-text="copyrightText" />
     <ToastsManager />
@@ -61,6 +61,11 @@ export default {
     copyrightText:
       "Powered by Shoonya Technologies Ltd. (Canada) © 2020 All Rights Reserved."
   }),
+  computed:  {
+    path() {
+      return this.$route.fullPath;
+    }
+  },
   created() {
     if (localStorage.getItem("authToken")) {
       userService
