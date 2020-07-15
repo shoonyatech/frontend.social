@@ -49,7 +49,7 @@
         <b-col md="6">
           <button
             v-if="previousLink"
-            @click="onPreviouse"
+            @click="onPrevious()"
           >
             Previous
           </button>
@@ -58,7 +58,7 @@
           <button
             v-if="nextLink"
             style="float:right"
-            @click="onNext"
+            @click="onNext()"
           >
             Next
           </button>
@@ -108,6 +108,8 @@ import commentService from "@/services/comment.service";
 import courseService from "@/services/course.service";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
+import {getUrlFriendlyTitle} from '@/utilities/utils';
+
 export default {
   name: "VideoCourse",
   components: {
@@ -193,7 +195,7 @@ export default {
         },
         {
           text: this.course.title,
-          to: "/learn/course/" + this.course._id,
+          to: "/learn/course/" + this.course.uniqueId,
         },
         {
           text: this.topic.title,
@@ -285,33 +287,34 @@ export default {
     loadTopic(chapterNo, topicUrl, courseId) {
       courseService.getCoursesById(courseId).then((res) => {
         this.course = res;
-        this.topic = res.chapters
-          .find((x) => x.chapterNo == chapterNo)
-          .topics.find((x) => x.videoUrl === topicUrl);
+        // this.topic = res.chapters
+        //   .find((x) => x.chapterNo == chapterNo)
+        //   .topics.find((x) => getUrlFriendlyTitle(x.title) === topicUrl);
 
+        const topics = res.chapters.map(c => c.topics.map(t => ({...t, chapterTitle: getUrlFriendlyTitle(c.title)}))).flat();
+        const currentIndex = topics.findIndex(t => getUrlFriendlyTitle(t.title) === topicUrl && chapterNo === t.chapterTitle);
+        this.topic = topics[currentIndex];
+        const previousTopic = topics[currentIndex - 1];
+        const nextTopic = topics[currentIndex + 1]
         this.codeEditorURL = this.topic.codeLink;
-        const chapters = res.chapters.map(c => c.topics.map(t => ({...t, chapterNo: c.chapterNo}))).flat();
-        const currentIndex = chapters.findIndex(c => c.videoUrl === topicUrl && chapterNo === chapterNo);
-        const previousChapter = chapters[currentIndex - 1];
-        const nextChapter = chapters[currentIndex + 1]
 
-        if (previousChapter) {
+        if (previousTopic) {
          this.previousLink = '/learn/course/' +
                 courseId +
                 '/' +
-                previousChapter.chapterNo +
+                previousTopic.chapterTitle +
                 '/' +
-                previousChapter.videoUrl;
+                getUrlFriendlyTitle(previousTopic.title);
 
         }
 
-        if (nextChapter) {
+        if (nextTopic) {
          this.nextLink = '/learn/course/' +
                 courseId +
                 '/' +
-                nextChapter.chapterNo +
+                nextTopic.chapterTitle +
                 '/' +
-                nextChapter.videoUrl;
+                getUrlFriendlyTitle(nextTopic.title);
         }
 
         this.getComments();
