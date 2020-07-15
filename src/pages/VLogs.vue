@@ -6,7 +6,7 @@
         <b-col md="12">
           <h1>
             <span v-if="type === 'CATCHUP'">Catch up with...</span>
-            <span v-else>Freelancing</span>
+            <span v-else>All about Freelancing</span>
             <button
               v-if="$store.getters.isAdmin"
               @click="onAddVlog"

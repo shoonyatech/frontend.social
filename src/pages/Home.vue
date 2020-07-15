@@ -42,7 +42,7 @@
           <a @click="onVLogClick()">Catch up with...</a>
         </div>
         <div class="vlog-text">
-          <a @click="onFreelancingClick()">Freelancing</a>
+          <a @click="onFreelancingClick()">All about Freelancing</a>
         </div>
         <div class="tool-tip-text">
           <a @click="onToolTipClick()">Tech Tip</a>
