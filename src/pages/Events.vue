@@ -21,6 +21,9 @@
                   v-for="(event, index) in events"
                   :key="index"
                   :event="event"
+                  :can-modify="canModify(event)"
+                  @delete="onDeleteEvent"
+                  @edit="onEditEvent"
                 />
               </div>
               <div v-else>
@@ -119,6 +122,8 @@ export default {
     },
     canModify(event) {
       if (!this.signedInUser) return false;
+
+      if (this.$store.getters.isAdmin) return true;
 
       const username = this.signedInUser.username.toLowerCase();
       const admins = event.adminUsers || [];
