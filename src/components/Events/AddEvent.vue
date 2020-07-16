@@ -502,6 +502,8 @@ export default {
     canModify(event) {
       if (!this.signedInUser) return false;
 
+      if (this.$store.getters.isAdmin) return true;
+
       const username = this.signedInUser.username.toLowerCase();
       const admins = event.adminUsers || [];
       return (event.createdBy &&
