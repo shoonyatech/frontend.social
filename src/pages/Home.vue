@@ -95,6 +95,7 @@
         <ComicStrips />
       </b-col>
     </b-row>
+    <Feedback />
   </b-container>
 </template>
 
@@ -106,10 +107,11 @@ import newsletterService from "@/services/newsletter.service";
 import ComicStrips from "@/components/ComicStrips/ComicStrips";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
+import Feedback from "@/components/Feedback/Feedback";
 
 export default {
   name: "Home",
-  components: { SignInButtons, LatestArticles, UpcomingEvents, ComicStrips },
+  components: { SignInButtons, LatestArticles, UpcomingEvents, ComicStrips, Feedback },
   data() {
     return {
       emailState: null,

@@ -62,6 +62,10 @@ export const messages = {
     error: 'Failed to Redeem points',
     invalidAmount: 'Invalid amount to redeem',
     lessAmount: 'You can Redeem only if reward points more than 1000'
+  },
+  feedback: {
+    success: 'Feedback has been submitted',
+    error: 'Failed to submit Feedback',
   }
 }
 
