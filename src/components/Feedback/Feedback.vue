@@ -48,6 +48,12 @@
             >
               Send
             </button>
+            <button
+              class="cancel-button"
+              @click="isActive = false"
+            >
+              Cancel
+            </button>
           </b-col>
         </b-row>
       </b-container>
@@ -70,6 +76,21 @@ export default {
       fullname: '',
       feedback: '',
     };
+  },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    }
+  },
+  watch: {
+    signedInUser() {
+      this.email = this.signedInUser
+          ? this.signedInUser.email
+          : "";
+        this.fullname = this.signedInUser
+          ? this.signedInUser.name
+          : "";
+    }
   },
   mounted() {
      setTimeout(() => {
@@ -147,5 +168,9 @@ export default {
   button:disabled {
     opacity: .5;
   }
+}
+
+.cancel-button {
+  margin-left: 10px;
 }
 </style>
