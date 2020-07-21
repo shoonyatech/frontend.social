@@ -28,6 +28,7 @@
             v-model="description"
             :editor="editor"
             :config="editorConfig"
+            class="editor"
           />
         </div>
         <div class="skills form-field">
@@ -447,10 +448,15 @@ export default {
     justify-content: space-between;
   }
 }
-.ck-editor {
-  width: 80%;
-}
+
 .ck-editor__editable p {
   margin: 0 !important;
+}
+</style>
+<style lang="scss">
+.add-job-wrapper {
+  .ck-editor, .editor {
+    width: 100%;
+  }
 }
 </style>
