@@ -4,8 +4,40 @@
       <router-link :to="'../jobs/' + id">
         {{ role }}
       </router-link>
-      <div class="expertise capsule">
-        {{ experienceLevel }}
+      <div class="job-strip-right-section">
+        <div class="expertise capsule">
+          {{ experienceLevel }}
+        </div>
+        <div
+          v-if="isRemote"
+          class="remote capsule"
+        >
+          Remote
+        </div>
+        <div>
+          <span
+            v-if="canModify"
+            class="event-action"
+            @click.prevent="editJob(id)"
+          >
+            <img
+              :src="`/images/edit.svg`"
+              class="icon-button"
+              alt="edit"
+            >
+          </span>
+          <span
+            v-if="canModify"
+            class="event-action"
+            @click.prevent="deleteJob(id)"
+          >
+            <img
+              :src="`/images/delete.svg`"
+              class="icon-button"
+              alt="delete"
+            >
+          </span>
+        </div>
       </div>
     </div>
     <div class="skills-required">
@@ -17,6 +49,7 @@
     <a
       class="btn-apply"
       :href="link"
+      target="_blank"
     >
       <Button label="Apply" />
     </a>
@@ -111,6 +144,14 @@ export default {
     company: {
       type: String,
       default: "Company"
+    },
+    isRemote: {
+      type: Boolean,
+      default: false,
+    },
+    canModify: {
+      type: Boolean,
+      default: false,
     }
   },
   data() {
@@ -136,6 +177,12 @@ export default {
     toggleArrow() {
       this.isExpanded = !this.isExpanded;
       this.isOverflow = !this.isOverflow;
+    },
+    deleteJob(id) {
+      this.$emit('delete', id);
+    },
+    editJob(id) {
+      this.$router.push('job/form/' + id)
     }
   }
 };
@@ -153,8 +200,11 @@ export default {
   justify-content: space-between;
   padding: 5px 0;
 }
-.expertise {
+.expertise, .remote {
   font-size: 0.65rem;
+}
+.remote {
+  background: #c50606;
 }
 .job .skills-required {
   text-align: left;
@@ -200,6 +250,10 @@ export default {
 }
 .company {
   font-weight: bold;
+}
+.job-strip-right-section {
+  display: flex;
+  align-items: center;
 }
 @media screen and (max-width: 759px) {
   .job {

@@ -38,6 +38,12 @@ const router = new Router({
       component: () => import("./pages/JobDetails.vue"),
     },
     {
+      path: "/job/form/:id",
+      name: "jobForm",
+      component: () => import("./pages/JobForm.vue"),
+    },
+
+    {
       path: "/events",
       name: "events",
       component: () => import("./pages/Events.vue"),

@@ -6,6 +6,7 @@ export const messages = {
   job: {
     jobAddSuccess: 'Job added successfully!',
     jobAddFailure: 'Error adding new job, Please fill all fields and try again.',
+    jobUpdateSuccess: 'Job updated successfully!',
   },
   challenge: {
     challengeAddSuccess: 'Challenge added successfully!',
