@@ -11,6 +11,7 @@
                 <a
                   class="btn-apply"
                   :href="jobs.link"
+                  target="_blank"
                 >
                   <Button label="Apply" />
                 </a>
@@ -20,6 +21,12 @@
               <SkillTags :skills="jobs.skills" />
               <div class="expertise capsule">
                 {{ getExperienceLevel(jobs.level) }}
+              </div>
+              <div
+                v-if="jobs.isRemote"
+                class="remote capsule"
+              >
+                Remote
               </div>
             </div>
 
@@ -132,8 +139,11 @@ export default {
   justify-content: space-between;
   padding: 5px 0;
 }
-.expertise {
+.expertise, .remote {
   font-size: 0.65rem;
+}
+.remote {
+  background: #c50606;
 }
 .job .skills-required {
   text-align: left;

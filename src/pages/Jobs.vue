@@ -29,6 +29,9 @@
               :city="job.city"
               :country="job.country"
               :company="job.company"
+              :is-remote="job.isRemote"
+              :can-modify="canModify(job)"
+              @delete="onDelete($event)"
             />
             <div class="center-content">
               <button
@@ -39,10 +42,6 @@
               </button>
             </div>
           </div>
-          <AddJob
-            v-else
-            @close="refreshPage()"
-          />
         </b-col>
         <b-col md="3">
           <div
@@ -65,7 +64,6 @@
 
 <script>
 import JobStrip from "@/components/Job/JobStrip";
-import AddJob from "@/components/Job/AddJob";
 import Filters from "@/components/Filters/Filters";
 import jobService from "@/services/job.service";
 
@@ -74,7 +72,6 @@ export default {
   components: {
     JobStrip,
     Filters,
-    AddJob
   },
   data() {
     return {
@@ -132,6 +129,17 @@ export default {
         this.skills = skills;
       }
     },
+    onDelete(id) {
+      this.jobs = this.jobs.filter(x => x._id !== id);
+    },
+    canModify(jobDetails) {
+      if (!this.signedInUser) return false;
+
+      if (this.$store.getters.isAdmin) return true;
+
+      const username = this.signedInUser.username.toLowerCase();
+      return jobDetails.createdBy && jobDetails.createdBy.username.toLowerCase() === username;
+    },
     searchJobsWithSearchTerm(searchText = "") {
       this.loading = true;
       searchText.replace(/^\s+/, "").replace(/\s+$/, "");
@@ -157,7 +165,7 @@ export default {
       if (this.signedInUser == null) {
         this.$router.push("/signin");
       } else {
-        this.showAddJobDialog = true;
+        this.$router.push('/job/form/new')
       }
     },
     scroll(jobs) {

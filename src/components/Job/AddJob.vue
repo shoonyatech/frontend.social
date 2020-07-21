@@ -1,7 +1,11 @@
 <template>
   <!-- add jobs container -->
   <div class="add-job-wrapper">
-    <div class="form-container">
+    <Loader v-if="loading" />
+    <div
+      v-else
+      class="form-container"
+    >
       <form
         id="addJobForm"
         @submit.prevent="processForm"
@@ -79,6 +83,19 @@
         </div>
         <div class="job-type form-field">
           <div class="form-label">
+            Is Remote
+          </div>
+          <div class="multiple-selection">
+            <Checkbox
+              id="isRemote"
+              :is-checked="isRemote"
+              label="Yes"
+              :on-click="toggleCheckbox"
+            />
+          </div>
+        </div>
+        <div class="job-type form-field">
+          <div class="form-label">
             Job Type
           </div>
           <div class="multiple-selection">
@@ -118,6 +135,7 @@
               :value="0"
               name="level"
               label="Beginner"
+              :is-checked="level === 0"
               :on-click="setLevel"
             />
             <RadioButton
@@ -126,12 +144,14 @@
               name="level"
               label="Intermediate"
               :on-click="setLevel"
+              :is-checked="level === 1"
             />
             <RadioButton
               id="Expert"
               :value="2"
               name="level"
               label="Expert"
+              :is-checked="level === 2"
               :on-click="setLevel"
             />
           </div>
@@ -153,6 +173,7 @@
             <input
               v-model="link"
               type="text"
+              required
             >
           </div>
         </div>
@@ -163,7 +184,7 @@
           >
             Save
           </button>
-          <button @click="close">
+          <button @click.prevent.stop="close()">
             Cancel
           </button>
         </div>
@@ -189,6 +210,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       title: "",
       description: "",
       company: "",
@@ -200,6 +222,7 @@ export default {
       isPermanent: false,
       isContract: false,
       level: 0,
+      isRemote: false,
       skillsMap: {
         react: false,
         angular: false,
@@ -215,9 +238,62 @@ export default {
       }
     };
   },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    },
+  },
+  async created() {
+    const jobId = this.$route.params.id;
+    if (jobId && jobId !== "new") {
+      this.loading = true;
+      const jobDetails = await jobService.getJobFindOne(jobId);
+      this.intializeJobDetail(jobDetails);
+      if(!this.canModify(jobDetails)) {
+        this.$router.push("/");
+      }
+      this.loading = false;
+    }
+  },
+  mounted() {
+    setTimeout(() => {
+      if (this.signedInUser == null) {
+        this.$router.push("/signin");
+        return;
+      }
+    }, 1000);
+  },
   methods: {
-    close: function(val) {
-      this.$emit("close", {});
+    intializeJobDetail(jobDetails) {
+      this.title = jobDetails.title || "";
+      this.description = jobDetails.description || "";
+      this.company = jobDetails.company || "";
+      this.tags = (jobDetails.tags || []).join(', ');
+      this.link = jobDetails.link || "";
+      this.selectedSkills = jobDetails.skills || [];
+      this.isFullTime = jobDetails.isFullTime || false;
+      this.isPartTime = jobDetails.isPartTime || false;
+      this.isPermanent = jobDetails.isPermanent || false;
+      this.isContract = jobDetails.isContract || false;
+      this.level = jobDetails.level || 0;
+      this.city = jobDetails.city || null;
+      this.country = jobDetails.country || null;
+      this.isRemote = jobDetails.isRemote || false;
+    },
+    canModify(jobDetails) {
+      if (!this.signedInUser) return false;
+
+      if (this.$store.getters.isAdmin) return true;
+
+      const username = this.signedInUser.username.toLowerCase();
+      return jobDetails.createdBy && jobDetails.createdBy.username.toLowerCase() === username;
+    },
+    close(id) {
+      if (id) {
+        this.$router.push(`/jobs/${id}`);
+      } else {
+        this.$router.back();
+      }
     },
     onCityChange(city) {
       this.city = city.name;
@@ -237,16 +313,39 @@ export default {
         tags: this.getTags(),
         link: this.link,
         city: this.city,
-        country: this.country
+        country: this.country,
+        isRemote: this.isRemote,
       };
 
-      jobService.addJob(payload).then(response => {
+      const jobId = this.$route.params.id;
+      if (jobId !== "new") {
+        jobService
+          .updateJob(jobId, payload)
+          .then(() => {
+            eventBus.$emit("show-toast", {
+              body: messages.job.jobUpdateSuccess,
+              title: messages.generic.success
+            });
+            this.close(jobId);
+          })
+          .catch(e => {
+            eventBus.$emit("show-toast", {
+              body: e.message,
+              title: messages.generic.error,
+              type: ToastType.ERROR
+            });
+          });
+      } else {
+        jobService.addJob(payload).then(response => {
         eventBus.$emit('show-toast', {body: messages.job.jobAddSuccess, title: messages.generic.success});
-        this.close();
+        this.close(response._id);
       })
       .catch(error => {
         eventBus.$emit('show-toast', {body: messages.job.jobAddFailure, title: messages.generic.error, type: ToastType.ERROR});
       });
+
+      }
+
     },
     toggleCheckbox(id) {
       this[id] = !this[id];

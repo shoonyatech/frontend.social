@@ -35,6 +35,9 @@ export default {
   addJob: payload => {
     return httpClient.post("job", payload);
   },
+  updateJob: (id, payload) => {
+    return httpClient.put("job/" + id, payload);
+  },
   getJobFindOne: (searchId = "") => {
     const jobQuery = `job/${searchId}`;
     return httpClient.get(jobQuery);
