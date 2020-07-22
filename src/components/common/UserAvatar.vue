@@ -1,6 +1,6 @@
 <template>
   <div class="avatar">
-    <div v-if="user.isGuest">
+    <div v-if="user && user.isGuest">
       <img
         :src="'/images/avatar.svg'"
         class="profile-photo"

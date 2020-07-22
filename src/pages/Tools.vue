@@ -121,6 +121,8 @@ export default {
         });
     },
     getRateUser(toolId) {
+      if (!this.signedInUser) return;
+
       toolService
         .getRateUser(toolId)
         .then(response => {
