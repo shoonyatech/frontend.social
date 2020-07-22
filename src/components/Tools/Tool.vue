@@ -11,6 +11,7 @@
             :src="`/images/up.svg`"
             class="up-down-arrow cursor-pointer"
             alt="up arrow"
+            :class="{disabled: !signedInUser}"
             @click="onUpVote(tool, index)"
           >
           {{ tool.upRating - tool.downRating }}
@@ -18,6 +19,7 @@
             :src="`/images/down.svg`"
             alt="down-arrow"
             class="up-down-arrow cursor-pointer"
+            :class="{disabled: !signedInUser}"
             @click="onDownVote(tool, index)"
           >
         </b-col>
@@ -52,6 +54,7 @@
           <div class="subtitle color-gray">
             Reviews
             <add-comment
+              v-if="signedInUser"
               ref="addcomment"
               :comment-id="commentId"
               :on-save="saveComment"
@@ -125,6 +128,11 @@ export default {
       allowReply: false,
       commentId: ""
     };
+  },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    },
   },
   created() {
     this.getComments();
@@ -250,5 +258,9 @@ export default {
 }
 .cursor-pointer {
   cursor: pointer;
+}
+.disabled {
+  pointer-events: none;
+  opacity: .5;
 }
 </style>
