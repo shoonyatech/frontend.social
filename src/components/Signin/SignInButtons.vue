@@ -4,25 +4,25 @@
       class="social-button google"
       @click="authenticate('google')"
     >
-      Sign in with Google
+      <i class="fa fa-google fa-fw" /> Sign in with Google
     </button>
     <button
       class="social-button fb"
       @click="authenticate('facebook')"
     >
-      Sign in with Facebook
+      <i class="fa fa-facebook fa-fw" /> Sign in with Facebook
     </button>
     <button
       class="social-button github"
       @click="authenticate('github')"
     >
-      Sign in with Github
+      <i class="fa fa-github fa-fw" /> Sign in with Github
     </button>
     <button
       class="social-button twitter hidden"
       @click="authenticate('twitter')"
     >
-      Sign in with Twitter
+      <i class="fa fa-twitter fa-fw" /> Sign in with Twitter
     </button>
   </div>
 </template>
@@ -92,10 +92,16 @@ export default {
 <style scoped lang="scss">
 .buttons-box {
   padding-right: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .social-button {
-  max-width: 230px;
+  max-width: 245px;
   margin: 5px 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 </style>
