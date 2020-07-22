@@ -9,7 +9,10 @@
           <span class="article-author"> by {{ article.author }}</span>
         </b-col>
         <b-col sm="4">
-          <span class="article-type capsule"> {{ article.type }}</span>
+          <span
+            v-if="article.type"
+            class="article-type capsule"
+          > {{ article.type }}</span>
         </b-col>
       </b-row>
       <b-row>
@@ -106,7 +109,7 @@ export default {
 
 .article-type {
   font-size: 0.65rem;
-  color: #2c3e50;
+  color: white;
   float: right;
 }
 
