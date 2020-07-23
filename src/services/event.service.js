@@ -1,5 +1,9 @@
 import httpClient from "./http-client";
 
+window.backfillEvents = () => {
+  return httpClient.post('/event/backfill');
+};
+
 export default {
   getUpcomingEvents: (skill, limit = 100, page = 1) => {
     var pagination = "&limit=" + limit + "&page=" + page;
@@ -42,6 +46,9 @@ export default {
 
   getEventById: (id) => {
     return httpClient.get(`event/${id}`);
+  },
+  getEventByUniqueId(id) {
+    return httpClient.get(`event/byUniqueId/${id}`);
   },
   registerUser: (eventregistration) => {
     return httpClient.post("event/register", eventregistration);
