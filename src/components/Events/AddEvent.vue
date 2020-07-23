@@ -405,7 +405,7 @@ export default {
   },
   computed: {
     eventLink() {
-      return window.origin + "/event/" + this.event._id;
+      return window.origin + "/event/" + this.event.uniqueId;
     },
     signedInUser() {
       return this.$store.state.signedInUser;
@@ -511,6 +511,7 @@ export default {
     },
     intializeEvents(eventDetails) {
       this.event = {
+        uniqueId: eventDetails.uniqueId,
         _id: eventDetails._id,
         title: eventDetails.title || "",
         description: eventDetails.description || "",
@@ -581,12 +582,12 @@ export default {
       if (eventId !== "new") {
         eventService
           .updateEvent(eventId, this.event)
-          .then(() => {
+          .then((res) => {
             eventBus.$emit("show-toast", {
               body: messages.events.eventsUpdateSuccess,
               title: messages.generic.success
             });
-            this.close(eventId);
+            this.close(res.uniqueId);
           })
           .catch(e => {
             eventBus.$emit("show-toast", {
@@ -603,7 +604,7 @@ export default {
               body: messages.events.eventsAddSuccess,
               title: messages.generic.success
             });
-            this.close(resp._id);
+            this.close(resp.uniqueId);
           })
           .catch(e => {
             eventBus.$emit("show-toast", {

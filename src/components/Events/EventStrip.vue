@@ -198,7 +198,7 @@ export default {
       return this.$store.state.signedInUser;
     },
     eventLink() {
-      return window.origin + "/event/" + this.event._id;
+      return window.origin + "/event/" + this.event.uniqueId;
     }
   },
   mounted() {
@@ -222,7 +222,7 @@ export default {
       this.$emit("edit", event);
     },
     onTitleClick() {
-      this.$router.push(`/event/${this.event._id}`);
+      this.$router.push(`/event/${this.event.uniqueId}`);
     },
     getEventTypeName: getEventTypeName,
     eventRegistration() {

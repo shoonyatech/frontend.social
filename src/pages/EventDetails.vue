@@ -258,7 +258,7 @@ export default {
     }
 
     eventService
-      .getEventById(this.eventId)
+      .getEventByUniqueId(this.eventId)
       .then(event => {
         this.event = event;
         this.loading = false;
