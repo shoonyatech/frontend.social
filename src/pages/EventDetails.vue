@@ -122,7 +122,8 @@
         <b-row>
           <b-col md="12">
             <EventMeetings
-              :id="eventId"
+              v-if="event._id"
+              :id="event._id"
               type="EVENT"
               :is-editable="isAdmin"
               :admins="event.adminUsers || []"
@@ -143,7 +144,7 @@
               :on-save="saveComment"
               :on-cancel="cancelComment"
               :show-rating="showRating"
-              :parent-id="eventId"
+              :parent-id="event._id || eventId"
               class="mt-1"
             />
           </b-col>
@@ -262,13 +263,12 @@ export default {
       .then(event => {
         this.event = event;
         this.loading = false;
+        this.getComments();
       })
       .catch(() => {
         this.failedToFindEvent = true;
         this.loading = false;
       });
-
-    this.getComments();
 
     this.interval = setInterval(() => this.getComments(), 5000);
   },
@@ -298,7 +298,7 @@ export default {
     },
     getComments() {
       commentService
-        .getComment(this.eventId)
+        .getComment(this.event._id)
         .then(response => {
           this.comments = response; //.push(...response);
         })
