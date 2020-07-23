@@ -4,7 +4,7 @@
     <img
       class="photo"
       :src="`/images/cities/${city.name}-${city.country}.jpg`"
-      alt="City"
+      :alt="city.name"
     >
     <div class="details">
       <div class="inline-block">
@@ -59,6 +59,33 @@ export default {
   background-color: #114273;
   height: 5rem;
   width: 100%;
+  min-height: 5rem;
+  min-width: 100%;
+  position: relative;
+
+  &:before { 
+    content: " ";
+    display: inline-block;
+    position: absolute;
+    left: 0px;
+    height: 5rem;
+    width: 100%;
+    background-color: #e6e6e6;
+  }
+
+  &:after { 
+    content: "\f127" "  " attr(alt);
+    display: block;
+    font-size: 16px;
+    font-style: normal;
+    font-family: FontAwesome;
+    color: rgb(100, 100, 100);
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .details {
