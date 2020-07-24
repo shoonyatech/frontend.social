@@ -34,7 +34,6 @@ export default {
   height: 35px;
   width: 35px;
   display: flex;
-  background-color: #fff;
   border-radius: 50%;
   padding: 3px;
   cursor: pointer;

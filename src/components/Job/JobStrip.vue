@@ -205,6 +205,7 @@ export default {
 }
 .remote {
   background: #c50606;
+  color: white;
 }
 .job .skills-required {
   text-align: left;
