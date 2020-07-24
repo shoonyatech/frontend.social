@@ -58,6 +58,17 @@
           </div>
         </div>
       </li>
+      <li class="nav-item right">
+        <div class="toggle">
+          <input
+            id="theme-toggle"
+            type="checkbox"
+            :checked="isDarkMode"
+            @change="$emit('toggle-theme')"
+          >
+          <label for="theme-toggle" />
+        </div>
+      </li>
     </ul>
   </nav>
 </template>
@@ -72,6 +83,10 @@ export default {
     navLinks: {
       type: Array,
       required: true
+    },
+    isDarkMode: {
+      type: Boolean,
+      default: false,
     }
   },
   computed: {
@@ -119,7 +134,6 @@ export default {
     }
     .image-container {
       padding: 9px 10px 0 10px;
-      background-color: white;
       height: 55px;
     }
   }
@@ -183,7 +197,6 @@ nav {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    background-color: white;
     height: 60px;
     position: fixed;
     top: 0;
@@ -228,5 +241,55 @@ a.nav-item-link:hover {
 }
 a.nav-item-link {
   padding: 10px 10px;
+}
+
+.toggle{
+  width: 80px;
+  margin-top: -15px;
+
+  input[type="checkbox"]{
+    display: none;
+  }
+  
+  label{
+    position: relative;
+  }
+  
+  input[type="checkbox"] + label::before{
+    content: ' ';
+    display: block;
+    height: 26px;
+    width: 45px;
+    border: 1px solid var(--fs-secondary-color);;
+    border-radius: 20px;
+    position: absolute;
+    top: 0px;
+    left: -65px;
+    background: white;
+  }
+
+  input[type="checkbox"]:checked + label::before{
+    background: black;
+    transition: all 0.5s ease-in;
+  }
+  
+  input[type="checkbox"] + label::after{
+    content: " ";
+    display: block;
+    height: 20px;
+    width: 20px;
+    border: 1px solid var(--fs-secondary-color);
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: -62px;
+    background: var(--fs-secondary-color);
+    transition: all 0.5s ease-in;
+  }
+  
+  input[type="checkbox"]:checked + label::after{
+    left: -43px; 
+    transition: all 0.5s ease-in;
+  }
 }
 </style>

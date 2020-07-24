@@ -1,11 +1,15 @@
 <template>
   <div
     id="app"
-    :class="{ 'theme-dark': isdarkMode, 'theme-light': !isdarkMode }"
+    :class="{ 'theme-dark': isDarkMode, 'theme-light': !isDarkMode }"
   >
     <div class="header">
-      <NavBar :nav-links="navLinks" />
-      <!-- <button @click="isdarkMode=!isdarkMode">
+      <NavBar
+        :nav-links="navLinks"
+        :is-dark-mode="isDarkMode"
+        @toggle-theme="toggleTheme"
+      />
+      <!-- <button @click="isDarkMode=!isDarkMode">
         Mode
       </button> -->
     </div>
@@ -57,7 +61,7 @@ export default {
         path: "/tech"
       }
     ],
-    isdarkMode: false,
+    isDarkMode: false,
     copyrightText:
       "Powered by Shoonya Technologies Ltd. (Canada) © 2020 All Rights Reserved."
   }),
@@ -67,6 +71,7 @@ export default {
     }
   },
   created() {
+    this.getTheme();
     if (localStorage.getItem("authToken")) {
       userService
         .getLoggedInUserProfile()
@@ -82,6 +87,16 @@ export default {
     }
 
     this.$store.dispatch("fetchSkills");
+  },
+  methods: {
+    getTheme() {
+      const theme = localStorage.getItem("theme");
+      this.isDarkMode = theme === 'DARK';
+    },
+    toggleTheme() {
+      this.isDarkMode = !this.isDarkMode;
+      localStorage.setItem("theme", this.isDarkMode ? 'DARK' : 'LIGHT')
+    }
   }
 };
 </script>
@@ -133,9 +148,9 @@ body {
   background-color: var(--fs-bg);
   .main {
     min-height: 70vh;
-    margin-top: 87px;
+    padding-top: 87px;
     @media screen and (max-width: 759px) {
-      margin-top: 70px;
+      padding-top: 70px;
     }
   }
 }

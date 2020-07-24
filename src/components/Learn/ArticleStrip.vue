@@ -109,7 +109,6 @@ export default {
 
 .article-type {
   font-size: 0.65rem;
-  color: white;
   float: right;
 }
 

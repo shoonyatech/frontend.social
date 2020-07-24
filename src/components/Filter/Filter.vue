@@ -56,5 +56,6 @@ export default {
 .filter > label {
   margin-left: 10px;
   margin-bottom: 0;
+  color: var(--fs-primary-color);
 }
 </style>
