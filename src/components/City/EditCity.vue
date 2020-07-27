@@ -51,7 +51,7 @@
         </a>
       </div>
       <div
-        v-else
+        v-else-if="showError"
         class="error"
       >
         [Add your city]
@@ -88,6 +88,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showError: {
+      type: Boolean,
+      default: true,
+    }
   },
   data() {
     return {
