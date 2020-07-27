@@ -82,6 +82,7 @@ j<template>
               :edit-mode="editModeAboutMe"
               :city="profile.city"
               :country="profile.country"
+              :show-error="!username"
               @change="onCityChange"
             />
           </Section>
