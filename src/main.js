@@ -18,6 +18,7 @@ import VueYoutube from 'vue-youtube'
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import Loader from '@/components/common/Loader';
 import infiniteScroll from 'vue-infinite-scroll'
+import './registerServiceWorker'
 
 Vue.use(CKEditor);
 Vue.use(infiniteScroll);
