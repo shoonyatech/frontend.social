@@ -4,14 +4,16 @@
   "description": "This is a platform for Frontend Developers and Designers. Meet fellow developers and designers in your city meetups, see latest blogs and videos, learn from online courses and find jobs matching your skills!!",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
+      "src": "icons/manifest-icon-192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "sizes": "192x192"
+      "purpose": "maskable any"
     },
     {
-      "src": "/android-chrome-384x384.png.png",
+      "src": "icons/manifest-icon-512.png",
+      "sizes": "512x512",
       "type": "image/png",
-      "sizes": "384x384"
+      "purpose": "maskable any"
     }
   ],
   "start_url": "/",
