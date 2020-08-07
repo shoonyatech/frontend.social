@@ -4,9 +4,13 @@
       <div class="input-group">
         <input
           v-model="editedCity"
-          :class="{ 'left-input-width': addCity, 'left-input': !addCity }"
+          :class="{ 'left-input-width': addCity, 'left-input': !addCity ,}"
           placeholder="City"
           @input="onSearchCityChange"
+          @keyup.down="onArrowDown"
+          @keyup.up="onArrowUp"
+          @keyup.enter="onEnter"
+          @click="showAll"
         ><span
           v-show="addCity"
           class="input-group-addon"
@@ -26,6 +30,7 @@
           v-for="(searchedCity, index) in options"
           :key="index"
           class="city-option"
+          :class="{ 'is-active': index === arrowCounter }"
           @click="selectCity(searchedCity)"
         >
           {{ cityDisplayName(searchedCity) }}
@@ -98,6 +103,7 @@ export default {
       editedCity: this.city,
       editedCountry: this.country,
       options: [],
+      arrowCounter: -1,
     };
   },
   methods: {
@@ -123,6 +129,32 @@ export default {
       this.editedCountry = searchedCity.country;
       this.$emit("change", searchedCity);
     },
+        onArrowDown(evt) {
+      if (this.arrowCounter < this.options.length) {
+        this.arrowCounter = this.arrowCounter + 1;
+        console.log("keydown: " , this.arrowCounter);
+      }
+    },
+    onArrowUp() {
+      if (this.arrowCounter > 0) {
+        this.arrowCounter = this.arrowCounter - 1;
+        console.log("keyup : " , this.arrowCounter);
+      }
+    },
+    onEnter() {
+      this.editedCity = this.options[this.arrowCounter].name;
+      this.editedCountry = this.options[this.arrowCounter].country;
+      this.addCity = false;
+      this.arrowCounter = -1;
+      this.$emit("change", {
+        name: this.editedCity,
+        country: this.editedCountry,
+      });
+    },
+    showAll() {
+      this.addCity = !this.addCity;
+      this.addCity ? (this.options = this.items) : (this.options = []);
+    }, 
   },
 };
 </script>
@@ -144,8 +176,13 @@ export default {
   &:hover {
     background-color: #1142736c;
   }
-}
 
+}
+.city-option.is-active,
+.city-option:hover {
+    background-color: #4aae9b;
+    color: white;
+}
 .error {
   color: rgb(212, 68, 68);
   background-color: #38628c;
