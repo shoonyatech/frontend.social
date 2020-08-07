@@ -62,3 +62,4 @@ git push origin master -f
 ```
 
 Create new PR from your GitHub repo to upstream repo
+Star the repo if you like it!
