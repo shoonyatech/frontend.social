@@ -303,6 +303,15 @@ j<template>
               :admins="[]"
             />
           </Section>
+          <Section
+            title="Tweets"
+            class="user-referrals-section"
+            :is-editable="false"
+          >
+            <div>
+              <Twitter />
+            </div>
+          </Section>
         </b-col>
       </b-row>
     </b-container>
@@ -321,6 +330,7 @@ import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
 import UserAvatar from "@/components/common/UserAvatar";
 import RewardPointsTransactions from '@/components/Profile/RewardPointsTransactions.vue';
+import Twitter from '@/components/Twitter/Twitter.vue'
 
 export default {
   components: {
@@ -331,7 +341,8 @@ export default {
     Section,
     UserAvatar,
     EventMeetings,
-    RewardPointsTransactions
+    RewardPointsTransactions,
+    Twitter 
   },
   data() {
     return {
