@@ -4,7 +4,7 @@
       <div class="input-group">
         <input
           v-model="editedCity"
-          :class="{ 'left-input-width': addCity, 'left-input': !addCity ,}"
+          :class="{ 'left-input-width': addCity, 'left-input': !addCity }"
           placeholder="City"
           @input="onSearchCityChange"
           @keyup.down="onArrowDown"
@@ -83,11 +83,11 @@ export default {
     },
     city: {
       type: String,
-      default: '',
+      default: "",
     },
     country: {
       type: String,
-      default: '',
+      default: "",
     },
     addCity: {
       type: Boolean,
@@ -96,7 +96,7 @@ export default {
     showError: {
       type: Boolean,
       default: true,
-    }
+    },
   },
   data() {
     return {
@@ -129,16 +129,14 @@ export default {
       this.editedCountry = searchedCity.country;
       this.$emit("change", searchedCity);
     },
-        onArrowDown(evt) {
+    onArrowDown(evt) {
       if (this.arrowCounter < this.options.length) {
         this.arrowCounter = this.arrowCounter + 1;
-        console.log("keydown: " , this.arrowCounter);
       }
     },
     onArrowUp() {
       if (this.arrowCounter > 0) {
         this.arrowCounter = this.arrowCounter - 1;
-        console.log("keyup : " , this.arrowCounter);
       }
     },
     onEnter() {
@@ -154,7 +152,7 @@ export default {
     showAll() {
       this.addCity = !this.addCity;
       this.addCity ? (this.options = this.items) : (this.options = []);
-    }, 
+    },
   },
 };
 </script>
@@ -176,12 +174,11 @@ export default {
   &:hover {
     background-color: #1142736c;
   }
-
 }
 .city-option.is-active,
 .city-option:hover {
-    background-color: #4aae9b;
-    color: white;
+  background-color: #4aae9b;
+  color: white;
 }
 .error {
   color: rgb(212, 68, 68);
