@@ -136,9 +136,10 @@ export default {
       if (!this.signedInUser) return false;
 
       if (this.$store.getters.isAdmin) return true;
-
+      if(this.signedInUser.username != null){
       const username = this.signedInUser.username.toLowerCase();
       return jobDetails.createdBy && jobDetails.createdBy.username.toLowerCase() === username;
+      }
     },
     searchJobsWithSearchTerm(searchText = "") {
       this.loading = true;
