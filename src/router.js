@@ -129,6 +129,11 @@ const router = new Router({
       component: () => import("./pages/VideoCourse.vue"),
     },
     {
+      path:"/blog",
+      name:"blog",
+      component: () => import("./pages/Blog.vue"),
+    },
+    {
       path: "/blog/:id/:blogname",
       name: "blogDetails",
       component: () => import("./pages/BlogDetails.vue"),

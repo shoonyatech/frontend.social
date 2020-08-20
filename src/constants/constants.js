@@ -20,6 +20,12 @@ export const messages = {
     updateSuccess: 'VLog updated successfully!',
     updateFailure: 'Error updating VLog',
   },
+  blog: {
+    addSuccess: 'blog added successfully!',
+    addFailure: 'Error adding new blog',
+    updateSuccess: 'blog updated successfully!',
+    updateFailure: 'Error updating blog',
+  },
   tip: {
     addSuccess: 'Tip added successfully!',
     addFailure: 'Error adding new Tip',

@@ -47,6 +47,9 @@
         <div class="tool-tip-text">
           <a @click="onToolTipClick()">Tech Tip</a>
         </div>
+        <div class="tool-tip-text">
+          <a @click="onBlogClick()">Blogs</a>
+        </div>
         <div class="join-box">
           <span class="join-label">Frontend Newsletter</span>
           <ul class="text-left">
@@ -54,7 +57,7 @@
               Find out online events
             </li>
             <li class="newsletter-list">
-              Influencer of the week 
+              Influencer of the week
             </li>
             <li class="newsletter-list">
               Latest blogs and videos
@@ -111,7 +114,13 @@ import Feedback from "@/components/Feedback/Feedback";
 
 export default {
   name: "Home",
-  components: { SignInButtons, LatestArticles, UpcomingEvents, ComicStrips, Feedback },
+  components: {
+    SignInButtons,
+    LatestArticles,
+    UpcomingEvents,
+    ComicStrips,
+    Feedback,
+  },
   data() {
     return {
       emailState: null,
@@ -131,6 +140,9 @@ export default {
     }, 1000);
   },
   methods: {
+    onBlogClick() {
+      this.$router.push("/blog");
+    },
     onVLogClick() {
       this.$router.push("/catchup");
     },
