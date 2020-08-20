@@ -21,7 +21,7 @@
             class="mt-1"
           />
           <Comment
-            v-for="(comment,index) in comments"
+            v-for="(comment, index) in comments"
             :key="comment._id"
             :index="index"
             :comment-id="comment._id"
@@ -52,7 +52,7 @@ export default {
   components: {
     Comment,
     AddComment,
-    VueMarkdown
+    VueMarkdown,
   },
   props: {},
   data() {
@@ -63,7 +63,7 @@ export default {
       allowReply: true,
       commentId: "",
       comments: [],
-      blogData: ""
+      blogData: "",
     };
   },
   computed: {
@@ -74,10 +74,10 @@ export default {
       return [
         {
           text: "Blog",
-          active: true
-        }
+          active: true,
+        },
       ];
-    }
+    },
   },
   mounted() {
     this.loadBlog(this.$route.params.id);
@@ -89,11 +89,11 @@ export default {
 
   methods: {
     loadBlog(blogId) {
-      blogService.getBlogById(blogId).then(res => {
+      blogService.getBlogById(blogId).then((res) => {
         this.blog = res;
         fetch(this.blog.markdownUrl)
-          .then(response => response.text())
-          .then(response => (this.blogData = response));
+          .then((response) => response.text())
+          .then((response) => (this.blogData = response));
 
         this.getComments();
       });
@@ -101,14 +101,14 @@ export default {
     getComments() {
       commentService
         .getComment(this.blog._id)
-        .then(response => {
+        .then((response) => {
           this.comments = response;
         })
         .catch(() => {
           eventBus.$emit("show-toast", {
             body: e.message,
             title: messages.generic.error,
-            type: ToastType.ERROR
+            type: ToastType.ERROR,
           });
         });
     },
@@ -122,7 +122,7 @@ export default {
 
       eventBus.$emit("show-toast", {
         body: messages.comment.commentAddSuccess,
-        title: messages.generic.success
+        title: messages.generic.success,
       });
     },
     deleteComment(index) {
@@ -132,10 +132,9 @@ export default {
     editComment(commentId) {
       this.commentId = commentId;
     },
-    cancelComment() {}
-  }
+    cancelComment() {},
+  },
 };
 </script>
 
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
