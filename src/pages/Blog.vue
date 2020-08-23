@@ -4,7 +4,7 @@
     <b-container>
       <b-row>
         <b-col md="12">
-          <BlogPart />
+          <LatestBlog />
         </b-col>
       </b-row>
     </b-container>
@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import BlogPart from "@/components/Blogs/BlogPart";
+import LatestBlog from "@/components/Blogs/LatestBlog";
 
 export default {
   name: "Learn",
-  components: { BlogPart },
+  components: { LatestBlog },
   data() {
     return {
       articles: [],
