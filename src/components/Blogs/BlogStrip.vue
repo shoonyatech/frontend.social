@@ -3,9 +3,9 @@
     <div class="blog-strip">
       <b-row>
         <b-col sm="8">
-          <a :href="blog.url">
+          <router-link :to="'../blog/' + blog._id+'/'+blog.title">
             <span>{{ blog.title }}</span>
-          </a>
+          </router-link>
           <span class="blog-author"> by {{ blog.author }}</span>
         </b-col>
         <b-col sm="4">
@@ -27,15 +27,6 @@
         <b-col sm="12">
           <div class="blog-description">
             <span>{{ blog.description }}</span>
-          </div>
-          <div class="courtesy">
-            Courtesy:
-            <a
-              name="courtesy"
-              :href="blog.courtesyUrl"
-              target="_blank"
-              rel="noopener"
-            >{{ blog.courtesy }}</a>
           </div>
           <div class="tags">
             Tags:
@@ -115,7 +106,6 @@ export default {
   font-size: 0.8rem;
 }
 
-.courtesy,
 .tags {
   font-size: 0.65rem;
 }

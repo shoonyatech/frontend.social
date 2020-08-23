@@ -22,18 +22,6 @@
       :multiline="true"
       @change="onDescriptionChange"
     />
-    <KeyValue
-      label="Courtesy"
-      :is-editable="true"
-      placeholder="Optional (who posted about it)"
-      @change="onCourtesyChange"
-    />
-    <KeyValue
-      label="Courtesy link"
-      :is-editable="true"
-      placeholder="Optional (url to their website)"
-      @change="onCourtesyUrlChange"
-    />
 
     <b-row class="row">
       <b-col
@@ -138,9 +126,7 @@ export default {
         title: null,
         author: null,
         description: "",
-        url: null,
-        courtesy: "",
-        courtesyUrl: "",
+        markdownUrl: null,
         tags: [],
         relatedSkills: [],
         type: null,
@@ -162,13 +148,7 @@ export default {
       this.blog.description = e.value;
     },
     onUrlChange(e) {
-      this.blog.url = e.value;
-    },
-    onCourtesyChange(e) {
-      this.blog.courtesy = e.value;
-    },
-    onCourtesyUrlChange(e) {
-      this.blog.courtesyUrl = e.value;
+      this.blog.markdownUrl = e.value;
     },
     onSkillsChange: function(skills) {
       this.blog.relatedSkills = skills;
@@ -186,7 +166,7 @@ export default {
       } else if (!this.blog.author) {
         alert("Please specify author");
         return;
-      } else if (!this.blog.url) {
+      } else if (!this.blog.markdownUrl) {
         alert("Please specify URL");
         return;
       }
