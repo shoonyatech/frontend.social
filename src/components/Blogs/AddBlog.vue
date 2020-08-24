@@ -80,6 +80,7 @@
       label="Technologies"
       :is-editable="true"
       :auto-select="skillsLookup"
+      :values="blog.relatedSkills"
       @change="onSkillsChange"
     />
 
@@ -128,7 +129,7 @@ export default {
         description: "",
         markdownUrl: null,
         tags: [],
-        relatedSkills: [],
+        relatedSkills: [""],
         type: null,
       },
       skillsLookup: [],
