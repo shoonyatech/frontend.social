@@ -3,7 +3,7 @@
     <div class="blog-strip">
       <b-row>
         <b-col sm="8">
-          <router-link :to="'../blog/' + blog._id+'/'+blog.title">
+          <router-link :to="'../blog/' + blog._id + '/' + blog.title">
             <span>{{ blog.title }}</span>
           </router-link>
           <span class="blog-author"> by {{ blog.author }}</span>
@@ -12,7 +12,8 @@
           <span
             v-if="blog.type"
             class="blog-type capsule"
-          > {{ blog.type }}</span>
+          >
+            {{ blog.type }}</span>
         </b-col>
       </b-row>
       <b-row>

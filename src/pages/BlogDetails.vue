@@ -7,6 +7,13 @@
           <vue-markdown :source="blogData" />
         </b-col>
       </b-row>
+      <hr>
+      <b-row
+        v-if="!hideComments"
+        style="margin-top: 70px;"
+      >
+        <h1>Comments</h1>
+      </b-row>
       <b-row v-if="!hideComments">
         <b-col md="1" />
         <b-col md="10">
@@ -26,7 +33,6 @@
             :comment-id="comment._id"
             :comment="comment"
             :show-rating="showRating"
-            :allow-reply="allowReply"
             :on-delete="deleteComment"
             :on-edit="editComment"
             :on-save="saveComment"
@@ -57,7 +63,7 @@ export default {
   data() {
     return {
       blog: {},
-      hideComments: true,
+      hideComments: false,
       showRating: true,
       allowReply: true,
       commentId: "",
