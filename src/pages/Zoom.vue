@@ -143,7 +143,7 @@ export default {
           },
           {
             text: this.eventTitle,
-            to: `/event/${this.eventId}`
+            to: `/event/${this.event.uniqueId}`
           },
           {
             text: this.groupTopic,
