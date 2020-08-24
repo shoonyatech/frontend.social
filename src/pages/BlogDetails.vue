@@ -7,7 +7,6 @@
           <vue-markdown :source="blogData" />
         </b-col>
       </b-row>
-
       <b-row v-if="!hideComments">
         <b-col md="1" />
         <b-col md="10">
