@@ -7,12 +7,15 @@
     >
       <h1>
         <span>Blogs</span>
-        <button
-          v-if="!showAddBlogDialog"
-          @click="showDialog()"
-        >
-          + Add
-        </button>
+
+        <span v-if="$store.getters.isAdmin">
+          <button
+            v-if="!showAddBlogDialog"
+            @click="showDialog()"
+          >
+            + Add
+          </button>
+        </span>
       </h1>
       <div
         v-if="!showAddBlogDialog"
@@ -28,7 +31,10 @@
         <div v-else>
           No blogs found!
         </div>
-        <div class="center-content">
+        <div
+          v-if="$store.getters.isAdmin"
+          class="center-content"
+        >
           <button
             class="mt-4"
             @click="showDialog()"
@@ -73,6 +79,7 @@ export default {
     return {
       blogs: [],
       showAddBlogDialog: false,
+      loading: false,
     };
   },
   computed: {
@@ -115,6 +122,9 @@ export default {
         .then((blogs) => {
           if (!this.infiniteScroll) {
             this.blogs = blogs.results;
+            if (blogs.results === undefined) {
+              this.blogs = blogs.results || [];
+            }
           } else {
             this.blogs = this.blogs.concat(blogs.results);
             if (this.blogs.length > 0) {
