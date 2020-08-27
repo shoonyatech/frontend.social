@@ -196,6 +196,10 @@ export default {
         alert("Please specify URL OR Blog Body");
         return;
       }
+      else if (this.blog.markdownUrl && this.blog.body) {
+        alert("Please Enter Either Blog URL or Blog Body");
+        return;
+      }
 
       blogService
         .addBlog(this.blog)
