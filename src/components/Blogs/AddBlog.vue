@@ -15,6 +15,25 @@
       :is-editable="true"
       @change="onAuthorChange"
     />
+    <b-row class="row">
+      <b-col
+        md="3"
+        sm="12"
+      >
+        <span class="label">Blog Body</span>
+      </b-col>
+      <b-col
+        md="9"
+        sm="12"
+      >
+        <ckeditor
+          v-model="blog.body"
+          :editor="editor"
+          :config="editorConfig"
+        />
+      </b-col>
+    </b-row>
+
     <KeyValue
       label="Description"
       placeholder="Optional"
@@ -108,7 +127,7 @@
 import KeyValue from "@/components/common/KeyValue";
 import KeyMultiValue from "@/components/common/KeyMultiValue";
 import EditCity from "@/components/City/EditCity";
-
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import blogService from "@/services/blog.service";
 import skillService from "@/services/skill.service";
 
@@ -131,8 +150,11 @@ export default {
         tags: [],
         relatedSkills: [""],
         type: null,
+        body: "",
       },
       skillsLookup: [],
+      editor: ClassicEditor,
+      editorConfig: {},
     };
   },
   async created() {
@@ -151,6 +173,9 @@ export default {
     onUrlChange(e) {
       this.blog.markdownUrl = e.value;
     },
+    onBodyChange(e) {
+      this.blog.body = e.value;
+    },
     onSkillsChange: function(skills) {
       this.blog.relatedSkills = skills;
     },
@@ -167,8 +192,8 @@ export default {
       } else if (!this.blog.author) {
         alert("Please specify author");
         return;
-      } else if (!this.blog.markdownUrl) {
-        alert("Please specify URL");
+      } else if (!this.blog.markdownUrl && !this.blog.body) {
+        alert("Please specify URL OR Blog Body");
         return;
       }
 
@@ -198,6 +223,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.row {
+  margin-bottom: 15px;
+}
+.label {
+  color: #114273;
+  width: 7rem;
+  min-width: 7rem;
+}
 .blog-strip {
   flex: 0 1 auto;
   font-size: 0.9rem;
