@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "start": "node server.js",
-    "test": "vue-cli-service test:unit"
+    "test": "vue-cli-service test:unit",
+    "commit": "cz"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^18.0.0",
@@ -56,6 +57,8 @@
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-eslint": "^10.0.3",
     "chai": "^4.1.2",
+    "commitizen": "^4.2.1",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
