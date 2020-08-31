@@ -51,6 +51,18 @@
               alt="twitter"
             >
           </a>
+          <a
+            name="github"
+            class="social-link"
+            rel="noopener"
+            href="https://github.com/shoonyatech/frontend.social"
+            target="_blank"
+          >
+            <img
+              src="https://www.frontend.social/images/github.png"
+              alt="twitter"
+            >
+          </a>
           <!-- <a
             class="social-link"
             href="https://github.com/shoonyatech/frontend.social/"
