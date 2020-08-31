@@ -9,6 +9,7 @@
         :key="index"
       >
         <a
+          v-if="this.skill[index] != ' '"
           :name="`${skill}`"
           :href="`/tech/${skill}`"
         >{{ skill }}</a><span v-if="index != skills.length - 1">, </span>
@@ -24,11 +25,11 @@ export default {
   props: {
     skills: {
       type: Array,
-      default: () => []
+      default: () => [],
     },
     size: {
       type: String,
-      default: ''
+      default: "",
     },
   },
 };
