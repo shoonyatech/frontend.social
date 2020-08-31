@@ -4,18 +4,20 @@
       class="skill"
       :class="{ large: size === 'large' }"
     >
-      <div v-if="!skills.length">
+      <span v-if="skills != null">
         <span
           v-for="(skill, index) in skills"
           :key="index"
         >
           <a
-            v-if="skill[index] != ' '"
+            v-if="skills.length"
             :name="`${skill}`"
             :href="`/tech/${skill}`"
-          >{{ skill }}</a><span v-if="index != skills.length - 1">, </span>
+          >{{
+            skill
+          }}</a><span v-if="index != skills.length - 1">, </span>
         </span>
-      </div>
+      </span>
     </div>
   </div>
 </template>
