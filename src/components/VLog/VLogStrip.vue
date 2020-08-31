@@ -31,9 +31,10 @@
     </div>
     <div
       ref="description"
+      class="vlog-description"
       :class="{
         expanded: isExpanded,
-        collapsed: isOverflow
+        collapsed: isOverflow,
       }"
       v-html="vlog.description"
     />
@@ -66,19 +67,19 @@ export default {
     type: {
       type: String,
       required: true,
-    }
+    },
   },
   data() {
     return {
       isExpanded: false,
       isOverflow: false,
-      showArrow: false
+      showArrow: false,
     };
   },
   computed: {
     canModify() {
       return this.$store.getters.isAdmin;
-    }
+    },
   },
   mounted() {
     var element = this.$refs.description;
@@ -95,27 +96,32 @@ export default {
       this.isOverflow = !this.isOverflow;
     },
     onClick() {
-      if(this.type === VLogType.CATCHUP) {
-        this.$router.push(`/catchup/${this.vlog.uniqueId}`)
+      if (this.type === VLogType.CATCHUP) {
+        this.$router.push(`/catchup/${this.vlog.uniqueId}`);
       } else {
-        this.$router.push(`/freelancing/${this.vlog.uniqueId}`)
+        this.$router.push(`/freelancing/${this.vlog.uniqueId}`);
       }
     },
     deleteVLog() {
-      this.$emit('delete', this.vlog._id);
+      this.$emit("delete", this.vlog._id);
     },
     editVLog() {
       this.$router.push(`/vlog/form/${this.vlog._id}`);
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .vlog {
-  border-bottom: dotted 1px #114273;
-  padding: 10px;
+  flex: 0 1 auto;
+  font-size: 0.9rem;
+  margin: 10px;
+  width: 95%;
   position: relative;
+  border-bottom: dotted 1px #114273;
+  padding-bottom: 10px;
+  margin-right: 20px;
 }
 
 .vlog-description {
