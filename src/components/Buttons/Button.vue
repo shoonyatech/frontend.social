@@ -11,7 +11,7 @@
 export default {
   components: {},
   props: {
-          label: {
+      label: {
       type: String,
       default: ""
     },
