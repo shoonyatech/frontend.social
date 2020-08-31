@@ -4,16 +4,18 @@
       class="skill"
       :class="{ large: size === 'large' }"
     >
-      <span
-        v-for="(skill, index) in skills"
-        :key="index"
-      >
-        <a
-          v-if="this.skill[index] != ' '"
-          :name="`${skill}`"
-          :href="`/tech/${skill}`"
-        >{{ skill }}</a><span v-if="index != skills.length - 1">, </span>
-      </span>
+      <div v-if="!skills.length">
+        <span
+          v-for="(skill, index) in skills"
+          :key="index"
+        >
+          <a
+            v-if="skill[index] != ' '"
+            :name="`${skill}`"
+            :href="`/tech/${skill}`"
+          >{{ skill }}</a><span v-if="index != skills.length - 1">, </span>
+        </span>
+      </div>
     </div>
   </div>
 </template>
