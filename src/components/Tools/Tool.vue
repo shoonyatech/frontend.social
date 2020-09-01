@@ -30,6 +30,7 @@
         >
           <img
             :src="tool.icon"
+            onerror="this.onerror=null; this.src='/images/tools/default-icon.svg'"
             alt="tool-icon"
             class="w-100"
           >
