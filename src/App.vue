@@ -27,6 +27,9 @@ import NavBar from "@/components/Header/NavBar";
 import Footer from "@/components/Footer/Footer";
 import ToastsManager from "@/components/ToastsManager/ToastsManager";
 import store from "@/vuex/store";
+import io from 'socket.io-client';
+import config from "./config/config";
+
 export default {
   components: {
     NavBar,
@@ -87,6 +90,12 @@ export default {
     }
 
     this.$store.dispatch("fetchSkills");
+  },
+  mounted() {
+    var socket = io(config.api);
+    socket.on('test-reply', console.log)
+
+    socket.emit('test-event', 'test');
   },
   methods: {
     getTheme() {
