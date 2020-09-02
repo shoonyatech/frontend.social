@@ -47,9 +47,9 @@
         <div class="tool-tip-text">
           <a @click="onToolTipClick()">Tech Tip</a>
         </div>
-        <div class="tool-tip-text">
+        <!-- <div class="tool-tip-text">
           <a @click="onBlogClick()">Blogs</a>
-        </div>
+        </div> -->
         <div class="join-box">
           <span class="join-label">Frontend Newsletter</span>
           <ul class="text-left">
