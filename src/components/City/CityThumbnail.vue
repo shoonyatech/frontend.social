@@ -6,6 +6,7 @@
         class="photo city-image"
         :src="`/images/cities/${city.name}-${city.country}.jpg`"
         :alt="city.name"
+        onerror="this.onerror=null; this.src='/images/cities/default.jpg'"
       >
       <div class="details">
         <div class="inline-block">
@@ -64,6 +65,7 @@ export default {
   min-height: 5rem;
   min-width: 100%;
   position: relative;
+  object-fit: cover;
 
   &:before { 
     content: " ";
