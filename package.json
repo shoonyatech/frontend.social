@@ -87,8 +87,7 @@
 			"vue-cli-service lint"
 		],
 		"*.{js,vue,json,css,md}": [
-			"npm run format",
-			"git add"
+			"npm run format"
 		]
 	}
 }
