@@ -1,14 +1,13 @@
 import httpClient from "./http-client";
 
 export default {
-  getLatestArticles: (skill, limit = 100, page = 1) => {
-    var pagination = "&limit=" + limit + "&page=" + page;
-
-    return skill
-      ? httpClient.get("article?skill=" + skill + pagination)
-      : httpClient.get("article?" + pagination);
+  getLatestArticles: (query, limit = 100, page = 1) => {
+    const pagination = "limit=" + limit + "&page=" + page;
+    query = query || "";
+    return httpClient.get("article?" + pagination + query);
   },
-  addArticle: article => {
+
+  addArticle: (article) => {
     return httpClient.post("article", article);
-  }
+  },
 };
