@@ -4,56 +4,42 @@
     <b-container>
       <b-row>
         <b-col md="9">
-          <div class="host">
+          <h1>
+            <span>Latest talks & articles on Frontend</span>
+            <button @click="showDialog()">
+              + Add
+            </button>
+          </h1>
+          <div>
             <div
               v-infinite-scroll="loadArticles"
               infinite-scroll-disabled="isDisableInfiniteScroll"
               infinite-scroll-distance="limit"
             >
-              <h1>
-                <span>Latest talks & articles on Frontend</span>
-                <button
-                  v-if="!showAddArticleDialog"
-                  @click="showDialog()"
-                >
-                  + Add
-                </button>
-              </h1>
-              <div
-                v-if="!showAddArticleDialog"
-                class="articles"
-              >
-                <div v-if="articles.length">
-                  <article-strip
-                    v-for="(article, index) in articles"
-                    :key="index"
-                    :article="article"
-                  />
-                </div>
-                <div v-else>
-                  No articles found!
-                </div>
-                <div class="center-content">
-                  <button
-                    class="mt-4"
-                    @click="showDialog()"
-                  >
-                    + Add more
-                  </button>
-                </div>
+              <div v-if="articles.length">
+                <article-strip
+                  v-for="(article, index) in articles"
+                  :key="index"
+                  :article="article"
+                />
               </div>
-              <AddArticle
-                v-else
-                @close="refreshPage()"
-              />
+              <div v-else>
+                No articles found!
+              </div>
             </div>
           </div>
+          <div class="center-content">
+            <button
+              class="mt-4"
+              @click="showDialog()"
+            >
+              + Add more
+            </button>
+          </div>
+          <div class="host" />
         </b-col>
         <b-col md="3">
-          <div
-            v-if="!showAddArticleDialog"
-            class="filters-wrapper"
-          >
+          <div class="filters-wrapper">
             <LearnFilter :on-search-params-change="onSearchParamsChange" />
           </div>
         </b-col>
@@ -64,35 +50,22 @@
 
 <script>
 import ArticleStrip from "@/components/Learn/ArticleStrip";
-import AddArticle from "@/components/Learn/AddArticle";
-
 import LearnFilter from "@/components/Learn/LearnFilter";
-
 import learnService from "@/services/learn.service";
 
 export default {
   name: "TalksAndArticles",
-  components: { ArticleStrip, AddArticle, LearnFilter },
-  props: {
-    skill: {
-      type: String,
-      default: null,
-      required: false,
-    },
-    infiniteScroll: {
-      type: Boolean,
-      default: true,
-    },
-    limit: {
-      type: Number,
-      default: 10,
-    },
+  components: {
+    ArticleStrip,
+    LearnFilter,
   },
+  props: {},
   data() {
     return {
       articles: [],
       showAddArticleDialog: false,
       loading: false,
+      page: 1,
     };
   },
   computed: {
@@ -100,7 +73,7 @@ export default {
       return this.$store.state.signedInUser;
     },
     isDisableInfiniteScroll() {
-      return !this.infiniteScroll || this.busy;
+      return !this.busy;
     },
   },
   created() {
@@ -113,24 +86,14 @@ export default {
       this.loading = true;
       this.loadArticles(param, true);
     },
-
-    refreshPage() {
-      this.showAddArticleDialog = false;
-      this.loadArticles("refresh");
-    },
     showDialog() {
       if (this.signedInUser == null) {
         this.$router.push("/signin");
       } else {
-        this.showAddArticleDialog = true;
+        this.$router.push("/article/form/new");
       }
     },
     loadArticles(param = "", filter = false) {
-      // if (param === "refresh") {
-      //   this.articles = [];
-      //   param = 0;
-      //   this.page = 1;
-      // }
       let query = "";
       this.busy = false;
       this.limit = this.limit || 10;
