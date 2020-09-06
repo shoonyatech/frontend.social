@@ -29,9 +29,8 @@
 </template>
 <script>
 import userService from "@/services/user.service";
-
 import Facet from "../Filter/Filter";
-import { filtersSet } from "@/components/Events/FiltersConfig";
+import { filtersSet } from "@/components/Learn/FiltersConfig";
 
 export default {
   name: "LearnFilter",
