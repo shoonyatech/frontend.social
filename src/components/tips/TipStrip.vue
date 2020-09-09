@@ -84,7 +84,7 @@ export default {
   border-bottom: dotted 1px #114273;
   padding: 10px;
   position: relative;
-  min-width: 500px;
+  min-width: 50%;
 }
 
 @media screen and (max-width: 700px) { 
