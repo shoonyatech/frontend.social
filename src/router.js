@@ -109,6 +109,11 @@ const router = new Router({
       component: () => import("./pages/EventForm.vue"),
     },
     {
+      path: "/article/form/:id",
+      name: "articleForm",
+      component: () => import("./pages/LearnForm.vue"),
+    },
+    {
       path: "/join-meeting/:id",
       name: "joinMeeting",
       component: () => import("./pages/Zoom.vue"),

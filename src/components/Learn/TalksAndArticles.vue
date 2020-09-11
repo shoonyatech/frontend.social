@@ -1,78 +1,71 @@
 <template>
-  <div class="host">
-    <div
-      v-infinite-scroll="loadArticles"
-      infinite-scroll-disabled="isDisableInfiniteScroll"
-      infinite-scroll-distance="limit"
-    >
-      <h1>
-        <span>Latest talks & articles on Frontend</span>
-        <button
-          v-if="!showAddArticleDialog"
-          @click="showDialog()"
-        >
-          + Add
-        </button>
-      </h1>
-      <div
-        v-if="!showAddArticleDialog"
-        class="articles"
-      >
-        <div v-if="articles.length">
-          <article-strip
-            v-for="(article, index) in articles"
-            :key="index"
-            :article="article"
-          />
-        </div>
-        <div v-else>
-          No articles found!
-        </div>
-        <div class="center-content">
-          <button
-            class="mt-4"
-            @click="showDialog()"
-          >
-            + Add more
-          </button>
-        </div>
-      </div>
-      <AddArticle
-        v-else
-        @close="refreshPage()"
-      />
-    </div>
+  <div class="articles">
+    <Loader v-show="loading" />
+    <b-container>
+      <b-row>
+        <b-col md="9">
+          <h1>
+            <span>Latest talks & articles on Frontend</span>
+            <button @click="showDialog()">
+              + Add
+            </button>
+          </h1>
+          <div>
+            <div
+              v-infinite-scroll="loadArticles"
+              infinite-scroll-disabled="isDisableInfiniteScroll"
+              infinite-scroll-distance="limit"
+            >
+              <div v-if="articles.length">
+                <article-strip
+                  v-for="(article, index) in articles"
+                  :key="index"
+                  :article="article"
+                />
+              </div>
+              <div v-else>
+                No articles found!
+              </div>
+            </div>
+          </div>
+          <div class="center-content">
+            <button
+              class="mt-4"
+              @click="showDialog()"
+            >
+              + Add more
+            </button>
+          </div>
+          <div class="host" />
+        </b-col>
+        <b-col md="3">
+          <div class="filters-wrapper">
+            <LearnFilter :on-search-params-change="onSearchParamsChange" />
+          </div>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
 import ArticleStrip from "@/components/Learn/ArticleStrip";
-import AddArticle from "@/components/Learn/AddArticle";
-
+import LearnFilter from "@/components/Learn/LearnFilter";
 import learnService from "@/services/learn.service";
 
 export default {
   name: "TalksAndArticles",
-  components: { ArticleStrip, AddArticle },
-  props: {
-    skill: {
-      type: String,
-      default: null,
-      required: false
-    },
-    infiniteScroll: {
-      type: Boolean,
-      default: true
-    },
-    limit: {
-      type: Number,
-      default: 10
-    }
+  components: {
+    ArticleStrip,
+    LearnFilter,
   },
+  props: {},
   data() {
     return {
       articles: [],
-      showAddArticleDialog: false
+      showAddArticleDialog: false,
+      loading: false,
+      page: 1,
     };
   },
   computed: {
@@ -80,8 +73,8 @@ export default {
       return this.$store.state.signedInUser;
     },
     isDisableInfiniteScroll() {
-      return !this.infiniteScroll || this.busy;
-    }
+      return !this.busy;
+    },
   },
   created() {
     if (!this.infiniteScroll) {
@@ -89,30 +82,29 @@ export default {
     }
   },
   methods: {
-    refreshPage() {
-      this.showAddArticleDialog = false;
-      this.loadArticles("refresh");
+    onSearchParamsChange(param = "") {
+      this.loading = true;
+      this.loadArticles(param, true);
     },
     showDialog() {
       if (this.signedInUser == null) {
         this.$router.push("/signin");
       } else {
-        this.showAddArticleDialog = true;
+        this.$router.push("/article/form/new");
       }
     },
-    loadArticles(action) {
-      if (action === "refresh") {
-        this.articles = [];
-        action = 0;
-        this.page = 1;
-      }
+    loadArticles(param = "", filter = false) {
+      let query = "";
       this.busy = false;
       this.limit = this.limit || 10;
-      this.page = action + this.page || this.page || 1;
-
+      this.page = filter ? 1 : this.page || 1;
       learnService
-        .getLatestArticles(this.skill, this.limit, this.page)
-        .then(articles => {
+        .getLatestArticles(param, this.limit, this.page)
+        .then((articles) => {
+          if (filter) {
+            this.articles = articles;
+          } else this.articles = this.articles.concat(articles);
+
           if (!this.infiniteScroll) {
             this.articles = articles;
           } else {
@@ -121,10 +113,11 @@ export default {
               ++this.page;
             }
           }
+          this.loading = false;
           this.busy = true;
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
