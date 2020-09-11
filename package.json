@@ -49,6 +49,8 @@
 		"vuex": "^3.1.2"
 	},
 	"devDependencies": {
+		"@commitlint/cli": "^9.1.2",
+		"@commitlint/config-conventional": "^9.1.2",
 		"@vue/cli-plugin-babel": "^3.12.1",
 		"@vue/cli-plugin-eslint": "^3.12.1",
 		"@vue/cli-plugin-pwa": "^4.4.6",
@@ -80,6 +82,7 @@
 		]
 	},
 	"gitHooks": {
+		"commit-msg": "commitlint -H https://github.com/shoonyatech/frontend.social/ -e $GIT_PARAMS",
 		"pre-commit": "lint-staged"
 	},
 	"lint-staged": {
