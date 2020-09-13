@@ -89,7 +89,7 @@ export default {
 
 @media screen and (max-width: 700px) { 
   .tip {
-    min-width: 100px;
+    min-width: 300px;
   }
 }
 
