@@ -107,7 +107,6 @@ export default {
   flex-direction: column;
   display: flex;
   text-align: start;
-  padding: 10px;
   cursor: pointer;
 }
 

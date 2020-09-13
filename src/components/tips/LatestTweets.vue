@@ -1,7 +1,7 @@
 <template>
   <div class="host">
     <h1>
-      Tweets
+      Tips
       <span
         v-if="!infiniteScroll"
         class="navigation-button"
@@ -31,7 +31,7 @@
         />
       </div>
       <div v-else>
-        No Tweets found!
+        No Tips found!
       </div>
     </div>
   </div>
