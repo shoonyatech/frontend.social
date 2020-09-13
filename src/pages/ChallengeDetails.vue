@@ -142,7 +142,7 @@ export default {
 		},
 		getChallenge() {
 			return challengeService
-				.getChallengeById(this.challengeId)
+				.getChallengeByUniqueId(this.challengeId)
 				.then((challenge) => {
 					this.challenge = challenge;
 					fetch(this.challenge.problemStatementUrl)
