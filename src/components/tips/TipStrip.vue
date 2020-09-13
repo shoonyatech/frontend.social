@@ -84,12 +84,12 @@ export default {
   border-bottom: dotted 1px #114273;
   padding: 10px;
   position: relative;
-  min-width: 50%;
+  min-width: 300px;
 }
 
 @media screen and (max-width: 700px) { 
   .tip {
-    min-width: 300px;
+    min-width: 100px;
   }
 }
 
