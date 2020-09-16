@@ -54,6 +54,12 @@
             <h1>Problem Statement</h1>
             <vue-markdown :source="problemStatement" />
           </b-col>
+          <b-col
+            md="12"
+            style="margin-top: 10px"
+          >
+            <div v-html="challenge.problemStatement" />
+          </b-col>
         </b-row>
         <b-row>
           <b-col md="12">
@@ -142,9 +148,10 @@ export default {
 		},
 		getChallenge() {
 			return challengeService
-				.getChallengeByUniqueId(this.challengeId)
+				.getChallengeById(this.challengeId)
 				.then((challenge) => {
 					this.challenge = challenge;
+
 					fetch(this.challenge.problemStatementUrl)
 						.then((response) => response.text())
 						.then((response) => (this.problemStatement = response));

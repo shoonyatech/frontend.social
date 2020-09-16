@@ -15,6 +15,15 @@
             required
           >
         </div>
+        <div class="form-field">
+          <div class="form-label">
+            Problem Statement Url
+          </div>
+          <input
+            v-model="problemStatementUrl"
+            type="text"
+          >
+        </div>
         <div class="problemStatement form-field">
           <div class="form-label">
             Problem Statement
@@ -47,10 +56,10 @@
                 class="editable-value"
                 :value="endDate"
                 @change="onEndDateChange"
-              >  
+              >
             </div>
           </div>
-        </div> 
+        </div>
         <div class="tags form-field">
           <div class="form-label">
             Tags
@@ -87,13 +96,12 @@
 
 <script>
 import challengeService from "@/services/challenges.service";
-import moment from 'moment';
+import moment from "moment";
 import eventBus from "@/utilities/eventBus";
 import { ToastType, messages } from "@/constants/constants";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import Checkbox from "@/components/Checkbox/Checkbox";
 import challengesService from "@/services/challenges.service";
-
 export default {
   name: "AddChallenge",
   components: {
@@ -103,16 +111,17 @@ export default {
     return {
       id: null,
       title: "",
+      problemStatementUrl: null,
       problemStatement: "",
       tags: "",
       published: false,
       startDate: null,
       endDate: null,
       editor: ClassicEditor,
-      editorData: '<p>Content of the editor.</p>',
+      editorData: "<p>Content of the editor.</p>",
       editorConfig: {
-          // The configuration of the editor.
-      }
+        // The configuration of the editor.
+      },
     };
   },
   async created() {
@@ -122,6 +131,7 @@ export default {
       this.loading = true;
       const details = await challengesService.getChallengeById(id);
       this.title = details.title;
+      this.problemStatementUrl = details.problemStatementUrl;
       this.problemStatement = details.problemStatement;
       this.tags = details.tags.join();
       this.startDate = this.getFormattedDate(this.startTime);
@@ -140,8 +150,19 @@ export default {
   },
   methods: {
     processForm(event) {
+      if (!this.title) {
+        alert("Please specify Challenge title");
+        return;
+      } else if (!this.problemStatementUrl && !this.problemStatement) {
+        alert("Please specify URL OR Blog problemStatement");
+        return;
+      } else if (this.problemStatementUrl && this.problemStatement) {
+        alert("Please Enter Either Blog URL or Blog problemStatement");
+        return;
+      }
       const payload = {
         title: this.title,
+        problemStatementUrl: this.problemStatementUrl,
         problemStatement: this.problemStatement,
         tags: this.getTags(),
         startTime: this.startDate,
@@ -150,25 +171,40 @@ export default {
       };
 
       if (this.id) {
-        challengesService.updateChallenge(this.id, payload)
-        .then(response => {
-          eventBus.$emit('show-toast', {body: messages.challenge.challengeUpdateSuccess, title: messages.generic.success});
-          this.close();
-        })
-        .catch(error => {
-          eventBus.$emit('show-toast', {body: messages.challenge.challengeUpdateFailure, title: messages.generic.error, type: ToastType.ERROR});
-        });
+        challengesService
+          .updateChallenge(this.id, payload)
+          .then((response) => {
+            eventBus.$emit("show-toast", {
+              body: messages.challenge.challengeUpdateSuccess,
+              title: messages.generic.success,
+            });
+            this.close();
+          })
+          .catch((error) => {
+            eventBus.$emit("show-toast", {
+              body: messages.challenge.challengeUpdateFailure,
+              title: messages.generic.error,
+              type: ToastType.ERROR,
+            });
+          });
       } else {
-        challengeService.addChallenge(payload)
-        .then(response => {
-          eventBus.$emit('show-toast', {body: messages.challenge.challengeAddSuccess, title: messages.generic.success});
-          this.close();
-        })
-        .catch(error => {
-          eventBus.$emit('show-toast', {body: messages.challenge.challengeAddFailure, title: messages.generic.error, type: ToastType.ERROR});
-        });
+        challengeService
+          .addChallenge(payload)
+          .then((response) => {
+            eventBus.$emit("show-toast", {
+              body: messages.challenge.challengeAddSuccess,
+              title: messages.generic.success,
+            });
+            this.close();
+          })
+          .catch((error) => {
+            eventBus.$emit("show-toast", {
+              body: messages.challenge.challengeAddFailure,
+              title: messages.generic.error,
+              type: ToastType.ERROR,
+            });
+          });
       }
-
     },
     getTags() {
       const tags = this.tags.split(",");
@@ -190,8 +226,8 @@ export default {
     },
     togglePublished() {
       this.published = !this.published;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -205,9 +241,9 @@ export default {
   #addChallengeForm {
     width: 83%;
 
-  .ck-editor {
-    width: 100%;
-  }
+    .ck-editor {
+      width: 100%;
+    }
 
     @media screen and (max-width: 1024px) {
       width: 100%;
@@ -225,8 +261,7 @@ export default {
           width: 100px;
         }
       }
-      
-      
+
       textarea,
       input[type="text"] {
         flex: 1;
@@ -288,6 +323,4 @@ export default {
     justify-content: space-between;
   }
 }
-
-
 </style>
