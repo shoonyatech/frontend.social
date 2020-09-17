@@ -2,7 +2,7 @@
   <b-container>
     <b-row>
       <b-col md="9">
-        <a
+        <!-- <a
           href="https://react.geekle.us/"
           name="home_banner"
           target="_blank"
@@ -11,7 +11,7 @@
             class="home-banner-top"
             src="/images/React_banner.png"
             alt="Home page banner"
-          ></a>
+          ></a> -->
 
         <h1>Find out What's new!</h1>
         <div class="home">
