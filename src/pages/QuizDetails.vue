@@ -23,7 +23,7 @@
 <script>
 import quizService from '@/services/quiz.service';
 import eventBus from '@/utilities/eventBus';
-import QuestionStrip from '@/components/Quiz/QuestionStrip';
+import QuestionStrip from '@/components/Quiz/QuizQuestion';
 import { ToastType, messages } from '@/constants/constants';
 export default {
 	name: 'QuizDetails',
