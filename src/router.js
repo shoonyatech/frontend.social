@@ -149,6 +149,21 @@ const router = new Router({
 			component: () => import('./pages/QuizDetails.vue'),
 		},
 		{
+			path: '/quiz/:id/run',
+			name: 'quizRun',
+			component: () => import('./pages/QuizRun.vue'),
+		},
+		{
+			path: '/quiz/:id/run/details',
+			name: 'quizRunDetail',
+			component: () => import('./pages/QuizRunDetails.vue'),
+		},
+		{
+			path: '/quiz/:id/run/details/result',
+			name: 'quizResult',
+			component: () => import('./pages/QuizResult.vue'),
+		},
+		{
 			path: '/blog/:id/:blogname',
 			name: 'blogDetails',
 			component: () => import('./pages/BlogDetails.vue'),

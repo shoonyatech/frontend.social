@@ -24,7 +24,7 @@ import VueMarkdown from 'vue-markdown';
 
 import quizService from '@/services/quiz.service';
 export default {
-	name: 'QuestionStrip',
+	name: 'QuizRun',
 	components: { VueMarkdown },
 	props: {
 		question: {
@@ -32,6 +32,10 @@ export default {
 			required: true,
 		},
 		quizId: {
+			type: String,
+			required: true,
+		},
+		duration: {
 			type: String,
 			required: true,
 		},
@@ -56,6 +60,13 @@ export default {
 					.then((response) => response.text())
 					.then((response) => (this.questionUrl = response));
 			});
+			this.timer();
+		},
+		timer() {
+			setTimeout(this.next, this.question.duration * 1000);
+		},
+		next() {
+			this.$router.push(`/quiz/${this.$route.params.id}/run/details/result`);
 		},
 	},
 };
