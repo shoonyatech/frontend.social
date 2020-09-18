@@ -8,10 +8,13 @@ export default {
 			? httpClient.get('quiz?skill=' + skill + pagination)
 			: httpClient.get('quiz?' + pagination);
 	},
-	addQuiz: (blog) => {
-		return httpClient.post('quiz', blog);
+	addQuiz: (quiz) => {
+		return httpClient.post('quiz', quiz);
 	},
 	getQuizById: (id) => {
 		return httpClient.get(`quiz/${id}`);
+	},
+	updateQuiz: (id, quiz) => {
+		return httpClient.put(`quiz/${id}`, quiz);
 	},
 };

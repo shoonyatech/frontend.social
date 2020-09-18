@@ -2,8 +2,9 @@
   <div>
     <b-card>
       <div>
-        <vue-markdown :source="this.questionUrl" />
+        <vue-markdown :source="questionUrl" />
       </div>
+
       <h2>Options</h2>
       <div
         v-for="(option, index) in clicked.options"
@@ -15,12 +16,6 @@
         >
           {{ option.key }}|{{ option.value }}
         </div>
-      </div>
-      <div
-        v-if="showSection"
-        class="answer"
-      >
-        {{ this.text }}
       </div>
     </b-card>
     <br>
@@ -46,19 +41,74 @@ export default {
 	},
 	data() {
 		return {
-			submit: [],
+			quiz: {
+				_id: '5f62a9bc2736589fc02c036d',
+				title: 'Testing',
+				relatedSkills: ['Angular', 'Vuejs', 'react', 'GraphQL'],
+				questions: [
+					{
+						questionUrl:
+							'https://raw.githubusercontent.com/FrontendSocial/code-challenges/master/01-events-calendar/problem_statement.MD',
+						options: [
+							{
+								key: 'A',
+								value: 'Angular',
+							},
+							{
+								key: 'B',
+								value: 'React',
+							},
+							{
+								key: 'C',
+								value: 'Vue',
+							},
+							{
+								key: 'D',
+								value: 'GraphQL',
+							},
+						],
+						answer: 'A',
+						duration: '10',
+					},
+					{
+						questionUrl:
+							'https://raw.githubusercontent.com/FrontendSocial/code-challenges/master/01-events-calendar/problem_statement.MD',
+						options: [
+							{
+								key: 'A',
+								value: 'Angular',
+							},
+							{
+								key: 'B',
+								value: 'React',
+							},
+							{
+								key: 'C',
+								value: 'Vue',
+							},
+							{
+								key: 'D',
+								value: 'GraphQL',
+							},
+						],
+						answer: 'A',
+						duration: '10',
+					},
+				],
+			},
 			showSection: false,
 			questionUrl: '',
 			text: '',
 			clicked: {},
+			answer: null,
 		};
 	},
 	mounted() {
-		this.loadBlog(this.$route.params.id);
+		this.loadQuiz(this.$route.params.id);
 		this.clicked = { ...this.$props.question, clicked: false };
 	},
 	methods: {
-		loadBlog(quizId) {
+		loadQuiz(quizId) {
 			quizService.getQuizById(quizId).then((res) => {
 				fetch(this.question.questionUrl)
 					.then((response) => response.text())
@@ -66,12 +116,9 @@ export default {
 			});
 		},
 		onclick(index) {
-			this.showSection = true;
-			if (index === this.question.answer) {
-				this.text = `Your Answer is Correct i.e : ${index}`;
-			} else {
-				this.text = `The Correct Answer is : ${this.question.answer}`;
-			}
+			quizService.updateQuiz(this.quizId, this.quiz).then((res) => {
+				console.log(res);
+			});
 		},
 	},
 };
@@ -79,53 +126,6 @@ export default {
 
 <style scoped lang="scss">
 /* style for course thumbnail */
-.thumbnail {
-	border: solid #114273 2px;
-	height: 12rem;
-	width: 12rem;
-	min-width: 12rem;
-	color: #2c3e50;
-	text-decoration: none;
-}
-
-.details {
-	padding: 0.5rem;
-	margin-top: -0.75rem;
-	text-align: left;
-}
-
-.half-width {
-	width: 50%;
-}
-
-.pr-2 {
-	padding-right: 10px;
-}
-
-.course-title {
-	font-weight: bold;
-	text-align: center;
-	padding-top: 0.8rem;
-	overflow: hidden;
-	white-space: nowrap;
-}
-.course-technology {
-	font-size: 0.6rem;
-	font-weight: bold;
-	text-align: center;
-}
-
-.course-description {
-	font-size: 0.6rem;
-	block-size: 6.5rem;
-	overflow: hidden;
-}
-
-.button {
-	text-align: center;
-	position: inherit;
-	padding: 0.5rem;
-}
 
 .option-container {
 	border-style: solid;
@@ -145,9 +145,5 @@ export default {
 	background-color: black;
 	color: white;
 	cursor: pointer;
-}
-.answer {
-	text-align: center;
-	background-color: chartreuse;
 }
 </style>
