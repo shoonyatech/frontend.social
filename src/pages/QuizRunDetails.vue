@@ -1,27 +1,15 @@
 <template>
-  <div class="host">
+  <div>
     <b-container>
-      <b-row class="description">
-        <b-col>
-          <h1>{{ quiz.title }}</h1>
-        </b-col>
-      </b-row>
       <b-row>
         <b-col md="12">
-          <QuestionStrip
+          <QuizRun
             v-for="(question, index) in quiz.questions"
             :key="index"
             :question="question"
             :quiz-id="quiz._id"
+            :duration="question.duration"
           />
-        </b-col>
-        <b-col
-          md="12"
-          class="button"
-        >
-          <button @click="click">
-            Run
-          </button>
         </b-col>
       </b-row>
     </b-container>
@@ -29,20 +17,19 @@
 </template>
 
 <script>
+import QuizRun from '@/components/Quiz/QuizRun';
 import quizService from '@/services/quiz.service';
-import eventBus from '@/utilities/eventBus';
-import QuestionStrip from '@/components/Quiz/QuizQuestion';
-import { ToastType, messages } from '@/constants/constants';
 export default {
-	name: 'QuizDetails',
+	name: 'QuizRunDetails',
 	components: {
-		QuestionStrip,
+		QuizRun,
 	},
 	props: {},
 	data() {
 		return {
 			quiz: {},
 			quizData: '',
+			questionLength: '',
 		};
 	},
 	computed: {
@@ -61,23 +48,40 @@ export default {
 	mounted() {
 		this.loadQuiz(this.$route.params.id);
 	},
-	created() {},
 	methods: {
 		loadQuiz(quizId) {
 			quizService.getQuizById(quizId).then((res) => {
 				this.quiz = res;
+				this.questionLength = this.quiz.questions.length;
 			});
 		},
 		click() {
-			this.$router.push(`/quiz/${this.$route.params.id}/run`);
+			this.$router.push(`/quiz/${this.$route.params.id}/run/details`);
 		},
 	},
 };
 </script>
 
 <style scoped lang="scss">
-.button {
-	left: 50%;
-	margin-bottom: 10px;
+/* style for course thumbnail */
+
+.option-container {
+	border-style: solid;
+	padding: 10px;
+	border-color: #dfdfdf;
+	border-width: 1px;
+	margin-bottom: 1px;
+	background-color: rgb(48, 190, 238);
+	color: white;
+}
+.option-container:hover {
+	border-style: solid;
+	padding: 10px;
+	border-color: #dfdfdf;
+	border-width: 1px;
+	margin-bottom: 1px;
+	background-color: black;
+	color: white;
+	cursor: pointer;
 }
 </style>
