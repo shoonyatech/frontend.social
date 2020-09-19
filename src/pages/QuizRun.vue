@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card>
-      <h2>UniqueId :</h2>
+      <h2>Quiz Run ID: {{ runId }}</h2>
       <span>
         <button @click="click">Start Quiz</button>
       </span>
@@ -15,6 +15,14 @@ export default {
 	name: 'QuestionStrip',
 	components: {},
 	props: {},
+	data() {
+		return {
+			runId: 0,
+		};
+	},
+	mounted() {
+		this.runId = this.$route.params.runId;
+	},
 	methods: {
 		click() {
 			this.$router.push(`/quiz/${this.$route.params.id}/run/details`);
