@@ -154,14 +154,9 @@ const router = new Router({
 			component: () => import('./pages/QuizRun.vue'),
 		},
 		{
-			path: '/quiz/:id/run/details',
-			name: 'quizRunDetail',
-			component: () => import('./pages/QuizRunDetails.vue'),
-		},
-		{
-			path: '/quiz/:id/run/details/result',
-			name: 'quizResult',
-			component: () => import('./pages/QuizResult.vue'),
+			path: '/quiz/:id/play/:runId',
+			name: 'quizPlay',
+			component: () => import('./pages/QuizPlay.vue'),
 		},
 		{
 			path: '/blog/:id/:blogname',
