@@ -149,7 +149,7 @@ const router = new Router({
 			component: () => import('./pages/QuizDetails.vue'),
 		},
 		{
-			path: '/quiz/:id/run',
+			path: '/quiz/:id/run/:runId',
 			name: 'quizRun',
 			component: () => import('./pages/QuizRun.vue'),
 		},
