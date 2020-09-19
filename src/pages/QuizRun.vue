@@ -18,6 +18,7 @@
               v-if="index === currentQuestion"
               :question="question"
               :quiz-id="quiz._id"
+              @timeOver="onTimeover"
             />
           </div>
         </b-col>
@@ -52,6 +53,14 @@ export default {
 		},
 		nextQuestion() {
 			this.currentQuestion++;
+		},
+		onTimeover() {
+			debugger;
+			quizService
+				.getQuizResult(this.runId, this.currentQuestion)
+				.then((res) => {
+					this.result = res;
+				});
 		},
 	},
 };
