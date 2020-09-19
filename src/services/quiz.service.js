@@ -17,4 +17,7 @@ export default {
 	updateQuiz: (id, quiz) => {
 		return httpClient.put(`quiz/${id}`, quiz);
 	},
+	runQuiz: (quizId) => {
+		return httpClient.post('quizRun', { quizId: quizId });
+	},
 };

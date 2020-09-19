@@ -19,7 +19,7 @@
           md="12"
           class="button"
         >
-          <button @click="click">
+          <button @click="runQuiz">
             Run
           </button>
         </b-col>
@@ -68,8 +68,10 @@ export default {
 				this.quiz = res;
 			});
 		},
-		click() {
-			this.$router.push(`/quiz/${this.$route.params.id}/run`);
+		runQuiz() {
+			quizService.runQuiz(this.$route.params.id).then((res) => {
+				this.$router.push(`/quiz/${this.$route.params.id}/run/${res.uniqueId}`);
+			});
 		},
 	},
 };
