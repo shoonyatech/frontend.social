@@ -59,6 +59,11 @@ export default {
 		},
 		nextQuestion() {
 			this.currentQuestion++;
+			quizService
+				.setQuizQuestionIndex(this.runId, this.currentQuestion)
+				.then((res) => {
+					this.result = res;
+				});
 		},
 		onTimeover() {
 			quizService
