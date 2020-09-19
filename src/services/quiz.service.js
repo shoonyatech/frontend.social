@@ -26,4 +26,8 @@ export default {
 	getQuizResult: (runId, questionIndex) => {
 		return httpClient.get(`quiz-run/${runId}/${questionIndex}`);
 	},
+	setQuizQuestionIndex: (runId, questionIndex) => {
+		return httpClient.put('quiz-run', { runId, questionIndex });
+		c;
+	},
 };
