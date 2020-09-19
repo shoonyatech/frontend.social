@@ -20,6 +20,9 @@ export default {
 	runQuiz: (quizId) => {
 		return httpClient.post('quiz-run', { quizId: quizId });
 	},
+	getQuizRun: (runId) => {
+		return httpClient.get(`quiz-run/${runId}`);
+	},
 	getQuizResult: (runId, questionIndex) => {
 		return httpClient.get(`quiz-run/${runId}/${questionIndex}`);
 	},
