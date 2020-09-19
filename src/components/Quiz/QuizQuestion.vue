@@ -1,6 +1,8 @@
 <template>
   <div>
     <b-card>
+      <h2>{{ countdown }}</h2>
+
       <div>
         <vue-markdown :source="questionUrl" />
       </div>
@@ -38,7 +40,7 @@ export default {
 	},
 	data() {
 		return {
-			showSection: false,
+			countdown: 0,
 			questionUrl: '',
 			text: '',
 			clicked: {},
@@ -48,13 +50,24 @@ export default {
 	mounted() {
 		this.loadQuiz(this.$route.params.id);
 		this.clicked = { ...this.$props.question, clicked: false };
+		this.countdown = this.question.duration;
 	},
 	methods: {
 		loadQuiz(quizId) {
 			quizService.getQuizById(quizId).then((res) => {
 				fetch(this.question.questionUrl)
 					.then((response) => response.text())
-					.then((response) => (this.questionUrl = response));
+					.then((response) => {
+						this.questionUrl = response;
+						let timer = setInterval(() => {
+							if (this.countdown > 0) {
+								this.countdown--;
+							} else {
+								this.$emit('timeOver');
+								clearInterval(timer);
+							}
+						}, 1000);
+					});
 			});
 		},
 	},
