@@ -20,6 +20,10 @@
               :quiz-id="quiz._id"
               @timeOver="onTimeover"
             />
+            <QuizQuestionResult
+              v-if="index === currentQuestion"
+              result="result"
+            />
           </div>
         </b-col>
       </b-row>
@@ -29,16 +33,18 @@
 
 <script>
 import QuizQuestion from '@/components/Quiz/QuizQuestion';
+import QuizQuestionResult from '@/components/Quiz/QuizQuestionResult';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'QuestionStrip',
-	components: { QuizQuestion },
+	components: { QuizQuestion, QuizQuestionResult },
 	props: {},
 	data() {
 		return {
 			runId: 0,
 			quiz: {},
 			currentQuestion: 0,
+			result: [],
 		};
 	},
 	mounted() {
@@ -55,7 +61,6 @@ export default {
 			this.currentQuestion++;
 		},
 		onTimeover() {
-			debugger;
 			quizService
 				.getQuizResult(this.runId, this.currentQuestion)
 				.then((res) => {
