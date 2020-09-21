@@ -169,7 +169,7 @@ const router = new Router({
 			component: () => import('./pages/Challenges.vue'),
 		},
 		{
-			path: '/challenge/:id',
+			path: '/challenge/:uniqueId',
 			name: 'challengeDetails',
 			component: () => import('./pages/ChallengeDetails.vue'),
 		},

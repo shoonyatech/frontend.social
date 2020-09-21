@@ -125,7 +125,7 @@ export default {
 	},
 	async created() {
 		this.loading = true;
-		this.challengeId = this.$route.params.id;
+		this.challengeId = this.$route.params.uniqueId;
 		if (!this.challengeId) {
 			this.failedToFindChallenge = true;
 			return;
@@ -148,10 +148,9 @@ export default {
 		},
 		getChallenge() {
 			return challengeService
-				.getChallengeById(this.challengeId)
+				.getChallengeByUniqueId(this.challengeId)
 				.then((challenge) => {
 					this.challenge = challenge;
-
 					fetch(this.challenge.problemStatementUrl)
 						.then((response) => response.text())
 						.then((response) => (this.problemStatement = response));
