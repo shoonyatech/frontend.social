@@ -59,6 +59,11 @@ const router = new Router({
 			component: () => import('./pages/Tools.vue'),
 		},
 		{
+			path: '/userActivity',
+			name: 'userActivity',
+			component: () => import('./pages/UserActivity.vue'),
+		},
+		{
 			path: '/tech/:skill',
 			name: 'techdetails',
 			component: () => import('./pages/SkillDetails.vue'),
