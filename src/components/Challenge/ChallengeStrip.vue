@@ -122,7 +122,7 @@ export default {
 			this.isOverflow = !this.isOverflow;
 		},
 		onClick() {
-			this.$router.push(`/challenge/${this.challenge._id}`);
+			this.$router.push(`/challenge/${this.challenge.uniqueId}`);
 		},
 		deleteChallenge() {
 			this.$emit('delete', this.challenge._id);
