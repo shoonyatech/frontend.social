@@ -1,51 +1,55 @@
-import httpClient from "./http-client";
+import httpClient from './http-client';
 
 export default {
-  fbSignin: accessToken => {
-    return httpClient.post(`fb-signin`, { accessToken: accessToken });
-  },
+	fbSignin: (accessToken) => {
+		return httpClient.post(`fb-signin`, { accessToken: accessToken });
+	},
 
-  getLoggedInUserProfile: () => {
-    return httpClient.get("me");
-  },
+	getLoggedInUserProfile: () => {
+		return httpClient.get('me');
+	},
 
-  getUserProfile: username => {
-    return httpClient.get("user/" + username);
-  },
+	getUserProfile: (username) => {
+		return httpClient.get('user/' + username);
+	},
 
-  updateUserProfile: profile => {
-    return httpClient.put("me", profile);
-  },
+	getUsersAddedOnDate: (createdAt) => {
+		return httpClient.get('users/analytics/' + createdAt);
+	},
 
-  signout: () => {
-    localStorage.removeItem("authToken");
-  },
+	updateUserProfile: (profile) => {
+		return httpClient.put('me', profile);
+	},
 
-  getActivities: () => {
-    return httpClient.get("useractivity");
-  },
+	signout: () => {
+		localStorage.removeItem('authToken');
+	},
 
-  udpateUserPreferences: userPreferences => {
-    return httpClient.put("profile/preferences", userPreferences);
-  },
+	getActivities: () => {
+		return httpClient.get('useractivity');
+	},
 
-  getReferrals: () => {
-    return httpClient.get("profile/referrals");
-  },
+	udpateUserPreferences: (userPreferences) => {
+		return httpClient.put('profile/preferences', userPreferences);
+	},
 
-  getAllUsers(searchText) {
-    return httpClient.get(`users?searchText=${searchText}`);
-  },
+	getReferrals: () => {
+		return httpClient.get('profile/referrals');
+	},
 
-  getUserByUserId(userId) {
-    return httpClient.get(`users?userId=${userId}`);
-  },
+	getAllUsers(searchText) {
+		return httpClient.get(`users?searchText=${searchText}`);
+	},
 
-  getRewardPoints() {
-    return httpClient.get('reward-points');
-  },
+	getUserByUserId(userId) {
+		return httpClient.get(`users?userId=${userId}`);
+	},
 
-  redeemRewardPoints(redeemAmount) {
-    return httpClient.post('redeem', {redeemAmount});
-  }
+	getRewardPoints() {
+		return httpClient.get('reward-points');
+	},
+
+	redeemRewardPoints(redeemAmount) {
+		return httpClient.post('redeem', { redeemAmount });
+	},
 };
