@@ -59,8 +59,8 @@ const router = new Router({
 			component: () => import('./pages/Tools.vue'),
 		},
 		{
-			path: '/userActivity',
-			name: 'userActivity',
+			path: '/admin',
+			name: 'admin',
 			component: () => import('./pages/UserActivity.vue'),
 		},
 		{

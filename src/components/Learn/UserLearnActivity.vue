@@ -40,7 +40,11 @@ export default {
 				this.profileData = user;
 			})
 			.catch((e) => {
-				alert('User ' + this.profile.username + ' not found');
+				eventBus.$emit('show-toast', {
+					body: e.message,
+					title: messages.generic.error,
+					type: ToastType.ERROR,
+				});
 			});
 	},
 };
