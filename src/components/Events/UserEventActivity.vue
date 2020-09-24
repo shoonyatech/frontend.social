@@ -2,7 +2,11 @@
   <div>
     <table>
       <td class="td">
-        <a :href="job.link">{{ job.title }} by {{ job.author }}</a>
+        <router-link :to="'../event/' + event.uniqueId">
+          {{
+            event.title
+          }}
+        </router-link>
       </td>
       <td>
         <img
@@ -16,10 +20,12 @@
 </template>
 <script>
 import userService from '@/services/user.service';
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages } from '@/constants/constants';
 export default {
-	name: 'UserJobStrip',
+	name: 'UserEventActivity',
 	props: {
-		job: {
+		event: {
 			type: Object,
 			default: () => {},
 		},
@@ -40,7 +46,11 @@ export default {
 				this.profileData = user;
 			})
 			.catch((e) => {
-				alert('User ' + this.profile.username + ' not found');
+				eventBus.$emit('show-toast', {
+					body: e.message,
+					title: messages.generic.error,
+					type: ToastType.ERROR,
+				});
 			});
 	},
 };

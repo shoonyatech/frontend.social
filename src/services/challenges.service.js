@@ -45,4 +45,7 @@ export default {
 	deleteSubmission(id) {
 		return httpClient.delete(`submission/${id}`);
 	},
+	getSubmissionsAddedOnDate: (createdAt) => {
+		return httpClient.get('submission/analytics/' + createdAt);
+	},
 };

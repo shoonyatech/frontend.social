@@ -4,37 +4,33 @@
     <b-container>
       <b-row>
         <b-col
-          v-if="!$store.getters.isAdmin"
           md="12"
           class="text"
         >
-          {{ createdAt }}
-          <hr>
-          Users Joined : {{ users.length }}
-          <br>
-          <UserActivityStrip
-            v-for="(user, index) in users"
-            :key="index"
-            :user="user"
-          />
-          <br>
-          Learn Page : {{ articles.length }}
-          <br>
-          <UserArticlesStrip
-            v-for="(article, index1) in articles"
-            :key="index1"
-            :article="article"
-            :profile="article.createdBy"
-          />
-          <br>
-          Job Page : {{ Jobs.length }}
-          <br>
-          <UserJobStrip
-            v-for="(job, index2) in Jobs"
-            :key="index2"
-            :job="job"
-            :profile="job.createdBy"
-          />
+          <b-card>
+            {{ createdAt | moment('DD MMM YYYY') }}
+            <hr>
+            Users Joined : {{ users.length }}
+            <br>
+            <UserActivityStrip
+              v-for="(user, index) in users"
+              :key="index"
+              :user="user"
+            />
+            <br>
+            <LearnActivity :date-created="createdAt" />
+            <br>
+            <JobActivity :date-created="createdAt" />
+            <br>
+            <BlogActivity :date-created="createdAt" />
+            <br>
+            <EventsActivity :date-created="createdAt" />
+            <br>
+            <SubmissionActivity :date-created="createdAt" />
+            <br>
+            <TipsActivity :date-created="createdAt" />
+          </b-card>
+          <br><br>
         </b-col>
       </b-row>
     </b-container>
@@ -43,22 +39,36 @@
 
 <script>
 import UserActivityStrip from '@/components/UserActivity/UserActivityStrip';
-import UserArticlesStrip from '@/components/UserActivity/UserArticlesStrip';
-import UserJobStrip from '@/components/UserActivity/UserJobStrip';
+import LearnActivity from '@/components/UserActivity/LearnActivity';
+import JobActivity from '@/components/UserActivity/JobActivity';
+import BlogActivity from '@/components/UserActivity/BlogActivity';
+import EventsActivity from '@/components/UserActivity/EventsActivity';
+import SubmissionActivity from '@/components/UserActivity/SubmissionActivity';
+import TipsActivity from '@/components/UserActivity/TipsActivity';
 import userService from '@/services/user.service';
-import learnService from '@/services/learn.service';
-import jobService from '@/services/job.service';
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages } from '@/constants/constants';
 export default {
 	name: 'UserActivity',
-	components: { UserActivityStrip, UserArticlesStrip, UserJobStrip },
+	components: {
+		UserActivityStrip,
+		LearnActivity,
+		JobActivity,
+		BlogActivity,
+		EventsActivity,
+		TipsActivity,
+		SubmissionActivity,
+	},
+	props: {
+		createdAt: {
+			type: String,
+			default: () => {},
+		},
+	},
 	data() {
 		return {
 			users: [],
-			articles: [],
-			Jobs: [],
 			loading: false,
-			createdAt: '2020-02-20 21:15:33.507Z',
-			username: 'khushboothakur',
 		};
 	},
 	created() {
@@ -69,25 +79,11 @@ export default {
 				this.publicProfile = `https://www.frontend.social/user/${this.users.createdAt}`;
 			})
 			.catch((e) => {
-				alert('User ' + this.createdAt + ' not found');
-			});
-
-		learnService
-			.getArticlesAddedOnDate(this.createdAt)
-			.then((article) => {
-				this.articles = article;
-			})
-			.catch((e) => {
-				alert('article ' + this.createdAt + ' not found');
-			});
-
-		jobService
-			.getJobsAddedOnDate(this.createdAt)
-			.then((job) => {
-				this.Jobs = job;
-			})
-			.catch((e) => {
-				alert('jobs ' + this.createdAt + ' not found');
+				eventBus.$emit('show-toast', {
+					body: e.message,
+					title: messages.generic.error,
+					type: ToastType.ERROR,
+				});
 			});
 	},
 };
