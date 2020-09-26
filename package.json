@@ -83,7 +83,7 @@
 		]
 	},
 	"gitHooks": {
-		"commit-msg": "commitlint -H https://github.com/shoonyatech/frontend.social/ -e $GIT_PARAMS",
+		"commit-msg": "commitlint -H https://github.com/shoonyatech/frontend.social#create-local-commit -e $GIT_PARAMS",
 		"pre-commit": "lint-staged"
 	},
 	"lint-staged": {
