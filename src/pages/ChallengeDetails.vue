@@ -26,17 +26,11 @@
           <b-col md="11">
             <div class="challenge-date sub-text">
               <span v-if="challenge.startTime">
-                {{
-                  challenge.startTime
-                    | moment("DD MMM YYYY")
-                }}
+                {{ challenge.startTime | moment('DD MMM YYYY') }}
               </span>
               <span v-if="challenge.endTime">-</span>
               <span v-if="challenge.endTime">
-                {{
-                  challenge.endTime
-                    | moment("DD MMM YYYY")
-                }}
+                {{ challenge.endTime | moment('DD MMM YYYY') }}
               </span>
             </div>
           </b-col>
@@ -58,6 +52,12 @@
             style="margin-top: 10px"
           >
             <h1>Problem Statement</h1>
+            <vue-markdown :source="problemStatement" />
+          </b-col>
+          <b-col
+            md="12"
+            style="margin-top: 10px"
+          >
             <div v-html="challenge.problemStatement" />
           </b-col>
         </b-row>
@@ -79,7 +79,7 @@
               @downvote="onDownVote(submission._id)"
               @delete="onDelete(submission._id)"
             />
-          </b-col> 
+          </b-col>
         </b-row>
       </b-col>
     </b-row>
@@ -94,129 +94,136 @@
 <script>
 import AddSubmission from '@/components/Challenge/AddSubmission';
 import Submission from '@/components/Challenge/Submission';
-import challengeService from "@/services/challenges.service";
-import eventBus from "@/utilities/eventBus";
-import { ToastType, messages } from "@/constants/constants";
-import SkillTags from "@/components/Skills/SkillTags";
+import challengeService from '@/services/challenges.service';
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages } from '@/constants/constants';
+import SkillTags from '@/components/Skills/SkillTags';
+import VueMarkdown from 'vue-markdown';
 
 export default {
-  name: "ChallengeDetails",
-  components: {
-    AddSubmission,
-    Submission,
-    SkillTags,
-  },
-  data() {
-    return {
-      failedToFindChallenge: false,
-      challengeId: null,
-      challenge: {},
-      loading: true,
-      submissions: [],
-    };
-  },
-  computed: {
-    signedInUser() {
-      return this.$store.state.signedInUser;
-    },
-  },
-  async created() {
-    this.loading = true;
-    this.challengeId = this.$route.params.id;
-    if (!this.challengeId) {
-      this.failedToFindChallenge = true;
-      return;
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      if (this.signedInUser == null) {
-        this.$router.push("/signin");
-        return;
-      }
-    }, 1000);
+	name: 'ChallengeDetails',
+	components: {
+		AddSubmission,
+		Submission,
+		SkillTags,
+		VueMarkdown,
+	},
+	data() {
+		return {
+			failedToFindChallenge: false,
+			challengeId: null,
+			challenge: {},
+			loading: true,
+			submissions: [],
+			problemStatement: '',
+		};
+	},
+	computed: {
+		signedInUser() {
+			return this.$store.state.signedInUser;
+		},
+	},
+	async created() {
+		this.loading = true;
+		this.challengeId = this.$route.params.uniqueId;
+		if (!this.challengeId) {
+			this.failedToFindChallenge = true;
+			return;
+		}
+	},
+	mounted() {
+		setTimeout(() => {
+			if (this.signedInUser == null) {
+				this.$router.push('/signin');
+				return;
+			}
+		}, 1000);
 
-    this.getChallenge();
-    this.getSubmissions();
-  },
-  methods: {
-    onSubmit() {
-      this.getSubmissions();
-    },
-    getChallenge() {
-      return challengeService
-      .getChallengeById(this.challengeId)
-      .then(challenge => {
-        this.challenge = challenge;
-        this.loading = false;
-      })
-      .catch(() => {
-        this.failedToFindChallenge = true;
-        this.loading = false;
-      });
-    },
-    getSubmissions() {
-      return challengeService.getSubmissions(this.challengeId)
-        .then(submissions => {
-          this.submissions = submissions;
-        })
-    },
-    async onUpVote(id) {
-      const submission = await challengeService.upVote(id);
-      this.submissions = this.submissions.map((s) => {
-        if (s._id === id) {
-          return submission;
-        }
-        return s;
-      });
-    },
-    async onDownVote(id) {
-      const submission = await challengeService.downVote(id);
-      this.submissions = this.submissions.map((s) => {
-        if (s._id === id) {
-          return submission;
-        }
-        return s;
-      });
-    },
-    async onDelete(id) {
-      await challengeService.deleteSubmission(id);
-      this.submissions = this.submissions.filter(s => s._id !== id);
-    }
-  }
+		this.getChallenge();
+		this.getSubmissions();
+	},
+	methods: {
+		onSubmit() {
+			this.getSubmissions();
+		},
+		getChallenge() {
+			return challengeService
+				.getChallengeByUniqueId(this.challengeId)
+				.then((challenge) => {
+					this.challenge = challenge;
+					fetch(this.challenge.problemStatementUrl)
+						.then((response) => response.text())
+						.then((response) => (this.problemStatement = response));
+
+					this.loading = false;
+				})
+				.catch(() => {
+					this.failedToFindChallenge = true;
+					this.loading = false;
+				});
+		},
+		getSubmissions() {
+			return challengeService
+				.getSubmissions(this.challengeId)
+				.then((submissions) => {
+					this.submissions = submissions;
+				});
+		},
+		async onUpVote(id) {
+			const submission = await challengeService.upVote(id);
+			this.submissions = this.submissions.map((s) => {
+				if (s._id === id) {
+					return submission;
+				}
+				return s;
+			});
+		},
+		async onDownVote(id) {
+			const submission = await challengeService.downVote(id);
+			this.submissions = this.submissions.map((s) => {
+				if (s._id === id) {
+					return submission;
+				}
+				return s;
+			});
+		},
+		async onDelete(id) {
+			await challengeService.deleteSubmission(id);
+			this.submissions = this.submissions.filter((s) => s._id !== id);
+		},
+	},
 };
 </script>
 <style lang="scss" scoped>
 .challenge-title {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .challenge-type {
-  font-size: 0.65rem;
-  float: right;
+	font-size: 0.65rem;
+	float: right;
 
-  &.online {
-    background: #c50606;
-    color: white;
-  }
+	&.online {
+		background: #c50606;
+		color: white;
+	}
 }
 
 .fail-message {
-  text-align: center;
+	text-align: center;
 }
 
 .youtube-container {
-  padding: 10px 0;
+	padding: 10px 0;
 }
 
 .icon-links {
-  display: flex;
-  flex-direction: row-reverse;
+	display: flex;
+	flex-direction: row-reverse;
 }
 
 .capsule {
-  font-size: 0.65rem;
+	font-size: 0.65rem;
 }
-
 </style>

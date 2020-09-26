@@ -53,7 +53,7 @@ export default {
 		UpcomingEvents,
 		SkillTags,
 		LatestJobsFromCity,
-		LatestTweets
+		LatestTweets,
 	},
 	data() {
 		return {
@@ -63,27 +63,27 @@ export default {
 			articles: [],
 			users: [],
 			allSkills: [],
-			loading: false
+			loading: false,
 		};
 	},
 	created() {
 		this.loading = true;
 		this.skill = this.$route.params.skill;
 
-		eventService.searchEventsBy(`skills=${this.skill}`).then(events => {
+		eventService.searchEventsBy(`skills=${this.skill}`).then((events) => {
 			this.events = events;
 			this.loading = false;
 		});
-		skillService.fetchSkills().then(skills => {
-			this.allSkills = skills.map(s => s.name);
+		skillService.fetchSkills().then((skills) => {
+			this.allSkills = skills.map((s) => s.name);
 			this.loading = false;
 		});
 	},
 	methods: {
 		title() {
 			return capitalize.words(this.skill);
-		}
-	}
+		},
+	},
 };
 </script>
 
@@ -102,13 +102,12 @@ export default {
 	text-align: right;
 }
 .filters-wrapper {
-  height: 100%;
-  border-left: 1px solid #114273;
-  flex-direction: column;
-  display: flex;
-  text-align: start;
-  padding: 10px;
-  cursor: pointer;
+	height: 100%;
+	border-left: 1px solid #114273;
+	flex-direction: column;
+	display: flex;
+	text-align: start;
+	cursor: pointer;
 }
 
 .skills {
