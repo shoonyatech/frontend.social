@@ -1,7 +1,7 @@
-import httpClient from "./http-client";
+import httpClient from './http-client';
 
 export default {
-  subscribe: payload => {
-    return httpClient.post("/newsletter/subscribe", payload);
-  }
+	subscribe: (payload) => {
+		return httpClient.post('/newsletter/subscribe', payload);
+	},
 };

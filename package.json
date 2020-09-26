@@ -9,7 +9,8 @@
 		"start": "node server.js",
 		"test": "vue-cli-service test:unit",
 		"commit": "cz",
-		"format": "prettier --write"
+		"format": "prettier --write",
+		"format:all": "prettier --write \"src/**/*.{js,json,css,md}\""
 	},
 	"dependencies": {
 		"@ckeditor/ckeditor5-build-classic": "^18.0.0",
