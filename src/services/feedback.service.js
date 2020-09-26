@@ -1,7 +1,7 @@
-import httpClient from "./http-client";
+import httpClient from './http-client';
 
 export default {
-  sendFeedback(payload) {
-    return httpClient.post("feedback", payload);
-  }
+	sendFeedback(payload) {
+		return httpClient.post('feedback', payload);
+	},
 };
