@@ -308,7 +308,7 @@ j
             :is-editable="false"
           >
             <div>
-              <Twitter />
+              <Twitter :social="profile.social" />
             </div>
           </Section>
         </b-col>
