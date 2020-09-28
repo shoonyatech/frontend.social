@@ -14,48 +14,48 @@
 
 <script>
 export default {
-  components: {},
-  props: {
-    label: {
-      type: String,
-      default: ""
-    },
-    name: {
-      type: String,
-      default: ""
-    },
-    onClick: {
-      type: Function,
-      default: () => {}
-    },
-    type: {
-      type: String,
-      default: "checkbox"
-    },
-    value: {
-      type: String,
-      default: ""
-    },
-    id: {
-      type: String,
-      default: ""
-    },
-    isSelected: {
-      type: Boolean,
-      default: false
-    }
-  }
+	components: {},
+	props: {
+		label: {
+			type: String,
+			default: '',
+		},
+		name: {
+			type: String,
+			default: '',
+		},
+		onClick: {
+			type: Function,
+			default: () => {},
+		},
+		type: {
+			type: String,
+			default: 'checkbox',
+		},
+		value: {
+			type: String,
+			default: '',
+		},
+		id: {
+			type: String,
+			default: '',
+		},
+		isSelected: {
+			type: Boolean,
+			default: false,
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .filter {
-  display: flex;
+	display: flex;
 }
 
 .filter > label {
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: var(--fs-primary-color);
+	margin-left: 10px;
+	margin-bottom: 0;
+	color: var(--fs-primary-color);
 }
 </style>

@@ -57,86 +57,86 @@
   </div>
 </template>
 <script>
-import EditableValue from "@/components/common/EditableValue";
+import EditableValue from '@/components/common/EditableValue';
 
 export default {
-  components: { EditableValue },
-  props: {
-    label: {
-      type: String,
-      default: ""
-    },
-    values: {
-      type: Array,
-      default: () => [""]
-    },
-    isEditable: {
-      type: Boolean,
-      default: false
-    },
-    autoSelect: {
-      type: Array,
-      default: () => []
-    }
-  },
-  methods: {
-    add: function(event) {
-      this.values.push("");
-    },
-    deleteItem: function(event) {
-      const index = event.target.dataset.index;
-      if (this.values.length > 1) {
-        this.values.splice(index, 1);
-      }
-      this.$emit("change", this.values);
-    },
-    onChange: function({ val, index }) {
-      if (index < this.values.length) {
-        this.values[index] = val;
-      } else {
-        this.values.push(val);
-      }
-      this.$emit("change", this.values);
-    }
-  }
+	components: { EditableValue },
+	props: {
+		label: {
+			type: String,
+			default: '',
+		},
+		values: {
+			type: Array,
+			default: () => [''],
+		},
+		isEditable: {
+			type: Boolean,
+			default: false,
+		},
+		autoSelect: {
+			type: Array,
+			default: () => [],
+		},
+	},
+	methods: {
+		add: function (event) {
+			this.values.push('');
+		},
+		deleteItem: function (event) {
+			const index = event.target.dataset.index;
+			if (this.values.length > 1) {
+				this.values.splice(index, 1);
+			}
+			this.$emit('change', this.values);
+		},
+		onChange: function ({ val, index }) {
+			if (index < this.values.length) {
+				this.values[index] = val;
+			} else {
+				this.values.push(val);
+			}
+			this.$emit('change', this.values);
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .host {
-  width: 100%;
-  text-align: left;
-  margin-bottom: 15px;
+	width: 100%;
+	text-align: left;
+	margin-bottom: 15px;
 }
 
 .label {
-  color: #114273;
-  width: 7rem;
-  min-width: 7rem;
+	color: #114273;
+	width: 7rem;
+	min-width: 7rem;
 }
 
 .value {
-  display: flex;
-  width: 100%;
+	display: flex;
+	width: 100%;
 }
 
 .value-list {
-  flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 .add-container {
-  width: 100%;
-  text-align: right;
+	width: 100%;
+	text-align: right;
 }
 
 .add {
-  flex: 0 0 auto;
-  margin: 2px 0 0 10px;
-  height: 1.5rem;
+	flex: 0 0 auto;
+	margin: 2px 0 0 10px;
+	height: 1.5rem;
 }
 
 .delete {
-  flex: 0 0 auto;
-  margin-left: 10px;
+	flex: 0 0 auto;
+	margin-left: 10px;
 }
 </style>

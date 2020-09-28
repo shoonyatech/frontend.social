@@ -47,60 +47,69 @@
 </template>
 
 <script>
-import cityService from "@/services/city.service";
-import { CountrySelect } from "vue-country-region-select";
-import eventBus from "@/utilities/eventBus";
-import { ToastType, messages } from "@/constants/constants";
+import cityService from '@/services/city.service';
+import { CountrySelect } from 'vue-country-region-select';
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages } from '@/constants/constants';
 export default {
-  components: {
-    CountrySelect
-  },
-  data() {
-    return {
-      name: '',
-      nameState: null,
-      submittedCity: [],
-      editedCountry: ''
-    }
-  },
-  methods: {
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity()
-      this.nameState = valid
-      return valid
-    },
-    resetModal() {
-      this.name = ''
-      this.nameState = null
-    },
-    handleOk(bvModalEvt) {
-      bvModalEvt.preventDefault()
-      this.handleSubmit()
-    },
-    handleSubmit() {
-      if (!this.checkFormValidity()) {
-        return
-      }
-      const payload = {
-        name: this.name,
-        country: this.editedCountry
-      };
-      cityService.addCity(payload).then(response => {
-        eventBus.$emit('show-toast', {body: messages.city.cityAddSuccess, title: messages.generic.success});
-      })
-      .catch(error => {
-        eventBus.$emit('show-toast', {body: messages.city.cityAddFailure, title: messages.generic.error, type: ToastType.ERROR});
-      });
-      this.$nextTick(() => {
-        this.$bvModal.hide('add-city-modal')
-      })
-    }
-  }
-}
+	components: {
+		CountrySelect,
+	},
+	data() {
+		return {
+			name: '',
+			nameState: null,
+			submittedCity: [],
+			editedCountry: '',
+		};
+	},
+	methods: {
+		checkFormValidity() {
+			const valid = this.$refs.form.checkValidity();
+			this.nameState = valid;
+			return valid;
+		},
+		resetModal() {
+			this.name = '';
+			this.nameState = null;
+		},
+		handleOk(bvModalEvt) {
+			bvModalEvt.preventDefault();
+			this.handleSubmit();
+		},
+		handleSubmit() {
+			if (!this.checkFormValidity()) {
+				return;
+			}
+			const payload = {
+				name: this.name,
+				country: this.editedCountry,
+			};
+			cityService
+				.addCity(payload)
+				.then((response) => {
+					eventBus.$emit('show-toast', {
+						body: messages.city.cityAddSuccess,
+						title: messages.generic.success,
+					});
+				})
+				.catch((error) => {
+					eventBus.$emit('show-toast', {
+						body: messages.city.cityAddFailure,
+						title: messages.generic.error,
+						type: ToastType.ERROR,
+					});
+				});
+			this.$nextTick(() => {
+				this.$bvModal.hide('add-city-modal');
+			});
+		},
+	},
+};
 </script>
 
 <style scoped>
 .left-input {
-  width: 100%;
+	width: 100%;
 }
 </style>

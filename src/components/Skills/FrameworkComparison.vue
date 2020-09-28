@@ -24,28 +24,28 @@
 </template>
 
 <script>
-import skillService from "@/services/skill.service";
+import skillService from '@/services/skill.service';
 
-import FrameworkStats from "@/components/Skills/FrameworkStats";
-import FrameworkStatsHeading from "@/components/Skills/FrameworkStatsHeading";
+import FrameworkStats from '@/components/Skills/FrameworkStats';
+import FrameworkStatsHeading from '@/components/Skills/FrameworkStatsHeading';
 
 export default {
-  components: { FrameworkStats, FrameworkStatsHeading },
-  data() {
-    return {
-      frameworks: []
-    };
-  },
-  created() {
-    skillService.topFrameworks().then(frameworks => {
-      this.frameworks = frameworks;
-    });
-  }
+	components: { FrameworkStats, FrameworkStatsHeading },
+	data() {
+		return {
+			frameworks: [],
+		};
+	},
+	created() {
+		skillService.topFrameworks().then((frameworks) => {
+			this.frameworks = frameworks;
+		});
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .host {
-  width: 100%;
+	width: 100%;
 }
 </style>

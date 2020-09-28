@@ -12,19 +12,19 @@
 </template>
 
 <script>
-import LatestBlog from "@/components/Blogs/LatestBlog";
+import LatestBlog from '@/components/Blogs/LatestBlog';
 
 export default {
-  name: "Learn",
-  components: { LatestBlog },
-  data() {
-    return {
-      articles: [],
-      loading: false,
-    };
-  },
-  created() {},
-  methods: {},
+	name: 'Learn',
+	components: { LatestBlog },
+	data() {
+		return {
+			articles: [],
+			loading: false,
+		};
+	},
+	created() {},
+	methods: {},
 };
 </script>
 

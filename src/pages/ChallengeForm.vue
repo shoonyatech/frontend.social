@@ -5,9 +5,9 @@
 import AddChallenge from '../components/Challenge/AddChallenge.vue';
 
 export default {
-  name: "ChallengeForm",
-  components: {
-    AddChallenge
-  }
-}
+	name: 'ChallengeForm',
+	components: {
+		AddChallenge,
+	},
+};
 </script>

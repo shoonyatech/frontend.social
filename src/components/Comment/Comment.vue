@@ -5,7 +5,9 @@
         {{ comment.createdBy.username }}
         <!-- {{ comment.createdAt| moment("timezone","America/Toronto", "DD MMM YYYY HH:mm") }} -->
         <img
-          v-if="signedInUser && signedInUser.username==comment.createdBy.username"
+          v-if="
+            signedInUser && signedInUser.username == comment.createdBy.username
+          "
           :src="`/images/delete.svg`"
           class="icon-button float-right"
           alt="delete"
@@ -59,7 +61,7 @@
       :on-delete-reply="deleteReply"
     />
     <add-comment-reply
-      v-if="signedInUser && isAddReply "
+      v-if="signedInUser && isAddReply"
       ref="addreply"
       :on-save="addReply"
       :on-cancel="toggleAddComment"
@@ -70,161 +72,161 @@
   </div>
 </template>
 <script>
-import StarRating from "vue-star-rating";
-import CommentReply from "@/components/Comment/CommentReply";
-import AddComment from "@/components/Comment/AddComment";
-import AddCommentReply from "@/components/Comment/AddCommentReply";
-import commentService from "@/services/comment.service";
-import eventBus from "@/utilities/eventBus";
-import { ToastType, messages } from "@/constants/constants";
+import StarRating from 'vue-star-rating';
+import CommentReply from '@/components/Comment/CommentReply';
+import AddComment from '@/components/Comment/AddComment';
+import AddCommentReply from '@/components/Comment/AddCommentReply';
+import commentService from '@/services/comment.service';
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages } from '@/constants/constants';
 
 export default {
-  name: "Comment",
-  components: { StarRating, CommentReply, AddComment, AddCommentReply },
-  props: {
-    comment: {
-      type: Object,
-      required: true
-    },
-    showRating: {
-      type: Boolean,
-      required: true
-    },
-    onDelete: {
-      type: Function,
-      required: true
-    },
-    toolId: {
-      type: String,
-      default: ""
-    },
-    onEdit: {
-      type: Function,
-      required: true
-    },
-    index: {
-      type: Number,
-      required: true
-    },
-    allowReply: {
-      type: Boolean,
-      default: false
-    },
-    isAddReply: {
-      type: Boolean,
-      default: false
-    },
-    onSave: {
-      type: Function,
-      required: true
-    },
-    commentId: {
-      type: String,
-      default: ""
-    }
-  },
-  data() {
-    return {
-      isEdit: false
-    };
-  },
-  computed: {
-    signedInUser() {
-      return this.$store.state.signedInUser;
-    }
-  },
-  created() {},
-  methods: {
-    addReply(reply) {
-      reply.createdBy = this.comment.createdBy.username;
-      this.comment.replies.push(reply);
+	name: 'Comment',
+	components: { StarRating, CommentReply, AddComment, AddCommentReply },
+	props: {
+		comment: {
+			type: Object,
+			required: true,
+		},
+		showRating: {
+			type: Boolean,
+			required: true,
+		},
+		onDelete: {
+			type: Function,
+			required: true,
+		},
+		toolId: {
+			type: String,
+			default: '',
+		},
+		onEdit: {
+			type: Function,
+			required: true,
+		},
+		index: {
+			type: Number,
+			required: true,
+		},
+		allowReply: {
+			type: Boolean,
+			default: false,
+		},
+		isAddReply: {
+			type: Boolean,
+			default: false,
+		},
+		onSave: {
+			type: Function,
+			required: true,
+		},
+		commentId: {
+			type: String,
+			default: '',
+		},
+	},
+	data() {
+		return {
+			isEdit: false,
+		};
+	},
+	computed: {
+		signedInUser() {
+			return this.$store.state.signedInUser;
+		},
+	},
+	created() {},
+	methods: {
+		addReply(reply) {
+			reply.createdBy = this.comment.createdBy.username;
+			this.comment.replies.push(reply);
 
-      var add = commentService.editComment(this.commentId, this.comment);
+			var add = commentService.editComment(this.commentId, this.comment);
 
-      add
-        .then(response => {
-          //this.toggleAddComment();
-        })
-        .catch(() => {
-          eventBus.$emit("show-toast", {
-            body: e.message,
-            title: messages.generic.error,
-            type: ToastType.ERROR
-          });
-        });
-    },
-    deleteReply(index) {
-      this.comment.replies.splice(index, 1);
+			add
+				.then((response) => {
+					//this.toggleAddComment();
+				})
+				.catch(() => {
+					eventBus.$emit('show-toast', {
+						body: e.message,
+						title: messages.generic.error,
+						type: ToastType.ERROR,
+					});
+				});
+		},
+		deleteReply(index) {
+			this.comment.replies.splice(index, 1);
 
-      var del = commentService.editComment(this.commentId, this.comment);
+			var del = commentService.editComment(this.commentId, this.comment);
 
-      del
-        .then(response => {
-          //this.toggleAddComment();
-        })
-        .catch(() => {
-          eventBus.$emit("show-toast", {
-            body: e.message,
-            title: messages.generic.error,
-            type: ToastType.ERROR
-          });
-        });
-    },
-    deleteComment() {
-      commentService
-        .deleteComment(this.commentId)
-        .then(response => {
-          this.onDelete(this.index);
-          eventBus.$emit("show-toast", {
-            body: messages.comment.commentDeleteSuccess,
-            title: messages.generic.success
-          });
-        })
-        .catch(() => {
-          eventBus.$emit("show-toast", {
-            body: e.message,
-            title: messages.generic.error,
-            type: ToastType.ERROR
-          });
-        });
-    },
-    editComment(comment) {
-      this.toggleEdit();
-      this.saveComment(comment, this.index);
-      eventBus.$emit("show-toast", {
-        body: messages.comment.commentAddSuccess,
-        title: messages.generic.success
-      });
-    },
-    toggleAddComment() {
-      this.isAddReply = !this.isAddReply;
-    },
-    toggleEdit() {
-      this.isEdit = !this.isEdit;
-    }
-  }
+			del
+				.then((response) => {
+					//this.toggleAddComment();
+				})
+				.catch(() => {
+					eventBus.$emit('show-toast', {
+						body: e.message,
+						title: messages.generic.error,
+						type: ToastType.ERROR,
+					});
+				});
+		},
+		deleteComment() {
+			commentService
+				.deleteComment(this.commentId)
+				.then((response) => {
+					this.onDelete(this.index);
+					eventBus.$emit('show-toast', {
+						body: messages.comment.commentDeleteSuccess,
+						title: messages.generic.success,
+					});
+				})
+				.catch(() => {
+					eventBus.$emit('show-toast', {
+						body: e.message,
+						title: messages.generic.error,
+						type: ToastType.ERROR,
+					});
+				});
+		},
+		editComment(comment) {
+			this.toggleEdit();
+			this.saveComment(comment, this.index);
+			eventBus.$emit('show-toast', {
+				body: messages.comment.commentAddSuccess,
+				title: messages.generic.success,
+			});
+		},
+		toggleAddComment() {
+			this.isAddReply = !this.isAddReply;
+		},
+		toggleEdit() {
+			this.isEdit = !this.isEdit;
+		},
+	},
 };
 </script>
 <style lang="scss" scoped>
 .comment-container {
-  border: 1px solid #114273;
-  border-left: 10px solid #114273;
-  padding: 10px;
-  margin: 2px;
-  margin-top: 10px;
-  .comment-by {
-    font-size: 15px;
-    color: gray;
-  }
+	border: 1px solid #114273;
+	border-left: 10px solid #114273;
+	padding: 10px;
+	margin: 2px;
+	margin-top: 10px;
+	.comment-by {
+		font-size: 15px;
+		color: gray;
+	}
 }
 .cursor-pointer {
-  cursor: pointer;
+	cursor: pointer;
 }
 .reply-div {
-  min-height: 20px;
+	min-height: 20px;
 }
 .reply {
-  font-size: 0.7em;
-  float: right;
+	font-size: 0.7em;
+	float: right;
 }
 </style>

@@ -24,32 +24,32 @@
 
 <script>
 export default {
-  name: "SkillTags",
-  components: {},
-  props: {
-    skills: {
-      type: Array,
-      default: () => [],
-    },
-    size: {
-      type: String,
-      default: "",
-    },
-  },
+	name: 'SkillTags',
+	components: {},
+	props: {
+		skills: {
+			type: Array,
+			default: () => [],
+		},
+		size: {
+			type: String,
+			default: '',
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .skill-tags {
-  flex: 0 1 auto;
+	flex: 0 1 auto;
 }
 
 .skill {
-  font-size: 0.65rem;
-  color: #2c3e50;
+	font-size: 0.65rem;
+	color: #2c3e50;
 
-  &.large {
-    font-size: 1rem;
-  }
+	&.large {
+		font-size: 1rem;
+	}
 }
 </style>

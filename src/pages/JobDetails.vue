@@ -60,130 +60,131 @@
 </template>
 
 <script>
-import Button from "@/components/Buttons/Button";
-import jobService from "@/services/job.service";
-import SkillTags from "@/components/Skills/SkillTags";
+import Button from '@/components/Buttons/Button';
+import jobService from '@/services/job.service';
+import SkillTags from '@/components/Skills/SkillTags';
 
 export default {
-  name: "Jobs",
-  components: {
-    SkillTags,
-    Button
-  },
-  data() {
-    return {
-      jobs: "",
-      appliedFilters: [],
-      currentQuery: "",
-      totalPages: 1,
-      skills: [],
-      jobTypes: [],
-      pageNo: 1,
-      showAddJobDialog: false,
-      experienceLevel: "",
-      loading: false
-    };
-  },
-  computed: {
-    signedInUser() {
-      return this.$store.state.signedInUser;
-    }
-  },
-  mounted() {
-    this.getJobDetails(this.$route.params.jobId);
-  },
-  methods: {
-    refreshPage() {
-      this.showAddJobDialog = false;
-      this.getJobDetails(this.$route.params.jobId);
-    },
-    mapJobResponse(jobs = {}, override = false) {
-      const { results = [], meta = {} } = jobs;
-      if (!override) {
-        this.jobs = jobs;
-      } else {
-        this.jobs = results;
-      }
-    },
-    getJobDetails(searchText = "") {
-      this.loading = true;
-      jobService.getJobFindOne(searchText).then(jobs => {
-        this.mapJobResponse(jobs);
-        this.loading = false;
-      });
-    },
-    getExperienceLevel(level) {
-      switch (level) {
-        case 0:
-          return "Beginner";
-        case 1:
-          return "Intermediate";
-        case 2:
-          return "Expert";
-        default:
-          "Beginner";
-      }
-    }
-  }
+	name: 'Jobs',
+	components: {
+		SkillTags,
+		Button,
+	},
+	data() {
+		return {
+			jobs: '',
+			appliedFilters: [],
+			currentQuery: '',
+			totalPages: 1,
+			skills: [],
+			jobTypes: [],
+			pageNo: 1,
+			showAddJobDialog: false,
+			experienceLevel: '',
+			loading: false,
+		};
+	},
+	computed: {
+		signedInUser() {
+			return this.$store.state.signedInUser;
+		},
+	},
+	mounted() {
+		this.getJobDetails(this.$route.params.jobId);
+	},
+	methods: {
+		refreshPage() {
+			this.showAddJobDialog = false;
+			this.getJobDetails(this.$route.params.jobId);
+		},
+		mapJobResponse(jobs = {}, override = false) {
+			const { results = [], meta = {} } = jobs;
+			if (!override) {
+				this.jobs = jobs;
+			} else {
+				this.jobs = results;
+			}
+		},
+		getJobDetails(searchText = '') {
+			this.loading = true;
+			jobService.getJobFindOne(searchText).then((jobs) => {
+				this.mapJobResponse(jobs);
+				this.loading = false;
+			});
+		},
+		getExperienceLevel(level) {
+			switch (level) {
+				case 0:
+					return 'Beginner';
+				case 1:
+					return 'Intermediate';
+				case 2:
+					return 'Expert';
+				default:
+					'Beginner';
+			}
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .job {
-  width: 90%;
-  padding: 10px;
-  position: relative;
+	width: 90%;
+	padding: 10px;
+	position: relative;
 }
 .job .role-and-expertise {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 0;
+	display: flex;
+	justify-content: space-between;
+	padding: 5px 0;
 }
-.expertise, .remote {
-  font-size: 0.65rem;
+.expertise,
+.remote {
+	font-size: 0.65rem;
 }
 .remote {
-  background: #c50606;
-  color: white;
+	background: #c50606;
+	color: white;
 }
 .job .skills-required {
-  text-align: left;
-  padding: 5px 0;
-  font-size: 0.65rem;
+	text-align: left;
+	padding: 5px 0;
+	font-size: 0.65rem;
 }
 .job-description {
-  font-size: 0.8rem;
+	font-size: 0.8rem;
 }
 .location-description {
-  font-size: 0.8rem;
+	font-size: 0.8rem;
 }
 .btn-apply {
-  right: 0;
-  position: absolute;
-  z-index: 8;
+	right: 0;
+	position: absolute;
+	z-index: 8;
 }
 .collapsed {
-  -webkit-mask-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgba(0, 0, 0, 1)),
-    to(rgba(0, 0, 0, 0))
-  );
+	-webkit-mask-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		from(rgba(0, 0, 0, 1)),
+		to(rgba(0, 0, 0, 0))
+	);
 }
 
 .expanded {
-  max-height: unset;
+	max-height: unset;
 }
 
 .arrow-container {
-  display: flex;
-  justify-content: center;
-  align-content: center;
+	display: flex;
+	justify-content: center;
+	align-content: center;
 }
 @media screen and (max-width: 759px) {
-  .job {
-    width: 98%;
-  }
+	.job {
+		width: 98%;
+	}
 }
 </style>

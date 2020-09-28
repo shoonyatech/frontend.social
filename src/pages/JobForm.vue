@@ -2,12 +2,12 @@
   <AddJob />
 </template>
 <script>
-import AddJob from "@/components/Job/AddJob";
+import AddJob from '@/components/Job/AddJob';
 
 export default {
-  name: "JobForm",
-  components: {
-    AddJob
-  }
-}
+	name: 'JobForm',
+	components: {
+		AddJob,
+	},
+};
 </script>

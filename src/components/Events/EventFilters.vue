@@ -1,39 +1,42 @@
 <template>
-	<div class="filters" :class="{ closed: !showFilters }">
-		<div
-			class="expand-button  d-block d-md-none"
-			@click="toggleFilterViewVisibilityInMobile"
-		>
-			{{ `${showFilters ? 'Hide' : 'Show'} Filters` }}
-		</div>
-		<div class="filter-panel">
-			<input
-				placeholder="Search keyword"
-				class="filter-input"
-				@input="handleInputChange"
-			/>
-			<edit-city
-				:edit-mode="true"
-				:city="profile.city"
-				:country="profile.country"
-				@change="onCityChange"
-			/>
-			<div class="skills-filter-wrapper">
-				<div class="skills-filter">
-					<Facet
-						v-for="skill in skills"
-						:id="skill.id"
-						:key="skill.id"
-						:type="filterTypes.CHECKBOX"
-						:value="skill.name"
-						:label="skill.name"
-						:is-selected="skill.selected"
-						:on-click="handleSkillSelection"
-					/>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div
+    class="filters"
+    :class="{ closed: !showFilters }"
+  >
+    <div
+      class="expand-button d-block d-md-none"
+      @click="toggleFilterViewVisibilityInMobile"
+    >
+      {{ `${showFilters ? 'Hide' : 'Show'} Filters` }}
+    </div>
+    <div class="filter-panel">
+      <input
+        placeholder="Search keyword"
+        class="filter-input"
+        @input="handleInputChange"
+      >
+      <edit-city
+        :edit-mode="true"
+        :city="profile.city"
+        :country="profile.country"
+        @change="onCityChange"
+      />
+      <div class="skills-filter-wrapper">
+        <div class="skills-filter">
+          <Facet
+            v-for="skill in skills"
+            :id="skill.id"
+            :key="skill.id"
+            :type="filterTypes.CHECKBOX"
+            :value="skill.name"
+            :label="skill.name"
+            :is-selected="skill.selected"
+            :on-click="handleSkillSelection"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -47,41 +50,41 @@ export default {
 	name: 'EventFilters',
 	components: {
 		Facet,
-		EditCity
+		EditCity,
 	},
 	props: {
 		onSearchInputChange: {
 			type: Function,
-			default: () => {}
+			default: () => {},
 		},
 		onSearchParamsChange: {
 			type: Function,
-			default: () => {}
+			default: () => {},
 		},
 		setInitialQuery: {
 			type: Function,
-			default: () => {}
-		}
+			default: () => {},
+		},
 	},
-	data: function() {
+	data: function () {
 		const { react, angular, vue, webComponents, graphQL } = filtersSet;
 		return {
 			profile: {},
 			filterTypes: {
 				CHECKBOX: 'checkbox',
-				RADIO: 'radio'
+				RADIO: 'radio',
 			},
 			skills: [react, angular, vue, webComponents, graphQL],
 			skillsSelected: [],
 			selectedLevel: 0,
-			showFilters: true
+			showFilters: true,
 		};
 	},
 	mounted() {
 		const initialQuery = this.getAppliedFacetsQuery();
 		this.setInitialQuery(initialQuery);
 
-		userService.getLoggedInUserProfile().then(user => {
+		userService.getLoggedInUserProfile().then((user) => {
 			this.profile = user;
 		});
 	},
@@ -102,7 +105,7 @@ export default {
 			const searchQuery = this.getAppliedFacetsQuery();
 			this.onSearchParamsChange(searchQuery);
 		},
-		getAppliedFacetsQuery: function() {
+		getAppliedFacetsQuery: function () {
 			let selectedSkills = [];
 			let queryString = '';
 			if (this.searchText) {
@@ -115,7 +118,7 @@ export default {
 				queryString += `&country=${this.country}`;
 			}
 
-			this.skills.forEach(item => {
+			this.skills.forEach((item) => {
 				if (item.selected) {
 					selectedSkills.push(item.query);
 				}
@@ -126,13 +129,13 @@ export default {
 
 			return queryString;
 		},
-		onCityChange: function(city) {
+		onCityChange: function (city) {
 			this.city = city.name;
 			this.country = city.country;
 			const searchQuery = this.getAppliedFacetsQuery();
 			this.onSearchParamsChange(searchQuery);
-		}
-	}
+		},
+	},
 };
 </script>
 

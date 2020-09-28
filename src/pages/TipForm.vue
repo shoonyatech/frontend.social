@@ -5,9 +5,9 @@
 import AddTip from '../components/tips/AddTip.vue';
 
 export default {
-  name: "AddTipForm",
-  components: {
-    AddTip
-  }
-}
+	name: 'AddTipForm',
+	components: {
+		AddTip,
+	},
+};
 </script>

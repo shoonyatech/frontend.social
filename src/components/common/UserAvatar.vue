@@ -23,33 +23,33 @@
 
 <script>
 export default {
-  components: {},
+	components: {},
 
-  props: {
-    user: { type: Object, required: true }
-  },
+	props: {
+		user: { type: Object, required: true },
+	},
 
-  methods: {}
+	methods: {},
 };
 </script>
 
 <style scoped lang="scss">
 .avatar {
-  background-color: #114273;
-  border-radius: 50%;
-  margin-right: 10px;
-  width: 50px;
-  height: 50px;
-  overflow: hidden;
-  margin-bottom: 5px;
+	background-color: #114273;
+	border-radius: 50%;
+	margin-right: 10px;
+	width: 50px;
+	height: 50px;
+	overflow: hidden;
+	margin-bottom: 5px;
 }
 
 .profile-photo {
-  height: 50px;
-  width: 50px;
-  background-color: #114273;
-  text-align: left;
-  padding: 2px;
-  border-radius: 999px;
+	height: 50px;
+	width: 50px;
+	background-color: #114273;
+	text-align: left;
+	padding: 2px;
+	border-radius: 999px;
 }
 </style>

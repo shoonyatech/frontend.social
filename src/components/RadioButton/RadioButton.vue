@@ -14,41 +14,41 @@
 
 <script>
 export default {
-  components: {},
-  props: {
-    label: {
-      type: String,
-      default: ""
-    },
-    onClick: {
-      type: Function,
-      default: () => {}
-    },
-    id: {
-      type: String,
-      required: true
-    },
-    isChecked: {
-      type: Boolean,
-      default: false
-    },
-    name: {
-      type: String,
-      default: ""
-    },
-    value: {
-      type: Number,
-      default: 0
-    }
-  }
+	components: {},
+	props: {
+		label: {
+			type: String,
+			default: '',
+		},
+		onClick: {
+			type: Function,
+			default: () => {},
+		},
+		id: {
+			type: String,
+			required: true,
+		},
+		isChecked: {
+			type: Boolean,
+			default: false,
+		},
+		name: {
+			type: String,
+			default: '',
+		},
+		value: {
+			type: Number,
+			default: 0,
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .wrapper {
-  display: flex;
-  label {
-    padding-left: 5px;
-  }
+	display: flex;
+	label {
+		padding-left: 5px;
+	}
 }
 </style>

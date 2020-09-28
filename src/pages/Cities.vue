@@ -48,118 +48,118 @@
 </template>
 
 <script>
-import CityThumbnail from "@/components/City/CityThumbnail";
-import cityService from "@/services/city.service";
-import { uniqBy } from "lodash";
+import CityThumbnail from '@/components/City/CityThumbnail';
+import cityService from '@/services/city.service';
+import { uniqBy } from 'lodash';
 export default {
-  components: {
-    CityThumbnail
-  },
-  props: {
-    infiniteScroll: {
-      type: Boolean,
-      default: true
-    },
-    limit: {
-      type: Number,
-      default: 10
-    }
-  },
-  data() {
-    return {
-      cities: [],
-      loading: false
-    };
-  },
-  computed: {
-    isDisableInfiniteScroll() {
-      return !this.infiniteScroll || this.busy;
-    }
-  },
-  created() {
-    if (!this.infiniteScroll) {
-      this.loadCities();
-    }
-  },
-  methods: {
-    citySearch(e) {
-      // city SEARCH
-      const citySearchText = e.target.value
-        .replace(/^\s+/, "")
-        .replace(/\s+$/, "");
+	components: {
+		CityThumbnail,
+	},
+	props: {
+		infiniteScroll: {
+			type: Boolean,
+			default: true,
+		},
+		limit: {
+			type: Number,
+			default: 10,
+		},
+	},
+	data() {
+		return {
+			cities: [],
+			loading: false,
+		};
+	},
+	computed: {
+		isDisableInfiniteScroll() {
+			return !this.infiniteScroll || this.busy;
+		},
+	},
+	created() {
+		if (!this.infiniteScroll) {
+			this.loadCities();
+		}
+	},
+	methods: {
+		citySearch(e) {
+			// city SEARCH
+			const citySearchText = e.target.value
+				.replace(/^\s+/, '')
+				.replace(/\s+$/, '');
 
-      this.loadCities(citySearchText);
-    },
-    loadCities(searchText) {
-      if (searchText) {
-        this.page = 1;
-      }
+			this.loadCities(citySearchText);
+		},
+		loadCities(searchText) {
+			if (searchText) {
+				this.page = 1;
+			}
 
-      this.busy = false;
-      this.limit = this.limit || 10;
-      this.page = this.page || 1;
+			this.busy = false;
+			this.limit = this.limit || 10;
+			this.page = this.page || 1;
 
-      cityService
-        .getCities(searchText, "", this.limit, this.page)
-        .then(cities => {
-          if (!this.infiniteScroll || searchText) {
-            this.cities = cities;
-          } else {
-            this.cities = this.cities.concat(cities);
-            this.cities = uniqBy(this.cities, x => x._id);
-            this.cities = _.orderBy(this.cities, ["name"], ["asc"]);
+			cityService
+				.getCities(searchText, '', this.limit, this.page)
+				.then((cities) => {
+					if (!this.infiniteScroll || searchText) {
+						this.cities = cities;
+					} else {
+						this.cities = this.cities.concat(cities);
+						this.cities = uniqBy(this.cities, (x) => x._id);
+						this.cities = _.orderBy(this.cities, ['name'], ['asc']);
 
-            if (cities.length > 0) {
-              ++this.page;
-            }
-          }
-          this.busy = true;
-        });
-    }
-  }
+						if (cities.length > 0) {
+							++this.page;
+						}
+					}
+					this.busy = true;
+				});
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .thumbnail-container {
-  display: flex;
-  flex-wrap: wrap;
-  flex-grow: unset;
-  flex-shrink: unset;
-  flex-direction: row;
+	display: flex;
+	flex-wrap: wrap;
+	flex-grow: unset;
+	flex-shrink: unset;
+	flex-direction: row;
 }
 
 .city-card {
-  margin-bottom: 1rem;
-  display: inline-block;
+	margin-bottom: 1rem;
+	display: inline-block;
 }
 
 .city-card-container {
-  width: 100%;
-  text-align: center;
+	width: 100%;
+	text-align: center;
 }
 
 .search-box-container {
-  width: 100%;
-  text-align: center;
+	width: 100%;
+	text-align: center;
 }
 
 .search-box {
-  border: 3px solid #114273;
-  display: inline-block;
-  margin: 20px auto;
-  width: 15rem;
-  font-size: inherit;
-  line-height: inherit;
-  height: 1.5rem;
+	border: 3px solid #114273;
+	display: inline-block;
+	margin: 20px auto;
+	width: 15rem;
+	font-size: inherit;
+	line-height: inherit;
+	height: 1.5rem;
 }
 ::-webkit-input-placeholder {
-  /* Chrome/Opera/Safari */
-  color: #114273;
+	/* Chrome/Opera/Safari */
+	color: #114273;
 }
 
 .no-result {
-  text-align: center;
-  width: 100%;
+	text-align: center;
+	width: 100%;
 }
 </style>

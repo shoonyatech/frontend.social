@@ -17,7 +17,7 @@
       <li
         v-for="(match, index) in matches"
         :key="index"
-        :class="{'active': isActive(index)}"
+        :class="{ active: isActive(index) }"
         @click="onClick(index)"
       >
         {{ match }}
@@ -31,142 +31,140 @@
  * PROPS
  * Souce: Array<string> - Values you want to display in dropdown
  * Query: String - Textbox value
- * 
+ *
  * How to use:
- * a). Pass the required props it will render the typeahead on the default input 
+ * a). Pass the required props it will render the typeahead on the default input
  *      <Typeahead :source="['a', 'a1', 'a2', 'a3']" :query.sync="myQuery"></Typeahead>
- * 
+ *
  * b). You can also hook it up with any custom input using slot like:
  * <Typeahead :source="['a', 'a1', 'a2', 'a3']" :query.sync="myQuery">
  *    <input type="text" style="border: 10px" v-model="myQuery">
- * </Typeahead> 
+ * </Typeahead>
  */
 export default {
-  name: "Typeahead",
-  props: {
-    source: {
-      type: Array,
-      required: true
-    },
-    query: {
-      type: String,
-      required: true,
-    },
-    placeholder: {
-      type: String,
-      required: false,
-      default: '',
-    }
-  },
-  data() {
-    return {
-      open: false,
-      current: 0,
-    }
-  },
-  computed: {
-    matches() {
-      const query = this.query.toLowerCase();
-      return this.source.filter((str) => {
-        return str.toLowerCase().indexOf(query) >= 0;
-      });
-    },
-    openTypeahead() {
-      return this.query !== "" &&
-        this.matches.length != 0 &&
-        this.open;
-    }
-  },
-  mounted() {
-    const input = this.$refs.container.querySelector('input');
-    if (input) {
-      input.addEventListener('keydown', (e) => {
-        switch(e.keyCode) {
-          case 13: // Enter
-            this.enter(e);
-            break;
-          case 38: // up
-            this.up(e);
-            break;
-          case 40: // down
-            this.down(e);
-            break;
-          default:
-            // Do nothing
-        }
-      });
+	name: 'Typeahead',
+	props: {
+		source: {
+			type: Array,
+			required: true,
+		},
+		query: {
+			type: String,
+			required: true,
+		},
+		placeholder: {
+			type: String,
+			required: false,
+			default: '',
+		},
+	},
+	data() {
+		return {
+			open: false,
+			current: 0,
+		};
+	},
+	computed: {
+		matches() {
+			const query = this.query.toLowerCase();
+			return this.source.filter((str) => {
+				return str.toLowerCase().indexOf(query) >= 0;
+			});
+		},
+		openTypeahead() {
+			return this.query !== '' && this.matches.length != 0 && this.open;
+		},
+	},
+	mounted() {
+		const input = this.$refs.container.querySelector('input');
+		if (input) {
+			input.addEventListener('keydown', (e) => {
+				switch (e.keyCode) {
+					case 13: // Enter
+						this.enter(e);
+						break;
+					case 38: // up
+						this.up(e);
+						break;
+					case 40: // down
+						this.down(e);
+						break;
+					default:
+					// Do nothing
+				}
+			});
 
-      input.addEventListener('input', (e) => {
-        this.change(e);
-      });
-    }
-  },
-  methods: {
-    enter() {
-      this.onSelect(this.matches[this.current]);
-      this.open = false;
-    },
-    up() {
-      if(this.current > 0) {
-        this.current--;
-      }
-    },
-    down() {
-      if(this.current < this.matches.length - 1) {
-        this.current++;
-      }
-    },
-    isActive(index) {
-      return index === this.current;
-    },
-    change(e) {
-      if (this.open == false) {
-        this.open = true;
-        this.current = 0;
-      }
+			input.addEventListener('input', (e) => {
+				this.change(e);
+			});
+		}
+	},
+	methods: {
+		enter() {
+			this.onSelect(this.matches[this.current]);
+			this.open = false;
+		},
+		up() {
+			if (this.current > 0) {
+				this.current--;
+			}
+		},
+		down() {
+			if (this.current < this.matches.length - 1) {
+				this.current++;
+			}
+		},
+		isActive(index) {
+			return index === this.current;
+		},
+		change(e) {
+			if (this.open == false) {
+				this.open = true;
+				this.current = 0;
+			}
 
-      this.$emit('update:query', e.target.value);
-    },
-    onClick(index) {
-      this.onSelect(this.matches[index]);
-      this.open = false;
-    },
-    onSelect(query) {
-      this.$emit('update:query', query);
-      this.$emit('select', query);
-    }
-  }
-}
+			this.$emit('update:query', e.target.value);
+		},
+		onClick(index) {
+			this.onSelect(this.matches[index]);
+			this.open = false;
+		},
+		onSelect(query) {
+			this.$emit('update:query', query);
+			this.$emit('select', query);
+		},
+	},
+};
 </script>
 <style scoped lang="scss">
 .typeahead-container {
-  position:relative;
+	position: relative;
 }
 .typeahead {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 1000;
-  float: left;
-  min-width: 10rem;
-  padding: 0;
-  margin: 0;
-  color: #212529;
-  text-align: left;
-  list-style: none;
-  background-color: #fff;
-  width:100%;
-  border: 1px solid #114273;
-  li {
-    border-bottom: dotted 1px #114273;
-    cursor: pointer;
-    padding: 2px;
-    &:hover {
-      background-color: #1142736c;
-    }
-    &.active {
-      background-color: #1142736c;
-    }
-  }
+	position: absolute;
+	top: 100%;
+	left: 0;
+	z-index: 1000;
+	float: left;
+	min-width: 10rem;
+	padding: 0;
+	margin: 0;
+	color: #212529;
+	text-align: left;
+	list-style: none;
+	background-color: #fff;
+	width: 100%;
+	border: 1px solid #114273;
+	li {
+		border-bottom: dotted 1px #114273;
+		cursor: pointer;
+		padding: 2px;
+		&:hover {
+			background-color: #1142736c;
+		}
+		&.active {
+			background-color: #1142736c;
+		}
+	}
 }
 </style>

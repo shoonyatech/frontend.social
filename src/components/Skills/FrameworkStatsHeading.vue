@@ -10,33 +10,33 @@
 
 <script>
 export default {
-  name: "FrameworkStatsHeading",
-  components: {},
-  props: {
-    framework: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  created() {}
+	name: 'FrameworkStatsHeading',
+	components: {},
+	props: {
+		framework: {
+			type: Object,
+			default: () => {},
+		},
+	},
+	created() {},
 };
 </script>
 
 <style scoped lang="scss">
 .host {
-  width: 100%;
-  text-align: center;
+	width: 100%;
+	text-align: center;
 }
 
 .framework {
-  height: 60px;
+	height: 60px;
 }
 
 .logo {
-  height: 80px;
+	height: 80px;
 }
 
 .github-stars {
-  height: 80px;
+	height: 80px;
 }
 </style>

@@ -124,188 +124,187 @@
 </template>
 
 <script>
-import KeyValue from "@/components/common/KeyValue";
-import KeyMultiValue from "@/components/common/KeyMultiValue";
-import EditCity from "@/components/City/EditCity";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import blogService from "@/services/blog.service";
-import skillService from "@/services/skill.service";
+import KeyValue from '@/components/common/KeyValue';
+import KeyMultiValue from '@/components/common/KeyMultiValue';
+import EditCity from '@/components/City/EditCity';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import blogService from '@/services/blog.service';
+import skillService from '@/services/skill.service';
 
-import eventBus from "@/utilities/eventBus";
-import { ToastType, messages } from "@/constants/constants";
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages } from '@/constants/constants';
 
 export default {
-  name: "Addblog",
-  components: {
-    KeyValue,
-    KeyMultiValue,
-  },
-  data() {
-    return {
-      blog: {
-        title: null,
-        author: null,
-        description: "",
-        markdownUrl: null,
-        tags: [],
-        relatedSkills: [""],
-        type: null,
-        body: "",
-      },
-      skillsLookup: [],
-      editor: ClassicEditor,
-      editorConfig: {},
-    };
-  },
-  async created() {
-    this.skillsLookup = (await skillService.fetchSkills()).map((s) => s.name);
-  },
-  methods: {
-    onTitleChange(e) {
-      this.blog.title = e.value;
-    },
-    onAuthorChange(e) {
-      this.blog.author = e.value;
-    },
-    onDescriptionChange(e) {
-      this.blog.description = e.value;
-    },
-    onUrlChange(e) {
-      this.blog.markdownUrl = e.value;
-    },
-    onBodyChange(e) {
-      this.blog.body = e.value;
-    },
-    onSkillsChange: function(skills) {
-      this.blog.relatedSkills = skills;
-    },
-    onTagsChange: function(tags) {
-      this.blog.tags = tags;
-    },
-    close: function(val) {
-      this.$emit("close", {});
-    },
-    save() {
-      if (!this.blog.title) {
-        alert("Please specify blog title");
-        return;
-      } else if (!this.blog.author) {
-        alert("Please specify author");
-        return;
-      } else if (!this.blog.markdownUrl && !this.blog.body) {
-        alert("Please specify URL OR Blog Body");
-        return;
-      }
-      else if (this.blog.markdownUrl && this.blog.body) {
-        alert("Please Enter Either Blog URL or Blog Body");
-        return;
-      }
+	name: 'Addblog',
+	components: {
+		KeyValue,
+		KeyMultiValue,
+	},
+	data() {
+		return {
+			blog: {
+				title: null,
+				author: null,
+				description: '',
+				markdownUrl: null,
+				tags: [],
+				relatedSkills: [''],
+				type: null,
+				body: '',
+			},
+			skillsLookup: [],
+			editor: ClassicEditor,
+			editorConfig: {},
+		};
+	},
+	async created() {
+		this.skillsLookup = (await skillService.fetchSkills()).map((s) => s.name);
+	},
+	methods: {
+		onTitleChange(e) {
+			this.blog.title = e.value;
+		},
+		onAuthorChange(e) {
+			this.blog.author = e.value;
+		},
+		onDescriptionChange(e) {
+			this.blog.description = e.value;
+		},
+		onUrlChange(e) {
+			this.blog.markdownUrl = e.value;
+		},
+		onBodyChange(e) {
+			this.blog.body = e.value;
+		},
+		onSkillsChange: function (skills) {
+			this.blog.relatedSkills = skills;
+		},
+		onTagsChange: function (tags) {
+			this.blog.tags = tags;
+		},
+		close: function (val) {
+			this.$emit('close', {});
+		},
+		save() {
+			if (!this.blog.title) {
+				alert('Please specify blog title');
+				return;
+			} else if (!this.blog.author) {
+				alert('Please specify author');
+				return;
+			} else if (!this.blog.markdownUrl && !this.blog.body) {
+				alert('Please specify URL OR Blog Body');
+				return;
+			} else if (this.blog.markdownUrl && this.blog.body) {
+				alert('Please Enter Either Blog URL or Blog Body');
+				return;
+			}
 
-      blogService
-        .addBlog(this.blog)
-        .then(() => {
-          eventBus.$emit("show-toast", {
-            body: messages.blog.blogAddSuccess,
-            title: messages.generic.success,
-          });
+			blogService
+				.addBlog(this.blog)
+				.then(() => {
+					eventBus.$emit('show-toast', {
+						body: messages.blog.blogAddSuccess,
+						title: messages.generic.success,
+					});
 
-          this.close();
-        })
-        .catch((e) => {
-          eventBus.$emit("show-toast", {
-            body: e.message,
-            title: messages.generic.error,
-            type: ToastType.ERROR,
-          });
-        });
-    },
-    cancel() {
-      this.close();
-    },
-  },
+					this.close();
+				})
+				.catch((e) => {
+					eventBus.$emit('show-toast', {
+						body: e.message,
+						title: messages.generic.error,
+						type: ToastType.ERROR,
+					});
+				});
+		},
+		cancel() {
+			this.close();
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .row {
-  margin-bottom: 15px;
+	margin-bottom: 15px;
 }
 .label {
-  color: #114273;
-  width: 7rem;
-  min-width: 7rem;
+	color: #114273;
+	width: 7rem;
+	min-width: 7rem;
 }
 .blog-strip {
-  flex: 0 1 auto;
-  font-size: 0.9rem;
-  margin: 10px;
-  width: 95%;
-  height: 80px;
-  position: relative;
-  border-bottom: dotted 1px #114273;
-  padding-bottom: 10px;
-  margin-right: 20px;
+	flex: 0 1 auto;
+	font-size: 0.9rem;
+	margin: 10px;
+	width: 95%;
+	height: 80px;
+	position: relative;
+	border-bottom: dotted 1px #114273;
+	padding-bottom: 10px;
+	margin-right: 20px;
 }
 
 .blog-line {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
 
 .blog-skills {
-  font-size: 0.65rem;
-  color: #2c3e50;
+	font-size: 0.65rem;
+	color: #2c3e50;
 }
 
 .blog-date {
-  font-size: 0.65rem;
-  color: #2c3e50;
+	font-size: 0.65rem;
+	color: #2c3e50;
 }
 
 .links {
-  position: absolute;
-  right: 10px;
-  top: 20px;
+	position: absolute;
+	right: 10px;
+	top: 20px;
 }
 
 .icon-links {
-  display: flex;
-  flex-direction: row;
+	display: flex;
+	flex-direction: row;
 }
 
 .blog-row {
-  display: flex;
-  width: 100%;
-  padding-left: 10px;
-  text-align: left;
+	display: flex;
+	width: 100%;
+	padding-left: 10px;
+	text-align: left;
 }
 
 .label {
-  color: #114273;
-  width: 7rem;
-  min-width: 7rem;
+	color: #114273;
+	width: 7rem;
+	min-width: 7rem;
 }
 
 .radio {
-  margin-right: 1rem;
+	margin-right: 1rem;
 }
 
 .end-date {
-  margin-left: 1.5rem;
-  margin-right: 0.5rem;
-  display: inline-block;
+	margin-left: 1.5rem;
+	margin-right: 0.5rem;
+	display: inline-block;
 }
 
 .action-buttons {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-top: 1rem;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	margin-top: 1rem;
 
-  button {
-    margin-left: 0.5rem;
-  }
+	button {
+		margin-left: 0.5rem;
+	}
 }
 </style>

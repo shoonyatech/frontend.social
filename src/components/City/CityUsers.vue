@@ -12,20 +12,20 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/common/UserAvatar";
+import UserAvatar from '@/components/common/UserAvatar';
 
 export default {
-  components: {
-    UserAvatar
-  },
+	components: {
+		UserAvatar,
+	},
 
-  props: {
-    userGroup: { type: String, required: true },
-    city: { type: String, required: true },
-    users: { type: Array, required: true }
-  },
+	props: {
+		userGroup: { type: String, required: true },
+		city: { type: String, required: true },
+		users: { type: Array, required: true },
+	},
 
-  methods: {}
+	methods: {},
 };
 </script>
 
@@ -34,8 +34,8 @@ export default {
 }
 
 .city-users {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 </style>

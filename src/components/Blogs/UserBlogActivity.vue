@@ -2,9 +2,7 @@
   <div>
     <table>
       <td class="td">
-        <router-link
-          :to="'../blog/' + blog._id + '/' + blog.title"
-        >
+        <router-link :to="'../blog/' + blog._id + '/' + blog.title">
           {{ blog.title }} by {{ blog.author }}
         </router-link>
       </td>

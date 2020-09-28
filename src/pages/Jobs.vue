@@ -63,153 +63,156 @@
 </template>
 
 <script>
-import JobStrip from "@/components/Job/JobStrip";
-import Filters from "@/components/Filters/Filters";
-import jobService from "@/services/job.service";
+import JobStrip from '@/components/Job/JobStrip';
+import Filters from '@/components/Filters/Filters';
+import jobService from '@/services/job.service';
 
 export default {
-  name: "Jobs",
-  components: {
-    JobStrip,
-    Filters,
-  },
-  data() {
-    return {
-      jobs: [],
-      appliedFilters: [],
-      currentQuery: "",
-      totalPages: 1,
-      skills: [],
-      jobTypes: [],
-      pageNo: 1,
-      showAddJobDialog: false,
-      loading: false
-    };
-  },
-  computed: {
-    signedInUser() {
-      return this.$store.state.signedInUser;
-    }
-  },
-  mounted() {
-    const searchQuery = window.location.search.split("?");
-    let searchText = "";
-    if (searchQuery[1]) {
-      const searchTextQuery = searchQuery[1]
-        .split("&")
-        .find(item => item.startsWith("q="));
-      if (searchTextQuery) {
-        searchText = searchTextQuery.split("q=")[1];
-      }
-    }
-    this.searchJobsWithSearchTerm(searchText);
-    this.scroll(this.jobs);
-  },
-  methods: {
-    refreshPage() {
-      this.showAddJobDialog = false;
-      this.searchJobsWithSearchTerm();
-    },
-    mapJobResponse(jobs = {}, override = false) {
-      const { results = [], meta = {} } = jobs;
-      if (!override) {
-        this.jobs = [...this.jobs, ...results];
-      } else {
-        this.jobs = results;
-      }
-      const { pagination: paginationInfo, filters } = meta;
-      if (paginationInfo) {
-        const { currentPage, totalPages } = paginationInfo;
-        this.pageNo = currentPage;
-        this.totalPages = totalPages;
-      }
-      if (filters) {
-        const { jobTypes, skills } = filters;
-        this.jobTypes = jobTypes;
-        this.skills = skills;
-      }
-    },
-    onDelete(id) {
-      this.jobs = this.jobs.filter(x => x._id !== id);
-    },
-    canModify(jobDetails) {
-      if (!this.signedInUser) return false;
+	name: 'Jobs',
+	components: {
+		JobStrip,
+		Filters,
+	},
+	data() {
+		return {
+			jobs: [],
+			appliedFilters: [],
+			currentQuery: '',
+			totalPages: 1,
+			skills: [],
+			jobTypes: [],
+			pageNo: 1,
+			showAddJobDialog: false,
+			loading: false,
+		};
+	},
+	computed: {
+		signedInUser() {
+			return this.$store.state.signedInUser;
+		},
+	},
+	mounted() {
+		const searchQuery = window.location.search.split('?');
+		let searchText = '';
+		if (searchQuery[1]) {
+			const searchTextQuery = searchQuery[1]
+				.split('&')
+				.find((item) => item.startsWith('q='));
+			if (searchTextQuery) {
+				searchText = searchTextQuery.split('q=')[1];
+			}
+		}
+		this.searchJobsWithSearchTerm(searchText);
+		this.scroll(this.jobs);
+	},
+	methods: {
+		refreshPage() {
+			this.showAddJobDialog = false;
+			this.searchJobsWithSearchTerm();
+		},
+		mapJobResponse(jobs = {}, override = false) {
+			const { results = [], meta = {} } = jobs;
+			if (!override) {
+				this.jobs = [...this.jobs, ...results];
+			} else {
+				this.jobs = results;
+			}
+			const { pagination: paginationInfo, filters } = meta;
+			if (paginationInfo) {
+				const { currentPage, totalPages } = paginationInfo;
+				this.pageNo = currentPage;
+				this.totalPages = totalPages;
+			}
+			if (filters) {
+				const { jobTypes, skills } = filters;
+				this.jobTypes = jobTypes;
+				this.skills = skills;
+			}
+		},
+		onDelete(id) {
+			this.jobs = this.jobs.filter((x) => x._id !== id);
+		},
+		canModify(jobDetails) {
+			if (!this.signedInUser) return false;
 
-      if (this.$store.getters.isAdmin) return true;
-      if(this.signedInUser.username != null){
-      const username = this.signedInUser.username.toLowerCase();
-      return jobDetails.createdBy && jobDetails.createdBy.username.toLowerCase() === username;
-      }
-    },
-    searchJobsWithSearchTerm(searchText = "") {
-      this.loading = true;
-      searchText.replace(/^\s+/, "").replace(/\s+$/, "");
-      jobService.getJobs(searchText).then(jobs => {
-        this.mapJobResponse(jobs);
-        this.loading = false;
-      });
-    },
-    onSearchParamsChange(param = "", key, value) {
-      this.loading = true;
-      this.currentQuery = param;
-      const queryParams = new URLSearchParams(window.location.search);
-      queryParams.set(key, value);
-      jobService.getJobsOnSearchParamsChange(param).then(jobs => {
-        this.mapJobResponse(jobs, true);
-        this.loading = false;
-      });
-    },
-    setInitialQuery(initialQuery) {
-      this.currentQuery = initialQuery;
-    },
-    showDialog() {
-      if (this.signedInUser == null) {
-        this.$router.push("/signin");
-      } else {
-        this.$router.push('/job/form/new')
-      }
-    },
-    scroll(jobs) {
-      window.onscroll = () => {
-        let bottomOfWindow =
-          document.documentElement.scrollTop + window.innerHeight ===
-          document.documentElement.offsetHeight;
+			if (this.$store.getters.isAdmin) return true;
+			if (this.signedInUser.username != null) {
+				const username = this.signedInUser.username.toLowerCase();
+				return (
+					jobDetails.createdBy &&
+					jobDetails.createdBy.username.toLowerCase() === username
+				);
+			}
+		},
+		searchJobsWithSearchTerm(searchText = '') {
+			this.loading = true;
+			searchText.replace(/^\s+/, '').replace(/\s+$/, '');
+			jobService.getJobs(searchText).then((jobs) => {
+				this.mapJobResponse(jobs);
+				this.loading = false;
+			});
+		},
+		onSearchParamsChange(param = '', key, value) {
+			this.loading = true;
+			this.currentQuery = param;
+			const queryParams = new URLSearchParams(window.location.search);
+			queryParams.set(key, value);
+			jobService.getJobsOnSearchParamsChange(param).then((jobs) => {
+				this.mapJobResponse(jobs, true);
+				this.loading = false;
+			});
+		},
+		setInitialQuery(initialQuery) {
+			this.currentQuery = initialQuery;
+		},
+		showDialog() {
+			if (this.signedInUser == null) {
+				this.$router.push('/signin');
+			} else {
+				this.$router.push('/job/form/new');
+			}
+		},
+		scroll(jobs) {
+			window.onscroll = () => {
+				let bottomOfWindow =
+					document.documentElement.scrollTop + window.innerHeight ===
+					document.documentElement.offsetHeight;
 
-        if (bottomOfWindow) {
-          jobService
-            .fetchDataForNextPage(
-              this.currentQuery,
-              this.totalPages,
-              this.currentPage
-            )
-            .then(jobs => {
-              this.mapJobResponse(jobs);
-            });
-        }
-      };
-    }
-  }
+				if (bottomOfWindow) {
+					jobService
+						.fetchDataForNextPage(
+							this.currentQuery,
+							this.totalPages,
+							this.currentPage
+						)
+						.then((jobs) => {
+							this.mapJobResponse(jobs);
+						});
+				}
+			};
+		},
+	},
 };
 </script>
 
 <style lang="scss" scoped>
 .host {
-  width: 100%;
+	width: 100%;
 }
 
 .jobs {
-  margin: 20px 10px;
-  text-align: left;
-  width: 100%;
+	margin: 20px 10px;
+	text-align: left;
+	width: 100%;
 }
 
 .filters-wrapper {
-  height: 100%;
-  border-left: 1px solid #114273;
-  flex-direction: column;
-  display: flex;
-  text-align: start;
-  padding: 10px;
-  cursor: pointer;
+	height: 100%;
+	border-left: 1px solid #114273;
+	flex-direction: column;
+	display: flex;
+	text-align: start;
+	padding: 10px;
+	cursor: pointer;
 }
 </style>

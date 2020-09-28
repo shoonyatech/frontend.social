@@ -52,115 +52,115 @@
 </template>
 
 <script>
-import EventStrip from "@/components/Events/EventStrip";
+import EventStrip from '@/components/Events/EventStrip';
 
-import eventService from "@/services/event.service";
+import eventService from '@/services/event.service';
 
 export default {
-  components: { EventStrip },
-  props: {
-    label: {
-      type: String,
-      default: ""
-    },
-    eventIds: {
-      type: Array,
-      default: () => []
-    },
-    isEditable: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      events: [],
-      options: [],
-      searchText: ""
-    };
-  },
-  created() {
-    if (this.eventIds && this.eventIds.length) {
-      eventService.getEventWithIds(this.eventIds).then(events => {
-        this.events = events;
-      });
-    }
-  },
-  methods: {
-    add: function(event) {
-      this.events.push(event);
-      this.eventIds.push(event._id);
-      this.$emit("change", this.eventIds);
-    },
-    deleteItem: function(event) {
-      this.events.splice(this.events.indexOf(event), 1);
-      this.eventIds.splice(this.eventIds.indexOf(event._id), 1);
-      this.$emit("change", this.eventIds);
-    },
-    onSearchTextChange: function(e) {
-      if (this.searchText) {
-        eventService.searchEvents(this.searchText).then(events => {
-          this.options = events;
-        });
-      } else {
-        this.options = [];
-      }
-    }
-  }
+	components: { EventStrip },
+	props: {
+		label: {
+			type: String,
+			default: '',
+		},
+		eventIds: {
+			type: Array,
+			default: () => [],
+		},
+		isEditable: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	data() {
+		return {
+			events: [],
+			options: [],
+			searchText: '',
+		};
+	},
+	created() {
+		if (this.eventIds && this.eventIds.length) {
+			eventService.getEventWithIds(this.eventIds).then((events) => {
+				this.events = events;
+			});
+		}
+	},
+	methods: {
+		add: function (event) {
+			this.events.push(event);
+			this.eventIds.push(event._id);
+			this.$emit('change', this.eventIds);
+		},
+		deleteItem: function (event) {
+			this.events.splice(this.events.indexOf(event), 1);
+			this.eventIds.splice(this.eventIds.indexOf(event._id), 1);
+			this.$emit('change', this.eventIds);
+		},
+		onSearchTextChange: function (e) {
+			if (this.searchText) {
+				eventService.searchEvents(this.searchText).then((events) => {
+					this.options = events;
+				});
+			} else {
+				this.options = [];
+			}
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .host {
-  display: flex;
-  width: 100%;
-  text-align: left;
+	display: flex;
+	width: 100%;
+	text-align: left;
 }
 
 .label {
-  color: #114273;
-  width: 7rem;
-  min-width: 7rem;
+	color: #114273;
+	width: 7rem;
+	min-width: 7rem;
 }
 
 .value {
-  display: flex;
+	display: flex;
 }
 
 .value-list {
-  flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 .add {
-  flex: 0 0 auto;
-  margin: 2px 0 0 10px;
-  height: 1.5rem;
+	flex: 0 0 auto;
+	margin: 2px 0 0 10px;
+	height: 1.5rem;
 }
 
 .events {
-  display: flex;
-  width: 100%;
+	display: flex;
+	width: 100%;
 }
 
 .event-strip-selected {
-  flex: 1 1 auto;
+	flex: 1 1 auto;
 }
 
 .delete {
-  flex: 1 1 auto;
-  margin-left: 10px;
+	flex: 1 1 auto;
+	margin-left: 10px;
 }
 
 .select-event {
-  width: 100%;
-  cursor: pointer;
+	width: 100%;
+	cursor: pointer;
 
-  &:hover {
-    background-color: #1142736c;
-  }
+	&:hover {
+		background-color: #1142736c;
+	}
 }
 
 .search-box {
-  width: 100%;
+	width: 100%;
 }
 </style>

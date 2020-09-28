@@ -7,9 +7,7 @@
           Privacy Policy
         </h1>
         <div class="terms">
-          <div>
-            Effective December 12, 2019
-          </div>
+          <div>Effective December 12, 2019</div>
           This policy covers Shoonya Technologies Ltd. ("Shoonya" or "Company")
           and https://www.frontend.social website("Frontend Social" or
           "Website").
@@ -149,9 +147,7 @@
               <li>Sidebars</li>
               <li>Below articles</li>
               <li>On search result pages</li>
-              <li>
-                On tag pages
-              </li>
+              <li>On tag pages</li>
               <li>Our dedicated Sponsors page</li>
             </ul>
             All registered members have the ability to disable advertisements —
@@ -371,25 +367,25 @@
 
 <script>
 export default {
-  name: "PrivacyPolicy",
-  data() {
-    return {
-      loading: true,
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false
-    }, 1000);
-  },
+	name: 'PrivacyPolicy',
+	data() {
+		return {
+			loading: true,
+		};
+	},
+	mounted() {
+		setTimeout(() => {
+			this.loading = false;
+		}, 1000);
+	},
 };
 </script>
 <style scoped lang="scss">
 .terms {
-  margin-bottom: 2rem;
+	margin-bottom: 2rem;
 }
 
 .term {
-  margin-top: 2rem;
+	margin-top: 2rem;
 }
 </style>

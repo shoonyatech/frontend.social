@@ -9,11 +9,15 @@
         <button
           :disabled="articles.length === 0"
           @click="loadArticles('next')"
-        >&#8250;</button>
+        >
+          &#8250;
+        </button>
         <button
           :disabled="page === 1"
           @click="loadArticles('previous')"
-        >&#8249;</button>
+        >
+          &#8249;
+        </button>
       </span>
     </h1>
 
@@ -38,99 +42,99 @@
 </template>
 
 <script>
-import ArticleStrip from "@/components/Learn/ArticleStrip";
-import learnService from "@/services/learn.service";
+import ArticleStrip from '@/components/Learn/ArticleStrip';
+import learnService from '@/services/learn.service';
 
 export default {
-  components: { ArticleStrip },
-  props: {
-    skill: {
-      type: String,
-      default: null,
-      required: false
-    },
-    infiniteScroll: {
-      type: Boolean,
-      default: true
-    },
-    limit: {
-      type: Number,
-      default: 10
-    }
-  },
-  data() {
-    return {
-      articles: []
-    };
-  },
-  computed: {
-    isDisableInfiniteScroll() {
-      return !this.infiniteScroll || this.busy;
-    }
-  },
-  created() {
-    if (!this.infiniteScroll) {
-      this.loadArticles();
-    }
-  },
-  methods: {
-    loadArticles(action) {
-      switch (action) {
-        case "previous":
-          action = -1;
-          break;
-        case "next":
-          action = 1;
-          break;
-        default:
-          action = 0;
-          break;
-      }
+	components: { ArticleStrip },
+	props: {
+		skill: {
+			type: String,
+			default: null,
+			required: false,
+		},
+		infiniteScroll: {
+			type: Boolean,
+			default: true,
+		},
+		limit: {
+			type: Number,
+			default: 10,
+		},
+	},
+	data() {
+		return {
+			articles: [],
+		};
+	},
+	computed: {
+		isDisableInfiniteScroll() {
+			return !this.infiniteScroll || this.busy;
+		},
+	},
+	created() {
+		if (!this.infiniteScroll) {
+			this.loadArticles();
+		}
+	},
+	methods: {
+		loadArticles(action) {
+			switch (action) {
+				case 'previous':
+					action = -1;
+					break;
+				case 'next':
+					action = 1;
+					break;
+				default:
+					action = 0;
+					break;
+			}
 
-      this.busy = false;
-      this.limit = this.limit || 10;
-      this.page = action + this.page || 1;
+			this.busy = false;
+			this.limit = this.limit || 10;
+			this.page = action + this.page || 1;
 
-      learnService
-        .getLatestArticles(this.skill, this.limit, this.page)
-        .then(articles => {
-          if (!this.infiniteScroll) {
-            this.articles = articles;
-          } else {
-            this.articles = this.articles.concat(articles);
-            if (articles.length > 0) {
-              ++this.page;
-            }
-          }
-          this.busy = true;
-        });
-    }
-  }
+			learnService
+				.getLatestArticles(this.skill, this.limit, this.page)
+				.then((articles) => {
+					if (!this.infiniteScroll) {
+						this.articles = articles;
+					} else {
+						this.articles = this.articles.concat(articles);
+						if (articles.length > 0) {
+							++this.page;
+						}
+					}
+					this.busy = true;
+				});
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .host {
-  width: 100%;
-  margin-bottom: 2.5rem;
+	width: 100%;
+	margin-bottom: 2.5rem;
 }
 
 .articles {
-  margin: 20px 10px;
-  text-align: left;
-  width: 100%;
+	margin: 20px 10px;
+	text-align: left;
+	width: 100%;
 }
 
 .article {
-  margin-bottom: 40px;
+	margin-bottom: 40px;
 }
 
 .courtesy {
-  font-size: 0.75rem;
-  text-align: right;
+	font-size: 0.75rem;
+	text-align: right;
 }
 
 .navigation-button {
-  float: right;
+	float: right;
 }
 </style>

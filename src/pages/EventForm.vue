@@ -5,9 +5,9 @@
 import AddEvent from '../components/Events/AddEvent.vue';
 
 export default {
-  name: "EventForm",
-  components: {
-    AddEvent
-  }
-}
+	name: 'EventForm',
+	components: {
+		AddEvent,
+	},
+};
 </script>

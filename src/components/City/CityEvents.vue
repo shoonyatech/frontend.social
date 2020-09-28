@@ -32,17 +32,17 @@
 </template>
 
 <script>
-import EventStrip from "@/components/Events/EventStrip";
+import EventStrip from '@/components/Events/EventStrip';
 
 export default {
-  components: { EventStrip },
+	components: { EventStrip },
 
-  props: {
-    upcomingEvents: { type: Array, required: true },
-    pastEvents: { type: Array, required: true }
-  },
+	props: {
+		upcomingEvents: { type: Array, required: true },
+		pastEvents: { type: Array, required: true },
+	},
 
-  methods: {}
+	methods: {},
 };
 </script>
 
@@ -50,19 +50,19 @@ export default {
 .host {
 }
 .city-event {
-  flex: 0 1 auto;
-  font-size: 0.8rem;
-  margin: 10px;
+	flex: 0 1 auto;
+	font-size: 0.8rem;
+	margin: 10px;
 }
 
 .event-line {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
 
 .event-date {
-  font-size: 0.65rem;
-  color: var(--fs-primary-color);;
+	font-size: 0.65rem;
+	color: var(--fs-primary-color);
 }
 </style>

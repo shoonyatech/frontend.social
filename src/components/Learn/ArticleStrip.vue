@@ -12,7 +12,8 @@
           <span
             v-if="article.type"
             class="article-type capsule"
-          > {{ article.type }}</span>
+          >
+            {{ article.type }}</span>
         </b-col>
       </b-row>
       <b-row>
@@ -58,7 +59,7 @@
           </div>
           <div class="tags">
             Tags:
-            {{ article.tags.join(", ") }}
+            {{ article.tags.join(', ') }}
           </div>
         </b-col>
       </b-row>
@@ -67,76 +68,76 @@
 </template>
 
 <script>
-import IconLink from "@/components/common/IconLink";
-import SkillTags from "@/components/Skills/SkillTags";
+import IconLink from '@/components/common/IconLink';
+import SkillTags from '@/components/Skills/SkillTags';
 
 export default {
-  components: {
-    IconLink,
-    SkillTags,
-  },
-  props: {
-    article: {
-      type: Object,
-      default: () => {},
-    },
-  },
+	components: {
+		IconLink,
+		SkillTags,
+	},
+	props: {
+		article: {
+			type: Object,
+			default: () => {},
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .layout {
-  display: flex;
-  flex-direction: columns;
-  border-bottom: dotted 1px #114273;
+	display: flex;
+	flex-direction: columns;
+	border-bottom: dotted 1px #114273;
 }
 
 .article-strip {
-  flex: 0 1 auto;
-  font-size: 0.9rem;
-  margin: 10px;
-  width: 95%;
-  position: relative;
-  padding-bottom: 10px;
-  margin-right: 20px;
+	flex: 0 1 auto;
+	font-size: 0.9rem;
+	margin: 10px;
+	width: 95%;
+	position: relative;
+	padding-bottom: 10px;
+	margin-right: 20px;
 }
 
 .article-line {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
 
 .article-type {
-  font-size: 0.65rem;
-  float: right;
+	font-size: 0.65rem;
+	float: right;
 }
 
 .article-skills {
-  font-size: 0.65rem;
-  color: #2c3e50;
+	font-size: 0.65rem;
+	color: #2c3e50;
 }
 
 .article-date {
-  font-size: 0.65rem;
-  color: #2c3e50;
+	font-size: 0.65rem;
+	color: #2c3e50;
 }
 
 .icon-links {
-  display: flex;
-  flex-direction: row-reverse;
+	display: flex;
+	flex-direction: row-reverse;
 }
 
 .article-author {
-  font-size: 0.65rem;
+	font-size: 0.65rem;
 }
 
 .article-description {
-  font-size: 0.8rem;
+	font-size: 0.8rem;
 }
 
 .courtesy,
 .tags {
-  font-size: 0.65rem;
+	font-size: 0.65rem;
 }
 </style>

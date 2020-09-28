@@ -31,7 +31,7 @@
           </div>
           <div class="tags">
             Tags:
-            {{ blog.tags.join(", ") }}
+            {{ blog.tags.join(', ') }}
           </div>
         </b-col>
       </b-row>
@@ -40,74 +40,74 @@
 </template>
 
 <script>
-import SkillTags from "@/components/Skills/SkillTags";
+import SkillTags from '@/components/Skills/SkillTags';
 
 export default {
-  name: "BlogStrip",
-  components: {
-    SkillTags,
-  },
-  props: {
-    blog: {
-      type: Object,
-      default: () => {},
-    },
-  },
+	name: 'BlogStrip',
+	components: {
+		SkillTags,
+	},
+	props: {
+		blog: {
+			type: Object,
+			default: () => {},
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .layout {
-  display: flex;
-  flex-direction: columns;
-  border-bottom: dotted 1px #114273;
+	display: flex;
+	flex-direction: columns;
+	border-bottom: dotted 1px #114273;
 }
 
 .blog-strip {
-  flex: 0 1 auto;
-  font-size: 0.9rem;
-  margin: 10px;
-  width: 95%;
-  position: relative;
-  padding-bottom: 10px;
-  margin-right: 20px;
+	flex: 0 1 auto;
+	font-size: 0.9rem;
+	margin: 10px;
+	width: 95%;
+	position: relative;
+	padding-bottom: 10px;
+	margin-right: 20px;
 }
 
 .blog-line {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
 
 .blog-type {
-  font-size: 0.65rem;
-  float: right;
+	font-size: 0.65rem;
+	float: right;
 }
 
 .blog-skills {
-  font-size: 0.65rem;
-  color: #2c3e50;
+	font-size: 0.65rem;
+	color: #2c3e50;
 }
 
 .blog-date {
-  font-size: 0.65rem;
-  color: #2c3e50;
+	font-size: 0.65rem;
+	color: #2c3e50;
 }
 
 .icon-links {
-  display: flex;
-  flex-direction: row-reverse;
+	display: flex;
+	flex-direction: row-reverse;
 }
 
 .blog-author {
-  font-size: 0.65rem;
+	font-size: 0.65rem;
 }
 
 .blog-description {
-  font-size: 0.8rem;
+	font-size: 0.8rem;
 }
 
 .tags {
-  font-size: 0.65rem;
+	font-size: 0.65rem;
 }
 </style>
