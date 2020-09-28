@@ -29,9 +29,9 @@
     >
       <div v-if="Tips.length">
         <TipStrip
-          v-for="(tip, index) in Tips"
+          v-for="(tweet, index) in Tips"
           :key="index"
-          :tip="tip"
+          :tip="tweet"
         />
       </div>
       <div v-else>
