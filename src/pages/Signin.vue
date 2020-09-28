@@ -39,53 +39,53 @@
 </template>
 
 <script>
-import SignInButtons from "@/components/Signin/SignInButtons";
-import { v4 as uuidv4 } from "uuid";
+import SignInButtons from '@/components/Signin/SignInButtons';
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
-  components: {
-    SignInButtons,
-  },
-  data() {
-    return {
-      loading: true,
-      guestUsername: "",
-    };
-  },
-  created() {},
-  mounted() {
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
-  },
-  methods: {
-    signInAsUser() {
-      const user = {
-        name: this.guestUsername,
-        username: uuidv4(),
-        isGuest: true,
-      };
-      localStorage.setItem("GUEST_USER", JSON.stringify(user));
-      this.$store.commit("setGuestUser", user);
-      this.$router.go(-1);
-    },
-  },
+	components: {
+		SignInButtons,
+	},
+	data() {
+		return {
+			loading: true,
+			guestUsername: '',
+		};
+	},
+	created() {},
+	mounted() {
+		setTimeout(() => {
+			this.loading = false;
+		}, 1000);
+	},
+	methods: {
+		signInAsUser() {
+			const user = {
+				name: this.guestUsername,
+				username: uuidv4(),
+				isGuest: true,
+			};
+			localStorage.setItem('GUEST_USER', JSON.stringify(user));
+			this.$store.commit('setGuestUser', user);
+			this.$router.go(-1);
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .join-box {
-  width: 100%;
-  text-align: center;
-  margin-top: 40px;
+	width: 100%;
+	text-align: center;
+	margin-top: 40px;
 
-  .label {
-    margin-bottom: 20px;
-  }
+	.label {
+		margin-bottom: 20px;
+	}
 }
 .guest-user {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 </style>

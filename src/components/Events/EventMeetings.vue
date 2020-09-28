@@ -30,12 +30,10 @@
           class="icon-button"
         >
         <span class="created-by">
-          {{ meeting.createdBy ? `by ${meeting.createdBy.username}` : "" }}
+          {{ meeting.createdBy ? `by ${meeting.createdBy.username}` : '' }}
         </span>
       </div>
-      <div
-        v-if="canModify(meeting) && isEditable"
-      >
+      <div v-if="canModify(meeting) && isEditable">
         <img
           src="/images/settings.svg"
           alt="settings"
@@ -61,179 +59,201 @@
 </template>
 <script>
 import MeetingSettings from './MeetingSettings.vue';
-import meetingService from "@/services/meeting.service";
-import userPageService from "@/services/user-page.service";
-import eventBus from "@/utilities/eventBus";
-import { ToastType, messages, INTERVALS } from "@/constants/constants";
-import { uniqBy } from "lodash";
+import meetingService from '@/services/meeting.service';
+import userPageService from '@/services/user-page.service';
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages, INTERVALS } from '@/constants/constants';
+import { uniqBy } from 'lodash';
 
 export default {
-  name: "EventMeetings",
-  components: {MeetingSettings},
-  props: {
-    id: {
-      type: String,
-      required: true
-    },
-    type: {
-      type: String,
-      required: true,
-    },
-    isEditable: {
-      type: Boolean,
-      default: true
-    },
-    admins: {
-      type: Array,
-      default: () => {
-        return [];
-      }
-    }
-  },
-  data() {
-    return {
-      meetingTitle: "",
-      meetings: [],
-      showSettingsDialog: false,
-      interval: null,
-      meetingToEdit: null,
-    };
-  },
-  computed: {
-    signedInUser() {
-      return this.$store.state.signedInUser;
-    },
-    eventId() {
-      return this.type === 'EVENT' ? this.id : null;
-    },
-    userId() {
-      return this.type === 'USER' ? this.id : null;
-    }
-  },
-  mounted() {
-    this.getMeetings();
-    this.interval = setInterval(() => {
-      this.getOnlineUsersForMeetings();
-    }, INTERVALS.ThirtySeconds);
-  },
-  beforeDestroy() {
-    if (this.interval) {
-      clearInterval(this.interval);
-    }
-  },
-  methods: {
-    getMeetings() {
-      const promise = this.type === 'EVENT' ? meetingService.getMeetingsByEventId(this.id) 
-        : meetingService.getMeetingsByUserId(this.id);
+	name: 'EventMeetings',
+	components: { MeetingSettings },
+	props: {
+		id: {
+			type: String,
+			required: true,
+		},
+		type: {
+			type: String,
+			required: true,
+		},
+		isEditable: {
+			type: Boolean,
+			default: true,
+		},
+		admins: {
+			type: Array,
+			default: () => {
+				return [];
+			},
+		},
+	},
+	data() {
+		return {
+			meetingTitle: '',
+			meetings: [],
+			showSettingsDialog: false,
+			interval: null,
+			meetingToEdit: null,
+		};
+	},
+	computed: {
+		signedInUser() {
+			return this.$store.state.signedInUser;
+		},
+		eventId() {
+			return this.type === 'EVENT' ? this.id : null;
+		},
+		userId() {
+			return this.type === 'USER' ? this.id : null;
+		},
+	},
+	mounted() {
+		this.getMeetings();
+		this.interval = setInterval(() => {
+			this.getOnlineUsersForMeetings();
+		}, INTERVALS.ThirtySeconds);
+	},
+	beforeDestroy() {
+		if (this.interval) {
+			clearInterval(this.interval);
+		}
+	},
+	methods: {
+		getMeetings() {
+			const promise =
+				this.type === 'EVENT'
+					? meetingService.getMeetingsByEventId(this.id)
+					: meetingService.getMeetingsByUserId(this.id);
 
-      promise.then(meetings => {
-        let userCount = 0;
-        this.meetings = meetings.map(m => ({
-          ...m,
-          userCount,
-        }));
+			promise.then((meetings) => {
+				let userCount = 0;
+				this.meetings = meetings.map((m) => ({
+					...m,
+					userCount,
+				}));
 
-        this.getOnlineUsersForMeetings();
-      });
-    },
-    getOnlineUsersForMeetings() {
-      const promises = this.meetings.map(m => {
-        const url = encodeURI(
-          `https://www.frontend.social/join-meeting/${m.meetingId}?${this.constructQueryParams(m.title)}`
-        );
-        return userPageService.getOnlineUsersCount(url);
-      });
+				this.getOnlineUsersForMeetings();
+			});
+		},
+		getOnlineUsersForMeetings() {
+			const promises = this.meetings.map((m) => {
+				const url = encodeURI(
+					`https://www.frontend.social/join-meeting/${
+						m.meetingId
+					}?${this.constructQueryParams(m.title)}`
+				);
+				return userPageService.getOnlineUsersCount(url);
+			});
 
-      Promise.all(promises).then((results) => {
-        this.meetings = this.meetings.map((m, index) => {
-          return {...m, userCount: results[index] ? results[index].userCount : 0};
-        });
-      });
-    },
-    createMeetings() {
-      meetingService
-        .createMeeting({eventId: this.eventId, userId: this.userId, title: this.meetingTitle, isPrivate: false})
-        .then(res => {
-          this.joinMeeting(res.meetingId, this.meetingTitle);
-        })
-        .catch(e => {
-          eventBus.$emit("show-toast", {
-            body: e.message,
-            title: messages.generic.error,
-            type: ToastType.ERROR
-          });
-        });
-    },
-    validateAndJoinMeeting(meeting) {
-      let canJoinMeeting = false;
-      if (!meeting.isPrivate || this.canModify(meeting)) {
-        canJoinMeeting = true;
-      } else {
-        const allowedUsers = meeting.allowedUsers || [];
-        canJoinMeeting = allowedUsers.some(x => x.username = this.signedInUser.username);
-      }
+			Promise.all(promises).then((results) => {
+				this.meetings = this.meetings.map((m, index) => {
+					return {
+						...m,
+						userCount: results[index] ? results[index].userCount : 0,
+					};
+				});
+			});
+		},
+		createMeetings() {
+			meetingService
+				.createMeeting({
+					eventId: this.eventId,
+					userId: this.userId,
+					title: this.meetingTitle,
+					isPrivate: false,
+				})
+				.then((res) => {
+					this.joinMeeting(res.meetingId, this.meetingTitle);
+				})
+				.catch((e) => {
+					eventBus.$emit('show-toast', {
+						body: e.message,
+						title: messages.generic.error,
+						type: ToastType.ERROR,
+					});
+				});
+		},
+		validateAndJoinMeeting(meeting) {
+			let canJoinMeeting = false;
+			if (!meeting.isPrivate || this.canModify(meeting)) {
+				canJoinMeeting = true;
+			} else {
+				const allowedUsers = meeting.allowedUsers || [];
+				canJoinMeeting = allowedUsers.some(
+					(x) => (x.username = this.signedInUser.username)
+				);
+			}
 
-      if (canJoinMeeting) {
-        this.joinMeeting(meeting.meetingId, meeting.title);
-      }
-    },
-    joinMeeting(meetingId, title) {
-      // if (this.signedInUser == null) {
-      //   this.$router.push("/signin");
-      //   return;
-      // }
-      this.$router.push(
-        `/join-meeting/${meetingId}?${this.constructQueryParams(title)}`
-      );
-    },
-    onSettingsClick(meeting) {
-      this.meetingToEdit = meeting;
-      this.showSettingsDialog = true;
-      console.log(meeting);
-    },
-    onDeleteClick(meeting) {
-       meetingService
-        .deleteMeeting(meeting._id)
-        .then(() => {
-          this.getMeetings();
-        })
-    },
-    onUpdateMeeting(meeting) {
-       meetingService
-        .updateMeeting(this.meetingToEdit._id, {...meeting, eventId: this.eventId, userId: this.userId})
-        .then(() => {
-          this.meetingToEdit = null;
-          this.getMeetings();
-        })
-    }, 
-    onUpdateCancel() {
-      this.meetingToEdit = null;
-    },
-    canModify(meeting) {
-      if (!this.signedInUser) return false;
+			if (canJoinMeeting) {
+				this.joinMeeting(meeting.meetingId, meeting.title);
+			}
+		},
+		joinMeeting(meetingId, title) {
+			// if (this.signedInUser == null) {
+			//   this.$router.push("/signin");
+			//   return;
+			// }
+			this.$router.push(
+				`/join-meeting/${meetingId}?${this.constructQueryParams(title)}`
+			);
+		},
+		onSettingsClick(meeting) {
+			this.meetingToEdit = meeting;
+			this.showSettingsDialog = true;
+			console.log(meeting);
+		},
+		onDeleteClick(meeting) {
+			meetingService.deleteMeeting(meeting._id).then(() => {
+				this.getMeetings();
+			});
+		},
+		onUpdateMeeting(meeting) {
+			meetingService
+				.updateMeeting(this.meetingToEdit._id, {
+					...meeting,
+					eventId: this.eventId,
+					userId: this.userId,
+				})
+				.then(() => {
+					this.meetingToEdit = null;
+					this.getMeetings();
+				});
+		},
+		onUpdateCancel() {
+			this.meetingToEdit = null;
+		},
+		canModify(meeting) {
+			if (!this.signedInUser) return false;
 
-      const username = this.signedInUser.username.toLowerCase();
-      return (meeting.createdBy && meeting.createdBy.username.toLowerCase() === username) || (this.admins || []).some(x => x.username.toLowerCase() === username);
-    },
-    constructQueryParams(title) {
-      return `eventId=${this.eventId || ''}&userId=${this.userId || ''}&title=${title}`
-    }
-  }
+			const username = this.signedInUser.username.toLowerCase();
+			return (
+				(meeting.createdBy &&
+					meeting.createdBy.username.toLowerCase() === username) ||
+				(this.admins || []).some((x) => x.username.toLowerCase() === username)
+			);
+		},
+		constructQueryParams(title) {
+			return `eventId=${this.eventId || ''}&userId=${
+				this.userId || ''
+			}&title=${title}`;
+		},
+	},
 };
 </script>
 <style lang="scss" scoped>
 .created-by {
-  color: #8f8f8f;
-  font-size: 15px;
-  padding-left: 10px;
+	color: #8f8f8f;
+	font-size: 15px;
+	padding-left: 10px;
 }
 
 .user-count {
-  color: #8f8f8f;
+	color: #8f8f8f;
 }
 
 .meeting-row {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 </style>

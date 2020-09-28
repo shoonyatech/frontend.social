@@ -10,22 +10,22 @@
 
 <script>
 export default {
-  name: "CodeEditor",
-  props: {
-    url: {
-      type: String,
-      default: ""
-    }
-  }
+	name: 'CodeEditor',
+	props: {
+		url: {
+			type: String,
+			default: '',
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .code-iframe {
-  width: 100%;
-  height: 400px;
-  border: 0;
-  border-radius: 4px;
-  overflow: hidden;
+	width: 100%;
+	height: 400px;
+	border: 0;
+	border-radius: 4px;
+	overflow: hidden;
 }
 </style>

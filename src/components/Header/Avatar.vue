@@ -33,77 +33,77 @@
 </template>
 
 <script>
-import userService from "@/services/user.service";
-import store from "@/vuex/store";
+import userService from '@/services/user.service';
+import store from '@/vuex/store';
 
 export default {
-  components: {},
-  props: {
-    user: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  data() {
-    return { showMenu: false };
-  },
-  methods: {
-    toggleMenu() {
-      this.showMenu = !this.showMenu;
-    },
-    signout() {
-      userService.signout();
-      this.$store.commit("signInUser", null);
+	components: {},
+	props: {
+		user: {
+			type: Object,
+			default: () => {},
+		},
+	},
+	data() {
+		return { showMenu: false };
+	},
+	methods: {
+		toggleMenu() {
+			this.showMenu = !this.showMenu;
+		},
+		signout() {
+			userService.signout();
+			this.$store.commit('signInUser', null);
 
-      this.redirect("/");
-    },
-    redirect(path) {
-      this.$router.push(path);
-    }
-  }
+			this.redirect('/');
+		},
+		redirect(path) {
+			this.$router.push(path);
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .host {
-  position: relative;
+	position: relative;
 }
 
 .profile-photo {
-  height: 50px;
-  width: 50px;
-  background-color: #114273;
-  margin-right: 10px;
-  text-align: left;
-  padding: 2px;
-  border-radius: 999px;
-  cursor: pointer;
+	height: 50px;
+	width: 50px;
+	background-color: #114273;
+	margin-right: 10px;
+	text-align: left;
+	padding: 2px;
+	border-radius: 999px;
+	cursor: pointer;
 
-  &.placeholder {
-    background-color: white;
-    border-width: 2px;
-    padding: 3px;
-    border-style: solid;
-  }
+	&.placeholder {
+		background-color: white;
+		border-width: 2px;
+		padding: 3px;
+		border-style: solid;
+	}
 }
 
 .menu {
-  width: 150px;
-  padding: 2px 20px;
-  border: solid 1px #114273;
-  position: absolute;
-  right: 0px;
-  top: 55px;
-  background-color: #fff;
-  text-align: left;
+	width: 150px;
+	padding: 2px 20px;
+	border: solid 1px #114273;
+	position: absolute;
+	right: 0px;
+	top: 55px;
+	background-color: #fff;
+	text-align: left;
 }
 
 .menu :hover {
-  color: #2c3e50;
+	color: #2c3e50;
 }
 
 .signin {
-  margin: 10px 0;
-  padding: 0 5px;
+	margin: 10px 0;
+	padding: 0 5px;
 }
 </style>

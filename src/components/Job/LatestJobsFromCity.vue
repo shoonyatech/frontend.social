@@ -31,64 +31,64 @@
 </template>
 
 <script>
-import JobStrip from "@/components/Job/JobStrip";
-import jobService from "@/services/job.service";
+import JobStrip from '@/components/Job/JobStrip';
+import jobService from '@/services/job.service';
 
 export default {
-  name: "LatestJobsFromCity",
-  components: { JobStrip },
-  props: {
-    city: {
-      type: String,
-      default: null
-    },
-    country: {
-      type: String,
-      default: null
-    },
-    skill: {
-      type: String,
-      default: null
-    },
-    relatedSkill: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      jobs: []
-    };
-  },
-  created() {
-    const query = this.relatedSkill
-      ? `skills=${this.skill}`
-      : `city=${this.city}&country=${this.country}`;
-    jobService.getJobsOnSearchParamsChange(query).then(jobs => {
-      this.jobs = jobs;
-    });
-  }
+	name: 'LatestJobsFromCity',
+	components: { JobStrip },
+	props: {
+		city: {
+			type: String,
+			default: null,
+		},
+		country: {
+			type: String,
+			default: null,
+		},
+		skill: {
+			type: String,
+			default: null,
+		},
+		relatedSkill: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	data() {
+		return {
+			jobs: [],
+		};
+	},
+	created() {
+		const query = this.relatedSkill
+			? `skills=${this.skill}`
+			: `city=${this.city}&country=${this.country}`;
+		jobService.getJobsOnSearchParamsChange(query).then((jobs) => {
+			this.jobs = jobs;
+		});
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .host {
-  width: 100%;
-  margin-bottom: 2.5rem;
+	width: 100%;
+	margin-bottom: 2.5rem;
 }
 
 .jobs {
-  margin: 20px 10px;
-  text-align: left;
-  width: 100%;
+	margin: 20px 10px;
+	text-align: left;
+	width: 100%;
 }
 
 .job {
-  margin-bottom: 40px;
+	margin-bottom: 40px;
 }
 
 .courtesy {
-  font-size: 0.75rem;
-  text-align: right;
+	font-size: 0.75rem;
+	text-align: right;
 }
 </style>

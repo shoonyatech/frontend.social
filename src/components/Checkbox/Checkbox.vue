@@ -13,34 +13,34 @@
 
 <script>
 export default {
-  components: {},
-  props: {
-    label: {
-      type: String,
-      default: ""
-    },
-    onClick: {
-      type: Function,
-      default: () => {}
-    },
-    id: {
-      type: String,
-      required: true
-    },
-    isChecked: {
-      type: Boolean,
-      default: false
-    }
-  }
+	components: {},
+	props: {
+		label: {
+			type: String,
+			default: '',
+		},
+		onClick: {
+			type: Function,
+			default: () => {},
+		},
+		id: {
+			type: String,
+			required: true,
+		},
+		isChecked: {
+			type: Boolean,
+			default: false,
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .wrapper {
-  display: flex;
+	display: flex;
 
-  label {
-    padding-left: 5px;
-  }
+	label {
+		padding-left: 5px;
+	}
 }
 </style>

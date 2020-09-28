@@ -1,8 +1,8 @@
 <template>
   <!-- div for searching course -->
   <router-link
-    :to="'/learn/course/' + course.uniqueId "
-    :class="{disabled: course.isDisabled}"
+    :to="'/learn/course/' + course.uniqueId"
+    :class="{ disabled: course.isDisabled }"
   >
     <div class="thumbnail">
       <div class="details">
@@ -25,7 +25,7 @@
         </div>
         <div
           class="course-description"
-          :class="{'has-rating': course.rating}"
+          :class="{ 'has-rating': course.rating }"
         >
           {{ course.description }}
         </div>
@@ -41,84 +41,84 @@
 </template>
 
 <script>
-import Button from "@/components/Buttons/Button";
-import StarRating from "vue-star-rating";
+import Button from '@/components/Buttons/Button';
+import StarRating from 'vue-star-rating';
 
 export default {
-  components: {
-    Button,
-    StarRating
-  },
-  props: {
-    course: { type: Object, required: true }
-  },
+	components: {
+		Button,
+		StarRating,
+	},
+	props: {
+		course: { type: Object, required: true },
+	},
 
-  methods: {
-    onExploreClick() {
-      this.$router.push("/learn/course/" + course.uniqueId);
-    }
-  }
+	methods: {
+		onExploreClick() {
+			this.$router.push('/learn/course/' + course.uniqueId);
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 /* style for course thumbnail */
 .thumbnail {
-  border: solid #114273 2px;
-  height: 12rem;
-  width: 12rem;
-  min-width: 12rem;
-  color: #2c3e50;
-  text-decoration: none;
+	border: solid #114273 2px;
+	height: 12rem;
+	width: 12rem;
+	min-width: 12rem;
+	color: #2c3e50;
+	text-decoration: none;
 }
 
 .details {
-  padding: 0.5rem;
-  margin-top: -0.75rem;
-  text-align: left;
+	padding: 0.5rem;
+	margin-top: -0.75rem;
+	text-align: left;
 }
 
 .half-width {
-  width: 50%;
+	width: 50%;
 }
 
 .pr-2 {
-  padding-right: 10px;
+	padding-right: 10px;
 }
 
 .course-rating {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 .course-title {
-  font-weight: bold;
-  text-align: center;
-  padding-top: 0.8rem;
-  overflow: hidden;
-  white-space: nowrap;
+	font-weight: bold;
+	text-align: center;
+	padding-top: 0.8rem;
+	overflow: hidden;
+	white-space: nowrap;
 }
 .course-technology {
-  font-size: 0.6rem;
-  font-weight: bold;
-  text-align: center;
+	font-size: 0.6rem;
+	font-weight: bold;
+	text-align: center;
 }
 
 .course-description {
-  font-size: 0.6rem;
-  block-size: 6.5rem;
-  overflow: hidden;
-  &.has-rating {
-    block-size: 5rem;
-  }
+	font-size: 0.6rem;
+	block-size: 6.5rem;
+	overflow: hidden;
+	&.has-rating {
+		block-size: 5rem;
+	}
 }
 
 .button {
-  text-align: center;
-  position: inherit;
-  padding: 0.5rem;
+	text-align: center;
+	position: inherit;
+	padding: 0.5rem;
 }
 
 .disabled {
-  pointer-events: none;
+	pointer-events: none;
 }
 </style>

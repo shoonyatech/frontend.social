@@ -49,96 +49,96 @@
 </template>
 
 <script>
-import ArticleStrip from "@/components/Learn/ArticleStrip";
-import LearnFilter from "@/components/Learn/LearnFilter";
-import learnService from "@/services/learn.service";
+import ArticleStrip from '@/components/Learn/ArticleStrip';
+import LearnFilter from '@/components/Learn/LearnFilter';
+import learnService from '@/services/learn.service';
 
 export default {
-  name: "TalksAndArticles",
-  components: {
-    ArticleStrip,
-    LearnFilter,
-  },
-  props: {},
-  data() {
-    return {
-      articles: [],
-      showAddArticleDialog: false,
-      loading: false,
-      page: 1,
-    };
-  },
-  computed: {
-    signedInUser() {
-      return this.$store.state.signedInUser;
-    },
-    isDisableInfiniteScroll() {
-      return !this.busy;
-    },
-  },
-  created() {
-    if (!this.infiniteScroll) {
-      this.loadArticles();
-    }
-  },
-  methods: {
-    onSearchParamsChange(param = "") {
-      this.loading = true;
-      this.loadArticles(param, true);
-    },
-    showDialog() {
-      if (this.signedInUser == null) {
-        this.$router.push("/signin");
-      } else {
-        this.$router.push("/article/form/new");
-      }
-    },
-    loadArticles(param = "", filter = false) {
-      let query = "";
-      this.busy = false;
-      this.limit = this.limit || 10;
-      this.page = filter ? 1 : this.page || 1;
-      learnService
-        .getLatestArticles(param, this.limit, this.page)
-        .then((articles) => {
-          if (filter) {
-            this.articles = articles;
-          } else this.articles = this.articles.concat(articles);
+	name: 'TalksAndArticles',
+	components: {
+		ArticleStrip,
+		LearnFilter,
+	},
+	props: {},
+	data() {
+		return {
+			articles: [],
+			showAddArticleDialog: false,
+			loading: false,
+			page: 1,
+		};
+	},
+	computed: {
+		signedInUser() {
+			return this.$store.state.signedInUser;
+		},
+		isDisableInfiniteScroll() {
+			return !this.busy;
+		},
+	},
+	created() {
+		if (!this.infiniteScroll) {
+			this.loadArticles();
+		}
+	},
+	methods: {
+		onSearchParamsChange(param = '') {
+			this.loading = true;
+			this.loadArticles(param, true);
+		},
+		showDialog() {
+			if (this.signedInUser == null) {
+				this.$router.push('/signin');
+			} else {
+				this.$router.push('/article/form/new');
+			}
+		},
+		loadArticles(param = '', filter = false) {
+			let query = '';
+			this.busy = false;
+			this.limit = this.limit || 10;
+			this.page = filter ? 1 : this.page || 1;
+			learnService
+				.getLatestArticles(param, this.limit, this.page)
+				.then((articles) => {
+					if (filter) {
+						this.articles = articles;
+					} else this.articles = this.articles.concat(articles);
 
-          if (!this.infiniteScroll) {
-            this.articles = articles;
-          } else {
-            this.articles = this.articles.concat(articles);
-            if (articles.length > 0) {
-              ++this.page;
-            }
-          }
-          this.loading = false;
-          this.busy = true;
-        });
-    },
-  },
+					if (!this.infiniteScroll) {
+						this.articles = articles;
+					} else {
+						this.articles = this.articles.concat(articles);
+						if (articles.length > 0) {
+							++this.page;
+						}
+					}
+					this.loading = false;
+					this.busy = true;
+				});
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .host {
-  width: 100%;
-  margin-bottom: 2.5rem;
+	width: 100%;
+	margin-bottom: 2.5rem;
 }
 
 .articles {
-  margin: 20px 10px;
-  text-align: left;
-  width: 100%;
+	margin: 20px 10px;
+	text-align: left;
+	width: 100%;
 }
 
 .article {
-  margin-bottom: 40px;
+	margin-bottom: 40px;
 }
 
 .courtesy {
-  font-size: 0.75rem;
-  text-align: right;
+	font-size: 0.75rem;
+	text-align: right;
 }
 </style>

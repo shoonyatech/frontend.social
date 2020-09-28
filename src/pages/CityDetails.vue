@@ -63,85 +63,83 @@
 </template>
 
 <script>
-import LatestJobsFromCity from "@/components/Job/LatestJobsFromCity";
-import CityBasicInfo from "@/components/City/CityBasicInfo";
-import CityEvents from "@/components/City/CityEvents";
-import CityUsers from "@/components/City/CityUsers";
-import cityService from "@/services/city.service";
+import LatestJobsFromCity from '@/components/Job/LatestJobsFromCity';
+import CityBasicInfo from '@/components/City/CityBasicInfo';
+import CityEvents from '@/components/City/CityEvents';
+import CityUsers from '@/components/City/CityUsers';
+import cityService from '@/services/city.service';
 
 export default {
-  components: {
-    CityBasicInfo,
-    CityEvents,
-    CityUsers,
-    LatestJobsFromCity
-  },
-  data() {
-    return {
-      selectedCity: null,
-      developersFromCity: [],
-      designersFromCity: [],
-      upcomingEvents: [],
-      pastEvents: [],
-      loading: true,
-    };
-  },
-  created() {
-    const cityName = this.$route.params.cityName;
-    const countryCode = this.$route.params.countryCode;
-    this.loading = true;
-    cityService
-      .getCityDetails(cityName, countryCode)
-      .then(city => {
-        this.selectedCity = city
-        this.loading = false;
-      });
+	components: {
+		CityBasicInfo,
+		CityEvents,
+		CityUsers,
+		LatestJobsFromCity,
+	},
+	data() {
+		return {
+			selectedCity: null,
+			developersFromCity: [],
+			designersFromCity: [],
+			upcomingEvents: [],
+			pastEvents: [],
+			loading: true,
+		};
+	},
+	created() {
+		const cityName = this.$route.params.cityName;
+		const countryCode = this.$route.params.countryCode;
+		this.loading = true;
+		cityService.getCityDetails(cityName, countryCode).then((city) => {
+			this.selectedCity = city;
+			this.loading = false;
+		});
 
-    cityService.getUsersFromCity(cityName, countryCode).then(users => {
-      this.developersFromCity = users.filter(u => u.category === "dev");
-      this.designersFromCity = users.filter(u => u.category === "designer");
-    });
+		cityService.getUsersFromCity(cityName, countryCode).then((users) => {
+			this.developersFromCity = users.filter((u) => u.category === 'dev');
+			this.designersFromCity = users.filter((u) => u.category === 'designer');
+		});
 
-    cityService.getEventsInCity(cityName, countryCode).then(cityEvents => {
-      this.upcomingEvents = cityEvents.filter(
-        e => new Date(e.dateFrom) > new Date()
-      );
-      this.pastEvents = cityEvents.filter(
-        e => new Date(e.dateFrom) < new Date()
-      ).sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom));
-    });
-  },
-  methods: {}
+		cityService.getEventsInCity(cityName, countryCode).then((cityEvents) => {
+			this.upcomingEvents = cityEvents.filter(
+				(e) => new Date(e.dateFrom) > new Date()
+			);
+			this.pastEvents = cityEvents
+				.filter((e) => new Date(e.dateFrom) < new Date())
+				.sort((e1, e2) => new Date(e2.dateFrom) - new Date(e1.dateFrom));
+		});
+	},
+	methods: {},
 };
 </script>
 
 <style scoped lang="scss">
 /* style for city search page */
 .city-container {
-  text-align: left;
+	text-align: left;
 }
 
 .city-card {
-  margin: 0.5rem 0 1rem 0;
-  display: inline-block;
+	margin: 0.5rem 0 1rem 0;
+	display: inline-block;
 }
 
 .inputCityDiv {
-  border: 3px solid #114273;
-  display: inline-block;
-  margin: 0 auto;
-  width: 25%;
+	border: 3px solid #114273;
+	display: inline-block;
+	margin: 0 auto;
+	width: 25%;
 }
 ::-webkit-input-placeholder {
-  /* Chrome/Opera/Safari */
-  color: #114273;
+	/* Chrome/Opera/Safari */
+	color: #114273;
 }
 
 .city-basic-info {
-  text-align: center;
+	text-align: center;
 }
 
 .section {
-  margin-bottom: 50px;
+	margin-bottom: 50px;
 }
 </style>

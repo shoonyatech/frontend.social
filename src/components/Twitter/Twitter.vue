@@ -14,8 +14,7 @@
 </template>
 <script>
 export default {
-  name: 'Twitter',
-}
+	name: 'Twitter',
+};
 </script>
-<style scoped>
-</style>
+<style scoped></style>

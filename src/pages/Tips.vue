@@ -6,7 +6,7 @@
         <b-col md="9">
           <h1>
             <span>Tech Tip</span>
-            <button @click="onAddTips"> 
+            <button @click="onAddTips">
               + Add
             </button>
           </h1>
@@ -39,110 +39,110 @@
 </template>
 
 <script>
-import TipStrip from "@/components/tips/TipStrip";
-import TipsFilter from "@/components/tips/TipsFilter";
-import tipsService from "@/services/tips.service";
-import { orderBy } from "lodash";
-import { TipPageLimit } from "@/constants/constants";
+import TipStrip from '@/components/tips/TipStrip';
+import TipsFilter from '@/components/tips/TipsFilter';
+import tipsService from '@/services/tips.service';
+import { orderBy } from 'lodash';
+import { TipPageLimit } from '@/constants/constants';
 
 export default {
-  name: "Tips",
-  components: {
-    TipStrip,
-    TipsFilter,
-  },
-  data() {
-    return {
-      tips: [],
-      tags: [],
-      loading: false,
-      page: 1,
-      limit: TipPageLimit,
-      queryParam: '',
-    };
-  },
-  computed: {
-    signedInUser() {
-      return this.$store.state.signedInUser;
-    },
-    isDisableInfiniteScroll() {
-      return this.busy;
-    }
-  },
-  async mounted() {
-    this.loading = true;
-    
-    await this.getTags();
+	name: 'Tips',
+	components: {
+		TipStrip,
+		TipsFilter,
+	},
+	data() {
+		return {
+			tips: [],
+			tags: [],
+			loading: false,
+			page: 1,
+			limit: TipPageLimit,
+			queryParam: '',
+		};
+	},
+	computed: {
+		signedInUser() {
+			return this.$store.state.signedInUser;
+		},
+		isDisableInfiniteScroll() {
+			return this.busy;
+		},
+	},
+	async mounted() {
+		this.loading = true;
 
-    this.loading = false;
-  },
-  methods: {
-    getTips(param = "", filter) {
-      if (this.busy) return;
+		await this.getTags();
 
-      let query = "";
+		this.loading = false;
+	},
+	methods: {
+		getTips(param = '', filter) {
+			if (this.busy) return;
 
-      this.busy = true;
-      this.page = filter ? 1 : this.page || 1;
-      this.queryParam = filter ? param : this.queryParam;
+			let query = '';
 
-      return tipsService.getTips(this.queryParam, this.limit, this.page).then((resp) => {
+			this.busy = true;
+			this.page = filter ? 1 : this.page || 1;
+			this.queryParam = filter ? param : this.queryParam;
 
-          if (filter) {
-            this.tips = resp;
-          } else {
-            this.tips = this.tips.concat(resp);
-            if (resp.length > 0) {
-              ++this.page;
-            }
-          }
-          this.busy = false;
-      });
-    },
-    getTags() {
-      return tipsService.getTags().then((resp) => {
-        this.tags = resp.sort();
-      });
-    },
-    onAddTips() {
-      this.$router.push("/tip/form/new");
-    },
-    onDelete(id) {
-      this.loading = true;
-      tipsService.deleteTip(id).then((resp) => {
-        this.tips = this.tips.filter((tip) => tip._id !== id);
-        this.loading = false;
-      });
-    },
-    onSearchParamsChange(param = "") {
-      this.loading = true;
-      this.getTips(param, true).then(() => {
-        this.loading = false;
-      });
-      
-    },
-  },
+			return tipsService
+				.getTips(this.queryParam, this.limit, this.page)
+				.then((resp) => {
+					if (filter) {
+						this.tips = resp;
+					} else {
+						this.tips = this.tips.concat(resp);
+						if (resp.length > 0) {
+							++this.page;
+						}
+					}
+					this.busy = false;
+				});
+		},
+		getTags() {
+			return tipsService.getTags().then((resp) => {
+				this.tags = resp.sort();
+			});
+		},
+		onAddTips() {
+			this.$router.push('/tip/form/new');
+		},
+		onDelete(id) {
+			this.loading = true;
+			tipsService.deleteTip(id).then((resp) => {
+				this.tips = this.tips.filter((tip) => tip._id !== id);
+				this.loading = false;
+			});
+		},
+		onSearchParamsChange(param = '') {
+			this.loading = true;
+			this.getTips(param, true).then(() => {
+				this.loading = false;
+			});
+		},
+	},
 };
 </script>
 
 <style lang="scss" scoped>
 .tips-container {
-  margin: 20px 10px;
-  width: 100%;
+	margin: 20px 10px;
+	width: 100%;
 }
 .tips {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .filters-wrapper {
-  height: 100%;
-  border-left: 1px solid #114273;
-  flex-direction: column;
-  display: flex;
-  text-align: start;
-  padding: 10px;
-  cursor: pointer;
+	height: 100%;
+	border-left: 1px solid #114273;
+	flex-direction: column;
+	display: flex;
+	text-align: start;
+	padding: 10px;
+	cursor: pointer;
 }
 </style>

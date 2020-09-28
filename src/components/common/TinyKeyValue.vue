@@ -7,27 +7,27 @@
 
 <script>
 export default {
-  components: {},
-  props: {
-    label: {
-      type: String,
-      default: ""
-    },
-    value: {
-      type: [String, Number],
-      default: ""
-    }
-  }
+	components: {},
+	props: {
+		label: {
+			type: String,
+			default: '',
+		},
+		value: {
+			type: [String, Number],
+			default: '',
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .host {
-  display: inline-block;
-  width: 100%;
+	display: inline-block;
+	width: 100%;
 }
 
 .value {
-  float: right;
+	float: right;
 }
 </style>

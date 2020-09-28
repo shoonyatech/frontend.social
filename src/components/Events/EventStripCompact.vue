@@ -21,12 +21,10 @@
     <b-row>
       <b-col md="8">
         <div class="event-date">
-          <span>{{
-            event.dateFrom | moment("DD MMM YYYY")
-          }}</span>
+          <span>{{ event.dateFrom | moment('DD MMM YYYY') }}</span>
           <span v-if="event.dateTo"> - </span>
           <span v-if="event.dateTo">{{
-            event.dateTo | moment("DD MMM YYYY")
+            event.dateTo | moment('DD MMM YYYY')
           }}</span>
           in
           <a
@@ -96,104 +94,104 @@
 </template>
 
 <script>
-import IconLink from "@/components/common/IconLink";
-import SkillTags from "@/components/Skills/SkillTags";
-import { getEventTypeName } from "@/utilities/utils";
+import IconLink from '@/components/common/IconLink';
+import SkillTags from '@/components/Skills/SkillTags';
+import { getEventTypeName } from '@/utilities/utils';
 
 export default {
-  name: "EventStripCompact",
-  components: {
-    IconLink,
-    SkillTags,
-  },
-  props: {
-    event: {
-      type: Object,
-      default: () => {}
-    },
-    isReadOnly: {
-      type: Boolean,
-      default: true
-    },
-  },
-  data() {
-    return {
-      showMore: false,
-    };
-  },
-  methods: {
-    getEventTypeName: getEventTypeName,
-  },
+	name: 'EventStripCompact',
+	components: {
+		IconLink,
+		SkillTags,
+	},
+	props: {
+		event: {
+			type: Object,
+			default: () => {},
+		},
+		isReadOnly: {
+			type: Boolean,
+			default: true,
+		},
+	},
+	data() {
+		return {
+			showMore: false,
+		};
+	},
+	methods: {
+		getEventTypeName: getEventTypeName,
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .event-strip {
-  flex: 0 1 auto;
-  font-size: 0.9rem;
-  margin: 10px;
-  width: 95%;
-  position: relative;
-  border-bottom: dotted 1px #114273;
-  padding-bottom: 10px;
-  margin-right: 20px;
+	flex: 0 1 auto;
+	font-size: 0.9rem;
+	margin: 10px;
+	width: 95%;
+	position: relative;
+	border-bottom: dotted 1px #114273;
+	padding-bottom: 10px;
+	margin-right: 20px;
 }
 
 .event-line {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 }
 
 .event-type {
-  font-size: 0.65rem;
-  float: right;
+	font-size: 0.65rem;
+	float: right;
 }
 
 .event-description {
-  font-size: 0.8rem;
-  overflow: hidden;
+	font-size: 0.8rem;
+	overflow: hidden;
 }
 
 .event-skills {
-  font-size: 0.65rem;
-  color: #2c3e50;
+	font-size: 0.65rem;
+	color: #2c3e50;
 }
 
 .event-date {
-  font-size: 0.65rem;
-  color: var(--fs-primary-color);;
+	font-size: 0.65rem;
+	color: var(--fs-primary-color);
 }
 
 .icon-links {
-  display: flex;
-  flex-direction: row-reverse;
+	display: flex;
+	flex-direction: row-reverse;
 }
 
 .lessHeight {
-  height: 50px;
-  -webkit-mask-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgba(0, 0, 0, 1)),
-    to(rgba(0, 0, 0, 0))
-  );
+	height: 50px;
+	-webkit-mask-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		from(rgba(0, 0, 0, 1)),
+		to(rgba(0, 0, 0, 0))
+	);
 }
 
 .fullHeight {
-  height: auto;
+	height: auto;
 }
 
 .arrow-container {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
 }
 
 .arrow {
-  width: 15px;
-  display: flex;
-  cursor: pointer;
-  color: #114273;
+	width: 15px;
+	display: flex;
+	cursor: pointer;
+	color: #114273;
 }
 </style>

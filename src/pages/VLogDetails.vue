@@ -27,7 +27,7 @@
             <span>{{ vlog.title }}</span>
           </b-col>
         </b-row>
-        
+
         <b-row>
           <b-col
             md="12"
@@ -46,7 +46,10 @@
               v-for="(segemnt, index) in vlog.segments"
               :key="index"
             >
-              <a @click="onSegmentClick(segemnt.time)">[{{ formattedTime(segemnt.time) }}]</a> {{ segemnt.description }}
+              <a
+                @click="onSegmentClick(segemnt.time)"
+              >[{{ formattedTime(segemnt.time) }}]</a>
+              {{ segemnt.description }}
             </p>
           </b-col>
         </b-row>
@@ -65,7 +68,7 @@
           class="mt-1"
         />
         <Comment
-          v-for="(comment,index) in comments"
+          v-for="(comment, index) in comments"
           :key="comment._id"
           :index="index"
           :comment-id="comment._id"
@@ -87,144 +90,144 @@
   </h1>
 </template>
 <script>
-import Comment from "@/components/Comment/Comment";
-import AddComment from "@/components/Comment/AddComment";
-import commentService from "@/services/comment.service";
+import Comment from '@/components/Comment/Comment';
+import AddComment from '@/components/Comment/AddComment';
+import commentService from '@/services/comment.service';
 
-import vLogService from "@/services/vlog.service";
-import eventBus from "@/utilities/eventBus";
-import { ToastType, messages, VLogType } from "@/constants/constants";
+import vLogService from '@/services/vlog.service';
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages, VLogType } from '@/constants/constants';
 
 export default {
-  name: "VLogDetails",
-  components: {
-    Comment,
-    AddComment,
-  },
-  data() {
-    return {
-      failedToFindVLog: false,
-      vLogId: null,
-      vlog: {},
-      loading: true,
-      showRating: true,
-      allowReply: true,
-      commentId: "",
-      comments: []
-    };
-  },
-  computed: {
-    signedInUser() {
-      return this.$store.state.signedInUser;
-    },
-    type() {
-      return this.$route.name === 'catchupDetails' ? VLogType.CATCHUP : VLogType.FREELANCING;
-    }
-  },
-  computed: {
-    youtubeVideoId() {
-      return this.vlog.link
-        ? this.parseYoutubeVideoId(this.vlog.link)
-        : null;
-    },
-  },
-  async created() {
-    this.loading = true;
-    this.vLogId = this.$route.params.id;
-    if (!this.vLogId) {
-      this.failedToFindVLog = true;
-      return;
-    }
-  },
-  mounted() {
-    this.getVLog();
-  },
-  methods: {
-    formattedTime(time) {
-      const date = new Date(0);
-      date.setSeconds(time);
-      return date.toISOString().substr(11, 8);
-    },
-    getVLog() {
-      return vLogService
-      .getVLogByUniqueId(this.vLogId)
-      .then(vlog => {
-        this.vlog = vlog;
-        this.getComments();
-        this.loading = false;
-      })
-      .catch(() => {
-        this.failedToFindVLog = true;
-        this.loading = false;
-      });
-    },
-    parseYoutubeVideoId(link) {
-      try {
-        const url = new URL(link);
-        const urlParams = new URLSearchParams(url.search);
-        return urlParams.get("v") || null;
-      } catch (e) {
-        return null;
-      }
-    },
-    getComments() {
-      commentService
-        .getComment(this.vlog._id)
-        .then(response => {
-          this.comments = response;
-        })
-        .catch(() => {
-          eventBus.$emit("show-toast", {
-            body: e.message,
-            title: messages.generic.error,
-            type: ToastType.ERROR
-          });
-        });
-    },
-    saveComment(response, index) {
-      if (this.commentId != "") {
-        this.comments.splice(index, 1, response);
-        this.commentId = "";
-      } else {
-        this.comments.push(response);
-      }
+	name: 'VLogDetails',
+	components: {
+		Comment,
+		AddComment,
+	},
+	data() {
+		return {
+			failedToFindVLog: false,
+			vLogId: null,
+			vlog: {},
+			loading: true,
+			showRating: true,
+			allowReply: true,
+			commentId: '',
+			comments: [],
+		};
+	},
+	computed: {
+		signedInUser() {
+			return this.$store.state.signedInUser;
+		},
+		type() {
+			return this.$route.name === 'catchupDetails'
+				? VLogType.CATCHUP
+				: VLogType.FREELANCING;
+		},
+	},
+	computed: {
+		youtubeVideoId() {
+			return this.vlog.link ? this.parseYoutubeVideoId(this.vlog.link) : null;
+		},
+	},
+	async created() {
+		this.loading = true;
+		this.vLogId = this.$route.params.id;
+		if (!this.vLogId) {
+			this.failedToFindVLog = true;
+			return;
+		}
+	},
+	mounted() {
+		this.getVLog();
+	},
+	methods: {
+		formattedTime(time) {
+			const date = new Date(0);
+			date.setSeconds(time);
+			return date.toISOString().substr(11, 8);
+		},
+		getVLog() {
+			return vLogService
+				.getVLogByUniqueId(this.vLogId)
+				.then((vlog) => {
+					this.vlog = vlog;
+					this.getComments();
+					this.loading = false;
+				})
+				.catch(() => {
+					this.failedToFindVLog = true;
+					this.loading = false;
+				});
+		},
+		parseYoutubeVideoId(link) {
+			try {
+				const url = new URL(link);
+				const urlParams = new URLSearchParams(url.search);
+				return urlParams.get('v') || null;
+			} catch (e) {
+				return null;
+			}
+		},
+		getComments() {
+			commentService
+				.getComment(this.vlog._id)
+				.then((response) => {
+					this.comments = response;
+				})
+				.catch(() => {
+					eventBus.$emit('show-toast', {
+						body: e.message,
+						title: messages.generic.error,
+						type: ToastType.ERROR,
+					});
+				});
+		},
+		saveComment(response, index) {
+			if (this.commentId != '') {
+				this.comments.splice(index, 1, response);
+				this.commentId = '';
+			} else {
+				this.comments.push(response);
+			}
 
-      eventBus.$emit("show-toast", {
-        body: messages.comment.commentAddSuccess,
-        title: messages.generic.success
-      });
-    },
-    deleteComment(index) {
-      console.log(index);
-      this.comments.splice(index, 1);
-    },
-    editComment(commentId) {
-      this.commentId = commentId;
-    },
-    cancelComment() {},
-    onSegmentClick(time) {
-      if (this.$refs.youtube) {
-        this.$refs.youtube.player.seekTo(time);
-      }
-    }
-  }
+			eventBus.$emit('show-toast', {
+				body: messages.comment.commentAddSuccess,
+				title: messages.generic.success,
+			});
+		},
+		deleteComment(index) {
+			console.log(index);
+			this.comments.splice(index, 1);
+		},
+		editComment(commentId) {
+			this.commentId = commentId;
+		},
+		cancelComment() {},
+		onSegmentClick(time) {
+			if (this.$refs.youtube) {
+				this.$refs.youtube.player.seekTo(time);
+			}
+		},
+	},
 };
 </script>
 <style lang="scss" scoped>
 .vlog-title {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .youtube-container {
-  padding: 10px 0;
+	padding: 10px 0;
 }
 
 .description {
-  font-size: 0.75rem;
+	font-size: 0.75rem;
 }
 
 .vlog-comment {
-  margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 </style>

@@ -5,9 +5,9 @@
 import AddArticle from '../components/Learn/AddArticle.vue';
 
 export default {
-  name: "ArticleForm",
-  components: {
-    AddArticle
-  }
-}
+	name: 'ArticleForm',
+	components: {
+		AddArticle,
+	},
+};
 </script>

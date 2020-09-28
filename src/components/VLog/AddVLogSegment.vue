@@ -45,60 +45,74 @@
 </template>
 
 <script>
-
 export default {
-  name: "AddVLogSegments",
-  components: {
-
-  },
-  props: {
-    segments: {
-      type: Array,
-      default: () => []
-    }
-  },
-  data() {
-    return {
-    };
-  },
-  computed: {
-    segmentsModel() {
-      return this.segments.length ? this.segments : [{time: null, description: ''}];
-    }
-  },
-  methods: {
-    onTimeChange(index, event) {
-      this.$emit('update:segments', this.segmentsModel.map((val, i) => index === i ? {...val, time: event.target.value} : val));
-    },
-    onDescriptionChange(index, value) {
-      this.$emit('update:segments', this.segmentsModel.map((val, i) => index === i ? {...val, description: event.target.value} : val));
-    },
-    addSegment() {
-      this.$emit('update:segments', [...this.segmentsModel, {time: null, description: ''}]);
-    },
-    deleteSegment(index) {
-      this.$emit('update:segments', this.segmentsModel.filter((_, i) => i !== index));
-    }
-  }
+	name: 'AddVLogSegments',
+	components: {},
+	props: {
+		segments: {
+			type: Array,
+			default: () => [],
+		},
+	},
+	data() {
+		return {};
+	},
+	computed: {
+		segmentsModel() {
+			return this.segments.length
+				? this.segments
+				: [{ time: null, description: '' }];
+		},
+	},
+	methods: {
+		onTimeChange(index, event) {
+			this.$emit(
+				'update:segments',
+				this.segmentsModel.map((val, i) =>
+					index === i ? { ...val, time: event.target.value } : val
+				)
+			);
+		},
+		onDescriptionChange(index, value) {
+			this.$emit(
+				'update:segments',
+				this.segmentsModel.map((val, i) =>
+					index === i ? { ...val, description: event.target.value } : val
+				)
+			);
+		},
+		addSegment() {
+			this.$emit('update:segments', [
+				...this.segmentsModel,
+				{ time: null, description: '' },
+			]);
+		},
+		deleteSegment(index) {
+			this.$emit(
+				'update:segments',
+				this.segmentsModel.filter((_, i) => i !== index)
+			);
+		},
+	},
 };
 </script>
 
 <style lang="scss">
 input {
-  width: 100%;
+	width: 100%;
 }
 .button-container {
-  display: inline-block;
+	display: inline-block;
 }
 
-.add, .delete {
-  margin: 2px 0 0 10px;
-  height: 1.5rem;
+.add,
+.delete {
+	margin: 2px 0 0 10px;
+	height: 1.5rem;
 }
 
 .buttons-wrapper {
-  display: flex;
-  justify-content: flex-end;;
+	display: flex;
+	justify-content: flex-end;
 }
-
 </style>

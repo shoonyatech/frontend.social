@@ -31,9 +31,7 @@
                 is the grant of a license, not a transfer of title, and under
                 this license you may not:
                 <ol type="i">
-                  <li>
-                    modify or copy the materials;
-                  </li>
+                  <li>modify or copy the materials;</li>
                   <li>
                     use the materials for any commercial purpose, or for any
                     public display (commercial or non-commercial);
@@ -211,26 +209,26 @@
 
 <script>
 export default {
-  name: "TermsOfUse",
-  data() {
-    return {
-      loading: true,
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.loading = false
-    }, 1000);
-  },
+	name: 'TermsOfUse',
+	data() {
+		return {
+			loading: true,
+		};
+	},
+	mounted() {
+		setTimeout(() => {
+			this.loading = false;
+		}, 1000);
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .terms {
-  margin-bottom: 2rem;
+	margin-bottom: 2rem;
 }
 
 .term {
-  margin-top: 2rem;
+	margin-top: 2rem;
 }
 </style>

@@ -51,117 +51,117 @@
 </template>
 
 <script>
-import Arrow from "../Arrow/Arrow";
-import { VLogType } from "@/constants/constants";
+import Arrow from '../Arrow/Arrow';
+import { VLogType } from '@/constants/constants';
 
 export default {
-  name: "VLogStrip",
-  components: {
-    Arrow,
-  },
-  props: {
-    vlog: {
-      type: Object,
-      required: true,
-    },
-    type: {
-      type: String,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      isExpanded: false,
-      isOverflow: false,
-      showArrow: false,
-    };
-  },
-  computed: {
-    canModify() {
-      return this.$store.getters.isAdmin;
-    },
-  },
-  mounted() {
-    var element = this.$refs.description;
-    if (element) {
-      this.isOverflow =
-        element.offsetHeight < element.scrollHeight ||
-        element.offsetWidth < element.scrollWidth;
-      this.showArrow = this.isOverflow;
-    }
-  },
-  methods: {
-    toggleArrow() {
-      this.isExpanded = !this.isExpanded;
-      this.isOverflow = !this.isOverflow;
-    },
-    onClick() {
-      if (this.type === VLogType.CATCHUP) {
-        this.$router.push(`/catchup/${this.vlog.uniqueId}`);
-      } else {
-        this.$router.push(`/freelancing/${this.vlog.uniqueId}`);
-      }
-    },
-    deleteVLog() {
-      this.$emit("delete", this.vlog._id);
-    },
-    editVLog() {
-      this.$router.push(`/vlog/form/${this.vlog._id}`);
-    },
-  },
+	name: 'VLogStrip',
+	components: {
+		Arrow,
+	},
+	props: {
+		vlog: {
+			type: Object,
+			required: true,
+		},
+		type: {
+			type: String,
+			required: true,
+		},
+	},
+	data() {
+		return {
+			isExpanded: false,
+			isOverflow: false,
+			showArrow: false,
+		};
+	},
+	computed: {
+		canModify() {
+			return this.$store.getters.isAdmin;
+		},
+	},
+	mounted() {
+		var element = this.$refs.description;
+		if (element) {
+			this.isOverflow =
+				element.offsetHeight < element.scrollHeight ||
+				element.offsetWidth < element.scrollWidth;
+			this.showArrow = this.isOverflow;
+		}
+	},
+	methods: {
+		toggleArrow() {
+			this.isExpanded = !this.isExpanded;
+			this.isOverflow = !this.isOverflow;
+		},
+		onClick() {
+			if (this.type === VLogType.CATCHUP) {
+				this.$router.push(`/catchup/${this.vlog.uniqueId}`);
+			} else {
+				this.$router.push(`/freelancing/${this.vlog.uniqueId}`);
+			}
+		},
+		deleteVLog() {
+			this.$emit('delete', this.vlog._id);
+		},
+		editVLog() {
+			this.$router.push(`/vlog/form/${this.vlog._id}`);
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
 .vlog {
-  flex: 0 1 auto;
-  font-size: 0.9rem;
-  margin: 10px;
-  width: 95%;
-  position: relative;
-  border-bottom: dotted 1px #114273;
-  padding-bottom: 10px;
-  margin-right: 20px;
+	flex: 0 1 auto;
+	font-size: 0.9rem;
+	margin: 10px;
+	width: 95%;
+	position: relative;
+	border-bottom: dotted 1px #114273;
+	padding-bottom: 10px;
+	margin-right: 20px;
 }
 
 .vlog-description {
-  font-size: 0.8rem;
-  text-align: start;
-  max-height: 100px;
-  overflow: hidden;
+	font-size: 0.8rem;
+	text-align: start;
+	max-height: 100px;
+	overflow: hidden;
 }
 
 .collapsed {
-  -webkit-mask-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    from(rgba(0, 0, 0, 1)),
-    to(rgba(0, 0, 0, 0))
-  );
+	-webkit-mask-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		from(rgba(0, 0, 0, 1)),
+		to(rgba(0, 0, 0, 0))
+	);
 }
 
 .expanded {
-  max-height: unset;
+	max-height: unset;
 }
 
 .arrow-container {
-  display: flex;
-  justify-content: center;
-  align-content: center;
+	display: flex;
+	justify-content: center;
+	align-content: center;
 }
 .company {
-  font-weight: bold;
+	font-weight: bold;
 }
 .vlog-title {
-  display: flex;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 .capsule {
-  font-size: 0.65rem;
+	font-size: 0.65rem;
 }
 .info-section {
-  display: flex;
-  align-items: center;
+	display: flex;
+	align-items: center;
 }
 </style>

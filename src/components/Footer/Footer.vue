@@ -92,66 +92,66 @@
 </template>
 
 <script>
-import CookieLaw from "@/components/Footer/CookieLaw";
+import CookieLaw from '@/components/Footer/CookieLaw';
 
 export default {
-  components: { CookieLaw },
-  props: { copyrightText: { type: String, required: true } },
+	components: { CookieLaw },
+	props: { copyrightText: { type: String, required: true } },
 };
 </script>
 
 <style scoped lang="scss">
 footer {
-  .content {
-    padding: 0.5rem 1rem;
-  }
+	.content {
+		padding: 0.5rem 1rem;
+	}
 
-  .static-links {
-    font-size: 0.75rem;
-    margin-right: 0.5rem;
-    display: block;
-  }
+	.static-links {
+		font-size: 0.75rem;
+		margin-right: 0.5rem;
+		display: block;
+	}
 
-  .messages {
-    font-size: 0.75rem;
-  }
+	.messages {
+		font-size: 0.75rem;
+	}
 
-  .footer-content {
-    text-align: left;
-    color: #2c3e50;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-  }
-  border-top: 2px solid #114273;
+	.footer-content {
+		text-align: left;
+		color: #2c3e50;
+		padding: 10px;
+		display: flex;
+		justify-content: space-between;
+	}
+	border-top: 2px solid #114273;
 
-  .copyright-text {
-    background-color: #114273;
-    color: #fff;
-    font-size: 13px;
-    padding: 11px;
-    text-align: center;
-  }
+	.copyright-text {
+		background-color: #114273;
+		color: #fff;
+		font-size: 13px;
+		padding: 11px;
+		text-align: center;
+	}
 
-  .social-links {
-    margin: 1rem;
-    display: flex;
-    flex-direction: row;
-    .social-link {
-      flex: 0 1 auto;
-      height: 50px;
-      width: 50px;
-      display: flex;
-      background-color: #114273;
-      margin-right: 10px;
-      border-radius: 50%;
-      padding: 8px;
-      cursor: pointer;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
+	.social-links {
+		margin: 1rem;
+		display: flex;
+		flex-direction: row;
+		.social-link {
+			flex: 0 1 auto;
+			height: 50px;
+			width: 50px;
+			display: flex;
+			background-color: #114273;
+			margin-right: 10px;
+			border-radius: 50%;
+			padding: 8px;
+			cursor: pointer;
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+	}
 }
 </style>
