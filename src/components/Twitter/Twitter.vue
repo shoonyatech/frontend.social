@@ -4,7 +4,7 @@
       v-for="(link, index) in social"
       :key="index"
     >
-      <section v-if="index === 1">
+      <section v-if="link.label === 'Twitter'">
         <Timeline
           v-if="link.value != ''"
           :id="link.value"
