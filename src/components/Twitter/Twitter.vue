@@ -1,21 +1,14 @@
 <template>
-  <div class="tip">
-    <span
-      v-for="(link, index) in social"
-      :key="index"
-    >
-      <section v-if="link.label === 'Twitter'">
-        <Timeline
-          v-if="link.value != ''"
-          :id="link.value"
-          :options="{ tweetLimit: '10', width: '600', height: '500' }"
-          source-type="profile"
-        ><div class="spinner">loading...</div>
-        </Timeline>
-        <p v-if="link.value === ''">Username Not Available !!</p>
-      </section>
-    </span>
-  </div>
+	<div class="tip">
+		<p v-if="username == null || username === ''">Username Unavailable !!</p>
+		<section v-else>
+			<Timeline
+				:id="username"
+				:options="{ tweetLimit: '10', width: '600', height: '500' }"
+				source-type="profile"
+			/>
+		</section>
+	</div>
 </template>
 <script>
 import { Timeline } from 'vue-tweet-embed';
@@ -25,8 +18,8 @@ export default {
 		Timeline,
 	},
 	props: {
-		social: {
-			type: Array,
+		username: {
+			type: String,
 			default: () => {},
 		},
 	},
