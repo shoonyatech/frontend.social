@@ -1,347 +1,268 @@
 <template>
-  <b-container class="event-form">
-    <Loader v-if="loading" />
-    <div v-else>
-      <b-row>
-        <h1>Frontend Conference and Meetups</h1>
-      </b-row>
-      <b-row
-        v-if="event._id"
-        class="row"
-      >
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <span class="label">Event Link</span>
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <span class="label eventLink">{{ eventLink }}</span>
-        </b-col>
-      </b-row>
-      <KeyValue
-        label="Event Title"
-        :is-editable="true"
-        :value="event.title"
-        @change="onTitleChange"
-      />
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <span class="label">Description</span>
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <ckeditor
-            v-model="event.description"
-            :editor="editor"
-            :config="editorConfig"
-          />
-        </b-col>
-      </b-row>
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <span class="label">Event Type</span>
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <span class="radio">
-            <input
-              v-model="event.type"
-              class="radio-input"
-              type="radio"
-              value="c"
-            >
-            <span class="radio-label">Conference</span>
-          </span>
-          <span class="radio">
-            <input
-              v-model="event.type"
-              class="radio-input"
-              type="radio"
-              value="m"
-            >
-            <span class="radio-label">Meetup</span>
-          </span>
-          <span class="radio">
-            <input
-              v-model="event.type"
-              class="radio-input"
-              type="radio"
-              value="w"
-            >
-            <span class="radio-label">Workshop</span>
-          </span>
-          <span class="radio">
-            <input
-              v-model="event.type"
-              class="radio-input"
-              type="radio"
-              value="i"
-            >
-            <span class="radio-label">Interview</span>
-          </span>
-        </b-col>
-      </b-row>
+	<b-container class="event-form">
+		<Loader v-if="loading" />
+		<div v-else>
+			<b-row>
+				<h1>Frontend Conference and Meetups</h1>
+			</b-row>
+			<b-row v-if="event._id" class="row">
+				<b-col md="3" sm="12">
+					<span class="label">Event Link</span>
+				</b-col>
+				<b-col md="9" sm="12">
+					<span class="label eventLink">{{ eventLink }}</span>
+				</b-col>
+			</b-row>
+			<KeyValue
+				label="Event Title"
+				:is-editable="true"
+				:value="event.title"
+				@change="onTitleChange"
+			/>
+			<b-row class="row">
+				<b-col md="3" sm="12">
+					<span class="label">Description</span>
+				</b-col>
+				<b-col md="9" sm="12">
+					<ckeditor
+						v-model="event.description"
+						:editor="editor"
+						:config="editorConfig"
+					/>
+				</b-col>
+			</b-row>
+			<b-row class="row">
+				<b-col md="3" sm="12">
+					<span class="label">Event Type</span>
+				</b-col>
+				<b-col md="9" sm="12">
+					<span class="radio">
+						<input
+							v-model="event.type"
+							class="radio-input"
+							type="radio"
+							value="c"
+						/>
+						<span class="radio-label">Conference</span>
+					</span>
+					<span class="radio">
+						<input
+							v-model="event.type"
+							class="radio-input"
+							type="radio"
+							value="m"
+						/>
+						<span class="radio-label">Meetup</span>
+					</span>
+					<span class="radio">
+						<input
+							v-model="event.type"
+							class="radio-input"
+							type="radio"
+							value="w"
+						/>
+						<span class="radio-label">Workshop</span>
+					</span>
+					<span class="radio">
+						<input
+							v-model="event.type"
+							class="radio-input"
+							type="radio"
+							value="i"
+						/>
+						<span class="radio-label">Interview</span>
+					</span>
+				</b-col>
+			</b-row>
 
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <span class="label">Date</span>
-        </b-col>
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <span class="date">Start</span>
-        </b-col>
-        <b-col
-          md="6"
-          sm="12"
-        >
-          <input
-            type="date"
-            class="editable-value"
-            :value="event.dateFrom"
-            @change="onStartDateChange"
-          >
-        </b-col>
-      </b-row>
+			<b-row class="row">
+				<b-col md="3" sm="12">
+					<span class="label">Date</span>
+				</b-col>
+				<b-col md="3" sm="12">
+					<span class="date">Start</span>
+				</b-col>
+				<b-col md="6" sm="12">
+					<input
+						type="date"
+						class="editable-value"
+						:value="event.dateFrom"
+						@change="onStartDateChange"
+					/>
+				</b-col>
+			</b-row>
 
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <span />
-        </b-col>
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <span class="date">End (optional)</span>
-        </b-col>
-        <b-col
-          md="6"
-          sm="12"
-        >
-          <input
-            type="date"
-            class="editable-value"
-            :value="event.dateTo"
-            @change="onEndDateChange"
-          >
-        </b-col>
-      </b-row>
+			<b-row class="row">
+				<b-col md="3" sm="12">
+					<span />
+				</b-col>
+				<b-col md="3" sm="12">
+					<span class="date">End (optional)</span>
+				</b-col>
+				<b-col md="6" sm="12">
+					<input
+						type="date"
+						class="editable-value"
+						:value="event.dateTo"
+						@change="onEndDateChange"
+					/>
+				</b-col>
+			</b-row>
 
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <label
-            title="This event will not be listed in public page. Only those who have the event link can access it."
-          >Private Event (?)</label>
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <Checkbox
-            id="private"
-            label="Yes"
-            :is-checked="event.isPrivate"
-            :on-click="toggleIsPrivate"
-          />
-        </b-col>
-      </b-row>
+			<b-row class="row">
+				<b-col md="3" sm="12">
+					<label
+						title="This event will not be listed in public page. Only those who have the event link can access it."
+						>Private Event (?)</label
+					>
+				</b-col>
+				<b-col md="9" sm="12">
+					<Checkbox
+						id="private"
+						label="Yes"
+						:is-checked="event.isPrivate"
+						:on-click="toggleIsPrivate"
+					/>
+				</b-col>
+			</b-row>
 
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          Requires Registration
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <Checkbox
-            id="requiresRegistration"
-            label="Yes"
-            :is-checked="event.isRequiresRegistration"
-            :on-click="toggleIsRequiresRegistration"
-          />
-        </b-col>
-      </b-row>
+			<b-row class="row">
+				<b-col md="3" sm="12"> Requires Registration </b-col>
+				<b-col md="9" sm="12">
+					<Checkbox
+						id="requiresRegistration"
+						label="Yes"
+						:is-checked="event.isRequiresRegistration"
+						:on-click="toggleIsRequiresRegistration"
+					/>
+				</b-col>
+			</b-row>
 
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        />
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <Checkbox
-            id="online"
-            label="Online"
-            :is-checked="event.isOnline"
-            :on-click="toggleIsOnline"
-          />
-        </b-col>
-      </b-row>
-      <KeyValue
-        v-show="event.isOnline"
-        label="Online Link"
-        :is-editable="true"
-        placeholder="Optional"
-        :value="event.onlineLink"
-        @change="onOnlineLinkChange"
-      />
+			<b-row class="row">
+				<b-col md="3" sm="12" />
+				<b-col md="9" sm="12">
+					<Checkbox
+						id="online"
+						label="Online"
+						:is-checked="event.isOnline"
+						:on-click="toggleIsOnline"
+					/>
+				</b-col>
+			</b-row>
+			<KeyValue
+				v-show="event.isOnline"
+				label="Online Link"
+				:is-editable="true"
+				placeholder="Optional"
+				:value="event.onlineLink"
+				@change="onOnlineLinkChange"
+			/>
 
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <span class="label">Location</span>
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <edit-city
-            :edit-mode="true"
-            :city="event.city"
-            :country="event.country"
-            @change="onCityChange"
-          />
-        </b-col>
-      </b-row>
+			<b-row class="row">
+				<b-col md="3" sm="12">
+					<span class="label">Location</span>
+				</b-col>
+				<b-col md="9" sm="12">
+					<edit-city
+						:edit-mode="true"
+						:city="event.city"
+						:country="event.country"
+						@change="onCityChange"
+					/>
+				</b-col>
+			</b-row>
 
-      <key-multi-value
-        label="Technologies"
-        :is-editable="true"
-        :auto-select="skillsLookup"
-        :values="event.relatedSkills"
-        @change="onSkillsChange"
-      />
+			<key-multi-value
+				label="Technologies"
+				:is-editable="true"
+				:auto-select="skillsLookup"
+				:values="event.relatedSkills"
+				@change="onSkillsChange"
+			/>
 
-      <KeyValue
-        label="Website"
-        :is-editable="true"
-        placeholder="Optional"
-        :value="event.website"
-        @change="onWebsiteChange"
-      />
-      <KeyValue
-        label="Twitter"
-        :is-editable="true"
-        placeholder="Optional"
-        :value="event.twitter"
-        @change="onTwitterChange"
-      />
-      <KeyValue
-        label="Youtube"
-        :is-editable="true"
-        placeholder="Optional"
-        :value="event.youtube"
-        @change="onYoutubeChange"
-      />
-      <KeyValue
-        label="Facebook"
-        :is-editable="true"
-        placeholder="Optional"
-        :value="event.facebook"
-        @change="onFacebookChange"
-      />
-      <KeyValue
-        label="Instagram"
-        :is-editable="true"
-        placeholder="Optional"
-        :value="event.instagram"
-        @change="onInstagramChange"
-      />
-      <KeyValue
-        label="LinkedIn"
-        :is-editable="true"
-        placeholder="Optional"
-        :value="event.linkedin"
-        @change="onLinkedinChange"
-      />
-      <KeyValue
-        label="Schedule"
-        :is-editable="true"
-        placeholder="Optional"
-        :value="event.schedule"
-        @change="onScheduleChange"
-      />
+			<KeyValue
+				label="Website"
+				:is-editable="true"
+				placeholder="Optional"
+				:value="event.website"
+				@change="onWebsiteChange"
+			/>
+			<KeyValue
+				label="Twitter"
+				:is-editable="true"
+				placeholder="Optional"
+				:value="event.twitter"
+				@change="onTwitterChange"
+			/>
+			<KeyValue
+				label="Youtube"
+				:is-editable="true"
+				placeholder="Optional"
+				:value="event.youtube"
+				@change="onYoutubeChange"
+			/>
+			<KeyValue
+				label="Facebook"
+				:is-editable="true"
+				placeholder="Optional"
+				:value="event.facebook"
+				@change="onFacebookChange"
+			/>
+			<KeyValue
+				label="Instagram"
+				:is-editable="true"
+				placeholder="Optional"
+				:value="event.instagram"
+				@change="onInstagramChange"
+			/>
+			<KeyValue
+				label="LinkedIn"
+				:is-editable="true"
+				placeholder="Optional"
+				:value="event.linkedin"
+				@change="onLinkedinChange"
+			/>
+			<KeyValue
+				label="Schedule"
+				:is-editable="true"
+				placeholder="Optional"
+				:value="event.schedule"
+				@change="onScheduleChange"
+			/>
 
-      <h1 class="admin-heading">
-        Admin
-      </h1>
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <span class="label">Add event organizers</span>
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <MultiSelect
-            :is-editable="true"
-            :items.sync="admins"
-            :search-fn="searchUsers"
-          >
-            <template v-slot:default="slotProps">
-              <div class="user-info">
-                <UserAvatar :user="slotProps.item" />
-                {{ slotProps.item.name }} ({{ slotProps.item.username }})
-              </div>
-            </template>
-            <template v-slot:option="slotProps">
-              <div class="user-info">
-                <UserAvatar :user="slotProps.option" />
-                {{ slotProps.option.name }} ({{ slotProps.option.username }})
-              </div>
-            </template>
-          </MultiSelect>
-        </b-col>
-      </b-row>
+			<h1 class="admin-heading">Admin</h1>
+			<b-row class="row">
+				<b-col md="3" sm="12">
+					<span class="label">Add event organizers</span>
+				</b-col>
+				<b-col md="9" sm="12">
+					<MultiSelect
+						:is-editable="true"
+						:items.sync="admins"
+						:search-fn="searchUsers"
+					>
+						<template v-slot:default="slotProps">
+							<div class="user-info">
+								<UserAvatar :user="slotProps.item" />
+								{{ slotProps.item.name }} ({{ slotProps.item.username }})
+							</div>
+						</template>
+						<template v-slot:option="slotProps">
+							<div class="user-info">
+								<UserAvatar :user="slotProps.option" />
+								{{ slotProps.option.name }} ({{ slotProps.option.username }})
+							</div>
+						</template>
+					</MultiSelect>
+				</b-col>
+			</b-row>
 
-      <div class="action-buttons">
-        <button
-          class="save-button"
-          @click="save"
-        >
-          Save
-        </button>
-        <button @click="cancel">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </b-container>
+			<div class="action-buttons">
+				<button class="save-button" @click="save">Save</button>
+				<button @click="cancel">Cancel</button>
+			</div>
+		</div>
+	</b-container>
 </template>
 
 <script>
@@ -396,6 +317,12 @@ export default {
 				isPrivate: false,
 				isRequiresRegistration: false,
 			},
+			activity: {
+				title: '',
+				pageLink: '',
+				model: 'e',
+				activityType: 'c',
+			},
 			skillsLookup: [],
 			editor: ClassicEditor,
 			editorConfig: {},
@@ -436,6 +363,7 @@ export default {
 	methods: {
 		onTitleChange(e) {
 			this.event.title = e.value;
+			this.activity.title = e.value;
 		},
 		async searchUsers(query) {
 			return UserService.getAllUsers(query);
@@ -460,6 +388,7 @@ export default {
 		},
 		onWebsiteChange(e) {
 			this.event.website = e.value;
+			this.activity.pageLink = e.value;
 		},
 		onTwitterChange(e) {
 			this.event.twitter = e.value;
@@ -600,6 +529,11 @@ export default {
 				eventService
 					.addEvent(this.event)
 					.then((resp) => {
+						UserService.addActivities(this.activity)
+							.then((resp) => {})
+							.catch((err) => {
+								console.log(err);
+							});
 						eventBus.$emit('show-toast', {
 							body: messages.events.eventsAddSuccess,
 							title: messages.generic.success,

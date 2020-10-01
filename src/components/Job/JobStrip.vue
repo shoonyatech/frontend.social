@@ -1,86 +1,58 @@
 <template>
-  <div class="job">
-    <div class="role-and-expertise">
-      <router-link :to="'../jobs/' + id">
-        {{ role }}
-      </router-link>
-      <div class="job-strip-right-section">
-        <div class="expertise capsule">
-          {{ experienceLevel }}
-        </div>
-        <div
-          v-if="isRemote"
-          class="remote capsule"
-        >
-          Remote
-        </div>
-        <div>
-          <span
-            v-if="canModify"
-            class="event-action"
-            @click.prevent="editJob(id)"
-          >
-            <img
-              :src="`/images/edit.svg`"
-              class="icon-button"
-              alt="edit"
-            >
-          </span>
-          <span
-            v-if="canModify"
-            class="event-action"
-            @click.prevent="deleteJob(id)"
-          >
-            <img
-              :src="`/images/delete.svg`"
-              class="icon-button"
-              alt="delete"
-            >
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="skills-required">
-      <SkillTags
-        v-if="requiredSkills"
-        :skills="requiredSkills"
-      />
-    </div>
-    <a
-      class="btn-apply"
-      :href="link"
-      target="_blank"
-    >
-      <Button label="Apply" />
-    </a>
-    <div
-      ref="description"
-      class="location-description"
-    >
-      <span class="company">{{ company }}</span>|
-      <a :href="'/city/' + city + '/' + country">
-        <span class="city">{{ city }}, {{ country }}</span>
-      </a>
-    </div>
-    <div
-      ref="description"
-      class="job-description"
-      :class="{
-        expanded: isExpanded,
-        collapsed: isOverflow,
-      }"
-      v-html="jobDescription"
-    />
-    <div
-      v-if="showArrow"
-      class="arrow-container"
-    >
-      <Arrow
-        :is-expanded="isExpanded"
-        :on-click="toggleArrow"
-      />
-    </div>
-  </div>
+	<div class="job">
+		<div class="role-and-expertise">
+			<router-link :to="'../jobs/' + id">
+				{{ role }}
+			</router-link>
+			<div class="job-strip-right-section">
+				<div class="expertise capsule">
+					{{ experienceLevel }}
+				</div>
+				<div v-if="isRemote" class="remote capsule">Remote</div>
+				<div>
+					<span
+						v-if="canModify"
+						class="event-action"
+						@click.prevent="editJob(id)"
+					>
+						<img :src="`/images/edit.svg`" class="icon-button" alt="edit" />
+					</span>
+					<span
+						v-if="canModify"
+						class="event-action"
+						@click.prevent="deleteJob(id)"
+					>
+						<img :src="`/images/delete.svg`" class="icon-button" alt="delete" />
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="skills-required">
+			<SkillTags v-if="requiredSkills" :skills="requiredSkills" />
+		</div>
+		<a class="btn-apply" :href="link" target="_blank">
+			<Button label="Apply" />
+		</a>
+		<div ref="description" class="location-description">
+			<span class="company">{{ company }}</span
+			>|
+			<a :href="'/city/' + city + '/' + country">
+				<span class="city">{{ city }}, {{ country }}</span>
+			</a>
+		</div>
+		<div
+			ref="description"
+			class="job-description"
+			:class="{
+				expanded: isExpanded,
+				collapsed: isOverflow,
+			}"
+			v-html="jobDescription"
+		/>
+		<div v-if="showArrow" class="arrow-container">
+			<Arrow :is-expanded="isExpanded" :on-click="toggleArrow" />
+		</div>
+	</div>
 </template>
 
 <script>
@@ -89,6 +61,7 @@ import jobService from '@/services/job.service';
 import Arrow from '../Arrow/Arrow';
 import SkillTags from '@/components/Skills/SkillTags';
 
+import UserService from '@/services/user.service';
 const getExperienceLevel = (level) => {
 	switch (level) {
 		case 0:
@@ -162,6 +135,12 @@ export default {
 			isExpanded: false,
 			isOverflow: false,
 			showArrow: false,
+			activity: {
+				title: '',
+				pageLink: '',
+				model: 'j',
+				activityType: 'd',
+			},
 		};
 	},
 	mounted() {
@@ -179,7 +158,14 @@ export default {
 			this.isOverflow = !this.isOverflow;
 		},
 		deleteJob(id) {
-			this.$emit('delete', id);
+			(this.activity.title = this.role),
+				(this.activity.pageLink = this.link),
+				this.$emit('delete', id);
+			UserService.addActivities(this.activity)
+				.then((resp) => {})
+				.catch((err) => {
+					console.log(err);
+				});
 		},
 		editJob(id) {
 			this.$router.push('job/form/' + id);

@@ -1,44 +1,26 @@
 <template>
-  <div>
-    <div class="form-container">
-      <form
-        id="addTipsForm"
-        @submit.prevent="processForm"
-      >
-        <div class="form-field">
-          <div class="form-label">
-            Twitter Link
-          </div>
-          <input
-            v-model="twitterLink"
-            type="text"
-            required
-          >
-        </div>
-        <div class="tags form-field">
-          <div class="form-label">
-            Tags
-          </div>
-          <input
-            v-model="tags"
-            placeholder="Add comma separated tags"
-            type="text"
-          >
-        </div>
-        <div class="action-links">
-          <button
-            type="submit"
-            class="btn-add-tip"
-          >
-            Save
-          </button>
-          <button @click="close">
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+	<div>
+		<div class="form-container">
+			<form id="addTipsForm" @submit.prevent="processForm">
+				<div class="form-field">
+					<div class="form-label">Twitter Link</div>
+					<input v-model="twitterLink" type="text" required />
+				</div>
+				<div class="tags form-field">
+					<div class="form-label">Tags</div>
+					<input
+						v-model="tags"
+						placeholder="Add comma separated tags"
+						type="text"
+					/>
+				</div>
+				<div class="action-links">
+					<button type="submit" class="btn-add-tip">Save</button>
+					<button @click="close">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -46,7 +28,7 @@ import tipsService from '@/services/tips.service';
 import moment from 'moment';
 import eventBus from '@/utilities/eventBus';
 import { ToastType, messages } from '@/constants/constants';
-
+import userService from '@/services/user.service';
 export default {
 	name: 'AddTip',
 	components: {},
@@ -55,6 +37,8 @@ export default {
 			id: null,
 			twitterLink: '',
 			tags: '',
+			model: 't',
+			activityType: 'c',
 		};
 	},
 	computed: {
@@ -87,6 +71,12 @@ export default {
 				twitterLink: this.twitterLink,
 				tags: this.getTags(),
 			};
+			const activity = {
+				title: this.twitterLink,
+				pageLink: this.twitterLink,
+				model: this.model,
+				activityType: this.activityType,
+			};
 
 			if (this.id) {
 				tipsService
@@ -109,6 +99,12 @@ export default {
 				tipsService
 					.addTip(payload)
 					.then((response) => {
+						userService
+							.addActivities(activity)
+							.then((resp) => {})
+							.catch((err) => {
+								console.log(err);
+							});
 						eventBus.$emit('show-toast', {
 							body: messages.tip.addSuccess,
 							title: messages.generic.success,

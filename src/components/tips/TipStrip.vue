@@ -1,48 +1,27 @@
 <template>
-  <div class="tip">
-    <div class="tip-title">
-      <div class="info-section">
-        <span
-          v-if="canModify"
-          class="event-action"
-          @click.prevent="editTip"
-        >
-          <img
-            :src="`/images/edit.svg`"
-            class="icon-button"
-            alt="edit"
-          >
-        </span>
-        <span
-          v-if="canModify"
-          class="event-action"
-          @click.prevent="deleteTip"
-        >
-          <img
-            :src="`/images/delete.svg`"
-            class="icon-button"
-            alt="delete"
-          >
-        </span>
-      </div>
-    </div>
-    <Tweet
-      :id="tweetId"
-      class="tip-wrapper"
-    >
-      <div class="spinner">
-        loading...
-      </div>
-    </Tweet>
-    <div class="tool-tip-tags">
-      {{ tags }}
-    </div>
-  </div>
+	<div class="tip">
+		<div class="tip-title">
+			<div class="info-section">
+				<span v-if="canModify" class="event-action" @click.prevent="editTip">
+					<img :src="`/images/edit.svg`" class="icon-button" alt="edit" />
+				</span>
+				<span v-if="canModify" class="event-action" @click.prevent="deleteTip">
+					<img :src="`/images/delete.svg`" class="icon-button" alt="delete" />
+				</span>
+			</div>
+		</div>
+		<Tweet :id="tweetId" class="tip-wrapper">
+			<div class="spinner">loading...</div>
+		</Tweet>
+		<div class="tool-tip-tags">
+			{{ tags }}
+		</div>
+	</div>
 </template>
 
 <script>
 import { Tweet } from 'vue-tweet-embed';
-
+import userService from '@/services/user.service';
 export default {
 	name: 'TipStrip',
 	components: {
@@ -53,6 +32,16 @@ export default {
 			type: Object,
 			required: true,
 		},
+	},
+	data() {
+		return {
+			activity: {
+				title: '',
+				pageLink: '',
+				model: 't',
+				activityType: 'd',
+			},
+		};
 	},
 	computed: {
 		signedInUser() {
@@ -74,7 +63,15 @@ export default {
 	},
 	methods: {
 		deleteTip() {
-			this.$emit('delete', this.tip._id);
+			(this.activity.title = this.tip.twitterLink),
+				(this.activity.pageLink = this.tip.twitterLink),
+				this.$emit('delete', this.tip._id);
+			userService
+				.addActivities(this.activity)
+				.then((resp) => {})
+				.catch((err) => {
+					console.log(err);
+				});
 		},
 		editTip() {
 			this.$router.push(`/tip/form/${this.tip._id}`);

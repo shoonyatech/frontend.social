@@ -25,8 +25,12 @@ export default {
 		localStorage.removeItem('authToken');
 	},
 
-	getActivities: () => {
-		return httpClient.get('useractivity');
+	getActivities: (profile) => {
+		return httpClient.get('useractivity/' + profile);
+	},
+
+	addActivities(username) {
+		return httpClient.post('useractivity', username);
 	},
 
 	udpateUserPreferences: (userPreferences) => {

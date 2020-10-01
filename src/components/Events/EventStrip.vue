@@ -1,163 +1,131 @@
 <template>
-  <div class="event-strip">
-    <b-row>
-      <!--TODO: Style this component using flexbox instead of floats-->
-      <b-col md="12">
-        <span
-          v-if="canModify"
-          class="event-action"
-          @click.prevent="deleteEvent(event)"
-        >
-          <img
-            :src="`/images/delete.svg`"
-            class="icon-button"
-            alt="delete"
-          >
-        </span>
-        <span
-          v-if="canModify"
-          class="event-action"
-          @click.prevent="editEvent(event)"
-        >
-          <img
-            :src="`/images/edit.svg`"
-            class="icon-button"
-            alt="edit"
-          >
-        </span>
+	<div class="event-strip">
+		<b-row>
+			<!--TODO: Style this component using flexbox instead of floats-->
+			<b-col md="12">
+				<span
+					v-if="canModify"
+					class="event-action"
+					@click.prevent="deleteEvent(event)"
+				>
+					<img :src="`/images/delete.svg`" class="icon-button" alt="delete" />
+				</span>
+				<span
+					v-if="canModify"
+					class="event-action"
+					@click.prevent="editEvent(event)"
+				>
+					<img :src="`/images/edit.svg`" class="icon-button" alt="edit" />
+				</span>
 
-        <a v-if="!isReadOnly">
-          <span
-            class="event-title"
-            @click.prevent="onTitleClick"
-          >{{
-            event.title
-          }}</span>
-          <span class="event-type capsule">{{
-            getEventTypeName(event.type)
-          }}</span>
-          <span
-            v-if="event.isOnline"
-            class="event-type capsule online"
-          >online</span>
+				<a v-if="!isReadOnly">
+					<span class="event-title" @click.prevent="onTitleClick">{{
+						event.title
+					}}</span>
+					<span class="event-type capsule">{{
+						getEventTypeName(event.type)
+					}}</span>
+					<span v-if="event.isOnline" class="event-type capsule online"
+						>online</span
+					>
 
-          <span
-            v-if="event.isPrivate"
-            class="event-type capsule private"
-          >private</span>
-        </a>
-        <div v-else>
-          <span
-            class="event-title"
-            @click.prevent="onTitleClick"
-          >{{
-            event.title
-          }}</span>
-          <span class="event-type capsule">{{
-            getEventTypeName(event.type)
-          }}</span>
-          <span
-            v-if="event.isOnline"
-            class="event-type capsule online"
-          >online</span>
-        </div>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col md="8">
-        <div class="event-date">
-          <span>
-            {{ event.dateFrom | moment('DD MMM YYYY') }}
-          </span>
-          <span v-if="event.dateTo">-</span>
-          <span v-if="event.dateTo">
-            {{ event.dateTo | moment('DD MMM YYYY') }}
-          </span>
-          <span v-if="!event.isOnline">
-            in
-            <a :href="'/city/' + event.city + '/' + event.country">
-              <span class="city">{{ event.city }}, {{ event.country }}</span>
-            </a>
-          </span>
-        </div>
-        <SkillTags
-          v-if="event.relatedSkills"
-          :skills="event.relatedSkills"
-        />
-      </b-col>
-      <b-col md="4">
-        <div
-          v-if="!isReadOnly"
-          class="links icon-links"
-        >
-          <icon-link
-            v-if="event.youtube"
-            icon="/images/youtube.svg"
-            :url="event.youtube"
-          />
-          <icon-link
-            v-if="event.twitter"
-            icon="/images/twitter.svg"
-            :url="event.twitter"
-          />
-          <icon-link
-            v-if="event.website"
-            icon="/images/web.svg"
-            :url="event.website"
-          />
-          <icon-link
-            v-if="event.onlineLink"
-            icon="/images/play.svg"
-            :url="event.onlineLink"
-          />
-        </div>
-      </b-col>
-    </b-row>
-    <!-- <b-row>
+					<span v-if="event.isPrivate" class="event-type capsule private"
+						>private</span
+					>
+				</a>
+				<div v-else>
+					<span class="event-title" @click.prevent="onTitleClick">{{
+						event.title
+					}}</span>
+					<span class="event-type capsule">{{
+						getEventTypeName(event.type)
+					}}</span>
+					<span v-if="event.isOnline" class="event-type capsule online"
+						>online</span
+					>
+				</div>
+			</b-col>
+		</b-row>
+		<b-row>
+			<b-col md="8">
+				<div class="event-date">
+					<span>
+						{{ event.dateFrom | moment('DD MMM YYYY') }}
+					</span>
+					<span v-if="event.dateTo">-</span>
+					<span v-if="event.dateTo">
+						{{ event.dateTo | moment('DD MMM YYYY') }}
+					</span>
+					<span v-if="!event.isOnline">
+						in
+						<a :href="'/city/' + event.city + '/' + event.country">
+							<span class="city">{{ event.city }}, {{ event.country }}</span>
+						</a>
+					</span>
+				</div>
+				<SkillTags v-if="event.relatedSkills" :skills="event.relatedSkills" />
+			</b-col>
+			<b-col md="4">
+				<div v-if="!isReadOnly" class="links icon-links">
+					<icon-link
+						v-if="event.youtube"
+						icon="/images/youtube.svg"
+						:url="event.youtube"
+					/>
+					<icon-link
+						v-if="event.twitter"
+						icon="/images/twitter.svg"
+						:url="event.twitter"
+					/>
+					<icon-link
+						v-if="event.website"
+						icon="/images/web.svg"
+						:url="event.website"
+					/>
+					<icon-link
+						v-if="event.onlineLink"
+						icon="/images/play.svg"
+						:url="event.onlineLink"
+					/>
+				</div>
+			</b-col>
+		</b-row>
+		<!-- <b-row>
       <b-col md="12">
         Event Link:
         <span class="eventLink">{{ eventLink }}</span>
       </b-col>
     </b-row> -->
-    <b-row v-if="event.isRequiresRegistration">
-      <b-col md="10">
-        <div class="registration">
-          This is a close event that requires registration
-        </div>
-      </b-col>
-      <b-col md="2">
-        <button @click="eventRegistration()">
-          Register
-        </button>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col md="12">
-        <div
-          ref="description"
-          class="event-description"
-          :class="{
-            expanded: isExpanded,
-            collapsed: isOverflow,
-          }"
-        >
-          <div v-html="event.description" />
-        </div>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col
-        v-if="showArrow"
-        md="12"
-        class="arrow-container"
-      >
-        <Arrow
-          :is-expanded="isExpanded"
-          :on-click="toggleArrow"
-        />
-      </b-col>
-    </b-row>
-  </div>
+		<b-row v-if="event.isRequiresRegistration">
+			<b-col md="10">
+				<div class="registration">
+					This is a close event that requires registration
+				</div>
+			</b-col>
+			<b-col md="2">
+				<button @click="eventRegistration()">Register</button>
+			</b-col>
+		</b-row>
+		<b-row>
+			<b-col md="12">
+				<div
+					ref="description"
+					class="event-description"
+					:class="{
+						expanded: isExpanded,
+						collapsed: isOverflow,
+					}"
+				>
+					<div v-html="event.description" />
+				</div>
+			</b-col>
+		</b-row>
+		<b-row>
+			<b-col v-if="showArrow" md="12" class="arrow-container">
+				<Arrow :is-expanded="isExpanded" :on-click="toggleArrow" />
+			</b-col>
+		</b-row>
+	</div>
 </template>
 
 <script>
@@ -169,6 +137,7 @@ import eventBus from '@/utilities/eventBus';
 import { ToastType, messages } from '@/constants/constants';
 import eventService from '@/services/event.service';
 const clipboardy = require('clipboardy');
+import UserService from '@/services/user.service';
 export default {
 	name: 'EventStrip',
 	components: {
@@ -195,6 +164,12 @@ export default {
 			isExpanded: false,
 			isOverflow: false,
 			showArrow: false,
+			activity: {
+				title: '',
+				pageLink: '',
+				model: 'e',
+				activityType: 'd',
+			},
 		};
 	},
 	computed: {
@@ -220,7 +195,14 @@ export default {
 			this.isOverflow = !this.isOverflow;
 		},
 		deleteEvent(event) {
-			this.$emit('delete', event);
+			(this.activity.title = this.event.title),
+				(this.activity.pageLink = this.event.website),
+				this.$emit('delete', event);
+			UserService.addActivities(this.activity)
+				.then((resp) => {})
+				.catch((err) => {
+					console.log(err);
+				});
 		},
 		editEvent(event) {
 			this.$emit('edit', event);
