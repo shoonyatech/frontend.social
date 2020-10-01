@@ -64,37 +64,6 @@
           </button>
         </b-col>
       </b-row>
-      <b-row
-        v-if="!hideComments"
-        class="comment-section"
-      >
-        <b-col md="1" />
-        <b-col md="10">
-          <h1>Questions and Answers</h1>
-          <add-comment
-            ref="addcomment"
-            :comment-id="commentId"
-            :on-save="saveComment"
-            :on-cancel="cancelComment"
-            :show-rating="showRating"
-            :parent-id="topic._id"
-            class="mt-1"
-          />
-          <Comment
-            v-for="(comment, index) in comments"
-            :key="comment._id"
-            :index="index"
-            :comment-id="comment._id"
-            :comment="comment"
-            :show-rating="showRating"
-            :allow-reply="allowReply"
-            :on-delete="deleteComment"
-            :on-edit="editComment"
-            :on-save="saveComment"
-          />
-        </b-col>
-        <b-col md="2" />
-      </b-row>
     </b-container>
   </div>
 </template>
@@ -102,9 +71,6 @@
 <script>
 import CodeEditor from '@/components/common/CodeEditor';
 import Checkbox from '@/components/Checkbox/Checkbox';
-import Comment from '@/components/Comment/Comment';
-import AddComment from '@/components/Comment/AddComment';
-import commentService from '@/services/comment.service';
 import courseService from '@/services/course.service';
 import eventBus from '@/utilities/eventBus';
 import { ToastType, messages } from '@/constants/constants';
@@ -115,8 +81,6 @@ export default {
 	components: {
 		CodeEditor,
 		Checkbox,
-		Comment,
-		AddComment,
 	},
 	props: {},
 	data() {
@@ -253,41 +217,6 @@ export default {
 
 			if (result.length > 0) this.codeEditorURL = result[0];
 		},
-		getComments() {
-			commentService
-				.getComment(this.topic._id)
-				.then((response) => {
-					this.comments = response; //.push(...response);
-				})
-				.catch(() => {
-					eventBus.$emit('show-toast', {
-						body: e.message,
-						title: messages.generic.error,
-						type: ToastType.ERROR,
-					});
-				});
-		},
-		saveComment(response, index) {
-			if (this.commentId != '') {
-				this.comments.splice(index, 1, response);
-				this.commentId = '';
-			} else {
-				this.comments.push(response);
-			}
-
-			eventBus.$emit('show-toast', {
-				body: messages.comment.commentAddSuccess,
-				title: messages.generic.success,
-			});
-		},
-		deleteComment(index) {
-			console.log(index);
-			this.comments.splice(index, 1);
-		},
-		editComment(commentId) {
-			this.commentId = commentId;
-		},
-		cancelComment() {},
 		loadTopic(chapterNo, topicUrl, courseId) {
 			courseService.getCoursesById(courseId).then((res) => {
 				this.course = res;
@@ -332,8 +261,6 @@ export default {
 						'/' +
 						getUrlFriendlyTitle(nextTopic.title);
 				}
-
-				this.getComments();
 			});
 		},
 		onPrevious() {
@@ -350,8 +277,5 @@ export default {
 .host {
 	width: 100%;
 	margin-bottom: 0.8rem;
-}
-.comment-section {
-	margin-top: 20px;
 }
 </style>
