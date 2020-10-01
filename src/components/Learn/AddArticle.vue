@@ -1,169 +1,142 @@
 <template>
-  <b-container class="article-form">
-    <Loader v-if="loading" />
-    <div v-else>
-      <b-row>
-        <h1>Latest talks & articles on Frontend</h1>
-      </b-row>
-      <KeyValue
-        label="URL"
-        :is-editable="true"
-        @change="onUrlChange"
-      />
-      <KeyValue
-        label="Talk/Article Title"
-        :is-editable="true"
-        @change="onTitleChange"
-      />
-      <KeyValue
-        label="Author"
-        :is-editable="true"
-        @change="onAuthorChange"
-      />
-      <KeyValue
-        label="Description"
-        placeholder="Optional"
-        :is-editable="true"
-        :multiline="true"
-        @change="onDescriptionChange"
-      />
-      <KeyValue
-        label="Courtesy"
-        :is-editable="true"
-        placeholder="Optional (who posted about it)"
-        @change="onCourtesyChange"
-      />
-      <KeyValue
-        label="Courtesy link"
-        :is-editable="true"
-        placeholder="Optional (url to their website)"
-        @change="onCourtesyUrlChange"
-      />
+	<b-container class="article-form">
+		<Loader v-if="loading" />
+		<div v-else>
+			<b-row>
+				<h1>Latest talks & articles on Frontend</h1>
+			</b-row>
+			<KeyValue label="URL" :is-editable="true" @change="onUrlChange" />
+			<KeyValue
+				label="Talk/Article Title"
+				:is-editable="true"
+				@change="onTitleChange"
+			/>
+			<KeyValue label="Author" :is-editable="true" @change="onAuthorChange" />
+			<KeyValue
+				label="Description"
+				placeholder="Optional"
+				:is-editable="true"
+				:multiline="true"
+				@change="onDescriptionChange"
+			/>
+			<KeyValue
+				label="Courtesy"
+				:is-editable="true"
+				placeholder="Optional (who posted about it)"
+				@change="onCourtesyChange"
+			/>
+			<KeyValue
+				label="Courtesy link"
+				:is-editable="true"
+				placeholder="Optional (url to their website)"
+				@change="onCourtesyUrlChange"
+			/>
 
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <span class="label">Type</span>
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <span class="radio">
-            <input
-              v-model="article.type"
-              class="radio-input"
-              type="radio"
-              value="talk"
-              name="type"
-            >
-            <span class="radio-label"> Talk</span>
-          </span>
-          <span class="radio">
-            <input
-              v-model="article.type"
-              class="radio-input"
-              type="radio"
-              value="tutorial"
-              name="type"
-            >
-            <span class="radio-label"> Tutorial</span>
-          </span>
-          <span class="radio">
-            <input
-              v-model="article.type"
-              class="radio-input"
-              type="radio"
-              value="casestudy"
-              name="type"
-            >
-            <span class="radio-label"> Case Study</span>
-          </span>
-          <span class="radio">
-            <input
-              v-model="article.type"
-              class="radio-input"
-              type="radio"
-              value="announcement"
-              name="type"
-            >
-            <span class="radio-label"> Announcement</span>
-          </span>
-        </b-col>
-      </b-row>
+			<b-row class="row">
+				<b-col md="3" sm="12">
+					<span class="label">Type</span>
+				</b-col>
+				<b-col md="9" sm="12">
+					<span class="radio">
+						<input
+							v-model="article.type"
+							class="radio-input"
+							type="radio"
+							value="talk"
+							name="type"
+						/>
+						<span class="radio-label"> Talk</span>
+					</span>
+					<span class="radio">
+						<input
+							v-model="article.type"
+							class="radio-input"
+							type="radio"
+							value="tutorial"
+							name="type"
+						/>
+						<span class="radio-label"> Tutorial</span>
+					</span>
+					<span class="radio">
+						<input
+							v-model="article.type"
+							class="radio-input"
+							type="radio"
+							value="casestudy"
+							name="type"
+						/>
+						<span class="radio-label"> Case Study</span>
+					</span>
+					<span class="radio">
+						<input
+							v-model="article.type"
+							class="radio-input"
+							type="radio"
+							value="announcement"
+							name="type"
+						/>
+						<span class="radio-label"> Announcement</span>
+					</span>
+				</b-col>
+			</b-row>
 
-      <b-row class="row">
-        <b-col
-          md="3"
-          sm="12"
-        >
-          <span class="label">Medium</span>
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <span class="radio">
-            <input
-              v-model="article.medium"
-              class="radio-input"
-              type="radio"
-              value="blog"
-              name="medium"
-            >
-            <span class="radio-label"> Blog</span>
-          </span>
-          <span class="radio">
-            <input
-              v-model="article.medium"
-              class="radio-input"
-              type="radio"
-              value="video"
-              name="medium"
-            >
-            <span class="radio-label"> Video</span>
-          </span>
-          <span class="radio">
-            <input
-              v-model="article.medium"
-              class="radio-input"
-              type="radio"
-              value="podcast"
-              name="medium"
-            >
-            <span class="radio-label"> Podcast</span>
-          </span>
-        </b-col>
-      </b-row>
+			<b-row class="row">
+				<b-col md="3" sm="12">
+					<span class="label">Medium</span>
+				</b-col>
+				<b-col md="9" sm="12">
+					<span class="radio">
+						<input
+							v-model="article.medium"
+							class="radio-input"
+							type="radio"
+							value="blog"
+							name="medium"
+						/>
+						<span class="radio-label"> Blog</span>
+					</span>
+					<span class="radio">
+						<input
+							v-model="article.medium"
+							class="radio-input"
+							type="radio"
+							value="video"
+							name="medium"
+						/>
+						<span class="radio-label"> Video</span>
+					</span>
+					<span class="radio">
+						<input
+							v-model="article.medium"
+							class="radio-input"
+							type="radio"
+							value="podcast"
+							name="medium"
+						/>
+						<span class="radio-label"> Podcast</span>
+					</span>
+				</b-col>
+			</b-row>
 
-      <key-multi-value
-        label="Technologies"
-        :is-editable="true"
-        :auto-select="skillsLookup"
-        @change="onSkillsChange"
-      />
+			<key-multi-value
+				label="Technologies"
+				:is-editable="true"
+				:auto-select="skillsLookup"
+				@change="onSkillsChange"
+			/>
 
-      <key-multi-value
-        label="Tags"
-        :is-editable="true"
-        @change="onTagsChange"
-      />
+			<key-multi-value
+				label="Tags"
+				:is-editable="true"
+				@change="onTagsChange"
+			/>
 
-      <div class="action-buttons">
-        <button
-          class="save-button"
-          @click="save"
-        >
-          Save
-        </button>
-        <button @click="cancel">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </b-container>
+			<div class="action-buttons">
+				<button class="save-button" @click="save">Save</button>
+				<button @click="cancel">Cancel</button>
+			</div>
+		</div>
+	</b-container>
 </template>
 
 <script>
@@ -171,6 +144,7 @@ import KeyValue from '@/components/common/KeyValue';
 import KeyMultiValue from '@/components/common/KeyMultiValue';
 import EditCity from '@/components/City/EditCity';
 
+import userService from '@/services/user.service';
 import learnService from '@/services/learn.service';
 import skillService from '@/services/skill.service';
 
@@ -198,6 +172,12 @@ export default {
 				medium: null,
 				type: null,
 			},
+			activity: {
+				title: '',
+				pageLink: '',
+				model: 'a',
+				activityType: 'c',
+			},
 			skillsLookup: [],
 			loading: true,
 		};
@@ -209,6 +189,7 @@ export default {
 	methods: {
 		onTitleChange(e) {
 			this.article.title = e.value;
+			this.activity.title = e.value;
 		},
 		onAuthorChange(e) {
 			this.article.author = e.value;
@@ -218,6 +199,7 @@ export default {
 		},
 		onUrlChange(e) {
 			this.article.url = e.value;
+			this.activity.pageLink = e.value;
 		},
 		onCourtesyChange(e) {
 			this.article.courtesy = e.value;
@@ -255,6 +237,12 @@ export default {
 			learnService
 				.addArticle(this.article)
 				.then((resp) => {
+					userService
+						.addActivities(this.activity)
+						.then((resp) => {})
+						.catch((err) => {
+							console.log(err);
+						});
 					eventBus.$emit('show-toast', {
 						body: messages.events.eventsAddSuccess,
 						title: messages.generic.success,
@@ -268,23 +256,6 @@ export default {
 						type: ToastType.ERROR,
 					});
 				});
-
-			// learnService
-			//   .addArticle(this.article)
-			//   .then(() => {
-			//     eventBus.$emit("show-toast", {
-			//       body: messages.article.articleAddSuccess,
-			//       title: messages.generic.success,
-			//     });
-			//     this.close();
-			//   })
-			//   .catch((e) => {
-			//     eventBus.$emit("show-toast", {
-			//       body: e.message,
-			//       title: messages.generic.error,
-			//       type: ToastType.ERROR,
-			//     });
-			//   });
 		},
 		cancel() {
 			this.close();

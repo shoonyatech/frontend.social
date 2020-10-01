@@ -1,177 +1,148 @@
 <template>
-  <b-container
-    v-if="!failedToFindEvent"
-    class="bv-example-row"
-  >
-    <Loader v-show="loading" />
-    <b-row class="event-details-container">
-      <b-col md="9">
-        <b-row>
-          <b-col
-            md="12"
-            class="event-title"
-          >
-            <span>{{ event.title }}</span>
-            <div>
-              <span
-                v-if="canModify"
-                class="event-action"
-                @click.prevent="onDeleteEvent"
-              >
-                <img
-                  :src="`/images/delete.svg`"
-                  class="icon-button"
-                  alt="delete"
-                >
-              </span>
-              <span
-                v-if="canModify"
-                class="event-action"
-                @click.prevent="onEditEvent"
-              >
-                <img
-                  :src="`/images/edit.svg`"
-                  class="icon-button"
-                  alt="edit"
-                >
-              </span>
-              <span class="event-type capsule">
-                {{ getEventTypeName(event.type) }}
-              </span>
-              <span
-                v-if="event.isOnline"
-                class="event-type capsule online"
-              >online</span>
-            </div>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="11">
-            <div class="event-date">
-              <span>
-                {{ event.dateFrom | moment('DD MMM YYYY') }}
-              </span>
-              <span v-if="event.dateTo">-</span>
-              <span v-if="event.dateTo">
-                {{ event.dateTo | moment('DD MMM YYYY') }}
-              </span>
-              in
-              <a :href="'/city/' + event.city + '/' + event.country">
-                <span class="city">{{ event.city }}, {{ event.country }}</span>
-              </a>
-            </div>
-            <SkillTags
-              v-if="event.relatedSkills"
-              :skills="event.relatedSkills"
-            />
-          </b-col>
-          <b-col md="1">
-            <div class="links icon-links">
-              <icon-link
-                v-if="event.youtube"
-                icon="/images/youtube.svg"
-                :url="event.youtube"
-              />
-              <icon-link
-                v-if="event.twitter"
-                icon="/images/twitter.svg"
-                :url="event.twitter"
-              />
-              <icon-link
-                v-if="event.website"
-                icon="/images/web.svg"
-                :url="event.website"
-              />
-              <icon-link
-                v-if="event.onlineLink"
-                icon="/images/play.svg"
-                :url="event.onlineLink"
-              />
-            </div>
-          </b-col>
-        </b-row>
-        <b-row
-          v-if="youtubeVideoId"
-          class="youtube-container"
-        >
-          <b-col md="12">
-            <youtube
-              :video-id="youtubeVideoId"
-              width="100%"
-              height="600"
-            />
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col md="12">
-            <div v-html="event.description" />
-          </b-col>
-        </b-row>
+	<b-container v-if="!failedToFindEvent" class="bv-example-row">
+		<Loader v-show="loading" />
+		<b-row class="event-details-container">
+			<b-col md="9">
+				<b-row>
+					<b-col md="12" class="event-title">
+						<span>{{ event.title }}</span>
+						<div>
+							<span
+								v-if="canModify"
+								class="event-action"
+								@click.prevent="onDeleteEvent"
+							>
+								<img
+									:src="`/images/delete.svg`"
+									class="icon-button"
+									alt="delete"
+								/>
+							</span>
+							<span
+								v-if="canModify"
+								class="event-action"
+								@click.prevent="onEditEvent"
+							>
+								<img :src="`/images/edit.svg`" class="icon-button" alt="edit" />
+							</span>
+							<span class="event-type capsule">
+								{{ getEventTypeName(event.type) }}
+							</span>
+							<span v-if="event.isOnline" class="event-type capsule online"
+								>online</span
+							>
+						</div>
+					</b-col>
+				</b-row>
+				<b-row>
+					<b-col md="11">
+						<div class="event-date">
+							<span>
+								{{ event.dateFrom | moment('DD MMM YYYY') }}
+							</span>
+							<span v-if="event.dateTo">-</span>
+							<span v-if="event.dateTo">
+								{{ event.dateTo | moment('DD MMM YYYY') }}
+							</span>
+							in
+							<a :href="'/city/' + event.city + '/' + event.country">
+								<span class="city">{{ event.city }}, {{ event.country }}</span>
+							</a>
+						</div>
+						<SkillTags
+							v-if="event.relatedSkills"
+							:skills="event.relatedSkills"
+						/>
+					</b-col>
+					<b-col md="1">
+						<div class="links icon-links">
+							<icon-link
+								v-if="event.youtube"
+								icon="/images/youtube.svg"
+								:url="event.youtube"
+							/>
+							<icon-link
+								v-if="event.twitter"
+								icon="/images/twitter.svg"
+								:url="event.twitter"
+							/>
+							<icon-link
+								v-if="event.website"
+								icon="/images/web.svg"
+								:url="event.website"
+							/>
+							<icon-link
+								v-if="event.onlineLink"
+								icon="/images/play.svg"
+								:url="event.onlineLink"
+							/>
+						</div>
+					</b-col>
+				</b-row>
+				<b-row v-if="youtubeVideoId" class="youtube-container">
+					<b-col md="12">
+						<youtube :video-id="youtubeVideoId" width="100%" height="600" />
+					</b-col>
+				</b-row>
+				<b-row>
+					<b-col md="12">
+						<div v-html="event.description" />
+					</b-col>
+				</b-row>
 
-        <b-row style="margin-top: 20px">
-          <h1>Video Rooms (Click to join call)</h1>
-        </b-row>
-        <b-row>
-          <b-col md="12">
-            <EventMeetings
-              v-if="event._id"
-              :id="event._id"
-              type="EVENT"
-              :is-editable="isAdmin"
-              :admins="event.adminUsers || []"
-            />
-          </b-col>
-        </b-row>
-        <b-row
-          v-if="!hideComments"
-          style="margin-top: 20px"
-        >
-          <h1>Comments</h1>
-        </b-row>
-        <b-row v-if="!hideComments && signedInUser">
-          <b-col md="12">
-            <add-comment
-              ref="addcomment"
-              :comment-id="commentId"
-              :on-save="saveComment"
-              :on-cancel="cancelComment"
-              :show-rating="showRating"
-              :parent-id="event._id || eventId"
-              class="mt-1"
-            />
-          </b-col>
-        </b-row>
-        <b-row
-          v-if="!hideComments"
-          style="margin-bottom: 20px"
-        >
-          <b-col md="12">
-            <Comment
-              v-for="(comment, index) in comments"
-              :key="comment._id"
-              :index="index"
-              :comment-id="comment._id"
-              :comment="comment"
-              :show-rating="showRating"
-              :allow-reply="allowReply"
-              :on-delete="deleteComment"
-              :on-edit="editComment"
-              :on-save="saveComment"
-            />
-          </b-col>
-        </b-row>
-      </b-col>
-      <b-col md="3">
-        <OnlineUsers />
-      </b-col>
-    </b-row>
-  </b-container>
-  <h1
-    v-else
-    class="fail-message"
-  >
-    Opps! Failed to find Event details
-  </h1>
+				<b-row style="margin-top: 20px">
+					<h1>Video Rooms (Click to join call)</h1>
+				</b-row>
+				<b-row>
+					<b-col md="12">
+						<EventMeetings
+							v-if="event._id"
+							:id="event._id"
+							type="EVENT"
+							:is-editable="isAdmin"
+							:admins="event.adminUsers || []"
+						/>
+					</b-col>
+				</b-row>
+				<b-row v-if="!hideComments" style="margin-top: 20px">
+					<h1>Comments</h1>
+				</b-row>
+				<b-row v-if="!hideComments && signedInUser">
+					<b-col md="12">
+						<add-comment
+							ref="addcomment"
+							:comment-id="commentId"
+							:on-save="saveComment"
+							:on-cancel="cancelComment"
+							:show-rating="showRating"
+							:parent-id="event._id || eventId"
+							class="mt-1"
+						/>
+					</b-col>
+				</b-row>
+				<b-row v-if="!hideComments" style="margin-bottom: 20px">
+					<b-col md="12">
+						<Comment
+							v-for="(comment, index) in comments"
+							:key="comment._id"
+							:index="index"
+							:comment-id="comment._id"
+							:comment="comment"
+							:show-rating="showRating"
+							:allow-reply="allowReply"
+							:on-delete="deleteComment"
+							:on-edit="editComment"
+							:on-save="saveComment"
+						/>
+					</b-col>
+				</b-row>
+			</b-col>
+			<b-col md="3">
+				<OnlineUsers />
+			</b-col>
+		</b-row>
+	</b-container>
+	<h1 v-else class="fail-message">Opps! Failed to find Event details</h1>
 </template>
 <script>
 import Comment from '@/components/Comment/Comment.vue';
@@ -186,7 +157,7 @@ import eventService from '@/services/event.service';
 import eventBus from '@/utilities/eventBus';
 import { ToastType, messages } from '@/constants/constants';
 import { getEventTypeName } from '@/utilities/utils';
-
+import UserService from '@/services/user.service';
 export default {
 	name: 'EventDetails',
 	components: {
@@ -212,6 +183,12 @@ export default {
 			allowReply: false,
 			commentId: '',
 			interval: null,
+			activity: {
+				title: '',
+				pageLink: '',
+				model: 'e',
+				activityType: 'd',
+			},
 		};
 	},
 	computed: {
@@ -339,6 +316,13 @@ export default {
 			eventService
 				.deleteEvent(this.event._id)
 				.then(() => {
+					this.activity.title = this.event.title;
+					this.activity.pageLink = this.event.website;
+					UserService.addActivities(this.activity)
+						.then((resp) => {})
+						.catch((err) => {
+							console.log(err);
+						});
 					eventBus.$emit('show-toast', {
 						body: messages.events.eventDeletedSuccess,
 						title: messages.generic.success,

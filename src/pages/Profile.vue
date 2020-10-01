@@ -232,27 +232,31 @@ j
 							@change="onEventChange"
 						/>
 					</Section>
-					<!-- <Section
-            title="Activities"
-            class="events-attended"
-            :is-editable="editModeActivity && isEditable"
-          >
-            <div
-              v-for="(activity, index) in activities"
-              :key="index"
-            >
-              {{
-                activity.createdAt
-                  | moment("timezone", "America/Toronto", "DD MMM YYYY")
-              }}
-              -
-              {{ getActivityType(activity.activityType) }}
-              {{ getModel(activity.model) }}
-              <a
-                :href="activity.pageLink"
-              >{{ activity.title }}</a>
-            </div>
-          </Section> -->
+					<Section
+						title="Activities"
+						class="events-attended"
+						:is-editable="editModeActivity && isEditable"
+					>
+						<div v-for="(activity, index) in newActivity" :key="index">
+							<section v-if="index > 0">
+								<span
+									v-if="
+										newActivity[index].createdAt !=
+										newActivity[index - 1].createdAt
+									"
+									class="activityDate"
+									><br />{{ activity.createdAt }}</span
+								>
+							</section>
+							<section v-if="index === 0" class="activityDate">
+								{{ activity.createdAt }}
+							</section>
+							-
+							{{ getActivityType(activity.activityType) }}
+							{{ getModel(activity.model) }}
+							<a :href="activity.pageLink">{{ activity.title }}</a>
+						</div>
+					</Section>
 
 					<Section
 						v-if="!username"
@@ -310,7 +314,7 @@ import { ToastType, messages } from '@/constants/constants';
 import UserAvatar from '@/components/common/UserAvatar';
 import RewardPointsTransactions from '@/components/Profile/RewardPointsTransactions.vue';
 import Twitter from '@/components/Twitter/Twitter.vue';
-
+import moment from 'moment';
 export default {
 	components: {
 		KeyValue,
@@ -344,6 +348,7 @@ export default {
 			rewardPointsTransactions: [],
 			showRewardTransactions: false,
 			pointsToRedeem: null,
+			newActivity: [],
 		};
 	},
 	computed: {
@@ -388,6 +393,7 @@ export default {
 					this.getReferrals();
 					this.getRewardPoints();
 					this.profile = user;
+					this.getActivities(this.profile.username);
 					this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
 					this.loading = false;
 				})
@@ -401,6 +407,7 @@ export default {
 				.getUserProfile(this.username)
 				.then((user) => {
 					user.skills = this.sortSkills(user.skills);
+					this.getActivities(this.username);
 					this.profile = user;
 					this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
 					this.loading = false;
@@ -591,11 +598,23 @@ export default {
 					this.loading = false;
 				});
 		},
-		getActivities() {
+		getActivities(profile) {
+			let finalDate;
 			userService
-				.getActivities()
+				.getActivities(profile)
 				.then((response) => {
 					this.activities = response;
+					this.activities.map((re) => {
+						let data = moment(re.createdAt);
+						let date = data._d;
+						let createdAt =
+							date.getDate() +
+							'-' +
+							(date.getMonth() + 1) +
+							'-' +
+							date.getFullYear();
+						this.newActivity.push({ ...re, createdAt: createdAt });
+					});
 				})
 				.catch((e) => {
 					this.$router.push('/');
@@ -604,13 +623,15 @@ export default {
 		getActivityType(type) {
 			switch (type) {
 				case 'c':
-					return 'created';
+					return 'Created';
 				case 'd':
-					return 'deleted';
+					return 'Deleted';
 			}
 		},
 		getModel(model) {
 			switch (model) {
+				case 't':
+					return 'Tip';
 				case 'e':
 					return 'Event';
 				case 'j':
@@ -815,5 +836,9 @@ export default {
 
 .portfolio {
 	word-break: break-all;
+}
+.activityDate {
+	font-size: 20px;
+	color: #8f8f8f;
 }
 </style>

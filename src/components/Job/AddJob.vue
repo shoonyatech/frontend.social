@@ -1,197 +1,145 @@
 <template>
-  <!-- add jobs container -->
-  <div class="add-job-wrapper">
-    <Loader v-if="loading" />
-    <div
-      v-else
-      class="form-container"
-    >
-      <form
-        id="addJobForm"
-        @submit.prevent="processForm"
-      >
-        <div class="job-title form-field">
-          <div class="form-label">
-            Title
-          </div>
-          <input
-            v-model="title"
-            type="text"
-            required
-          >
-        </div>
-        <div class="description form-field">
-          <div class="form-label">
-            Description
-          </div>
-          <ckeditor
-            v-model="description"
-            :editor="editor"
-            :config="editorConfig"
-            class="editor"
-          />
-        </div>
-        <div class="skills form-field">
-          <div class="form-label">
-            Skills
-          </div>
-          <div class="multiple-selection">
-            <Checkbox
-              id="react"
-              label="React"
-              :on-click="toggleSkillSelection"
-            />
-            <Checkbox
-              id="angular"
-              label="Angular"
-              :on-click="toggleSkillSelection"
-            />
-            <Checkbox
-              id="vue"
-              label="Vue"
-              :on-click="toggleSkillSelection"
-            />
-            <Checkbox
-              id="webComponents"
-              label="Web Components"
-              :on-click="toggleSkillSelection"
-            />
-          </div>
-        </div>
-        <div class="company form-field">
-          <div class="form-label">
-            Company
-          </div>
-          <input
-            v-model="company"
-            type="text"
-            required
-          >
-        </div>
-        <div class="city form-field">
-          <div class="form-label">
-            Location
-          </div>
-          <div class="city-selection">
-            <EditCity
-              :edit-mode="true"
-              :city="city"
-              :country="country"
-              :add-city="true"
-              @change="onCityChange"
-            />
-          </div>
-        </div>
-        <div class="job-type form-field">
-          <div class="form-label">
-            Is Remote
-          </div>
-          <div class="multiple-selection">
-            <Checkbox
-              id="isRemote"
-              :is-checked="isRemote"
-              label="Yes"
-              :on-click="toggleCheckbox"
-            />
-          </div>
-        </div>
-        <div class="job-type form-field">
-          <div class="form-label">
-            Job Type
-          </div>
-          <div class="multiple-selection">
-            <Checkbox
-              id="isFullTime"
-              :is-checked="isFullTime"
-              label="Full Time"
-              :on-click="toggleCheckbox"
-            />
-            <Checkbox
-              id="isPartTime"
-              :is-checked="isPartTime"
-              label="Part Time"
-              :on-click="toggleCheckbox"
-            />
-            <Checkbox
-              id="isPermanent"
-              :is-checked="isPermanent"
-              label="Parmanent"
-              :on-click="toggleCheckbox"
-            />
-            <Checkbox
-              id="isContract"
-              :is-checked="isContract"
-              label="Contract"
-              :on-click="toggleCheckbox"
-            />
-          </div>
-        </div>
-        <div class="level form-field">
-          <div class="form-label">
-            Level
-          </div>
-          <div class="multiple-selection">
-            <RadioButton
-              id="Beginner"
-              :value="0"
-              name="level"
-              label="Beginner"
-              :is-checked="level === 0"
-              :on-click="setLevel"
-            />
-            <RadioButton
-              id="Intermediate"
-              :value="1"
-              name="level"
-              label="Intermediate"
-              :on-click="setLevel"
-              :is-checked="level === 1"
-            />
-            <RadioButton
-              id="Expert"
-              :value="2"
-              name="level"
-              label="Expert"
-              :is-checked="level === 2"
-              :on-click="setLevel"
-            />
-          </div>
-        </div>
-        <div class="tags form-field">
-          <div class="form-label">
-            Tags
-          </div>
-          <input
-            v-model="tags"
-            type="text"
-          >
-        </div>
-        <div class="link-and-submit-btn">
-          <div class="link form-field">
-            <div class="form-label">
-              Link
-            </div>
-            <input
-              v-model="link"
-              type="text"
-              required
-            >
-          </div>
-        </div>
-        <div class="action-links">
-          <button
-            type="submit"
-            class="btn-add-job"
-          >
-            Save
-          </button>
-          <button @click.prevent.stop="close()">
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+	<!-- add jobs container -->
+	<div class="add-job-wrapper">
+		<Loader v-if="loading" />
+		<div v-else class="form-container">
+			<form id="addJobForm" @submit.prevent="processForm">
+				<div class="job-title form-field">
+					<div class="form-label">Title</div>
+					<input v-model="title" type="text" required />
+				</div>
+				<div class="description form-field">
+					<div class="form-label">Description</div>
+					<ckeditor
+						v-model="description"
+						:editor="editor"
+						:config="editorConfig"
+						class="editor"
+					/>
+				</div>
+				<div class="skills form-field">
+					<div class="form-label">Skills</div>
+					<div class="multiple-selection">
+						<Checkbox
+							id="react"
+							label="React"
+							:on-click="toggleSkillSelection"
+						/>
+						<Checkbox
+							id="angular"
+							label="Angular"
+							:on-click="toggleSkillSelection"
+						/>
+						<Checkbox id="vue" label="Vue" :on-click="toggleSkillSelection" />
+						<Checkbox
+							id="webComponents"
+							label="Web Components"
+							:on-click="toggleSkillSelection"
+						/>
+					</div>
+				</div>
+				<div class="company form-field">
+					<div class="form-label">Company</div>
+					<input v-model="company" type="text" required />
+				</div>
+				<div class="city form-field">
+					<div class="form-label">Location</div>
+					<div class="city-selection">
+						<EditCity
+							:edit-mode="true"
+							:city="city"
+							:country="country"
+							:add-city="true"
+							@change="onCityChange"
+						/>
+					</div>
+				</div>
+				<div class="job-type form-field">
+					<div class="form-label">Is Remote</div>
+					<div class="multiple-selection">
+						<Checkbox
+							id="isRemote"
+							:is-checked="isRemote"
+							label="Yes"
+							:on-click="toggleCheckbox"
+						/>
+					</div>
+				</div>
+				<div class="job-type form-field">
+					<div class="form-label">Job Type</div>
+					<div class="multiple-selection">
+						<Checkbox
+							id="isFullTime"
+							:is-checked="isFullTime"
+							label="Full Time"
+							:on-click="toggleCheckbox"
+						/>
+						<Checkbox
+							id="isPartTime"
+							:is-checked="isPartTime"
+							label="Part Time"
+							:on-click="toggleCheckbox"
+						/>
+						<Checkbox
+							id="isPermanent"
+							:is-checked="isPermanent"
+							label="Parmanent"
+							:on-click="toggleCheckbox"
+						/>
+						<Checkbox
+							id="isContract"
+							:is-checked="isContract"
+							label="Contract"
+							:on-click="toggleCheckbox"
+						/>
+					</div>
+				</div>
+				<div class="level form-field">
+					<div class="form-label">Level</div>
+					<div class="multiple-selection">
+						<RadioButton
+							id="Beginner"
+							:value="0"
+							name="level"
+							label="Beginner"
+							:is-checked="level === 0"
+							:on-click="setLevel"
+						/>
+						<RadioButton
+							id="Intermediate"
+							:value="1"
+							name="level"
+							label="Intermediate"
+							:on-click="setLevel"
+							:is-checked="level === 1"
+						/>
+						<RadioButton
+							id="Expert"
+							:value="2"
+							name="level"
+							label="Expert"
+							:is-checked="level === 2"
+							:on-click="setLevel"
+						/>
+					</div>
+				</div>
+				<div class="tags form-field">
+					<div class="form-label">Tags</div>
+					<input v-model="tags" type="text" />
+				</div>
+				<div class="link-and-submit-btn">
+					<div class="link form-field">
+						<div class="form-label">Link</div>
+						<input v-model="link" type="text" required />
+					</div>
+				</div>
+				<div class="action-links">
+					<button type="submit" class="btn-add-job">Save</button>
+					<button @click.prevent.stop="close()">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -202,6 +150,8 @@ import EditCity from '@/components/City/EditCity';
 import eventBus from '@/utilities/eventBus';
 import { ToastType, messages } from '@/constants/constants';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+import userService from '@/services/user.service';
 export default {
 	name: 'AddJob',
 	components: {
@@ -237,6 +187,8 @@ export default {
 			editorConfig: {
 				// The configuration of the editor.
 			},
+			model: 'j',
+			activityType: 'c',
 		};
 	},
 	computed: {
@@ -320,7 +272,12 @@ export default {
 				country: this.country,
 				isRemote: this.isRemote,
 			};
-
+			const activity = {
+				title: this.title,
+				link: this.link,
+				model: this.model,
+				activityType: this.activityType,
+			};
 			const jobId = this.$route.params.id;
 			if (jobId !== 'new') {
 				jobService
@@ -343,6 +300,12 @@ export default {
 				jobService
 					.addJob(payload)
 					.then((response) => {
+						userService
+							.addActivities(activity)
+							.then((resp) => {})
+							.catch((err) => {
+								console.log(err);
+							});
 						eventBus.$emit('show-toast', {
 							body: messages.job.jobAddSuccess,
 							title: messages.generic.success,
