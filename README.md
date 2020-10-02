@@ -74,5 +74,13 @@ Example: feat(news-feed): add news feed feature on landing page
 git push origin master -f
 ```
 
+## Contribution
+
+<!-- Please make sure to read the [Contributing Guide](https://github.com/shoonyatech/frontend.social/blob/master/.github/CONTRIBUTING.md) before making a pull request.  -->
+
+Thank you to all the people who already contributed to frontend.social!
+
+<a href="https://github.com/shoonyatech/frontend.social/graphs/contributors"><img src="./.github/contributors.svg" /></a>
+
 Create new PR from your GitHub repo to upstream repo
 Star the repo if you like it!
