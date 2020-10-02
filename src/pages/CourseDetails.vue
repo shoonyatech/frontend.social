@@ -106,14 +106,23 @@
 </template>
 
 <script>
+/** 3P dependency imports */
+import StarRating from 'vue-star-rating';
+
+/** Component dependencies */
 import Comment from '@/components/Comment/Comment';
 import AddComment from '@/components/Comment/AddComment';
 import ChapterStrip from '@/components/Course/ChapterStrip';
+
+/** services */
 import commentService from '@/services/comment.service';
 import courseService from '@/services/course.service';
+
+/** Helpers */
 import eventBus from '@/utilities/eventBus';
+
+/** Constants */
 import { ToastType, messages } from '@/constants/constants';
-import StarRating from 'vue-star-rating';
 
 export default {
 	name: 'CourseDetails',
