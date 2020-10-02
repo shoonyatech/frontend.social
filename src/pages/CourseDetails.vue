@@ -115,7 +115,7 @@ import Comment from '@/components/Comment/Comment';
 import AddComment from '@/components/Comment/AddComment';
 import ChapterStrip from '@/components/Course/ChapterStrip';
 
-/** services */
+/** Services */
 import commentService from '@/services/comment.service';
 import courseService from '@/services/course.service';
 
