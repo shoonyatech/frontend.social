@@ -34,6 +34,12 @@ npm install
 npm run serve
 ```
 
+### Run api server on localhost
+
+Api Server : https://github.com/shoonyatech/frontend-social-api
+
+Follow steps in this repo to setup API server on localhost using test DB
+
 ### Run your tests
 
 ```
