@@ -106,8 +106,7 @@ export default {
 	font-weight: bold;
 	text-align: center;
 	padding-top: 0.8rem;
-	overflow: hidden;
-	white-space: nowrap;
+	white-space: normal;
 }
 .course-technology {
 	font-size: 0.6rem;
