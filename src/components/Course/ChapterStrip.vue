@@ -1,35 +1,29 @@
 <template>
-  <div>
-    <b-card>
-      <div v-b-toggle="'collapse-' + chapter.chapterNo">
-        Chapter {{ chapter.chapterNo }}: {{ chapter.title }}
-      </div>
-      <b-collapse
-        :id="'collapse-' + chapter.chapterNo"
-        class="mt-2"
-      >
-        <div
-          v-for="(topic, index) in chapter.topics"
-          :key="index"
-        >
-          <router-link
-            :to="
-              '/learn/course/' +
-                courseId +
-                '/' +
-                getUrlFriendlyTitle(chapter.title || '') +
-                '/' +
-                getUrlFriendlyTitle(topic.title || '')
-            "
-          >
-            <div class="topic-container">
-              {{ topic.title }}
-            </div>
-          </router-link>
-        </div>
-      </b-collapse>
-    </b-card>
-  </div>
+	<div>
+		<b-card>
+			<div v-b-toggle="'collapse-' + chapter.chapterNo">
+				Chapter {{ chapter.chapterNo }}: {{ chapter.title }}
+			</div>
+			<b-collapse :id="'collapse-' + chapter.chapterNo" class="mt-2">
+				<div v-for="(topic, index) in chapter.topics" :key="index">
+					<router-link
+						:to="
+							'/learn/courses/' +
+							courseId +
+							'/' +
+							getUrlFriendlyTitle(chapter.title || '') +
+							'/' +
+							getUrlFriendlyTitle(topic.title || '')
+						"
+					>
+						<div class="topic-container">
+							{{ topic.title }}
+						</div>
+					</router-link>
+				</div>
+			</b-collapse>
+		</b-card>
+	</div>
 </template>
 
 <script>

@@ -124,17 +124,17 @@ const router = new Router({
 			component: () => import('./pages/Zoom.vue'),
 		},
 		{
-			path: '/learn/course/:id',
+			path: '/learn/courses/:id',
 			name: 'courseDetails',
 			component: () => import('./pages/CourseDetails.vue'),
 		},
 		{
-			path: '/learn/course',
+			path: '/learn/courses',
 			name: 'course',
 			component: () => import('./pages/Courses.vue'),
 		},
 		{
-			path: '/learn/course/:courseid/:chapterno/:topicurl',
+			path: '/learn/courses/:courseid/:chapterno/:topicurl',
 			name: 'videocourse',
 			component: () => import('./pages/VideoCourse.vue'),
 		},
