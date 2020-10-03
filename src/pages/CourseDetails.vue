@@ -17,19 +17,9 @@
         </b-col>
       </b-row>
       <b-row>
+        <b-col md="1" />
         <b-col
-          md="6"
-          sm="12"
-        >
-          <chapter-strip
-            v-for="(chapter, index) in course.chapters"
-            :key="index"
-            :chapter="chapter"
-            :course-id="course.uniqueId"
-          />
-        </b-col>
-        <b-col
-          md="6"
+          md="7"
           sm="12"
         >
           <youtube
@@ -39,11 +29,22 @@
             height="400"
           />
         </b-col>
+        <b-col
+          md="4"
+          sm="12"
+        >
+          <chapter-strip
+            v-for="(chapter, index) in course.chapters"
+            :key="index"
+            :chapter="chapter"
+            :course-id="course.uniqueId"
+          />
+        </b-col>
       </b-row>
       <b-row class="description">
         <b-col md="1" />
         <b-col
-          md="10"
+          md="7"
           sm="12"
         >
           <h1>Course Description</h1>
@@ -60,7 +61,7 @@
       >
         <b-col md="1" />
         <b-col
-          md="10"
+          md="7"
           sm="12"
         >
           <h1>About Author</h1>
@@ -99,7 +100,7 @@
             :on-save="saveComment"
           />
         </b-col>
-        <b-col md="2" />
+        <b-col md="1" />
       </b-row>
     </b-container>
   </div>
