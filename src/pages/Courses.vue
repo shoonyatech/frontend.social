@@ -157,7 +157,9 @@ export default {
 
 .course-card {
 	margin: 0.5rem;
-	display: inline-flex;
+	display: flex;
+	flex-direction: column;
 	text-align: center;
+	width: 100%;
 }
 </style>
