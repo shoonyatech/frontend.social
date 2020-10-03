@@ -195,7 +195,7 @@ export default {
 				},
 				{
 					text: this.course.title,
-					to: '/learn/course/' + this.course.uniqueId,
+					to: '/learn/courses/' + this.course.uniqueId,
 				},
 				{
 					text: this.topic.title,
@@ -315,7 +315,7 @@ export default {
 
 				if (previousTopic) {
 					this.previousLink =
-						'/learn/course/' +
+						'/learn/courses/' +
 						courseId +
 						'/' +
 						previousTopic.chapterTitle +
@@ -325,7 +325,7 @@ export default {
 
 				if (nextTopic) {
 					this.nextLink =
-						'/learn/course/' +
+						'/learn/courses/' +
 						courseId +
 						'/' +
 						nextTopic.chapterTitle +
