@@ -1,43 +1,54 @@
 <template>
   <!-- div for searching course -->
-  <router-link
-    :to="'/learn/courses/' + course.uniqueId"
-    :class="{ disabled: course.isDisabled }"
-  >
-    <div class="thumbnail">
-      <div class="details">
-        <div class="course-title">
+
+  <div class="thumbnail">
+    <div class="details">
+      <div class="course-title">
+        <router-link
+          :to="'/learn/courses/' + course.uniqueId"
+          :class="{ disabled: course.isDisabled }"
+        >
           {{ course.title }}
-        </div>
-        <div
-          v-if="course.rating"
-          class="course-rating"
+        </router-link>
+      </div>
+      <div
+        v-if="course.rating"
+        class="course-rating"
+      >
+        <star-rating
+          :rating="course.rating"
+          :star-size="15"
+          :read-only="true"
+          :show-rating="false"
+        />
+      </div>
+      <div class="course-technology">
+        <router-link
+          :to="'/tech/' + course.technology"
+          :class="{ disabled: course.isDisabled }"
         >
-          <star-rating
-            :rating="course.rating"
-            :star-size="15"
-            :read-only="true"
-            :show-rating="false"
-          />
-        </div>
-        <div class="course-technology">
           {{ course.technology }}
-        </div>
-        <div
-          class="course-description"
-          :class="{ 'has-rating': course.rating }"
+        </router-link>
+      </div>
+      <div
+        class="course-description"
+        :class="{ 'has-rating': course.rating }"
+      >
+        {{ course.description }}
+      </div>
+      <div class="button">
+        <router-link
+          :to="'/learn/courses/' + course.uniqueId"
+          :class="{ disabled: course.isDisabled }"
         >
-          {{ course.description }}
-        </div>
-        <div class="button">
           <Button
             :label="course.isDisabled ? 'Coming Soon' : 'Explore'"
             :click="onExploreClick"
           />
-        </div>
+        </router-link>
       </div>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
@@ -64,12 +75,13 @@ export default {
 <style scoped lang="scss">
 /* style for course thumbnail */
 .thumbnail {
-	border: solid #114273 2px;
 	height: 12rem;
-	width: 12rem;
-	min-width: 12rem;
+	width: 100%;
 	color: #2c3e50;
 	text-decoration: none;
+	display: flex;
+	flex-direction: columns;
+	border-bottom: dotted 1px #114273;
 }
 
 .details {
