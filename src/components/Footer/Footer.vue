@@ -31,7 +31,7 @@
             name="slack"
             class="social-link"
             rel="noopener"
-            href="https://shoonya-tech.slack.com/messages/CJ6KZLC9M/"
+            href="https://join.slack.com/t/shoonya-tech/shared_invite/zt-i783y3rk-5I97wQmTZ~4zchNZdKJs2w"
             target="_blank"
           >
             <img
