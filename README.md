@@ -82,5 +82,12 @@ Thank you to all the people who already contributed to frontend.social!
 
 <a href="https://github.com/shoonyatech/frontend.social/graphs/contributors"><img src="./.github/contributors.svg" /></a>
 
+## Stay in Touch
+
+> - Twitter - @FrontendSocial
+> - Slack - https://join.slack.com/t/shoonya-tech/shared_invite/zt-i783y3rk-5I97wQmTZ~4zchNZdKJs2w
+>
+> - Mail - [contact@shoonya.ca](mailto:contact@shoonya.ca)
+
 Create new PR from your GitHub repo to upstream repo
 Star the repo if you like it!
