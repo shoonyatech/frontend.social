@@ -1,59 +1,65 @@
 <template>
-  <!-- div for searching city -->
-  <div
-    v-infinite-scroll="loadCities"
-    class="learn"
-    infinite-scroll-disabled="isDisableInfiniteScroll"
-    infinite-scroll-distance="limit"
-  >
-    <Loader v-show="loading" />
-    <b-container>
-      <b-row>
-        <b-col md="12">
-          <div class="search-box-container">
-            <input
-              class="search-box"
-              placeholder="City.."
-              @input="citySearch"
+  <div>
+    <!-- Avatar map -->
+    <AvatarMap />
+    <!-- div for searching city -->
+    <div
+      v-infinite-scroll="loadCities"
+      class="learn"
+      infinite-scroll-disabled="isDisableInfiniteScroll"
+      infinite-scroll-distance="limit"
+    >
+      <Loader v-show="loading" />
+      <b-container>
+        <b-row>
+          <b-col md="12">
+            <div class="search-box-container">
+              <input
+                class="search-box"
+                placeholder="City.."
+                @input="citySearch"
+              >
+            </div>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col md="12">
+            <div
+              v-if="cities == null || cities.length === 0"
+              class="no-result"
             >
-          </div>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="12">
-          <div
-            v-if="cities == null || cities.length === 0"
-            class="no-result"
+              No city found. Please try again..
+            </div>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col
+            v-for="(city, index) in cities"
+            :key="index"
+            md="3"
           >
-            No city found. Please try again..
-          </div>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col
-          v-for="(city, index) in cities"
-          :key="index"
-          md="3"
-        >
-          <div class="city-card-container">
-            <city-thumbnail
-              :city="city"
-              class="city-card"
-            />
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
+            <div class="city-card-container">
+              <city-thumbnail
+                :city="city"
+                class="city-card"
+              />
+            </div>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
   </div>
 </template>
 
 <script>
 import CityThumbnail from '@/components/City/CityThumbnail';
+import AvatarMap from '@/components/Cities/AvatarMap';
 import cityService from '@/services/city.service';
 import { uniqBy } from 'lodash';
 export default {
 	components: {
 		CityThumbnail,
+		AvatarMap,
 	},
 	props: {
 		infiniteScroll: {
