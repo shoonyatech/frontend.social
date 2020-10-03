@@ -1,88 +1,73 @@
 <template>
-  <div class="tool-container">
-    <b-container>
-      <b-row>
-        <b-col
-          md="1"
-          sm="1"
-          class="col-xs-1"
-        >
-          <img
-            :src="`/images/up.svg`"
-            class="up-down-arrow cursor-pointer"
-            alt="up arrow"
-            :class="{ disabled: !signedInUser }"
-            @click="onUpVote(tool, index)"
-          >
-          {{ tool.upRating - tool.downRating }}
-          <img
-            :src="`/images/down.svg`"
-            alt="down-arrow"
-            class="up-down-arrow cursor-pointer"
-            :class="{ disabled: !signedInUser }"
-            @click="onDownVote(tool, index)"
-          >
-        </b-col>
-        <b-col
-          md="1"
-          sm="1"
-          class="p-0 col-xs-1"
-        >
-          <img
-            :src="tool.icon"
-            onerror="this.onerror=null; this.src='/images/tools/default-icon.svg'"
-            alt="tool-icon"
-            class="w-100"
-          >
-        </b-col>
-        <b-col
-          md="9"
-          sm="9"
-          class="tool-box mb-5 col-xs-9"
-        >
-          <h2 class="caption">
-            {{ tool.name }}
-          </h2>
-          <SkillTags
-            v-if="tool.technologies"
-            :skills="tool.technologies"
-          />
-          <div class="subtitle">
-            <div class="mb-2">
-              {{ tool.review }}
-            </div>
-          </div>
-          <div class="subtitle color-gray">
-            Reviews
-            <add-comment
-              v-if="signedInUser"
-              ref="addcomment"
-              :comment-id="commentId"
-              :on-save="saveComment"
-              :on-cancel="cancelComment"
-              :show-rating="showRating"
-              :parent-id="toolId"
-              class="mt-1"
-            />
-            <b-col md="12 mb-2">
-              <Comment
-                v-for="(comment, i) in comments"
-                :key="comment._id"
-                :index="i"
-                :comment-id="comment._id"
-                :comment="comment"
-                :show-rating="showRating"
-                :allow-reply="allowReply"
-                :on-delete="deleteComment"
-                :on-edit="editComment"
-                :on-save="saveComment"
-              />
-            </b-col>
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+	<div class="tool-container">
+		<b-container>
+			<b-row>
+				<b-col md="1" sm="1" class="col-xs-1">
+					<img
+						:src="`/images/up.svg`"
+						class="up-down-arrow cursor-pointer"
+						alt="up arrow"
+						:class="{ disabled: !signedInUser }"
+						@click="onUpVote(tool, index)"
+					/>
+					{{ tool.upRating - tool.downRating }}
+					<img
+						:src="`/images/down.svg`"
+						alt="down-arrow"
+						class="up-down-arrow cursor-pointer"
+						:class="{ disabled: !signedInUser }"
+						@click="onDownVote(tool, index)"
+					/>
+				</b-col>
+				<b-col md="1" sm="1" class="p-0 col-xs-1">
+					<img
+						:src="tool.icon"
+						onerror="this.onerror=null; this.src='/images/tools/default-icon.svg'"
+						alt="tool-icon"
+						class="w-100"
+					/>
+				</b-col>
+				<b-col md="9" sm="9" class="tool-box mb-5 col-xs-9">
+					<h2 class="caption">
+						<a :href="tool.link">{{ tool.name }}</a>
+					</h2>
+					<SkillTags v-if="tool.technologies" :skills="tool.technologies" />
+					<div class="subtitle">
+						<div class="mb-2">
+							{{ tool.review }}
+						</div>
+					</div>
+					<div class="subtitle color-gray">
+						Reviews
+						<add-comment
+							v-if="signedInUser"
+							ref="addcomment"
+							:comment-id="commentId"
+							:on-save="saveComment"
+							:on-cancel="cancelComment"
+							:show-rating="showRating"
+							:parent-id="toolId"
+							class="mt-1"
+						/>
+						<b-col md="12 mb-2">
+							<Comment
+								v-for="(comment, i) in comments"
+								:key="comment._id"
+								:index="i"
+								:comment-id="comment._id"
+								:comment="comment"
+								:show-rating="showRating"
+								:allow-reply="allowReply"
+								:on-delete="deleteComment"
+								:on-edit="editComment"
+								:on-save="saveComment"
+							/>
+						</b-col>
+					</div>
+				</b-col>
+			</b-row>
+		</b-container>
+	</div>
 </template>
 <script>
 import Comment from '@/components/Comment/Comment.vue';
