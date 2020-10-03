@@ -150,7 +150,7 @@ body {
 	color: var(--fs-primary-color);
 	background-color: var(--fs-bg);
 	.main {
-		min-height: 70vh;
+		min-height: 83vh;
 		padding-top: 87px;
 		@media screen and (max-width: 759px) {
 			padding-top: 70px;
