@@ -4,7 +4,7 @@
       <b-breadcrumb :items="items" />
       <b-row v-if="course.rating">
         <b-col
-          md="6"
+          md="9"
           sm="12"
           class="course-rating"
         >
@@ -19,17 +19,6 @@
       <b-row>
         <b-col md="1" />
         <b-col
-          md="7"
-          sm="12"
-        >
-          <youtube
-            ref="youtube"
-            :video-id="course.introductoryVideoUrl"
-            width="100%"
-            height="400"
-          />
-        </b-col>
-        <b-col
           md="4"
           sm="12"
         >
@@ -40,11 +29,22 @@
             :course-id="course.uniqueId"
           />
         </b-col>
+        <b-col
+          md="7"
+          sm="12"
+        >
+          <youtube
+            ref="youtube"
+            :video-id="course.introductoryVideoUrl"
+            width="100%"
+            height="400"
+          />
+        </b-col>
       </b-row>
       <b-row class="description">
         <b-col md="1" />
         <b-col
-          md="7"
+          md="10"
           sm="12"
         >
           <h1>Course Description</h1>
@@ -61,7 +61,7 @@
       >
         <b-col md="1" />
         <b-col
-          md="7"
+          md="10"
           sm="12"
         >
           <h1>About Author</h1>
