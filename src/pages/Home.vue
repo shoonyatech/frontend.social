@@ -128,6 +128,7 @@ export default {
 		return {
 			emailState: null,
 			email: '',
+			unSubscribe: false,
 			loading: true,
 		};
 	},
@@ -176,6 +177,7 @@ export default {
 			}
 			const payload = {
 				email: this.email,
+				unSubscribe: this.unSubscribe,
 			};
 			this.loading = true;
 			newsletterService
