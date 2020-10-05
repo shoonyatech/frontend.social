@@ -10,11 +10,15 @@
         </router-link>
       </td>
       <td>
-        <img
-          :src="profileData.profilePic"
-          class="profile-photo"
-          alt="Profile Pic"
+        <a
+          :href="`/user/${profileData.username}`"
+          :title="profileData.username"
         >
+          <img
+            :src="profileData.profilePic"
+            class="profile-photo"
+            alt="Profile Pic"
+          ></a>
       </td>
     </table>
   </div>
