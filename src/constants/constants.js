@@ -48,6 +48,10 @@ export const messages = {
 		cityAddFailure:
 			'Error adding new city, Please fill all fields and try again.',
 	},
+	cities: {
+		userErrorTitle: '',
+		userErrorBody: 'There are no developers in your area',
+	},
 	events: {
 		eventsAddSuccess: 'Event added successfully!',
 		eventsUpdateSuccess: 'Event updated successfully!',

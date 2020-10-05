@@ -14,7 +14,7 @@
           v-if="isLoading"
           class="avatar-map__loader"
         >
-          Loading...
+          <div class="spinner" />
         </div>
       </div>
     </b-col>
@@ -28,6 +28,8 @@ import * as esri from 'esri-leaflet-geocoder';
 import usersService from '@/services/user.service';
 import { groupBy } from '@/utilities/utils';
 import { Countries } from '@/constants/countries.js';
+import EventBus from '@/utilities/eventBus.js';
+import { ToastType, messages } from '@/constants/constants';
 
 export default {
 	name: 'AvatarMap',
@@ -74,13 +76,13 @@ export default {
 				.latlng([coords.latitude, coords.longitude])
 				.run((error, result) => {
 					if (error) {
-						console.log(error);
+						console.error('Something went wrong', { error });
 						return;
 					}
-					this.countryCode = 'IN'; // result.address.CountryCode.substring(0, 2);
+					this.countryCode = result.address.CountryCode.substring(0, 2);
 				});
 		} catch (error) {
-			console.log('getLocation()', error);
+			console.error('Something went wrong', { error });
 		}
 
 		this.getUsers();
@@ -109,6 +111,17 @@ export default {
 					(u) => u.country === this.countryCode
 				);
 
+				if (locatedUsers.length === 0) {
+					console.log('There are no developers in your area');
+					EventBus.$emit('show-toast', {
+						type: ToastType.ERROR,
+						title: messages.generic.error,
+						body: messages.cities.userErrorBody,
+					});
+					this.isLoading = false;
+					return;
+				}
+
 				for await (let user of locatedUsers) {
 					let countryName = user.country
 						? Countries.find((c) => c.value === user.country).text
@@ -128,25 +141,25 @@ export default {
 						.text(address)
 						.run((error, result) => {
 							if (error) {
-								console.log('esri.geocode()', error);
+								console.error('Something went wrong', { error });
 								return;
 							}
-							const latLng = result.results[0].latlng;
+							const resultsLength = result.results.length;
+							const randomItem = Math.floor(Math.random() * resultsLength);
+							let latLng = result.results[randomItem].latlng;
 							const icon = L.icon({
 								iconUrl: user.profilePic,
 								iconSize: [25, 25], // size of the icon
 							});
 							const marker = L.marker(latLng, { icon })
-								.bindPopup(
-									`<a href="/user/${user.username}" class="avatar-link">${user.name}</a>`
-								)
+								.bindPopup(`<a href="/user/${user.username}">${user.name}</a>`)
 								.addTo(this.markers);
 						});
 				}
 				this.isLoading = false;
 			} catch (error) {
 				this.isLoading = false;
-				console.log('getUsers()', error);
+				console.error('Something went wrong', { error });
 			}
 		},
 	},
@@ -155,7 +168,7 @@ export default {
 
 <style lang="scss" scoped>
 .avatar-map {
-	height: 450px;
+	height: 350px;
 	border: solid 2px #114273;
 
 	.avatar-map__loader {
@@ -166,6 +179,43 @@ export default {
 		display: flex;
 		justify-content: center;
 		align-items: center;
+
+		.spinner {
+			width: 40px;
+			height: 40px;
+			background-color: #114273;
+
+			margin: 100px auto;
+			-webkit-animation: sk-rotateplane 1.2s infinite ease-in-out;
+			animation: sk-rotateplane 1.2s infinite ease-in-out;
+		}
+	}
+}
+
+@-webkit-keyframes sk-rotateplane {
+	0% {
+		-webkit-transform: perspective(120px);
+	}
+	50% {
+		-webkit-transform: perspective(120px) rotateY(180deg);
+	}
+	100% {
+		-webkit-transform: perspective(120px) rotateY(180deg) rotateX(180deg);
+	}
+}
+
+@keyframes sk-rotateplane {
+	0% {
+		transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+		-webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+	}
+	50% {
+		transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+		-webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+	}
+	100% {
+		transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+		-webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
 	}
 }
 </style>
@@ -186,13 +236,5 @@ export default {
 		font-weight: 400;
 		line-height: 1;
 	}
-}
-
-.leaflet-popup-tip {
-	// background: #114273;
-}
-
-.leaflet-container a {
-	// color: #ffffff !important;
 }
 </style>
