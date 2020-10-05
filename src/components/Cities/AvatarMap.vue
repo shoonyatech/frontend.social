@@ -1,11 +1,24 @@
 <template>
-	<b-container>
-		<b-col sm="12" md="12" lg="12" xl="12">
-			<div id="map" class="avatar-map">
-				<div v-if="isLoading" class="avatar-map__loader">Loading...</div>
-			</div>
-		</b-col>
-	</b-container>
+  <b-container>
+    <b-col
+      sm="12"
+      md="12"
+      lg="12"
+      xl="12"
+    >
+      <div
+        id="map"
+        class="avatar-map"
+      >
+        <div
+          v-if="isLoading"
+          class="avatar-map__loader"
+        >
+          Loading...
+        </div>
+      </div>
+    </b-col>
+  </b-container>
 </template>
 
 <script>
@@ -24,10 +37,12 @@ export default {
 		isLoading: false,
 		countryCode: null,
 		baseLayer: L.tileLayer(
-			'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+			'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
 			{
 				attribution:
-					'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+					'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+				subdomains: 'abcd',
+				maxZoom: 19,
 			}
 		),
 		markers: L.featureGroup(),
@@ -163,21 +178,21 @@ export default {
 
 .leaflet-popup-content-wrapper {
 	min-width: fit-content;
-	background: #114273;
-	color: #ffffff;
+	border: solid 2px #114273;
+	border-radius: 0;
 	.leaflet-popup-content {
 		font-family: 'Consolas', 'Inconsolata', monospace;
-		font-size: 0.7;
+		font-size: 1em;
 		font-weight: 400;
 		line-height: 1;
 	}
 }
 
 .leaflet-popup-tip {
-	background: #114273;
+	// background: #114273;
 }
 
 .leaflet-container a {
-	color: #ffffff !important;
+	// color: #ffffff !important;
 }
 </style>
