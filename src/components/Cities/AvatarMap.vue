@@ -1,24 +1,11 @@
 <template>
-  <b-container>
-    <b-col
-      sm="12"
-      md="12"
-      lg="12"
-      xl="12"
-    >
-      <div
-        id="map"
-        class="avatar-map"
-      >
-        <div
-          v-if="isLoading"
-          class="avatar-map__loader"
-        >
-          Loading...
-        </div>
-      </div>
-    </b-col>
-  </b-container>
+	<b-container>
+		<b-col sm="12" md="12" lg="12" xl="12">
+			<div id="map" class="avatar-map">
+				<div v-if="isLoading" class="avatar-map__loader">Loading...</div>
+			</div>
+		</b-col>
+	</b-container>
 </template>
 
 <script>
@@ -134,7 +121,11 @@ export default {
 								iconUrl: user.profilePic,
 								iconSize: [25, 25], // size of the icon
 							});
-							const marker = L.marker(latLng, { icon }).addTo(this.markers);
+							const marker = L.marker(latLng, { icon })
+								.bindPopup(
+									`<a href="/user/${user.username}" class="avatar-link">${user.name}</a>`
+								)
+								.addTo(this.markers);
 						});
 				}
 				this.isLoading = false;
@@ -168,5 +159,25 @@ export default {
 .leaflet-marker-icon {
 	border: solid 2px #114273;
 	border-radius: 50%;
+}
+
+.leaflet-popup-content-wrapper {
+	min-width: fit-content;
+	background: #114273;
+	color: #ffffff;
+	.leaflet-popup-content {
+		font-family: 'Consolas', 'Inconsolata', monospace;
+		font-size: 0.7;
+		font-weight: 400;
+		line-height: 1;
+	}
+}
+
+.leaflet-popup-tip {
+	background: #114273;
+}
+
+.leaflet-container a {
+	color: #ffffff !important;
 }
 </style>
