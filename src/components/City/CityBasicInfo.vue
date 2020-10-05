@@ -1,32 +1,32 @@
 <template>
-	<!-- div for searching city -->
-	<div class="basic-info">
-		<img
-			class="photo"
-			:src="`/images/cities/${city.name}-${city.country}.jpg`"
-			:alt="city.name"
-			onerror="this.onerror=null; this.src='/images/cities/default.jpg'"
-		/>
-		<div class="details">
-			<div class="inline-block">
-				<span>{{ city.name }}</span>
-				<span v-if="city.oldName"> ({{ city.oldName }})</span>,
-				<span>{{ city.country }}</span>
-			</div>
-			<div class="text-sm title">
-				{{ city.title }}
-			</div>
-			<div class="text-xs tiny-details">
-				<tiny-key-value
-					v-for="(skill, index) in city.topSkills"
-					:key="index"
-					:label="skill.skill"
-					:value="skill.count"
-					class="half-width pr-2"
-				/>
-			</div>
-		</div>
-	</div>
+  <!-- div for searching city -->
+  <div class="basic-info">
+    <img
+      class="photo"
+      :src="`/images/cities/${city.name}-${city.country}.jpg`"
+      :alt="city.name"
+      onerror="this.onerror=null; this.src='/images/cities/default.jpg'"
+    >
+    <div class="details">
+      <div class="inline-block">
+        <span>{{ city.name }}</span>
+        <span v-if="city.oldName"> ({{ city.oldName }})</span>,
+        <span>{{ city.country }}</span>
+      </div>
+      <div class="text-sm title">
+        {{ city.title }}
+      </div>
+      <div class="text-xs tiny-details">
+        <tiny-key-value
+          v-for="(skill, index) in city.topSkills"
+          :key="index"
+          :label="skill.skill"
+          :value="skill.count"
+          class="half-width pr-2"
+        />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
