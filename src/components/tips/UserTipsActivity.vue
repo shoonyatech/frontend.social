@@ -2,15 +2,9 @@
   <div>
     <table>
       <td>
-        <a
-          :href="`/user/${profileData.username}`"
-          :title="profileData.username"
-        >
-          <img
-            :src="profileData.profilePic"
-            class="profile-photo"
-            alt="Profile Pic"
-          ></a>
+        <div>
+          <UserAvatar :user="profileData" />
+        </div>
       </td>
       <td class="td">
         <div class="tip">
@@ -32,11 +26,13 @@
 </template>
 <script>
 import tipsService from '@/services/user.service';
+import UserAvatar from '@/components/common/UserAvatar';
 import { Tweet } from 'vue-tweet-embed';
 export default {
 	name: 'UserTipsActivity',
 	components: {
 		Tweet,
+		UserAvatar,
 	},
 	props: {
 		tip: {
