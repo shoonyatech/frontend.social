@@ -14,7 +14,7 @@
           v-if="isLoading"
           class="avatar-map__loader"
         >
-          Loading...
+          <div class="spinner" />
         </div>
       </div>
     </b-col>
