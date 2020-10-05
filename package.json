@@ -25,6 +25,7 @@
 		"cookie-parser": "^1.4.4",
 		"core-js": "^2.6.11",
 		"dotenv": "^8.2.0",
+		"esri-leaflet-geocoder": "^2.3.3",
 		"express": "^4.17.1",
 		"express-session": "^1.17.0",
 		"heroku-ssl-redirect": "0.0.4",
