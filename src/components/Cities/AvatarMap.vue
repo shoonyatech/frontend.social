@@ -1,11 +1,24 @@
 <template>
-	<b-container>
-		<b-col sm="12" md="12" lg="12" xl="12">
-			<div id="map" class="avatar-map">
-				<div v-if="isLoading" class="avatar-map__loader">Loading...</div>
-			</div>
-		</b-col>
-	</b-container>
+  <b-container>
+    <b-col
+      sm="12"
+      md="12"
+      lg="12"
+      xl="12"
+    >
+      <div
+        id="map"
+        class="avatar-map"
+      >
+        <div
+          v-if="isLoading"
+          class="avatar-map__loader"
+        >
+          Loading...
+        </div>
+      </div>
+    </b-col>
+  </b-container>
 </template>
 
 <script>
