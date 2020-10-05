@@ -62,7 +62,7 @@ export default {
 		},
 		limit: {
 			type: Number,
-			default: 10,
+			default: 12,
 		},
 	},
 	data() {
@@ -96,7 +96,7 @@ export default {
 			}
 
 			this.busy = false;
-			this.limit = this.limit || 10;
+			this.limit = this.limit || 12;
 			this.page = this.page || 1;
 
 			cityService
