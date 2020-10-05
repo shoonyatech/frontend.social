@@ -1,11 +1,24 @@
 <template>
-	<b-container>
-		<b-col sm="12" md="12" lg="12" xl="12">
-			<div id="map" class="avatar-map">
-				<div v-if="isLoading" class="avatar-map__loader">Loading...</div>
-			</div>
-		</b-col>
-	</b-container>
+  <b-container>
+    <b-col
+      sm="12"
+      md="12"
+      lg="12"
+      xl="12"
+    >
+      <div
+        id="map"
+        class="avatar-map"
+      >
+        <div
+          v-if="isLoading"
+          class="avatar-map__loader"
+        >
+          Loading...
+        </div>
+      </div>
+    </b-col>
+  </b-container>
 </template>
 
 <script>
@@ -30,7 +43,7 @@ export default {
 					'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 			}
 		),
-		markers: L.layerGroup(),
+		markers: L.featureGroup(),
 	}),
 
 	async mounted() {
@@ -44,10 +57,13 @@ export default {
 			const { coords } = await this.getLocation();
 
 			// Sets the center of the map in user's current location
-			this.map.setView({
-				lat: 20.7711443 /* coords.latitude */,
-				lon: 73.7291499 /* coords.longitude */,
-			});
+			this.map.setView(
+				{
+					lat: coords.latitude,
+					lon: coords.longitude,
+				},
+				8
+			);
 
 			// Gets the current country code based on user's location
 			esri
@@ -84,9 +100,12 @@ export default {
 
 		async getUsers() {
 			try {
+				this.isLoading = true;
 				this.users = await usersService.getAllUsers();
 				const notLocatedUsers = this.users.filter((u) => !u.country && !u.city);
-				const locatedUsers = this.users.filter((u) => u.country || u.city);
+				const locatedUsers = this.users.filter(
+					(u) => u.country === this.countryCode
+				);
 
 				for await (let user of locatedUsers) {
 					let countryName = user.country
@@ -102,7 +121,7 @@ export default {
 							? city
 							: '';
 
-					esri
+					await esri
 						.geocode()
 						.text(address)
 						.run((error, result) => {
@@ -118,7 +137,9 @@ export default {
 							const marker = L.marker(latLng, { icon }).addTo(this.markers);
 						});
 				}
+				this.isLoading = false;
 			} catch (error) {
+				this.isLoading = false;
 				console.log('getUsers()', error);
 			}
 		},
