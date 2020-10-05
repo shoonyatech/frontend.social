@@ -42,7 +42,9 @@ export default {
 	},
 
 	getAllUsers(searchText) {
-		return httpClient.get(`users?searchText=${searchText}`);
+		return httpClient.get(
+			searchText ? `users?searchText=${searchText}` : `users`
+		);
 	},
 	getUsers() {
 		return httpClient.get(`users`);
