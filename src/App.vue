@@ -1,24 +1,24 @@
 <template>
-  <div
-    id="app"
-    :class="{ 'theme-dark': isDarkMode, 'theme-light': !isDarkMode }"
-  >
-    <div class="header">
-      <NavBar
-        :nav-links="navLinks"
-        :is-dark-mode="isDarkMode"
-        @toggle-theme="toggleTheme"
-      />
-      <!-- <button @click="isDarkMode=!isDarkMode">
+	<div
+		id="app"
+		:class="{ 'theme-dark': isDarkMode, 'theme-light': !isDarkMode }"
+	>
+		<div class="header">
+			<NavBar
+				:nav-links="navLinks"
+				:is-dark-mode="isDarkMode"
+				@toggle-theme="toggleTheme"
+			/>
+			<!-- <button @click="isDarkMode=!isDarkMode">
         Mode
       </button> -->
-    </div>
-    <div class="main">
-      <router-view :key="path" />
-    </div>
-    <Footer :copyright-text="copyrightText" />
-    <ToastsManager />
-  </div>
+		</div>
+		<div class="main">
+			<router-view :key="path" />
+		</div>
+		<Footer :copyright-text="copyrightText" />
+		<ToastsManager />
+	</div>
 </template>
 
 <script>
@@ -162,11 +162,10 @@ body {
 	border-bottom: 7px solid var(--fs-secondary-color);
 	position: fixed;
 	top: 0;
-	z-index: 100;
+	z-index: 1200;
 	width: 100%;
 	background-color: white;
 	color: var(--fs-secondary-color);
-	z-index: 10;
 	background: var(--fs-bg);
 }
 
@@ -380,5 +379,9 @@ input {
 
 .sub-text {
 	font-size: 0.65rem;
+}
+
+.b-toaster {
+	z-index: 1300;
 }
 </style>

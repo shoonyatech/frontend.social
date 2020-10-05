@@ -1,31 +1,22 @@
 <template>
-  <b-container>
-    <b-col
-      sm="12"
-      md="12"
-      lg="12"
-      xl="12"
-    >
-      <div
-        id="map"
-        class="avatar-map"
-      >
-        <div
-          v-if="isLoading"
-          class="avatar-map__loader"
-        >
-          <div class="spinner" />
-        </div>
-      </div>
-    </b-col>
-  </b-container>
+	<b-container>
+		<b-col sm="12" md="12" lg="12" xl="12">
+			<div id="map" class="avatar-map">
+				<div v-if="isLoading" class="avatar-map__loader">
+					<div class="spinner" />
+				</div>
+			</div>
+		</b-col>
+	</b-container>
 </template>
 
 <script>
 import 'leaflet/dist/leaflet.css';
+import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css';
 import * as L from 'leaflet';
 import * as esri from 'esri-leaflet-geocoder';
 import usersService from '@/services/user.service';
+import { GestureHandling } from 'leaflet-gesture-handling';
 import { groupBy } from '@/utilities/utils';
 import { Countries } from '@/constants/countries.js';
 import EventBus from '@/utilities/eventBus.js';
@@ -51,10 +42,12 @@ export default {
 	}),
 
 	async mounted() {
+		L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling);
 		this.map = L.map('map', {
 			center: [37.7749, -122.4194],
 			zoom: 13,
 			layers: [this.baseLayer, this.markers],
+			gestureHandling: true,
 		});
 
 		try {
@@ -167,6 +160,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.theme-dark {
+	.avatar-map {
+		border: solid 2px #b8daff;
+	}
+}
+
 .avatar-map {
 	height: 350px;
 	border: solid 2px #114273;
