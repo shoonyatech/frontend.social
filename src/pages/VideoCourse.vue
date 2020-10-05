@@ -1,102 +1,75 @@
 <template>
-  <div class="host">
-    <b-container>
-      <b-breadcrumb :items="items" />
-      <b-row>
-        <b-col
-          md="6"
-          sm="12"
-        />
-        <b-col
-          md="6"
-          sm="12"
-        >
-          <Checkbox
-            v-if="codeEditorURL"
-            id="isautoSync"
-            label="Auto sync code with video"
-            :is-checked="isAutoSync"
-            :on-click="toggleIsAutoSync"
-          />
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col
-          md="6"
-          sm="12"
-        >
-          <youtube
-            ref="youtube"
-            :video-id="topic.videoUrl"
-            width="100%"
-            height="400"
-            :player-vars="playerVars"
-          />
-          <!-- <button @click="getCurrentTime">Get Current Time</button> -->
-        </b-col>
-        <b-col
-          md="6"
-          sm="12"
-        >
-          <CodeEditor
-            v-if="codeEditorURL"
-            :url="codeEditorURL"
-          />
-          <span v-else>No code available for this topic</span>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="6">
-          <button
-            v-if="previousLink"
-            @click="onPrevious()"
-          >
-            Previous
-          </button>
-        </b-col>
-        <b-col md="6">
-          <button
-            v-if="nextLink"
-            style="float: right"
-            @click="onNext()"
-          >
-            Next
-          </button>
-        </b-col>
-      </b-row>
-      <b-row
-        v-if="!hideComments"
-        class="comment-section"
-      >
-        <b-col md="1" />
-        <b-col md="10">
-          <h1>Questions and Answers</h1>
-          <add-comment
-            ref="addcomment"
-            :comment-id="commentId"
-            :on-save="saveComment"
-            :on-cancel="cancelComment"
-            :show-rating="showRating"
-            :parent-id="topic._id"
-            class="mt-1"
-          />
-          <Comment
-            v-for="(comment, index) in comments"
-            :key="comment._id"
-            :index="index"
-            :comment-id="comment._id"
-            :comment="comment"
-            :show-rating="showRating"
-            :allow-reply="allowReply"
-            :on-delete="deleteComment"
-            :on-edit="editComment"
-            :on-save="saveComment"
-          />
-        </b-col>
-        <b-col md="2" />
-      </b-row>
-    </b-container>
-  </div>
+	<div class="host">
+		<b-container>
+			<b-breadcrumb :items="items" />
+			<b-row>
+				<b-col md="6" sm="12" />
+				<b-col md="6" sm="12">
+					<Checkbox
+						v-if="codeEditorURL"
+						id="isautoSync"
+						label="Auto sync code with video"
+						:is-checked="isAutoSync"
+						:on-click="toggleIsAutoSync"
+					/>
+				</b-col>
+			</b-row>
+			<b-row>
+				<b-col md="6" sm="12">
+					<youtube
+						ref="youtube"
+						:video-id="topic.videoUrl"
+						width="100%"
+						height="400"
+						:player-vars="playerVars"
+					/>
+					<!-- <button @click="getCurrentTime">Get Current Time</button> -->
+				</b-col>
+				<b-col md="6" sm="12">
+					<CodeEditor v-if="codeEditorURL" :url="codeEditorURL" />
+					<span v-else>No code available for this topic</span>
+				</b-col>
+			</b-row>
+			<b-row>
+				<b-col md="6">
+					<button v-if="previousLink" @click="onPrevious()">Previous</button>
+				</b-col>
+				<b-col md="6">
+					<button v-if="nextLink" style="float: right" @click="onNext()">
+						Next
+					</button>
+				</b-col>
+			</b-row>
+			<b-row v-if="!hideComments" class="comment-section">
+				<b-col md="1" />
+				<b-col md="10">
+					<h1>Questions and Answers</h1>
+					<add-comment
+						ref="addcomment"
+						:comment-id="commentId"
+						:on-save="saveComment"
+						:on-cancel="cancelComment"
+						:show-rating="showRating"
+						:parent-id="topic._id"
+						class="mt-1"
+					/>
+					<Comment
+						v-for="(comment, index) in comments"
+						:key="comment._id"
+						:index="index"
+						:comment-id="comment._id"
+						:comment="comment"
+						:show-rating="showRating"
+						:allow-reply="allowReply"
+						:on-delete="deleteComment"
+						:on-edit="editComment"
+						:on-save="saveComment"
+					/>
+				</b-col>
+				<b-col md="2" />
+			</b-row>
+		</b-container>
+	</div>
 </template>
 
 <script>
@@ -311,7 +284,18 @@ export default {
 				this.topic = topics[currentIndex];
 				const previousTopic = topics[currentIndex - 1];
 				const nextTopic = topics[currentIndex + 1];
-				this.codeEditorURL = this.topic.codeLink;
+				// changed github url to gitcdn.link
+				let rawCodeEditorURL = this.topic.codeLink;
+				rawCodeEditorURL = rawCodeEditorURL.replace(
+					'github.com',
+					'gitcdn.link/repo'
+				);
+				let lastSlash = rawCodeEditorURL.lastIndexOf('/');
+
+				this.codeEditorURL = rawCodeEditorURL + '/master/README.md';
+				console.log(this.codeEditorURL);
+
+				//this.codeEditorURL = this.topic.codeLink;
 
 				if (previousTopic) {
 					this.previousLink =
