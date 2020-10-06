@@ -18,12 +18,12 @@
     >
       <i class="fa fa-github fa-fw" /> Sign in with Github
     </button>
-    <button
+    <!-- <button
       class="social-button twitter hidden"
       @click="authenticate('twitter')"
     >
       <i class="fa fa-twitter fa-fw" /> Sign in with Twitter
-    </button>
+    </button> -->
   </div>
 </template>
 
