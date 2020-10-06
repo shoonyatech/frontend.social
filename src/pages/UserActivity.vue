@@ -58,24 +58,33 @@ export default {
 		};
 	},
 	created() {
-		userService.getUsers().then((user) => {
-			this.total = user.length;
-			user.map((re) => {
-				if (re.provider === 'github') {
-					this.users.github.push(re);
-				}
-				if (re.provider === 'facebook') {
-					this.users.facebook.push(re);
-				}
-				if (re.provider === 'twitter') {
-					this.users.twitter.push(re);
-				}
-				if (re.provider === 'google') {
-					this.users.google.push(re);
-				}
+		userService
+			.getUsers()
+			.then((user) => {
+				this.total = user.length;
+				user.map((re) => {
+					if (re.provider === 'github') {
+						this.users.github.push(re);
+					}
+					if (re.provider === 'facebook') {
+						this.users.facebook.push(re);
+					}
+					if (re.provider === 'twitter') {
+						this.users.twitter.push(re);
+					}
+					if (re.provider === 'google') {
+						this.users.google.push(re);
+					}
+				});
+			})
+			.catch((e) => {
+				eventBus.$emit('show-toast', {
+					body: e.message,
+					title: messages.generic.error,
+					type: ToastType.ERROR,
+				});
 			});
-		});
-		for (let i = 0; i < 3; i++) {
+		for (let i = 0; i < 30; i++) {
 			var today = new Date();
 			var dates = today.setDate(today.getDate() - i);
 			var data = moment(dates);
@@ -84,14 +93,6 @@ export default {
 				date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
 			this.days.push(this.createdAt);
 		}
-
-		// .catch((e) => {
-		// 	eventBus.$emit('show-toast', {
-		// 		body: e.message,
-		// 		title: messages.generic.error,
-		// 		type: ToastType.ERROR,
-		// 	});
-		// });
 	},
 	methods: {},
 };
