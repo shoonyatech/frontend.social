@@ -38,6 +38,21 @@ const router = new Router({
 			component: () => import('./pages/JobDetails.vue'),
 		},
 		{
+			path: '/job/freelancer',
+			name: 'freelancer',
+			component: () => import('./pages/Freelancer.vue'),
+		},
+		{
+			path: '/job/freelancer/:id',
+			name: 'freelancerDetails',
+			component: () => import('./pages/FreelancerDetails.vue'),
+		},
+		{
+			path: '/job/freelancer/register/:id',
+			name: 'FreelancingForm',
+			component: () => import('./pages/FreelancingForm.vue'),
+		},
+		{
 			path: '/job/form/:id',
 			name: 'jobForm',
 			component: () => import('./pages/JobForm.vue'),
