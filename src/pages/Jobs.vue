@@ -3,9 +3,18 @@
     <Loader v-show="loading" />
     <b-container>
       <b-row>
+        <b-col
+          md="12"
+          sm="1"
+        >
+          <button @click="registerFreelancer()">
+            + Register as a Freelancer
+          </button>
+        </b-col>
         <b-col md="9">
           <h1>
             <span>Frontend Jobs</span>
+
             <button
               v-if="!showAddJobDialog"
               @click="showDialog()"
@@ -170,6 +179,13 @@ export default {
 				this.$router.push('/signin');
 			} else {
 				this.$router.push('/job/form/new');
+			}
+		},
+		registerFreelancer() {
+			if (this.signedInUser == null) {
+				this.$router.push('/signin');
+			} else {
+				this.$router.push('/job/freelancer/register/new');
 			}
 		},
 		scroll(jobs) {
