@@ -7,12 +7,14 @@
           md="12"
           sm="1"
         >
+          <span>Are you looking for freelance work ? </span>
           <button @click="registerFreelancer()">
             + Register as a Freelancer
           </button>
         </b-col>
         <b-col md="9">
           <h1>
+            <br>
             <span>Frontend Jobs</span>
 
             <button
@@ -75,7 +77,7 @@
 import JobStrip from '@/components/Job/JobStrip';
 import Filters from '@/components/Filters/Filters';
 import jobService from '@/services/job.service';
-
+import freelancerService from '@/services/freelancer.service';
 export default {
 	name: 'Jobs',
 	components: {
@@ -185,7 +187,16 @@ export default {
 			if (this.signedInUser == null) {
 				this.$router.push('/signin');
 			} else {
-				this.$router.push('/job/freelancer/register/new');
+				freelancerService
+					.getFreelancerByUsername(this.$store.state.signedInUser.username)
+					.then((freelancers) => {
+						this.$router.push(
+							`/job/freelancer/register/${freelancers.username}`
+						);
+					})
+					.catch((err) => {
+						this.$router.push('/job/freelancer/register/new');
+					});
 			}
 		},
 		scroll(jobs) {

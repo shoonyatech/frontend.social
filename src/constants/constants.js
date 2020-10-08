@@ -58,6 +58,12 @@ export const messages = {
 		eventDeletedSuccess: 'Event deleted successfully!',
 		eventsAddFailure: '',
 	},
+	freelancer: {
+		freelancersAddSuccess: 'Freelancer added successfully!',
+		freelancersUpdateSuccess: 'Freelancer updated successfully!',
+		freelancerDeletedSuccess: 'Freelancer deleted successfully!',
+		freelancersAddFailure: '',
+	},
 	subscribe: {
 		subscribeSuccess: 'Subscribe successfully!',
 		subscribeFailure: 'Error while subsceibe, Please try again.',
