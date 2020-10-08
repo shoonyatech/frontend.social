@@ -1,9 +1,9 @@
 <template>
-  <div class="jobs-container">
-    <Loader v-show="loading" />
-    <b-container>
-      <b-row>
-        <!-- <b-col
+	<div class="jobs-container">
+		<Loader v-show="loading" />
+		<b-container>
+			<b-row>
+				<!-- <b-col
           md="12"
           sm="1"
         >
@@ -16,66 +16,52 @@
             Post a Project
           </button>
         </b-col> -->
-        <b-col md="9">
-          <h1>
-            <br>
-            <span>Frontend Jobs</span>
+				<b-col md="9">
+					<h1>
+						<br />
+						<span>Frontend Jobs</span>
 
-            <button
-              v-if="!showAddJobDialog"
-              @click="showDialog()"
-            >
-              + Add Job
-            </button>
-          </h1>
-          <div
-            v-if="!showAddJobDialog"
-            class="jobs"
-          >
-            <JobStrip
-              v-for="job in jobs"
-              :id="job._id"
-              :key="job.id"
-              :role="job.title"
-              :job-description="job.description"
-              :expertise="job.level"
-              :required-skills="job.skills"
-              :link="job.link"
-              :city="job.city"
-              :country="job.country"
-              :company="job.company"
-              :is-remote="job.isRemote"
-              :can-modify="canModify(job)"
-              @delete="onDelete($event)"
-            />
-            <div class="center-content">
-              <button
-                class="mt-4"
-                @click="showDialog()"
-              >
-                + Add Job
-              </button>
-            </div>
-          </div>
-        </b-col>
-        <b-col md="3">
-          <br>
-          <div
-            v-if="!showAddJobDialog"
-            class="filters-wrapper"
-          >
-            <Filters
-              :on-search-input-change="searchJobsWithSearchTerm"
-              :on-search-params-change="onSearchParamsChange"
-              :set-initial-query="setInitialQuery"
-              :skills="skills"
-              :job-types="jobTypes"
-            />
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+						<button v-if="!showAddJobDialog" @click="showDialog()">
+							+ Add Job
+						</button>
+					</h1>
+					<div v-if="!showAddJobDialog" class="jobs">
+						<JobStrip
+							v-for="job in jobs"
+							:id="job._id"
+							:key="job.id"
+							:role="job.title"
+							:job-description="job.description"
+							:expertise="job.level"
+							:required-skills="job.skills"
+							:link="job.link"
+							:city="job.city"
+							:country="job.country"
+							:company="job.company"
+							:is-remote="job.isRemote"
+							:can-modify="canModify(job)"
+							@delete="onDelete($event)"
+						/>
+						<div class="center-content">
+							<button class="mt-4" @click="showDialog()">+ Add Job</button>
+						</div>
+					</div>
+				</b-col>
+				<b-col md="3">
+					<br />
+					<div v-if="!showAddJobDialog" class="filters-wrapper">
+						<Filters
+							:on-search-input-change="searchJobsWithSearchTerm"
+							:on-search-params-change="onSearchParamsChange"
+							:set-initial-query="setInitialQuery"
+							:skills="skills"
+							:job-types="jobTypes"
+						/>
+					</div>
+				</b-col>
+			</b-row>
+		</b-container>
+	</div>
 </template>
 
 <script>
