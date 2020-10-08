@@ -127,6 +127,16 @@ export default {
 			this.$emit('edit', freelancer);
 		},
 	},
+	methods: {
+		deleteFreelancer(freelancer) {
+			if (confirm('Do you really want to delete?')) {
+				this.$emit('delete', freelancer);
+			}
+		},
+		editFreelancer(freelancer) {
+			this.$emit('edit', freelancer);
+		},
+	},
 };
 </script>
 

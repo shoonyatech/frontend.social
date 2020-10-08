@@ -1,131 +1,113 @@
 <template>
-  <div class="host">
-    <b-container>
-      <b-row>
-        <b-col
-          md="3"
-          sm="12"
-          class="photo-col"
-        >
-          <img
-            :src="profileData.profilePic"
-            class="profile-photo"
-            alt="profile"
-          >
-          <Section
-            title="About me"
-            class="about-me"
-            :is-editable="false"
-          >
-            <div class="user-name">
-              {{ profileData.name }}
-            </div>
-            <div>
-              <div class="user-username">
-                @{{ profileData.username }}
-              </div>
-            </div>
-            <div>
-              <div class="user-name">
-                <span class="light-text">I am a</span>
-                <span>
-                  {{ profileData.category == 'dev' ? 'Developer' : 'Designer' }}
-                </span>
-              </div>
-            </div>
-          </Section>
-          <Section
-            title="Public Profile"
-            class="public-profile"
-            :is-editable="false"
-          >
-            <div>
-              <a
-                name="publicprofile"
-                class="user-public-profile"
-                :href="publicProfile"
-                target="_blank"
-                rel="noopener"
-              >{{ publicProfile }}</a>
-            </div>
-          </Section>
-        </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
-          <section
-            v-if="invite"
-            class="invite"
-          >
-            <span
-              v-for="(job, index) in jobs"
-              :key="index"
-            >
-              <button @click="inviteFreelancer(job._id, freelancer.username)">
-                Invite for {{ job.title }}
-              </button>
-            </span>
-          </section>
-          <section
-            ref="portfolio"
-            title="About Me"
-            class="portfolio"
-            :is-editable="false"
-          >
-            <div class="user-username">
-              {{ freelancer.aboutMe }}
-            </div>
-          </section>
-          <br>
-          <Section
-            ref="portfolio"
-            title="Portfolio and Social links"
-            class="portfolio"
-            :is-editable="false"
-          >
-            <KeyValue
-              v-for="item in profileData.social"
-              :key="item.label"
-              :label="item.label"
-              :value="item.value"
-            />
-          </Section>
-          <Section
-            ref="mySkills"
-            title="My skills"
-            class="my-skills"
-            :is-editable="false"
-          >
-            <div class="skill-list">
-              <div class="skill-header">
-                <span class="skill-name" />
-                <span class="skill-years">yrs</span>
-                <span class="skill-rating">expertise</span>
-              </div>
+	<div class="host">
+		<b-container>
+			<b-row>
+				<b-col md="3" sm="12" class="photo-col">
+					<img
+						:src="profileData.profilePic"
+						class="profile-photo"
+						alt="profile"
+					/>
+					<Section title="About me" class="about-me" :is-editable="false">
+						<div class="user-name">
+							{{ profileData.name }}
+						</div>
+						<div>
+							<div class="user-username">@{{ profileData.username }}</div>
+						</div>
+						<div>
+							<div class="user-name">
+								<span class="light-text">I am a</span>
+								<span>
+									{{ profileData.category == 'dev' ? 'Developer' : 'Designer' }}
+								</span>
+							</div>
+						</div>
+					</Section>
+					<Section
+						title="Public Profile"
+						class="public-profile"
+						:is-editable="false"
+					>
+						<div>
+							<a
+								name="publicprofile"
+								class="user-public-profile"
+								:href="publicProfile"
+								target="_blank"
+								rel="noopener"
+								>{{ publicProfile }}</a
+							>
+						</div>
+					</Section>
+				</b-col>
+				<b-col md="9" sm="12">
+					<section v-if="invite" class="invite">
+						<span v-for="(job, index) in jobs" :key="index">
+							<button @click="inviteFreelancer(job._id, freelancer.username)">
+								Invite for {{ job.title }}
+							</button>
+						</span>
+					</section>
+					<section
+						ref="portfolio"
+						title="About Me"
+						class="portfolio"
+						:is-editable="false"
+					>
+						<div class="user-username">
+							{{ freelancer.aboutMe }}
+						</div>
+					</section>
+					<br />
+					<Section
+						ref="portfolio"
+						title="Portfolio and Social links"
+						class="portfolio"
+						:is-editable="false"
+					>
+						<KeyValue
+							v-for="item in profileData.social"
+							:key="item.label"
+							:label="item.label"
+							:value="item.value"
+						/>
+					</Section>
+					<Section
+						ref="mySkills"
+						title="My skills"
+						class="my-skills"
+						:is-editable="false"
+					>
+						<div class="skill-list">
+							<div class="skill-header">
+								<span class="skill-name" />
+								<span class="skill-years">yrs</span>
+								<span class="skill-rating">expertise</span>
+							</div>
 
-              <span
-                v-for="(skill, index) in profileData.skills"
-                :key="skill.name"
-                class="skill-control"
-              >
-                <SkillLevel
-                  :name="skill.name"
-                  :no-of-years="skill.noOfYears"
-                  :rating="skill.rating"
-                  :max="4"
-                  :is-editable="editModeSkills"
-                  :index="index"
-                  @change="onSkillChange"
-                />
-              </span>
-            </div>
-          </Section>
-          <br>
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+							<span
+								v-for="(skill, index) in profileData.skills"
+								:key="skill.name"
+								class="skill-control"
+							>
+								<SkillLevel
+									:name="skill.name"
+									:no-of-years="skill.noOfYears"
+									:rating="skill.rating"
+									:max="4"
+									:is-editable="editModeSkills"
+									:index="index"
+									@change="onSkillChange"
+								/>
+							</span>
+						</div>
+					</Section>
+					<br />
+				</b-col>
+			</b-row>
+		</b-container>
+	</div>
 </template>
 
 <script>
