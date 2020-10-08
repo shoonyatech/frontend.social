@@ -2,29 +2,55 @@
   <div class="layout">
     <div class="freelancer-strip">
       <b-row>
+        <b-col md="12">
+          <span
+            v-if="canModify"
+            class="freelancer-action"
+            @click.prevent="editFreelancer(freelancer)"
+          >
+            <img
+              :src="`/images/edit.svg`"
+              class="icon-button"
+              alt="edit"
+            >
+          </span>
+          <span
+            v-if="canModify"
+            class="freelancer-action"
+            @click.prevent="deleteFreelancer(freelancer)"
+          >
+            <a target="_blank">
+              <button v-if="canModify">Delete</button>
+            </a>
+          </span>
+
+          <a>
+            <span
+              class="freelancer-title"
+            ><router-link :to="'../job/freelancer/' + freelancer.username">
+              {{ freelancer.username }}
+            </router-link></span>
+            <span class="freelancer-type capsule">{{
+              freelancer.category == 'dev' ? 'Developer' : 'Designer'
+            }}</span>
+          </a>
+        </b-col>
+      </b-row>
+      <b-row>
         <b-col>
-          <router-link :to="'../job/freelancer/' + freelancer._id">
-            {{ profileData.name }}
-          </router-link>
+          <a>{{ profileData.city }},{{ profileData.country }}</a>
         </b-col>
       </b-row>
       <b-row>
         <b-col sm="8">
           <SkillTags
-            v-if="skills"
-            :skills="skills"
+            v-if="freelancer.relatedSkills"
+            :skills="freelancer.relatedSkills"
           />
-        </b-col>
-        <b-col sm="4">
-          <div class="links icon-links">
-            <div>
-              <UserAvatar :user="profileData" />
-            </div>
-          </div>
         </b-col>
       </b-row>
       <b-row>
-        <b-col sm="12">
+        <b-col sm="10">
           <div
             ref="description"
             class="freelancer-description"
@@ -39,17 +65,19 @@
 <script>
 import userService from '@/services/user.service';
 import SkillTags from '@/components/Skills/SkillTags';
-import UserAvatar from '@/components/common/UserAvatar';
 
 export default {
 	components: {
-		UserAvatar,
 		SkillTags,
 	},
 	props: {
 		freelancer: {
 			type: Object,
 			default: () => {},
+		},
+		canModify: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data() {
@@ -63,7 +91,7 @@ export default {
 			.getUserProfile(this.freelancer.username)
 			.then((user) => {
 				this.profileData = user;
-				this.skills = this.profileData.skills.map((s) => s.name);
+				this.skills = this.freelancer.relatedSkills.map((s) => s.name);
 			})
 			.catch((e) => {
 				eventBus.$emit('show-toast', {
@@ -73,10 +101,23 @@ export default {
 				});
 			});
 	},
+	methods: {
+		deleteFreelancer(freelancer) {
+			if (confirm('Do you really want to delete?')) {
+				this.$emit('delete', freelancer);
+			}
+		},
+		editFreelancer(freelancer) {
+			this.$emit('edit', freelancer);
+		},
+	},
 };
 </script>
 
 <style scoped lang="scss">
+.freelancer-action {
+	float: right;
+}
 .layout {
 	display: flex;
 	flex-direction: columns;
@@ -93,34 +134,13 @@ export default {
 	margin-right: 20px;
 }
 
-.freelancer-line {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-}
-
 .freelancer-type {
 	font-size: 0.65rem;
 	float: right;
 }
-
-.freelancer-skills {
-	font-size: 0.65rem;
-	color: #2c3e50;
-}
-
-.freelancer-date {
-	font-size: 0.65rem;
-	color: #2c3e50;
-}
-
 .icon-links {
 	display: flex;
 	flex-direction: row-reverse;
-}
-
-.freelancer-author {
-	font-size: 0.65rem;
 }
 
 .freelancer-description {
@@ -130,18 +150,7 @@ export default {
 	overflow: hidden;
 }
 
-.collapsed {
-	-webkit-mask-image: -webkit-gradient(
-		linear,
-		left top,
-		left bottom,
-		from(rgba(0, 0, 0, 1)),
-		to(rgba(0, 0, 0, 0))
-	);
-}
-
-.courtesy,
-.tags {
-	font-size: 0.65rem;
+.freelancer-title {
+	cursor: pointer;
 }
 </style>

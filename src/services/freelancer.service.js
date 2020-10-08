@@ -10,7 +10,19 @@ export default {
 		return httpClient.get('freelance?' + pagination + query);
 	},
 
-	getFreelancerById: (id) => {
-		return httpClient.get(`freelance/${id}`);
+	getFreelancerByUsername: (username) => {
+		return httpClient.get(`freelance/${username}`);
+	},
+	deletefreelancer: (id) => {
+		return httpClient.delete(`freelance/${id}`);
+	},
+	updateFreelancer: (username, freelancer) => {
+		return httpClient.put(`freelance/${username}`, freelancer);
+	},
+	getSkills() {
+		return httpClient.get('freelancer/skills');
+	},
+	getCategory() {
+		return httpClient.get('freelancers/category');
 	},
 };

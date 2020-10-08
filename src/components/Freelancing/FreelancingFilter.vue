@@ -12,6 +12,9 @@
     <div class="filter-panel">
       <div class="skills-filter-wrapper">
         <div class="skills-filter">
+          <div class="filter-label">
+            Skills
+          </div>
           <Facet
             v-for="skill in skills"
             :id="skill.id"
@@ -23,25 +26,37 @@
             :on-click="handleSkillSelection"
           />
         </div>
+        <br>
+        <div class="categorys-filter">
+          <div class="filter-label">
+            Category
+          </div>
+          <Facet
+            v-for="categor in categories"
+            :id="categor.id"
+            :key="categor.id"
+            :type="filterTypes.CHECKBOX"
+            :value="categor.name"
+            :label="categor.name"
+            :is-selected="categor.selected"
+            :on-click="handleCategorySelection"
+          />
+        </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 import userService from '@/services/user.service';
 import Facet from '../Filter/Filter';
-import { filtersSet } from '@/components/Freelancing/FiltersConfig';
 
 export default {
-	name: 'LearnFilter',
+	name: 'FreelancingFilter',
 	components: {
 		Facet,
 	},
 	props: {
-		onSearchInputChange: {
-			type: Function,
-			default: () => {},
-		},
 		onSearchParamsChange: {
 			type: Function,
 			default: () => {},
@@ -50,40 +65,36 @@ export default {
 			type: Function,
 			default: () => {},
 		},
+		tags: {
+			type: Array,
+			default: () => [],
+		},
+		category: {
+			type: Array,
+			default: () => [],
+		},
 	},
 	data: function () {
-		const {
-			react,
-			angular,
-			vue,
-			webComponents,
-			graphQL,
-			js,
-			css,
-			html5,
-			websiteDesign,
-			android,
-			ios,
-		} = filtersSet;
 		return {
 			profile: {},
 			filterTypes: {
 				CHECKBOX: 'checkbox',
 				RADIO: 'radio',
 			},
-			skills: [
-				react,
-				angular,
-				vue,
-				webComponents,
-				graphQL,
-				js,
-				css,
-				html5,
-				websiteDesign,
-				android,
-				ios,
-			],
+			skills: this.tags.map((tag) => ({
+				name: tag,
+				id: tag,
+				type: 'MULTISELECT',
+				selected: false,
+				query: tag,
+			})),
+			categories: this.category.map((tag) => ({
+				name: tag,
+				id: tag,
+				type: 'MULTISELECT',
+				selected: false,
+				query: tag,
+			})),
 			skillsSelected: [],
 			selectedLevel: 0,
 			showFilters: true,
@@ -92,7 +103,6 @@ export default {
 	mounted() {
 		const initialQuery = this.getAppliedFacetsQuery();
 		this.setInitialQuery(initialQuery);
-
 		userService.getLoggedInUserProfile().then((user) => {
 			this.profile = user;
 		});
@@ -102,13 +112,34 @@ export default {
 			this.showFilters = !this.showFilters;
 		},
 		handleSkillSelection(id) {
-			filtersSet[id].selected = !filtersSet[id].selected;
+			this.skills = this.skills.map((skill) =>
+				skill.id === id ? { ...skill, selected: !skill.selected } : skill
+			);
+			const searchQuery = this.getAppliedFacetsQuery();
+			this.onSearchParamsChange(searchQuery);
+		},
+		handleCategorySelection(id) {
+			this.categories = this.categories.map((category) =>
+				category.id === id
+					? { ...category, selected: !category.selected }
+					: category
+			);
 			const searchQuery = this.getAppliedFacetsQuery();
 			this.onSearchParamsChange(searchQuery);
 		},
 		getAppliedFacetsQuery: function () {
 			let selectedSkills = [];
+			let selectedCategory = [];
 			let queryString = '';
+
+			this.categories.forEach((item) => {
+				if (item.selected) {
+					selectedCategory.push(item.query);
+				}
+			}) || [];
+			if (selectedCategory.length) {
+				queryString += `&category=${selectedCategory.join(',')}`;
+			}
 
 			this.skills.forEach((item) => {
 				if (item.selected) {

@@ -1,36 +1,30 @@
 <template>
-  <b-container class="article-form">
-    <Loader v-if="loading" />
-    <div v-else>
-      <b-row>
-        <h1>Register as a freelancer</h1>
-      </b-row>
-      <KeyValue
-        label="About me"
-        :is-editable="true"
-        :multiline="true"
-        @change="onDescriptionChange"
-      />
-      <div class="action-buttons">
-        <button
-          class="save-button"
-          @click="save"
-        >
-          Save
-        </button>
-        <button @click="cancel">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </b-container>
+	<b-container class="article-form">
+		<Loader v-if="loading" />
+		<div v-else>
+			<b-row>
+				<h1>Register as a freelancer</h1>
+			</b-row>
+			<KeyValue
+				v-model="freelancer.aboutMe"
+				label="About me"
+				:is-editable="true"
+				:multiline="true"
+				@change="onAboutMeChange"
+			/>
+			<div class="action-buttons">
+				<button class="save-button" @click="save">Save</button>
+				<button @click="cancel">Cancel</button>
+			</div>
+		</div>
+	</b-container>
 </template>
 
 <script>
 import KeyValue from '@/components/common/KeyValue';
-import freelancerService from '@/services/freelancer.service';
 import skillService from '@/services/skill.service';
-
+import freelancerService from '@/services/freelancer.service';
+import userService from '@/services/user.service';
 import eventBus from '@/utilities/eventBus';
 import { ToastType, messages } from '@/constants/constants';
 
@@ -43,45 +37,124 @@ export default {
 		return {
 			freelancer: {
 				aboutMe: '',
+				relatedSkills: [],
+				category: '',
 			},
+			profileData: [],
 			loading: true,
 		};
 	},
+	computed: {
+		signedInUser() {
+			return this.$store.state.signedInUser;
+		},
+	},
 	async created() {
+		userService
+			.getUserProfile(this.$store.state.signedInUser.username)
+			.then((user) => {
+				this.profileData = user;
+				this.freelancer.category = this.profileData.category;
+				this.freelancer.relatedSkills = this.profileData.skills.map(
+					(s) => s.name
+				);
+			})
+			.catch((e) => {
+				eventBus.$emit('show-toast', {
+					body: e.message,
+					title: messages.generic.error,
+					type: ToastType.ERROR,
+				});
+			});
+		const freelancerId = this.$route.params.id;
+		if (freelancerId && freelancerId !== 'new') {
+			this.loading = true;
+			const freelancerDetail = await freelancerService.getFreelancerByUsername(
+				freelancerId
+			);
+			this.intializeFreelancer(freelancerDetail);
+			if (!this.canModify(freelancerDetail)) {
+				this.$router.push('/');
+			}
+		} else if (this.signedInUser) {
+			this.admins = [this.signedInUser];
+		}
 		this.loading = false;
 	},
 	methods: {
-		onDescriptionChange(e) {
+		onAboutMeChange(e) {
 			this.freelancer.aboutMe = e.value;
 		},
 		close: function (id) {
 			if (id) {
-				this.$router.push(`/job/freelancer/${id}`);
+				this.$router.push(`/job/freelancer`);
 			} else {
 				this.$router.back();
 			}
 		},
+		canModify(freelancer) {
+			if (!this.signedInUser) return false;
+
+			if (this.$store.getters.isAdmin) return true;
+
+			const username = this.signedInUser.username.toLowerCase();
+			const admins = freelancer.adminUsers || [];
+			return (
+				(freelancer.createdBy &&
+					freelancer.createdBy.username.toLowerCase() === username) ||
+				admins.some((x) => x.username.toLowerCase() === username)
+			);
+		},
+		intializeFreelancer(freelancerDetail) {
+			this.freelancer = {
+				aboutMe: freelancerDetail.aboutMe || '',
+				category: freelancerDetail.category || '',
+				relatedSkills: freelancerDetail.relatedSkills
+					? [...freelancerDetail.relatedSkills]
+					: [''],
+			};
+		},
 		save() {
 			if (!this.freelancer.aboutMe) {
-				alert('Please specify About you');
+				alert('Please specify few lines about you');
 				return;
 			}
-			freelancerService
-				.addFreelancer(this.freelancer)
-				.then((resp) => {
-					eventBus.$emit('show-toast', {
-						body: messages.events.eventsAddSuccess,
-						title: messages.generic.success,
+			const freelancerId = this.$route.params.id;
+			if (freelancerId !== 'new') {
+				freelancerService
+					.updateFreelancer(freelancerId, this.freelancer)
+					.then((resp) => {
+						eventBus.$emit('show-toast', {
+							body: messages.freelancer.freelancersUpdateSuccess,
+							title: messages.generic.success,
+						});
+						this.close(resp.username);
+					})
+					.catch((e) => {
+						eventBus.$emit('show-toast', {
+							body: e.message,
+							title: messages.generic.error,
+							type: ToastType.ERROR,
+						});
 					});
-					this.close(resp._id);
-				})
-				.catch((e) => {
-					eventBus.$emit('show-toast', {
-						body: e.message,
-						title: messages.generic.error,
-						type: ToastType.ERROR,
+			} else {
+				freelancerService
+					.addFreelancer(this.freelancer)
+					.then((resp) => {
+						eventBus.$emit('show-toast', {
+							body: messages.freelancer.freelancersAddSuccess,
+							title: messages.generic.success,
+						});
+						this.close(resp.username);
+					})
+					.catch((e) => {
+						eventBus.$emit('show-toast', {
+							body: e.message,
+							title: messages.generic.error,
+							type: ToastType.ERROR,
+						});
 					});
-				});
+			}
 		},
 		cancel() {
 			this.close();

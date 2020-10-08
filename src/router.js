@@ -43,7 +43,7 @@ const router = new Router({
 			component: () => import('./pages/Freelancer.vue'),
 		},
 		{
-			path: '/job/freelancer/:id',
+			path: '/job/freelancer/:username',
 			name: 'freelancerDetails',
 			component: () => import('./pages/FreelancerDetails.vue'),
 		},
