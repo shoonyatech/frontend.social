@@ -1,65 +1,61 @@
 <template>
-  <div class="layout">
-    <div class="freelancer-strip">
-      <b-row>
-        <b-col md="12">
-          <span
-            v-if="canModify"
-            class="freelancer-action"
-            @click.prevent="editFreelancer(freelancer)"
-          >
-            <img
-              :src="`/images/edit.svg`"
-              class="icon-button"
-              alt="edit"
-            >
-          </span>
-          <span
-            v-if="canModify"
-            class="freelancer-action"
-            @click.prevent="deleteFreelancer(freelancer)"
-          >
-            <a target="_blank">
-              <button v-if="canModify">Delete</button>
-            </a>
-          </span>
+	<div class="layout">
+		<div class="freelancer-strip">
+			<b-row>
+				<b-col md="12">
+					<span
+						v-if="canModify"
+						class="freelancer-action"
+						@click.prevent="editFreelancer(freelancer)"
+					>
+						<img :src="`/images/edit.svg`" class="icon-button" alt="edit" />
+					</span>
+					<span
+						v-if="canModify"
+						class="freelancer-action"
+						@click.prevent="deleteFreelancer(freelancer)"
+					>
+						<a target="_blank">
+							<button v-if="canModify">Delete</button>
+						</a>
+					</span>
 
-          <a>
-            <span
-              class="freelancer-title"
-            ><router-link :to="'../job/freelancer/' + freelancer.username">
-              {{ freelancer.name }}
-            </router-link></span>
-            <span class="freelancer-type capsule">{{
-              freelancer.category == 'dev' ? 'Developer' : 'Designer'
-            }}</span>
-          </a>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <a>{{ freelancer.city }},{{ freelancer.country }}</a>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col sm="8">
-          <SkillTags
-            v-if="freelancer.relatedSkills"
-            :skills="freelancer.relatedSkills"
-          />
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col sm="10">
-          <div
-            ref="description"
-            class="freelancer-description"
-            v-html="freelancer.aboutMe"
-          />
-        </b-col>
-      </b-row>
-    </div>
-  </div>
+					<a>
+						<span class="freelancer-title"
+							><router-link :to="'../job/freelancer/' + freelancer.username">
+								{{ freelancer.name }}
+							</router-link></span
+						>
+						<span class="freelancer-type capsule">{{
+							freelancer.category == 'dev' ? 'Developer' : 'Designer'
+						}}</span>
+					</a>
+				</b-col>
+			</b-row>
+			<b-row>
+				<b-col>
+					<a>{{ freelancer.city }},{{ freelancer.country }}</a>
+				</b-col>
+			</b-row>
+			<b-row>
+				<b-col sm="8">
+					<SkillTags
+						v-if="freelancer.relatedSkills"
+						:skills="freelancer.relatedSkills"
+					/>
+				</b-col>
+			</b-row>
+			<b-row>
+				<b-col sm="10">
+					<div
+						ref="description"
+						class="freelancer-description"
+						v-html="freelancer.aboutMe"
+					/>
+				</b-col>
+			</b-row>
+		</div>
+	</div>
 </template>
 
 <script>

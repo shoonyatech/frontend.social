@@ -1,30 +1,23 @@
 <template>
-  <b-container class="article-form">
-    <Loader v-if="loading" />
-    <div v-else>
-      <b-row>
-        <h1>Register as a freelancer</h1>
-      </b-row>
-      <KeyValue
-        v-model="freelancer.aboutMe"
-        label="About me"
-        :is-editable="true"
-        :multiline="true"
-        @change="onAboutMeChange"
-      />
-      <div class="action-buttons">
-        <button
-          class="save-button"
-          @click="save"
-        >
-          Save
-        </button>
-        <button @click="cancel">
-          Cancel
-        </button>
-      </div>
-    </div>
-  </b-container>
+	<b-container class="article-form">
+		<Loader v-if="loading" />
+		<div v-else>
+			<b-row>
+				<h1>Register as a freelancer</h1>
+			</b-row>
+			<KeyValue
+				v-model="freelancer.aboutMe"
+				label="About me"
+				:is-editable="true"
+				:multiline="true"
+				@change="onAboutMeChange"
+			/>
+			<div class="action-buttons">
+				<button class="save-button" @click="save">Save</button>
+				<button @click="cancel">Cancel</button>
+			</div>
+		</div>
+	</b-container>
 </template>
 
 <script>

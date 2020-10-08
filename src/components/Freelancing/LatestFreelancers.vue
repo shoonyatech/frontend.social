@@ -1,50 +1,48 @@
 <template>
-  <div class="freelancers">
-    <Loader v-show="loading" />
-    <b-container>
-      <b-row>
-        <b-col md="9">
-          <h1>
-            <span>Freelancers</span>
-            <!-- <button @click="registerFreelancer()">
+	<div class="freelancers">
+		<Loader v-show="loading" />
+		<b-container>
+			<b-row>
+				<b-col md="9">
+					<h1>
+						<span>Freelancers</span>
+						<!-- <button @click="registerFreelancer()">
               + Register as a Freelancer
             </button> -->
-          </h1>
-          <div>
-            <div
-              v-infinite-scroll="loadFreelancers"
-              infinite-scroll-distance="limit"
-              infinite-scroll-disabled="isDisableInfiniteScroll"
-            >
-              <div v-if="freelancers.length">
-                <FreelancerStrip
-                  v-for="(freelancer, index) in freelancers"
-                  :key="index"
-                  :freelancer="freelancer"
-                  :can-modify="canModify(freelancer)"
-                  @delete="onDeleteFreelancer"
-                  @edit="onEditEvent"
-                />
-              </div>
-              <div v-else>
-                No freelancers found!
-              </div>
-            </div>
-          </div>
-        </b-col>
-        <b-col md="3">
-          <div class="filters-wrapper">
-            <FreelancingFilter
-              v-if="tags.length"
-              :tags="tags"
-              :category="category"
-              :on-search-params-change="onSearchParamsChange"
-            />
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+					</h1>
+					<div>
+						<div
+							v-infinite-scroll="loadFreelancers"
+							infinite-scroll-distance="limit"
+							infinite-scroll-disabled="isDisableInfiniteScroll"
+						>
+							<div v-if="freelancers.length">
+								<FreelancerStrip
+									v-for="(freelancer, index) in freelancers"
+									:key="index"
+									:freelancer="freelancer"
+									:can-modify="canModify(freelancer)"
+									@delete="onDeleteFreelancer"
+									@edit="onEditEvent"
+								/>
+							</div>
+							<div v-else>No freelancers found!</div>
+						</div>
+					</div>
+				</b-col>
+				<b-col md="3">
+					<div class="filters-wrapper">
+						<FreelancingFilter
+							v-if="tags.length"
+							:tags="tags"
+							:category="category"
+							:on-search-params-change="onSearchParamsChange"
+						/>
+					</div>
+				</b-col>
+			</b-row>
+		</b-container>
+	</div>
 </template>
 
 <script>
