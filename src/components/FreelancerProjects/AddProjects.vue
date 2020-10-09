@@ -1,167 +1,133 @@
 <template>
-  <div class="add-job-wrapper">
-    <Loader v-if="loading" />
-    <div
-      v-else
-      class="form-container"
-    >
-      <form
-        id="addJobForm"
-        @submit.prevent="processForm"
-      >
-        <div class="job-title form-field">
-          <div class="form-label">
-            What do you want help with ?
-          </div>
-          <input
-            v-model="title"
-            type="text"
-            required
-          >
-        </div>
-        <div class="description form-field">
-          <div class="form-label">
-            Description of work
-          </div>
-          <ckeditor
-            v-model="description"
-            :editor="editor"
-            :config="editorConfig"
-            class="editor"
-          />
-        </div>
+	<div class="add-project-wrapper">
+		<Loader v-if="loading" />
+		<div v-else class="form-container">
+			<form id="addprojectForm" @submit.prevent="processForm">
+				<div class="job-title form-field">
+					<div class="form-label">What do you want help with ?</div>
+					<input v-model="title" type="text" required />
+				</div>
+				<div class="description form-field">
+					<div class="form-label">Description of work</div>
+					<ckeditor
+						v-model="description"
+						:editor="editor"
+						:config="editorConfig"
+						class="editor"
+					/>
+				</div>
 
-        <div class="level form-field">
-          <div class="form-label">
-            Job Type
-          </div>
-          <div class="multiple-selection">
-            <RadioButton
-              id="Full Time"
-              value="FullTime"
-              name="jobType"
-              label="Full Time"
-              :is-checked="jobType === 'FullTime'"
-              :on-click="setjobType"
-            />
-            <RadioButton
-              id="Part Time"
-              value="PartTime"
-              name="jobType"
-              label="Part Time"
-              :on-click="setjobType"
-              :is-checked="jobType === 'PartTime'"
-            />
-          </div>
-        </div>
-        <div class="level form-field">
-          <div class="form-label">
-            Payment Type
-          </div>
-          <div class="multiple-selection">
-            <RadioButton
-              id="Fixed Bugdet"
-              value="FixedBudget"
-              name="budgetBasis"
-              label="Fixed Bugdet"
-              :on-click="setBudgetBasis"
-              :is-checked="budgetBasis === 'FixedBudget'"
-            />
-            <RadioButton
-              id="Hourly"
-              value="Hourly"
-              name="budgetBasis"
-              label="Hourly"
-              :on-click="setBudgetBasis"
-              :is-checked="budgetBasis === 'Hourly'"
-            />
-          </div>
-        </div>
-        <div class="level form-field">
-          <div class="form-label">
-            Duration of Work
-          </div>
-          <div class="multiple-selection">
-            <RadioButton
-              id="Ongoing"
-              value="Ongoing"
-              name="workDuration"
-              label="Ongoing"
-              :on-click="setWorkDuration"
-              :is-checked="workDuration === 'Ongoing'"
-            />
-            <RadioButton
-              id="Monthly"
-              value="Monthly"
-              name="workDuration"
-              label="Monthly"
-              :on-click="setWorkDuration"
-              :is-checked="workDuration === 'Monthly'"
-            />
-            <RadioButton
-              id="OneTime"
-              value="OneTime"
-              name="workDuration"
-              label="OneTime"
-              :is-checked="workDuration === 'OneTime'"
-              :on-click="setWorkDuration"
-            />
-          </div>
-        </div>
-        <div class="level form-field">
-          <div class="form-label">
-            Budget
-          </div>
-          <div class="multiple-selection">
-            <RadioButton
-              id="$"
-              value="$"
-              name="budget"
-              label="$"
-              :is-checked="budget === '$'"
-              :on-click="setBudget"
-            />
-            <RadioButton
-              id="$$"
-              value="$$"
-              name="budget"
-              label="$$"
-              :on-click="setBudget"
-              :is-checked="budget === '$$'"
-            />
-            <RadioButton
-              id="$$$"
-              value="$$$"
-              name="budget"
-              label="$$$"
-              :is-checked="budget === '$$$'"
-              :on-click="setBudget"
-            />
-          </div>
-        </div>
-        <div class="relatedSkills form-field">
-          <div class="form-label">
-            Skills needed to work on the project?
-          </div>
-          <input
-            v-model="relatedSkills"
-            type="text"
-          >
-        </div>
-        <div class="action-links">
-          <button
-            type="submit"
-            class="btn-add-job"
-          >
-            Save
-          </button>
-          <button @click.prevent.stop="close()">
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+				<div class="jobType form-field">
+					<div class="form-label">Job Type</div>
+					<div class="multiple-selection">
+						<RadioButton
+							id="Full Time"
+							value="FullTime"
+							name="jobType"
+							label="Full Time"
+							:is-checked="jobType === 'FullTime'"
+							:on-click="setjobType"
+						/>
+						<RadioButton
+							id="Part Time"
+							value="PartTime"
+							name="jobType"
+							label="Part Time"
+							:on-click="setjobType"
+							:is-checked="jobType === 'PartTime'"
+						/>
+					</div>
+				</div>
+				<div class="budgetBasis form-field">
+					<div class="form-label">Payment Type</div>
+					<div class="multiple-selection">
+						<RadioButton
+							id="Fixed Bugdet"
+							value="FixedBudget"
+							name="budgetBasis"
+							label="Fixed Bugdet"
+							:on-click="setBudgetBasis"
+							:is-checked="budgetBasis === 'FixedBudget'"
+						/>
+						<RadioButton
+							id="Hourly"
+							value="Hourly"
+							name="budgetBasis"
+							label="Hourly"
+							:on-click="setBudgetBasis"
+							:is-checked="budgetBasis === 'Hourly'"
+						/>
+					</div>
+				</div>
+				<div class="workDuration form-field">
+					<div class="form-label">Duration of work?</div>
+					<div class="multiple-selection">
+						<RadioButton
+							id="Ongoing"
+							value="Ongoing"
+							name="workDuration"
+							label="Ongoing"
+							:on-click="setWorkDuration"
+							:is-checked="workDuration === 'Ongoing'"
+						/>
+						<RadioButton
+							id="Monthly"
+							value="Monthly"
+							name="workDuration"
+							label="Monthly"
+							:on-click="setWorkDuration"
+							:is-checked="workDuration === 'Monthly'"
+						/>
+						<RadioButton
+							id="OneTime"
+							value="OneTime"
+							name="workDuration"
+							label="OneTime"
+							:is-checked="workDuration === 'OneTime'"
+							:on-click="setWorkDuration"
+						/>
+					</div>
+				</div>
+				<div class="budget form-field">
+					<div class="form-label">Budget</div>
+					<div class="multiple-selection">
+						<RadioButton
+							id="$"
+							value="$"
+							name="budget"
+							label="$"
+							:is-checked="budget === '$'"
+							:on-click="setBudget"
+						/>
+						<RadioButton
+							id="$$"
+							value="$$"
+							name="budget"
+							label="$$"
+							:on-click="setBudget"
+							:is-checked="budget === '$$'"
+						/>
+						<RadioButton
+							id="$$$"
+							value="$$$"
+							name="budget"
+							label="$$$"
+							:is-checked="budget === '$$$'"
+							:on-click="setBudget"
+						/>
+					</div>
+				</div>
+				<div class="relatedSkills form-field">
+					<div class="form-label">Skills needed to work on the project?</div>
+					<input v-model="relatedSkills" type="text" />
+				</div>
+				<div class="action-links">
+					<button type="submit" class="btn-add-job">Save</button>
+					<button @click.prevent.stop="close()">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -345,7 +311,7 @@ export default {
 	}
 	display: flex;
 	justify-content: center;
-	#addJobForm {
+	#addprojectForm {
 		width: 83%;
 		@media screen and (max-width: 1024px) {
 			width: 100%;
@@ -399,7 +365,7 @@ export default {
 			display: flex;
 		}
 		.form-label {
-			width: 150px;
+			width: 300px;
 			color: #114273;
 			min-width: 7rem;
 		}
@@ -424,7 +390,7 @@ export default {
 }
 </style>
 <style lang="scss">
-.add-job-wrapper {
+.add-project-wrapper {
 	.ck-editor,
 	.editor {
 		width: 100%;

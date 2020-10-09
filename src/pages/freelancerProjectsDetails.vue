@@ -1,61 +1,57 @@
 <template>
-  <div class="jobs-container">
-    <Loader v-show="loading" />
-    <b-container>
-      <b-row>
-        <b-col md="12">
-          <div class="job">
-            <div class="role-and-expertise">
-              <h1>
-                {{ jobs.title }}
-                <a
-                  class="btn-apply"
-                  :href="jobs.link"
-                  target="_blank"
-                >
-                  <button @click="applyforjob()">Apply for this work</button>
-                </a>
-              </h1>
-            </div>
-            <div class="skills-required">
-              <SkillTags :skills="jobs.relatedSkills" />
+	<div class="jobs-container">
+		<Loader v-show="loading" />
+		<b-container>
+			<b-row>
+				<b-col md="12">
+					<div class="job">
+						<div class="role-and-expertise">
+							<h1>
+								{{ jobs.title }}
+								<a class="btn-apply" :href="jobs.link" target="_blank">
+									<button @click="applyforjob()">Apply for this work</button>
+								</a>
+							</h1>
+						</div>
+						<div class="skills-required">
+							<SkillTags :skills="jobs.relatedSkills" />
 
-              <div class="expertise capsule remote">
-                {{ jobs.jobType }}
-              </div>
-              <div class="expertise capsule">
-                {{ jobs.budgetBasis }}
-              </div>
-              <div class="expertise capsule duration">
-                {{ jobs.budget }}
-              </div>
-              <div class="expertise capsule price">
-                {{ jobs.workDuration }}
-              </div>
-            </div>
-            <br>
-            <div
-              ref="description"
-              class="job-description"
-              v-html="jobs.description"
-            />
-          </div>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col>
-          <div v-if="canModify()">
-            <h1>List of Applied Freelancers</h1>
-            <JobApplyStrip
-              v-for="(freelancer, index) in freelancers"
-              :key="index"
-              :freelancer="freelancer"
-            />
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+							<div class="expertise capsule remote">
+								{{ jobs.jobType }}
+							</div>
+							<div class="expertise capsule">
+								{{ jobs.budgetBasis }}
+							</div>
+							<div class="expertise capsule duration">
+								{{ jobs.budget }}
+							</div>
+							<div class="expertise capsule price">
+								{{ jobs.workDuration }}
+							</div>
+						</div>
+						<br />
+						<div
+							ref="description"
+							class="job-description"
+							v-html="jobs.description"
+						/>
+					</div>
+				</b-col>
+			</b-row>
+			<b-row>
+				<b-col>
+					<div v-if="canModify()">
+						<h1>List of Applied Freelancers</h1>
+						<JobApplyStrip
+							v-for="(freelancer, index) in freelancers"
+							:key="index"
+							:freelancer="freelancer"
+						/>
+					</div>
+				</b-col>
+			</b-row>
+		</b-container>
+	</div>
 </template>
 
 <script>
