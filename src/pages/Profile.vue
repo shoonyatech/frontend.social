@@ -543,6 +543,20 @@ export default {
 			if (this.profile.social != null) {
 				const username = this.profile.social.find((p) => p.label === 'Twitter');
 				if (username) {
+					if (
+						username.value.match(
+							'^https?://(www\.)?twitter\.com/(#!/)?([^/]+)(/\w+)*$'
+						)
+					) {
+						var user = username.value;
+						user = user.slice(20, user.length);
+						return user;
+					}
+					if (username.value.match('@')) {
+						var user = username.value;
+						user = user.slice(1, user.length);
+						return user;
+					}
 					return username.value;
 				}
 			} else return '';
