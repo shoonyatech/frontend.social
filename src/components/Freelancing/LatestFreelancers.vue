@@ -6,9 +6,9 @@
         <b-col md="9">
           <h1>
             <span>Freelancers</span>
-            <button @click="registerFreelancer()">
+            <!-- <button @click="registerFreelancer()">
               + Register as a Freelancer
-            </button>
+            </button> -->
           </h1>
           <div>
             <div
