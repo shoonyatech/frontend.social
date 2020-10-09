@@ -43,6 +43,21 @@ const router = new Router({
 			component: () => import('./pages/Freelancer.vue'),
 		},
 		{
+			path: '/freelancerProjects',
+			name: 'freelancerProjects',
+			component: () => import('./pages/FreelancerProjects.vue'),
+		},
+		{
+			path: '/freelancerProjects/hire/:id',
+			name: 'FreelancingProjectsForm',
+			component: () => import('./pages/FreelancingProjectsForm.vue'),
+		},
+		{
+			path: '/freelancerProjects/:id',
+			name: 'freelancerProjectsDetails',
+			component: () => import('./pages/freelancerProjectsDetails.vue'),
+		},
+		{
 			path: '/job/freelancer/:username',
 			name: 'freelancerDetails',
 			component: () => import('./pages/FreelancerDetails.vue'),

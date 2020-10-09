@@ -21,16 +21,16 @@
               <SkillTags :skills="jobs.relatedSkills" />
 
               <div class="expertise capsule remote">
-                {{ getJobType(jobs.jobType) }}
+                {{ jobs.jobType }}
               </div>
               <div class="expertise capsule">
-                {{ getBudgetBasis(jobs.budgetBasis) }}
+                {{ jobs.budgetBasis }}
               </div>
               <div class="expertise capsule duration">
-                {{ getBudget(jobs.budget) }}
+                {{ jobs.budget }}
               </div>
               <div class="expertise capsule price">
-                {{ getWorkDuration(jobs.workDuration) }}
+                {{ jobs.workDuration }}
               </div>
             </div>
             <br>
@@ -85,51 +85,6 @@ export default {
 						type: ToastType.ERROR,
 					});
 				});
-		},
-
-		getJobType(jobType) {
-			switch (jobType) {
-				case 0:
-					return 'Full Time';
-				case 1:
-					return 'Part Time';
-				default:
-					'Full Time';
-			}
-		},
-		getBudgetBasis(budgetBasis) {
-			switch (budgetBasis) {
-				case 0:
-					return 'Fixed Budget';
-				case 1:
-					return 'Hourly';
-				default:
-					'Fixed Budget';
-			}
-		},
-		getBudget(budget) {
-			switch (budget) {
-				case 0:
-					return 'Ongoing';
-				case 1:
-					return '3-6 Months';
-				case 2:
-					return 'One Time';
-				default:
-					'Ongoing';
-			}
-		},
-		getWorkDuration(workDuration) {
-			switch (workDuration) {
-				case 0:
-					return '$';
-				case 1:
-					return '$';
-				case 2:
-					return '$$$';
-				default:
-					'$$';
-			}
 		},
 	},
 };

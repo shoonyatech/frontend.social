@@ -7,9 +7,13 @@
           md="12"
           sm="1"
         >
-          <span>Are you looking for freelance work ? </span>
+          <span>Are you looking for freelance work? </span>
           <button @click="registerFreelancer()">
-            + Register as a Freelancer
+            Register as a Freelancer
+          </button>
+          OR
+          <button @click="hireFreelancer()">
+            Post a Project
           </button>
         </b-col> -->
         <b-col md="9">
@@ -55,6 +59,7 @@
           </div>
         </b-col>
         <b-col md="3">
+          <br>
           <div
             v-if="!showAddJobDialog"
             class="filters-wrapper"
@@ -181,6 +186,13 @@ export default {
 				this.$router.push('/signin');
 			} else {
 				this.$router.push('/job/form/new');
+			}
+		},
+		hireFreelancer() {
+			if (this.signedInUser == null) {
+				this.$router.push('/signin');
+			} else {
+				this.$router.push('/freelancerProjects/hire/new');
 			}
 		},
 		registerFreelancer() {

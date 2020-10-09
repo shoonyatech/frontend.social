@@ -147,6 +147,9 @@ export default {
 		onCourseClick() {
 			this.$router.push('/learn/courses/getting-started-with-angular');
 		},
+		onFreelancerProjectsClick() {
+			this.$router.push('/freelancerProjects');
+		},
 		onFreelancerListClick() {
 			this.$router.push('/job/freelancer');
 		},
