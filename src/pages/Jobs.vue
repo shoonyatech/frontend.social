@@ -3,7 +3,7 @@
     <Loader v-show="loading" />
     <b-container>
       <b-row>
-        <b-col
+        <!-- <b-col
           md="12"
           sm="1"
         >
@@ -11,7 +11,7 @@
           <button @click="registerFreelancer()">
             + Register as a Freelancer
           </button>
-        </b-col>
+        </b-col> -->
         <b-col md="9">
           <h1>
             <br>
