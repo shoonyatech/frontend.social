@@ -13,8 +13,8 @@ export default {
 	getFreelancerByUsername: (username) => {
 		return httpClient.get(`freelance/${username}`);
 	},
-	deletefreelancer: (id) => {
-		return httpClient.delete(`freelance/${id}`);
+	deletefreelancer: (username) => {
+		return httpClient.delete(`freelance/${username}`);
 	},
 	updateFreelancer: (username, freelancer) => {
 		return httpClient.put(`freelance/${username}`, freelancer);

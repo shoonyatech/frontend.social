@@ -8,13 +8,28 @@
       :checked="isSelected"
       @input="onClick(id)"
     >
-    <label :for="id">{{ label }}</label>
+    <label :for="id">{{ label | uppercase(true) }}</label>
   </div>
 </template>
 
 <script>
 export default {
 	components: {},
+	filters: {
+		uppercase: function (value, onlyFirstCharacter) {
+			if (!value) {
+				return '';
+			}
+
+			value = value.toString();
+
+			if (onlyFirstCharacter) {
+				return value.charAt(0).toUpperCase() + value.slice(1);
+			} else {
+				return value.toUpperCase();
+			}
+		},
+	},
 	props: {
 		label: {
 			type: String,

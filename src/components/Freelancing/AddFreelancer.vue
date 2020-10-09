@@ -1,23 +1,30 @@
 <template>
-	<b-container class="article-form">
-		<Loader v-if="loading" />
-		<div v-else>
-			<b-row>
-				<h1>Register as a freelancer</h1>
-			</b-row>
-			<KeyValue
-				v-model="freelancer.aboutMe"
-				label="About me"
-				:is-editable="true"
-				:multiline="true"
-				@change="onAboutMeChange"
-			/>
-			<div class="action-buttons">
-				<button class="save-button" @click="save">Save</button>
-				<button @click="cancel">Cancel</button>
-			</div>
-		</div>
-	</b-container>
+  <b-container class="article-form">
+    <Loader v-if="loading" />
+    <div v-else>
+      <b-row>
+        <h1>Register as a freelancer</h1>
+      </b-row>
+      <KeyValue
+        v-model="freelancer.aboutMe"
+        label="About me"
+        :is-editable="true"
+        :multiline="true"
+        @change="onAboutMeChange"
+      />
+      <div class="action-buttons">
+        <button
+          class="save-button"
+          @click="save"
+        >
+          Save
+        </button>
+        <button @click="cancel">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </b-container>
 </template>
 
 <script>
@@ -37,6 +44,9 @@ export default {
 		return {
 			freelancer: {
 				aboutMe: '',
+				name: '',
+				city: '',
+				country: '',
 				relatedSkills: [],
 				category: '',
 			},
@@ -55,6 +65,9 @@ export default {
 			.then((user) => {
 				this.profileData = user;
 				this.freelancer.category = this.profileData.category;
+				this.freelancer.name = this.profileData.name;
+				this.freelancer.city = this.profileData.city;
+				this.freelancer.country = this.profileData.country;
 				this.freelancer.relatedSkills = this.profileData.skills.map(
 					(s) => s.name
 				);
@@ -109,6 +122,9 @@ export default {
 			this.freelancer = {
 				aboutMe: freelancerDetail.aboutMe || '',
 				category: freelancerDetail.category || '',
+				name: freelancerDetail.name || '',
+				city: freelancerDetail.city || '',
+				country: freelancerDetail.country || '',
 				relatedSkills: freelancerDetail.relatedSkills
 					? [...freelancerDetail.relatedSkills]
 					: [''],
