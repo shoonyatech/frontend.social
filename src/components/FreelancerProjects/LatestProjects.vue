@@ -7,14 +7,10 @@
           <h1>
             <span>Freelancing Projects</span>
             <button @click="hireFreelancer()">
-              + Hire a freelancer
+              Post a Project
             </button>
           </h1>
-          <div
-            v-infinite-scroll="loadFreelancersProjects"
-            infinite-scroll-distance="limit"
-            infinite-scroll-disabled="isDisableInfiniteScroll"
-          >
+          <div>
             <div>
               <div
                 v-if="freelancersProjects.length"
@@ -42,11 +38,18 @@
             </div>
           </div>
         </b-col>
-        <b-col
-          md="3"
-        >
-          <div />
-          {{ skills }}
+        <b-col md="3">
+          <div class="filters-wrapper">
+            <FreelancerProjectsFilter
+              v-if="skills.length"
+              :tags="skills"
+              :budget="budget"
+              :work-duration="workDuration"
+              :budget-basis="budgetBasis"
+              :job-type="jobType"
+              :on-search-params-change="onSearchParamsChange"
+            />
+          </div>
         </b-col>
       </b-row>
     </b-container>
@@ -55,20 +58,25 @@
 
 <script>
 import FreelancingProjectsStrip from '@/components/FreelancerProjects/FreelancingProjectsStrip';
+import FreelancerProjectsFilter from '@/components/FreelancerProjects/FreelancerProjectsFilter';
 import freelancerProjectService from '@/services/freelancerProjects.service';
 import eventBus from '@/utilities/eventBus';
 import { ToastType, messages, EventPageLimit } from '@/constants/constants';
 export default {
 	name: 'LatestProjects',
-	components: { FreelancingProjectsStrip },
+	components: { FreelancingProjectsStrip, FreelancerProjectsFilter },
 	props: {},
 	data() {
 		return {
 			freelancersProjects: [],
 			skills: [],
+			budget: [],
+			workDuration: [],
+			budgetBasis: [],
+			jobType: [],
 			loading: true,
 			page: 1,
-			limit: 20,
+			limit: 25,
 		};
 	},
 	computed: {
@@ -78,6 +86,10 @@ export default {
 	},
 	async mounted() {
 		this.loading = true;
+		await this.getFreelancersBudgetBasis();
+		await this.getFreelancersJobType();
+		await this.getFreelancersBudget();
+		await this.getFreelancersWorkingDuration();
 		await this.getFreelancersSkills();
 		this.loading = false;
 	},
@@ -87,6 +99,10 @@ export default {
 		}
 	},
 	methods: {
+		onSearchParamsChange(param = '') {
+			this.loading = true;
+			this.loadFreelancersProjects(param, true);
+		},
 		hireFreelancer() {
 			if (this.signedInUser == null) {
 				this.$router.push('/signin');
@@ -97,6 +113,26 @@ export default {
 		getFreelancersSkills() {
 			return freelancerProjectService.getSkills().then((resp) => {
 				this.skills = resp.sort();
+			});
+		},
+		getFreelancersJobType() {
+			return freelancerProjectService.getJobType().then((resp) => {
+				this.jobType = resp.sort();
+			});
+		},
+		getFreelancersBudgetBasis() {
+			return freelancerProjectService.getBudgetBasis().then((resp) => {
+				this.budgetBasis = resp.sort();
+			});
+		},
+		getFreelancersWorkingDuration() {
+			return freelancerProjectService.getWorkDuration().then((resp) => {
+				this.workDuration = resp.sort();
+			});
+		},
+		getFreelancersBudget() {
+			return freelancerProjectService.getBudget().then((resp) => {
+				this.budget = resp.sort();
 			});
 		},
 		canModify(project) {
@@ -142,13 +178,12 @@ export default {
 		loadFreelancersProjects(param = '', filter = true) {
 			let query = '';
 			this.busy = false;
-			this.limit = this.limit || 20;
+			this.limit = this.limit || 25;
 			this.page = filter ? 1 : this.page || 1;
 
 			freelancerProjectService
 				.getFreelancerProjects(param, this.limit, this.page)
 				.then((freelancer) => {
-					console.log(freelancer);
 					if (filter) {
 						this.freelancersProjects = freelancer;
 					} else

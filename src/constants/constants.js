@@ -64,6 +64,14 @@ export const messages = {
 		freelancerDeletedSuccess: 'Freelancer deleted successfully!',
 		freelancersAddFailure: '',
 	},
+	freelancerProjects: {
+		freelancerProjectsAddSuccess: 'Freelancer Projects added successfully!',
+		freelancerProjectsUpdateSuccess:
+			'Freelancer Projects updated successfully!',
+		freelancerProjectsDeletedSuccess:
+			'Freelancer Projects deleted successfully!',
+		freelancerProjectsAddFailure: '',
+	},
 	subscribe: {
 		subscribeSuccess: 'Subscribe successfully!',
 		subscribeFailure: 'Error while subsceibe, Please try again.',

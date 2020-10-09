@@ -88,6 +88,13 @@ export default {
 		}
 	},
 	methods: {
+		hireFreelancer() {
+			if (this.signedInUser == null) {
+				this.$router.push('/signin');
+			} else {
+				this.$router.push('/freelancerProjects/hire/new');
+			}
+		},
 		getFreelancersSkills() {
 			return freelancerService.getSkills().then((resp) => {
 				this.tags = resp.sort();
@@ -115,6 +122,7 @@ export default {
 			this.$router.push(`/job/freelancer/register/${freelancer.username}`);
 		},
 		onDeleteFreelancer(freelancer) {
+			debugger;
 			this.loading = true;
 			freelancerService
 				.deletefreelancer(freelancer.username)
