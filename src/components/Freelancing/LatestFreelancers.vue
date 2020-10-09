@@ -119,14 +119,14 @@ export default {
 		onDeleteFreelancer(freelancer) {
 			this.loading = true;
 			freelancerService
-				.deletefreelancer(freelancer._id)
+				.deletefreelancer(freelancer.username)
 				.then(() => {
 					eventBus.$emit('show-toast', {
 						body: messages.freelancer.freelancerDeletedSuccess,
 						title: messages.generic.success,
 					});
 					this.freelancers = this.freelancers.filter(
-						(e) => e._id !== freelancer._id
+						(e) => e.username !== freelancer.username
 					);
 					this.loading = false;
 				})

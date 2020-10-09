@@ -28,7 +28,7 @@
             <span
               class="freelancer-title"
             ><router-link :to="'../job/freelancer/' + freelancer.username">
-              {{ freelancer.username }}
+              {{ freelancer.name }}
             </router-link></span>
             <span class="freelancer-type capsule">{{
               freelancer.category == 'dev' ? 'Developer' : 'Designer'
@@ -38,7 +38,7 @@
       </b-row>
       <b-row>
         <b-col>
-          <a>{{ profileData.city }},{{ profileData.country }}</a>
+          <a>{{ freelancer.city }},{{ freelancer.country }}</a>
         </b-col>
       </b-row>
       <b-row>
@@ -79,27 +79,6 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-	},
-	data() {
-		return {
-			profileData: {},
-			skills: [],
-		};
-	},
-	created() {
-		userService
-			.getUserProfile(this.freelancer.username)
-			.then((user) => {
-				this.profileData = user;
-				this.skills = this.freelancer.relatedSkills.map((s) => s.name);
-			})
-			.catch((e) => {
-				eventBus.$emit('show-toast', {
-					body: e.message,
-					title: messages.generic.error,
-					type: ToastType.ERROR,
-				});
-			});
 	},
 	methods: {
 		deleteFreelancer(freelancer) {
