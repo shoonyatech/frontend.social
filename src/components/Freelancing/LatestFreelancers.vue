@@ -137,7 +137,6 @@ export default {
 			this.$router.push(`/job/freelancer/register/${freelancer.username}`);
 		},
 		onDeleteFreelancer(freelancer) {
-			debugger;
 			this.loading = true;
 			freelancerService
 				.deletefreelancer(freelancer.username)
