@@ -13,7 +13,7 @@
                   :href="jobs.link"
                   target="_blank"
                 >
-                  <Button label="Apply for this work" />
+                  <button @click="applyforjob()">Apply for this work</button>
                 </a>
               </h1>
             </div>
@@ -42,25 +42,44 @@
           </div>
         </b-col>
       </b-row>
+      <b-row>
+        <b-col>
+          <div v-if="canModify()">
+            <h1>List of Applied Freelancers</h1>
+            <JobApplyStrip
+              v-for="(freelancer, index) in freelancers"
+              :key="index"
+              :freelancer="freelancer"
+            />
+          </div>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>
 
 <script>
 import freelancerProjectService from '@/services/freelancerProjects.service';
-import Button from '@/components/Buttons/Button';
+import freelancerJobApplyService from '@/services/freelancerJobApply.service';
+import JobApplyStrip from '@/components/FreelancerProjects/JobApplyStrip';
 import SkillTags from '@/components/Skills/SkillTags';
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages, EventPageLimit } from '@/constants/constants';
 
 export default {
 	name: 'Jobs',
 	components: {
 		SkillTags,
-		Button,
+		JobApplyStrip,
 	},
 	data() {
 		return {
 			jobs: {},
+			freelancers: {},
 			loading: false,
+			jobId: '',
+			freelancerId: '',
+			type: '',
 		};
 	},
 	computed: {
@@ -70,8 +89,35 @@ export default {
 	},
 	mounted() {
 		this.loadFreelancer(this.$route.params.id);
+		this.loadJobApplyFreelancers(this.$route.params.id);
 	},
 	methods: {
+		canModify() {
+			if (!this.signedInUser) return false;
+
+			if (this.$store.getters.isAdmin) return true;
+
+			const username = this.signedInUser.username.toLowerCase();
+			const admins = this.jobs.adminUsers || [];
+			return (
+				(this.jobs.createdBy &&
+					this.jobs.createdBy.username.toLowerCase() === username) ||
+				admins.some((x) => x.username.toLowerCase() === username)
+			);
+		},
+		applyforjob() {
+			const payload = {
+				jobId: this.$route.params.id,
+				freelancerId: this.$store.state.signedInUser._id,
+				type: 'apply',
+			};
+			freelancerJobApplyService.applyFreelancerJob(payload).then((res) => {
+				eventBus.$emit('show-toast', {
+					body: messages.freelancerJobApply.jobApplyAddSuccess,
+					title: messages.generic.success,
+				});
+			});
+		},
 		loadFreelancer(id) {
 			freelancerProjectService
 				.getFreelancerProjectsById(id)
@@ -85,6 +131,11 @@ export default {
 						type: ToastType.ERROR,
 					});
 				});
+		},
+		loadJobApplyFreelancers(id) {
+			freelancerJobApplyService.getFreelancerByProjectId(id).then((res) => {
+				this.freelancers = res;
+			});
 		},
 	},
 };

@@ -9,7 +9,9 @@ export default {
 		query = query || '';
 		return httpClient.get('freelance-project?' + pagination + query);
 	},
-
+	getFreelancerProjectsByUsername: (username) => {
+		return httpClient.get(`freelance-projects/${username}`);
+	},
 	getFreelancerProjectsById: (id) => {
 		return httpClient.get(`freelance-project/${id}`);
 	},
