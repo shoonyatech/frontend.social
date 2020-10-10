@@ -64,6 +64,13 @@ export const messages = {
 		freelancerDeletedSuccess: 'Freelancer deleted successfully!',
 		freelancersAddFailure: '',
 	},
+	freelancerJobApply: {
+		jobApplyAddSuccess: 'Job Apply added successfully!',
+		jobInviteAddSuccess: 'Invited Freelancer Successfully',
+		jobApplyUpdateSuccess: 'Job Apply updated successfully!',
+		jobApplyDeletedSuccess: 'Job Apply deleted successfully!',
+		jobApplyAddFailure: '',
+	},
 	freelancerProjects: {
 		freelancerProjectsAddSuccess: 'Freelancer Projects added successfully!',
 		freelancerProjectsUpdateSuccess:

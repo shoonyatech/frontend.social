@@ -55,6 +55,19 @@
           sm="12"
         >
           <section
+            v-if="invite"
+            class="invite"
+          >
+            <span
+              v-for="(job, index) in jobs"
+              :key="index"
+            >
+              <button @click="inviteFreelancer(job._id, freelancer.username)">
+                Invite for {{ job.title }}
+              </button>
+            </span>
+          </section>
+          <section
             ref="portfolio"
             title="About Me"
             class="portfolio"
@@ -119,6 +132,8 @@
 import userService from '@/services/user.service';
 import Comment from '@/components/Comment/Comment';
 import freelancerService from '@/services/freelancer.service';
+import freelancerJobApplyService from '@/services/freelancerJobApply.service';
+import freelancerProjectService from '@/services/freelancerProjects.service';
 import eventBus from '@/utilities/eventBus';
 import { ToastType, messages } from '@/constants/constants';
 import SkillLevel from '@/components/Profile/SkillLevel';
@@ -135,10 +150,15 @@ export default {
 	data() {
 		return {
 			freelancer: {},
+			jobs: [],
 			freelancerData: '',
 			profileData: {},
 			publicProfile: null,
 			editModeSkills: false,
+			invite: false,
+			jobId: '',
+			freelancerId: '',
+			type: '',
 		};
 	},
 	computed: {
@@ -149,9 +169,47 @@ export default {
 	mounted() {
 		this.loadFreelancer(this.$route.params.username);
 	},
-	created() {},
+	created() {
+		if (this.signedInUser != null) {
+			const freelancerId = this.$store.state.signedInUser.username;
+			this.loading = true;
+			freelancerProjectService
+				.getFreelancerProjectsByUsername(freelancerId)
+				.then((re) => {
+					this.invite = true;
+				})
+				.catch((err) => {
+					this.invite = false;
+				});
+			this.loading = false;
+		}
+
+		const freelancerId = this.$store.state.signedInUser.username;
+		this.loading = true;
+		freelancerProjectService
+			.getFreelancerProjectsByUsername(freelancerId)
+			.then((re) => {
+				this.jobs = re;
+			});
+	},
 
 	methods: {
+		inviteFreelancer(id, user) {
+			userService.getUserProfile(user).then((user) => {
+				let userId = user._id;
+				const payload = {
+					jobId: id,
+					freelancerId: userId,
+					type: 'invite',
+				};
+				freelancerJobApplyService.applyFreelancerJob(payload).then(() => {
+					eventBus.$emit('show-toast', {
+						body: messages.freelancerJobApply.jobInviteAddSuccess,
+						title: messages.generic.success,
+					});
+				});
+			});
+		},
 		loadFreelancer(username) {
 			freelancerService
 				.getFreelancerByUsername(username)
@@ -192,13 +250,19 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.invite {
+	float: right;
+	flex-direction: columns;
+}
 .profile-photo {
 	max-width: 100%;
 	background-color: #114273;
 	text-align: left;
 	padding: 5px;
 }
-
+button {
+	margin: 5px;
+}
 .user-name {
 	font-weight: 700;
 }

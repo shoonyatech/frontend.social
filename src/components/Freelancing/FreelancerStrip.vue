@@ -61,6 +61,10 @@
 <script>
 import userService from '@/services/user.service';
 import SkillTags from '@/components/Skills/SkillTags';
+import freelancerProjectService from '@/services/freelancerProjects.service';
+import freelancerJobApplyService from '@/services/freelancerJobApply.service';
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages } from '@/constants/constants';
 
 export default {
 	components: {
@@ -75,8 +79,45 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		creator: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	data() {
+		return {
+			jobs: [],
+			jobId: '',
+			freelancerId: '',
+			type: '',
+		};
+	},
+	created() {
+		const freelancerId = this.$store.state.signedInUser.username;
+		this.loading = true;
+		freelancerProjectService
+			.getFreelancerProjectsByUsername(freelancerId)
+			.then((re) => {
+				this.jobs = re;
+			});
 	},
 	methods: {
+		inviteFreelancer(id, user) {
+			userService.getUserProfile(user).then((user) => {
+				let userId = user._id;
+				const payload = {
+					jobId: id,
+					freelancerId: userId,
+					type: 'invite',
+				};
+				freelancerJobApplyService.applyFreelancerJob(payload).then(() => {
+					eventBus.$emit('show-toast', {
+						body: messages.freelancerJobApply.jobInviteAddSuccess,
+						title: messages.generic.success,
+					});
+				});
+			});
+		},
 		deleteFreelancer(freelancer) {
 			if (confirm('Do you really want to delete?')) {
 				this.$emit('delete', freelancer);
@@ -93,6 +134,10 @@ export default {
 .freelancer-action {
 	float: right;
 }
+.invite {
+	float: right;
+	flex-direction: columns;
+}
 .layout {
 	display: flex;
 	flex-direction: columns;
@@ -108,7 +153,9 @@ export default {
 	padding-bottom: 10px;
 	margin-right: 20px;
 }
-
+button {
+	margin: 5px;
+}
 .freelancer-type {
 	font-size: 0.65rem;
 	float: right;

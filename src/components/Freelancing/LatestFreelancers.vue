@@ -48,6 +48,7 @@
 <script>
 import FreelancerStrip from '@/components/Freelancing/FreelancerStrip';
 import FreelancingFilter from '@/components/Freelancing/FreelancingFilter';
+import freelancerProjectService from '@/services/freelancerProjects.service';
 import freelancerService from '@/services/freelancer.service';
 import eventBus from '@/utilities/eventBus';
 import { ToastType, messages, EventPageLimit } from '@/constants/constants';
@@ -66,6 +67,7 @@ export default {
 			loading: false,
 			page: 1,
 			limit: 20,
+			invite: false,
 		};
 	},
 	computed: {
@@ -85,6 +87,19 @@ export default {
 	created() {
 		if (!this.infiniteScroll) {
 			this.loadFreelancers();
+		}
+		if (this.signedInUser != null) {
+			const freelancerId = this.$store.state.signedInUser.username;
+			this.loading = true;
+			freelancerProjectService
+				.getFreelancerProjectsByUsername(freelancerId)
+				.then((re) => {
+					this.invite = true;
+				})
+				.catch((err) => {
+					this.invite = false;
+				});
+			this.loading = false;
 		}
 	},
 	methods: {
@@ -122,7 +137,6 @@ export default {
 			this.$router.push(`/job/freelancer/register/${freelancer.username}`);
 		},
 		onDeleteFreelancer(freelancer) {
-			debugger;
 			this.loading = true;
 			freelancerService
 				.deletefreelancer(freelancer.username)
