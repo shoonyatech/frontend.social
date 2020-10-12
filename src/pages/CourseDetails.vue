@@ -65,7 +65,12 @@
           sm="12"
         >
           <h1>About Author</h1>
-          {{ course.author.name }}
+          <div class="avatar-container">
+            <UserAvatar :user="profileData" />
+            <div class="name">
+              {{ course.author.name }}
+            </div>
+          </div>
           <div
             ref="description"
             class="course-author-description"
@@ -114,10 +119,12 @@ import StarRating from 'vue-star-rating';
 import Comment from '@/components/Comment/Comment';
 import AddComment from '@/components/Comment/AddComment';
 import ChapterStrip from '@/components/Course/ChapterStrip';
+import UserAvatar from '@/components/common/UserAvatar';
 
 /** Services */
 import commentService from '@/services/comment.service';
 import courseService from '@/services/course.service';
+import userService from '@/services/user.service';
 
 /** Helpers */
 import eventBus from '@/utilities/eventBus';
@@ -132,6 +139,7 @@ export default {
 		AddComment,
 		ChapterStrip,
 		StarRating,
+		UserAvatar,
 	},
 	props: {},
 	data() {
@@ -140,6 +148,7 @@ export default {
 			hideComments: false,
 			showRating: true,
 			allowReply: true,
+			profileData: {},
 			commentId: '',
 			comments: [],
 		};
@@ -173,8 +182,23 @@ export default {
 		loadCourse(courseId) {
 			courseService.getCoursesById(courseId).then((res) => {
 				this.course = res;
+				this.getUserProfile(this.course.author.username);
 				this.getComments();
 			});
+		},
+		getUserProfile(username) {
+			userService
+				.getUserProfile(username)
+				.then((user) => {
+					this.profileData = user;
+				})
+				.catch((e) => {
+					eventBus.$emit('show-toast', {
+						body: e.message,
+						title: messages.generic.error,
+						type: ToastType.ERROR,
+					});
+				});
 		},
 		getComments() {
 			commentService
@@ -241,5 +265,12 @@ h1 {
 	display: flex;
 	justify-content: flex-end;
 	padding-bottom: 5px;
+}
+.avatar-container {
+	display: flex;
+	align-items: flex-start;
+	.name {
+		flex: 1;
+	}
 }
 </style>

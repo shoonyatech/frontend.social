@@ -2,7 +2,7 @@
   <div class="host">
     <b-container>
       <b-breadcrumb :items="items" />
-      <b-row>
+      <!-- <b-row>
         <b-col
           md="6"
           sm="12"
@@ -19,9 +19,10 @@
             :on-click="toggleIsAutoSync"
           />
         </b-col>
-      </b-row>
+      </b-row> -->
       <b-row>
         <b-col
+          v-if="topic.videoUrl != null"
           md="6"
           sm="12"
         >
@@ -38,9 +39,9 @@
           md="6"
           sm="12"
         >
-          <CodeEditor
-            v-if="codeEditorURL"
-            :url="codeEditorURL"
+          <vue-markdown
+            v-if="topic.codeLink"
+            :source="url"
           />
           <span v-else>No code available for this topic</span>
         </b-col>
@@ -62,6 +63,13 @@
           >
             Next
           </button>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="12">
+          <br>
+          <h1>Chapter Description</h1>
+          {{ description }}
         </b-col>
       </b-row>
       <b-row
@@ -100,8 +108,8 @@
 </template>
 
 <script>
-import CodeEditor from '@/components/common/CodeEditor';
-import Checkbox from '@/components/Checkbox/Checkbox';
+import VueMarkdown from 'vue-markdown';
+// import Checkbox from '@/components/Checkbox/Checkbox';
 import Comment from '@/components/Comment/Comment';
 import AddComment from '@/components/Comment/AddComment';
 import commentService from '@/services/comment.service';
@@ -113,10 +121,10 @@ import { getUrlFriendlyTitle } from '@/utilities/utils';
 export default {
 	name: 'VideoCourse',
 	components: {
-		CodeEditor,
-		Checkbox,
+		// Checkbox,
 		Comment,
 		AddComment,
+		VueMarkdown,
 	},
 	props: {},
 	data() {
@@ -181,6 +189,8 @@ export default {
 			topic: {},
 			previousLink: null,
 			nextLink: null,
+			url: '',
+			description: '',
 		};
 	},
 	computed: {
@@ -291,7 +301,8 @@ export default {
 		loadTopic(chapterNo, topicUrl, courseId) {
 			courseService.getCoursesById(courseId).then((res) => {
 				this.course = res;
-				// this.topic = res.chapters
+				let chapter = this.course.chapters;
+				let descriptions = chapter.map((s) => s.description);
 				//   .find((x) => x.chapterNo == chapterNo)
 				//   .topics.find((x) => getUrlFriendlyTitle(x.title) === topicUrl);
 
@@ -308,7 +319,10 @@ export default {
 						getUrlFriendlyTitle(t.title) === topicUrl &&
 						chapterNo === t.chapterTitle
 				);
+
+				this.description = descriptions[currentIndex];
 				this.topic = topics[currentIndex];
+				this.description = descriptions[currentIndex];
 				const previousTopic = topics[currentIndex - 1];
 				const nextTopic = topics[currentIndex + 1];
 
@@ -320,7 +334,9 @@ export default {
 				let lastSlash = rawCodeEditorURL.lastIndexOf('/');
 
 				this.codeEditorURL = rawCodeEditorURL + '/master/README.md';
-
+				fetch(this.codeEditorURL)
+					.then((response) => response.text())
+					.then((response) => (this.url = response));
 				//this.codeEditorURL = this.topic.codeLink;
 
 				if (previousTopic) {

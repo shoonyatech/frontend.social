@@ -107,10 +107,9 @@ export default {
 }
 
 .topic-container {
-	border-style: solid;
+	background-color: #4cbeee;
+	color: white;
 	padding: 10px;
-	border-color: #dfdfdf;
-	border-width: 1px;
 	margin-bottom: 1px;
 }
 </style>
