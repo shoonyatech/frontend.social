@@ -311,7 +311,7 @@ export default {
 	}
 	display: flex;
 	justify-content: center;
-	#addprojectForm {
+	#addJobForm {
 		width: 83%;
 		@media screen and (max-width: 1024px) {
 			width: 100%;
@@ -365,7 +365,7 @@ export default {
 			display: flex;
 		}
 		.form-label {
-			width: 300px;
+			width: 150px;
 			color: #114273;
 			min-width: 7rem;
 		}
@@ -390,7 +390,7 @@ export default {
 }
 </style>
 <style lang="scss">
-.add-project-wrapper {
+.add-job-wrapper {
 	.ck-editor,
 	.editor {
 		width: 100%;
