@@ -3,7 +3,7 @@
     <b-container>
       <b-breadcrumb :items="items" />
       <b-row v-if="course.rating">
-        <b-col
+        <!-- <b-col
           md="9"
           sm="12"
           class="course-rating"
@@ -14,7 +14,7 @@
             :read-only="true"
             :show-rating="false"
           />
-        </b-col>
+        </b-col> -->
       </b-row>
       <b-row>
         <b-col md="1" />
@@ -113,7 +113,7 @@
 
 <script>
 /** 3P dependency imports */
-import StarRating from 'vue-star-rating';
+// import StarRating from 'vue-star-rating';
 
 /** Component dependencies */
 import Comment from '@/components/Comment/Comment';
@@ -138,7 +138,7 @@ export default {
 		Comment,
 		AddComment,
 		ChapterStrip,
-		StarRating,
+		// StarRating,
 		UserAvatar,
 	},
 	props: {},
@@ -161,7 +161,7 @@ export default {
 			return [
 				{
 					text: 'Courses',
-					to: '/learn/course',
+					to: '/learn/courses',
 				},
 				{
 					text: this.course.title,
