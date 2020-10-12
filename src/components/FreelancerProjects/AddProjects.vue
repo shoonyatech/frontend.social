@@ -1,12 +1,12 @@
 <template>
-  <div class="add-project-wrapper">
+  <div class="add-job-wrapper">
     <Loader v-if="loading" />
     <div
       v-else
       class="form-container"
     >
       <form
-        id="addprojectForm"
+        id="addJobForm"
         @submit.prevent="processForm"
       >
         <div class="job-title form-field">
@@ -31,7 +31,7 @@
           />
         </div>
 
-        <div class="jobType form-field">
+        <div class="level form-field">
           <div class="form-label">
             Job Type
           </div>
@@ -54,7 +54,7 @@
             />
           </div>
         </div>
-        <div class="budgetBasis form-field">
+        <div class="level form-field">
           <div class="form-label">
             Payment Type
           </div>
@@ -77,9 +77,9 @@
             />
           </div>
         </div>
-        <div class="workDuration form-field">
+        <div class="level form-field">
           <div class="form-label">
-            Duration of work?
+            Duration of Work
           </div>
           <div class="multiple-selection">
             <RadioButton
@@ -108,7 +108,7 @@
             />
           </div>
         </div>
-        <div class="budget form-field">
+        <div class="level form-field">
           <div class="form-label">
             Budget
           </div>
@@ -345,7 +345,7 @@ export default {
 	}
 	display: flex;
 	justify-content: center;
-	#addprojectForm {
+	#addJobForm {
 		width: 83%;
 		@media screen and (max-width: 1024px) {
 			width: 100%;
@@ -399,7 +399,7 @@ export default {
 			display: flex;
 		}
 		.form-label {
-			width: 300px;
+			width: 150px;
 			color: #114273;
 			min-width: 7rem;
 		}
@@ -424,7 +424,7 @@ export default {
 }
 </style>
 <style lang="scss">
-.add-project-wrapper {
+.add-job-wrapper {
 	.ck-editor,
 	.editor {
 		width: 100%;
