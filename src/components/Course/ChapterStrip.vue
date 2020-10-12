@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-card>
+		<div class="card">
 			<div v-b-toggle="'collapse-' + chapter.chapterNo">
 				Chapter {{ chapter.chapterNo }}: {{ chapter.title }}
 			</div>
@@ -16,13 +16,16 @@
 							getUrlFriendlyTitle(topic.title || '')
 						"
 					>
-						<div class="topic-container">
+						<div v-if="videoUrl != topic.videoUrl" class="topic-container">
+							{{ topic.title }}
+						</div>
+						<div v-else class="topic-containers">
 							{{ topic.title }}
 						</div>
 					</router-link>
 				</div>
 			</b-collapse>
-		</b-card>
+		</div>
 	</div>
 </template>
 
@@ -41,6 +44,10 @@ export default {
 			type: String,
 			required: true,
 		},
+		videoUrl: {
+			type: String,
+			default: null,
+		},
 	},
 	data() {
 		return {
@@ -58,6 +65,11 @@ export default {
 
 <style scoped lang="scss">
 /* style for course thumbnail */
+.card {
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	padding: 10px;
+}
 .thumbnail {
 	border: solid #114273 2px;
 	height: 12rem;
@@ -107,9 +119,12 @@ export default {
 }
 
 .topic-container {
+	margin-bottom: 1px;
+}
+.topic-containers {
 	background-color: #4cbeee;
 	color: white;
-	padding: 10px;
+	//padding: 10px;
 	margin-bottom: 1px;
 }
 </style>

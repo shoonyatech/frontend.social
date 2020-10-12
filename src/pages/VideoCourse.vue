@@ -21,9 +21,22 @@
         </b-col>
       </b-row> -->
       <b-row>
+        <b-col md="1" />
+        <b-col
+          md="4"
+          sm="12"
+        >
+          <chapter-strip
+            v-for="(chapter, index) in course.chapters"
+            :key="index"
+            :chapter="chapter"
+            :course-id="course.uniqueId"
+            :video-url="videoUrl"
+          />
+        </b-col>
         <b-col
           v-if="topic.videoUrl != null"
-          md="6"
+          md="7"
           sm="12"
         >
           <youtube
@@ -33,17 +46,6 @@
             height="400"
             :player-vars="playerVars"
           />
-          <!-- <button @click="getCurrentTime">Get Current Time</button> -->
-        </b-col>
-        <b-col
-          md="6"
-          sm="12"
-        >
-          <vue-markdown
-            v-if="topic.codeLink"
-            :source="url"
-          />
-          <span v-else>No code available for this topic</span>
         </b-col>
       </b-row>
       <b-row>
@@ -65,12 +67,35 @@
           </button>
         </b-col>
       </b-row>
+      <br>
+      <b-row>
+        <b-col md="1" />
+        <b-col
+          md="4"
+          sm="12"
+        />
+        <b-col
+          md="7"
+          sm="12"
+        >
+          <div>
+            <vue-markdown
+              v-if="topic.codeLink"
+              class="markdown"
+              :source="url"
+            />
+            <span v-else>No code available for this topic</span>
+          </div>
+        </b-col>
+      </b-row>
       <b-row>
         <b-col md="12">
           <br>
-          <h1>Chapter Description</h1>
           {{ description }}
         </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="12" />
       </b-row>
       <b-row
         v-if="!hideComments"
@@ -111,6 +136,7 @@
 import VueMarkdown from 'vue-markdown';
 // import Checkbox from '@/components/Checkbox/Checkbox';
 import Comment from '@/components/Comment/Comment';
+import ChapterStrip from '@/components/Course/ChapterStrip';
 import AddComment from '@/components/Comment/AddComment';
 import commentService from '@/services/comment.service';
 import courseService from '@/services/course.service';
@@ -123,6 +149,7 @@ export default {
 	components: {
 		// Checkbox,
 		Comment,
+		ChapterStrip,
 		AddComment,
 		VueMarkdown,
 	},
@@ -191,6 +218,7 @@ export default {
 			nextLink: null,
 			url: '',
 			description: '',
+			videoUrl: '',
 		};
 	},
 	computed: {
@@ -201,7 +229,7 @@ export default {
 			return [
 				{
 					text: 'Courses',
-					to: '/learn/course',
+					to: '/learn/courses',
 				},
 				{
 					text: this.course.title,
@@ -301,8 +329,6 @@ export default {
 		loadTopic(chapterNo, topicUrl, courseId) {
 			courseService.getCoursesById(courseId).then((res) => {
 				this.course = res;
-				let chapter = this.course.chapters;
-				let descriptions = chapter.map((s) => s.description);
 				//   .find((x) => x.chapterNo == chapterNo)
 				//   .topics.find((x) => getUrlFriendlyTitle(x.title) === topicUrl);
 
@@ -320,9 +346,9 @@ export default {
 						chapterNo === t.chapterTitle
 				);
 
-				this.description = descriptions[currentIndex];
 				this.topic = topics[currentIndex];
-				this.description = descriptions[currentIndex];
+				this.videoUrl = this.topic.videoUrl;
+				this.description = this.topic.description;
 				const previousTopic = topics[currentIndex - 1];
 				const nextTopic = topics[currentIndex + 1];
 
@@ -337,6 +363,7 @@ export default {
 				fetch(this.codeEditorURL)
 					.then((response) => response.text())
 					.then((response) => (this.url = response));
+
 				//this.codeEditorURL = this.topic.codeLink;
 
 				if (previousTopic) {
@@ -379,5 +406,9 @@ export default {
 }
 .comment-section {
 	margin-top: 20px;
+}
+.markdown {
+	height: 400px;
+	overflow: scroll;
 }
 </style>
