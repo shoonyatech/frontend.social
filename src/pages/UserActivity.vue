@@ -4,6 +4,7 @@
     <b-container>
       <b-row>
         <b-col
+          v-if="$store.getters.isAdmin"
           md="11"
           class="text"
         >
