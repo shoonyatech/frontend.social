@@ -50,9 +50,9 @@
         <div class="button-text">
           <a @click="onCodeChallengeClick()">Code Challenge</a>
         </div>
-        <div class="button-text">
+        <!-- <div class="button-text">
           <a @click="onCourseClick()">Getting Started with Angular</a>
-        </div>
+        </div> -->
         <!-- <div class="tool-tip-text">
           <a @click="onBlogClick()">Blogs</a>
         </div> -->
