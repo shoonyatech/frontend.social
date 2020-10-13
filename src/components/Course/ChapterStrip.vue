@@ -16,7 +16,10 @@
 							getUrlFriendlyTitle(topic.title || '')
 						"
 					>
-						<div v-if="videoUrl != topic.videoUrl" class="topic-container">
+						<div
+							v-if="selectedTopic.title != topic.title"
+							class="topic-container"
+						>
 							{{ topic.title }}
 						</div>
 						<div v-else class="topic-containers">
@@ -44,9 +47,9 @@ export default {
 			type: String,
 			required: true,
 		},
-		videoUrl: {
-			type: String,
-			default: null,
+		selectedTopic: {
+			type: Object,
+			default: () => {},
 		},
 	},
 	data() {

@@ -31,7 +31,7 @@
             :key="index"
             :chapter="chapter"
             :course-id="course.uniqueId"
-            :video-url="videoUrl"
+            :selected-topic="topic"
           />
         </b-col>
         <b-col
@@ -218,7 +218,6 @@ export default {
 			nextLink: null,
 			url: '',
 			description: '',
-			videoUrl: '',
 		};
 	},
 	computed: {
@@ -347,7 +346,6 @@ export default {
 				);
 
 				this.topic = topics[currentIndex];
-				this.videoUrl = this.topic.videoUrl;
 				this.description = this.topic.description;
 				const previousTopic = topics[currentIndex - 1];
 				const nextTopic = topics[currentIndex + 1];
