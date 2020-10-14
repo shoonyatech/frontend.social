@@ -31,7 +31,7 @@
 <script>
 import quizService from '@/services/quiz.service';
 import eventBus from '@/utilities/eventBus';
-import QuestionStrip from '@/components/Quiz/QuizQuestion';
+import QuestionStrip from '@/components/Quiz/AllQuestionStrip';
 import { ToastType, messages } from '@/constants/constants';
 export default {
 	name: 'QuizDetails',
@@ -70,7 +70,7 @@ export default {
 		},
 		runQuiz() {
 			quizService.runQuiz(this.$route.params.id).then((res) => {
-				this.$router.push(`/quiz/${this.$route.params.id}/run/${res.uniqueId}`);
+				this.$router.push(`/quiz/${this.$route.params.id}/run/${res.runId}`);
 			});
 		},
 	},

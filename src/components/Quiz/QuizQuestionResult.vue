@@ -1,35 +1,54 @@
 <template>
   <div>
-    <b-card>
-      <h2>Result</h2>
-      <div
-        v-for="(option, index) in result"
-        :key="index"
-      >
-        <div class="option-container">
-          {{ option.key }}|{{ option.value }}
-        </div>
-      </div>
-    </b-card>
+    <h2>Results</h2>
+    <div class="option">
+      Users Who asnwered A Option: {{ result.A[0] }}
+    </div>
+    <div class="option">
+      Users Who asnwered B Option: {{ result.B[0] }}
+    </div>
+    <div class="option">
+      Users Who asnwered C Option: {{ result.C[0] }}
+    </div>
+    <div class="option">
+      Users Who asnwered D Option: {{ result.D[0] }}
+    </div>
     <br>
   </div>
 </template>
 
 <script>
+import quizService from '@/services/quiz.service';
 export default {
-	name: 'QuestionStrip',
+	name: 'QuestionResult',
 	components: {},
 	props: {
-		result: {
-			type: Object,
-			required: true,
+		questionNo: {
+			type: Number,
+			default: 0,
 		},
 	},
 	data() {
-		return {};
+		return {
+			result: {},
+			runId: Number,
+		};
 	},
-	mounted() {},
-	methods: {},
+	mounted() {
+		this.runId = quizService.getRunId();
+		if (this.questionNo != 0) {
+			this.loadResult(this.runId, this.questionNo, this.$route.params.id);
+		}
+	},
+	methods: {
+		loadResult(runId, questionNo, quizId) {
+			quizService
+				.getQuestionResult(runId, questionNo, quizId)
+				.then((result) => {
+					this.result = result;
+				});
+		},
+	},
 };
 </script>
 
@@ -42,17 +61,16 @@ export default {
 	border-color: #dfdfdf;
 	border-width: 1px;
 	margin-bottom: 1px;
-	background-color: rgb(48, 190, 238);
-	color: white;
+	background-color: rgb(47, 255, 47);
+	color: black;
 }
-.option-container:hover {
+.option {
 	border-style: solid;
 	padding: 10px;
 	border-color: #dfdfdf;
 	border-width: 1px;
 	margin-bottom: 1px;
-	background-color: black;
-	color: white;
-	cursor: pointer;
+	background-color: white;
+	color: black;
 }
 </style>

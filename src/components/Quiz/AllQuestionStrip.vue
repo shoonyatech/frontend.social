@@ -1,47 +1,41 @@
 <template>
   <div>
     <b-card>
-      <h2>Timer: {{ countdown }}</h2>
       <h2>Question Number: {{ question.questionNo }}</h2>
       <div>
         <vue-markdown :source="questionUrl" />
       </div>
-      <div v-if="countdown != 0">
-        <h2>Options</h2>
+
+      <h2>Options</h2>
+      <div
+        v-for="(option, index) in question.options"
+        :key="index"
+      >
         <div
-          v-for="(option, index) in question.options"
-          :key="index"
+          v-if="option.key == question.answer"
+          class="option-container"
         >
-          <div
-            v-if="option.key == question.answer"
-            class="option-container"
-          >
-            {{ option.value }}
-          </div>
-          <div
-            v-else
-            class="option"
-          >
-            {{ option.value }}
-          </div>
+          {{ option.value }}
+        </div>
+        <div
+          v-else
+          class="option"
+        >
+          {{ option.value }}
         </div>
       </div>
     </b-card>
     <br>
-    <b-card v-if="countdown == 0">
-      <QuizQuestionResult :question-no="question.questionNo" />
-    </b-card>
   </div>
 </template>
 
 <script>
 import VueMarkdown from 'vue-markdown';
-import QuizQuestionResult from '@/components/Quiz/QuizQuestionResult';
 
 import quizService from '@/services/quiz.service';
 export default {
-	name: 'QuestionStrip',
-	components: { VueMarkdown, QuizQuestionResult },
+	name: 'AllQuestionStrip',
+	components: { VueMarkdown },
 	props: {
 		question: {
 			type: Object,
@@ -54,16 +48,11 @@ export default {
 	},
 	data() {
 		return {
-			countdown: null,
 			questionUrl: '',
-			text: '',
-			answer: null,
-			questionNo: null,
 		};
 	},
 	mounted() {
 		this.loadQuiz(this.$route.params.id);
-		this.countdown = this.question.duration;
 	},
 	methods: {
 		loadQuiz(quizId) {
@@ -72,14 +61,6 @@ export default {
 					.then((response) => response.text())
 					.then((response) => {
 						this.questionUrl = response;
-						let timer = setInterval(() => {
-							if (this.countdown > 0) {
-								this.countdown--;
-							} else {
-								this.$emit('timeOver');
-								clearInterval(timer);
-							}
-						}, 1000);
 					});
 			});
 		},
