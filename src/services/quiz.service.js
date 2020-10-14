@@ -30,4 +30,16 @@ export default {
 		return httpClient.put('quiz-run', { runId, questionIndex });
 		c;
 	},
+	getQuestionResult: (runId, questionIndex, quizId) => {
+		return httpClient.get(
+			`/quiz-run/result/${quizId}/${runId}/${questionIndex}`
+		);
+	},
+	QuestionrunId: null,
+	setRunId(runId) {
+		this.QuestionrunId = runId;
+	},
+	getRunId() {
+		return this.QuestionrunId;
+	},
 };

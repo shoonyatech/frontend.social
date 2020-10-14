@@ -164,6 +164,11 @@ const router = new Router({
 			component: () => import('./pages/QuizPlay.vue'),
 		},
 		{
+			path: '/quiz/:id/run/:runId/result',
+			name: 'quizRunResult',
+			component: () => import('./pages/QuizRunResult.vue'),
+		},
+		{
 			path: '/blog/:id/:blogname',
 			name: 'blogDetails',
 			component: () => import('./pages/BlogDetails.vue'),
