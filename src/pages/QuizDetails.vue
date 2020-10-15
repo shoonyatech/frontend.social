@@ -6,7 +6,7 @@
           <h1>{{ quiz.title }}</h1>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row v-if="$store.getters.isAdmin">
         <b-col md="12">
           <QuestionStrip
             v-for="(question, index) in quiz.questions"
@@ -21,6 +21,16 @@
         >
           <button @click="runQuiz">
             Run
+          </button>
+        </b-col>
+      </b-row>
+      <b-row v-else>
+        <b-col
+          md="12"
+          class="button"
+        >
+          <button @click="enterQuiz">
+            Enter in this quiz
           </button>
         </b-col>
       </b-row>
@@ -64,14 +74,28 @@ export default {
 	created() {},
 	methods: {
 		loadQuiz(quizId) {
-			quizService.getQuizById(quizId).then((res) => {
-				this.quiz = res;
-			});
+			quizService
+				.getQuizById(quizId)
+				.then((res) => {
+					this.quiz = res;
+				})
+				.catch((e) => {});
 		},
 		runQuiz() {
-			quizService.runQuiz(this.$route.params.id).then((res) => {
-				this.$router.push(`/quiz/${this.$route.params.id}/run/${res.runId}`);
-			});
+			quizService
+				.runQuiz(this.$route.params.id)
+				.then((res) => {
+					this.$router.push(`/quiz/${this.$route.params.id}/run/${res.runId}`);
+				})
+				.catch((e) => {});
+		},
+		enterQuiz() {
+			quizService
+				.getCurrentRunId(this.$route.params.id)
+				.then((res) => {
+					this.$router.push(`/quiz/${this.$route.params.id}/play/${res.runId}`);
+				})
+				.catch((e) => {});
 		},
 	},
 };

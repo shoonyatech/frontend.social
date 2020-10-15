@@ -20,15 +20,14 @@ export default {
 	runQuiz: (quizId) => {
 		return httpClient.post('quiz-run', { quizId: quizId });
 	},
-	getQuizRun: (runId) => {
-		return httpClient.get(`quiz-run/${runId}`);
-	},
 	getQuizResult: (runId, questionIndex) => {
 		return httpClient.get(`quiz-run/${runId}/${questionIndex}`);
 	},
 	setQuizQuestionIndex: (runId, questionIndex) => {
 		return httpClient.put('quiz-run', { runId, questionIndex });
-		c;
+	},
+	updateQuizRun: (quizId, runId, questionIndex) => {
+		return httpClient.put(`/quiz-run/${quizId}/${runId}/${questionIndex}`);
 	},
 	getQuestionResult: (runId, questionIndex, quizId) => {
 		return httpClient.get(
@@ -41,5 +40,11 @@ export default {
 	},
 	getRunId() {
 		return this.QuestionrunId;
+	},
+	getCurrentRunId: (quizId) => {
+		return httpClient.get(`/quiz-run/${quizId}`);
+	},
+	addSubmission: (payload) => {
+		return httpClient.post(`quiz-run/play`, payload);
 	},
 };

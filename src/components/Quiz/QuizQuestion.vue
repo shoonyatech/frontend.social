@@ -59,13 +59,28 @@ export default {
 			text: '',
 			answer: null,
 			questionNo: null,
+			runId: null,
 		};
 	},
 	mounted() {
+		this.runId = quizService.getRunId();
+		if (this.runId != null) {
+			this.updateQuizRun(
+				this.$route.params.id,
+				this.runId,
+				this.question.questionNo
+			);
+		}
 		this.loadQuiz(this.$route.params.id);
 		this.countdown = this.question.duration;
 	},
 	methods: {
+		updateQuizRun(quizId, runId, currentQuestion) {
+			quizService
+				.updateQuizRun(quizId, runId, currentQuestion)
+				.then((res) => {})
+				.catch((e) => {});
+		},
 		loadQuiz(quizId) {
 			quizService.getQuizById(quizId).then((res) => {
 				fetch(this.question.questionUrl)
