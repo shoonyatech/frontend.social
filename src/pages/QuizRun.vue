@@ -53,7 +53,7 @@
         <button
           v-if="
             $route.params.runId === 'details' &&
-              this.currentQuestion < quiz.questions.length - 1
+              currentQuestion < quiz.questions.length - 1
           "
           @click="nextQuestion"
         >
@@ -62,7 +62,7 @@
         <button
           v-if="
             $route.params.runId === 'details' &&
-              this.currentQuestion + 1 == quiz.questions.length
+              currentQuestion + 1 == quiz.questions.length
           "
           @click="finalResult"
         >
@@ -108,11 +108,6 @@ export default {
 		},
 		nextQuestion() {
 			this.currentQuestion++;
-			quizService
-				.setQuizQuestionIndex(this.QuestionRunId, this.currentQuestion)
-				.then((res) => {
-					this.result = res;
-				});
 		},
 		finalResult() {
 			this.$router.push(`/quiz/${this.$route.params.id}/run/details/result`);

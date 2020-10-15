@@ -52,6 +52,7 @@ export default {
 		};
 	},
 	mounted() {
+		console.log(this.question.questionNo);
 		this.loadQuiz(this.$route.params.id);
 	},
 	methods: {

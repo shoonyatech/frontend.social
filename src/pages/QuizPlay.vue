@@ -1,24 +1,26 @@
 <template>
   <div>
     <b-card>
-      <h2>{{ quiz.title }}</h2>
+      <h2>Quiz Run ID: {{ QuestionRunId }}</h2>
+      <!-- Total Question{{ quiz.questions.length }} -->
+      <span>
+        <h2 v-if="$route.params.runId != 'details'">
+          Waiting for host to start quiz
+        </h2>
+      </span>
     </b-card>
-    <b-container>
+    <b-container v-if="$route.params.runId === 'details'">
       <b-row>
         <b-col md="12">
           <div
             v-for="(question, index) in quiz.questions"
             :key="index"
           >
-            <QuizQuestion
-              v-if="index === currentQuestion"
+            <QuizPlayQuestionStrip
+              v-if="question.questionNo === currentQuestion"
               :question="question"
               :quiz-id="quiz._id"
               @timeOver="onTimeover"
-            />
-            <QuizQuestionResult
-              v-if="index === currentQuestion"
-              result="result"
             />
           </div>
         </b-col>
@@ -28,42 +30,51 @@
 </template>
 
 <script>
-import QuizQuestion from '@/components/Quiz/QuizQuestion';
-import QuizQuestionResult from '@/components/Quiz/QuizQuestionResult';
+import QuizPlayQuestionStrip from '@/components/Quiz/QuizPlayQuestionStrip';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'QuestionStrip',
-	components: { QuizQuestion, QuizQuestionResult },
+	components: { QuizPlayQuestionStrip },
 	props: {},
 	data() {
 		return {
 			runId: 0,
+			QuestionRunId: Number,
 			quiz: {},
-			currentQuestion: 0,
+			currentQuestion: Number,
 			result: [],
+			timer: 0,
 		};
 	},
 	mounted() {
 		this.runId = this.$route.params.runId;
+		this.timer = setInterval(this.isActive, 500);
 		quizService.getQuizById(this.$route.params.id).then((res) => {
 			this.quiz = res;
 		});
-		setInterval(() => {
-			quizService.getQuizRun(this.$route.params.id).then((res) => {
-				this.quiz = res;
-			});
-		}, 3000);
+		if (this.runId != 'details') {
+			quizService.setRunId(this.runId);
+		}
+		this.QuestionRunId = quizService.getRunId();
 	},
 	methods: {
-		startQuiz() {
-			this.$router.push(`/quiz/${this.$route.params.id}/run/details`);
-		},
-		nextQuestion() {
-			this.currentQuestion++;
+		isActive() {
+			quizService.getCurrentRunId(this.$route.params.id).then((res) => {
+				if (res.isActive == true) {
+					this.$router.push(`/quiz/${this.$route.params.id}/play/details`);
+					this.currentQuestion = res.currentQuestion;
+				}
+				if (res.currentQuestion == 0) {
+					this.$router.push(
+						`/quiz/${this.$route.params.id}/run/details/result`
+					);
+					clearInterval(this.timer);
+				}
+			});
 		},
 		onTimeover() {
 			quizService
-				.getQuizResult(this.runId, this.currentQuestion)
+				.getQuizResult(this.QuestionRunId, this.currentQuestion)
 				.then((res) => {
 					this.result = res;
 				});
