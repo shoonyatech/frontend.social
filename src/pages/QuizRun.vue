@@ -1,21 +1,20 @@
 <template>
   <div>
     <b-card>
-      <h2>Quiz Run ID: {{ QuestionRunId }}</h2>
-      <!-- Total Question{{ quiz.questions.length }} -->
+      <h2>Quiz Run ID: {{ runId }}</h2>
       <span>
         <button
-          v-if="$route.params.runId != 'details'"
+          v-if="$route.params.questionIndex === 'start'"
           @click="startQuiz"
         >
           Start Quiz
         </button>
       </span>
     </b-card>
-    <b-container v-if="$route.params.runId === 'details'">
+    <b-container v-if="$route.params.questionIndex != 'start'">
       <b-row>
         <b-col
-          v-if="$route.params.runId != 'details'"
+          v-if="$route.params.questionIndex === 'start'"
           md="12"
         >
           <div
@@ -52,7 +51,7 @@
       <span>
         <button
           v-if="
-            $route.params.runId === 'details' &&
+            $route.params.questionIndex != 'start' &&
               currentQuestion < quiz.questions.length - 1
           "
           @click="nextQuestion"
@@ -61,7 +60,7 @@
         </button>
         <button
           v-if="
-            $route.params.runId === 'details' &&
+            $route.params.questionIndex != 'start' &&
               currentQuestion + 1 == quiz.questions.length
           "
           @click="finalResult"
@@ -84,7 +83,6 @@ export default {
 	data() {
 		return {
 			runId: 0,
-			QuestionRunId: Number,
 			quiz: {},
 			currentQuestion: 0,
 			result: [],
@@ -96,25 +94,27 @@ export default {
 		quizService.getQuizById(this.$route.params.id).then((res) => {
 			this.quiz = res;
 		});
-		if (this.runId != 'details') {
-			quizService.setRunId(this.runId);
-		}
-		this.QuestionRunId = quizService.getRunId();
 	},
 	methods: {
 		startQuiz() {
-			this.$router.push(`/quiz/${this.$route.params.id}/run/details`);
+			this.$router.push(
+				`/quiz/${this.$route.params.id}/run/${this.runId}/${
+					this.currentQuestion + 1
+				}`
+			);
 			this.start = true;
 		},
 		nextQuestion() {
 			this.currentQuestion++;
 		},
 		finalResult() {
-			this.$router.push(`/quiz/${this.$route.params.id}/run/details/result`);
+			this.$router.push(
+				`/quiz/${this.$route.params.id}/run/${this.runId}/${this.currentQuestion}/result`
+			);
 		},
 		onTimeover() {
 			quizService
-				.getQuizResult(this.QuestionRunId, this.currentQuestion)
+				.getQuizResult(this.runId, this.currentQuestion)
 				.then((res) => {
 					this.result = res;
 				});

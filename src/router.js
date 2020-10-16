@@ -154,17 +154,17 @@ const router = new Router({
 			component: () => import('./pages/QuizDetails.vue'),
 		},
 		{
-			path: '/quiz/:id/run/:runId',
+			path: '/quiz/:id/run/:runId/:questionIndex',
 			name: 'quizRun',
 			component: () => import('./pages/QuizRun.vue'),
 		},
 		{
-			path: '/quiz/:id/play/:runId',
+			path: '/quiz/:id/play/:runId/:questionIndex',
 			name: 'quizPlay',
 			component: () => import('./pages/QuizPlay.vue'),
 		},
 		{
-			path: '/quiz/:id/run/:runId/result',
+			path: '/quiz/:id/run/:runId/:questionIndex/result',
 			name: 'quizRunResult',
 			component: () => import('./pages/QuizRunResult.vue'),
 		},

@@ -1,15 +1,15 @@
 <template>
   <div>
     <b-card>
-      <h2>Quiz Run ID: {{ QuestionRunId }}</h2>
+      <h2>Quiz Run ID: {{ runId }}</h2>
       <!-- Total Question{{ quiz.questions.length }} -->
       <span>
-        <h2 v-if="$route.params.runId != 'details'">
+        <h2 v-if="$route.params.questionIndex === 'start'">
           Waiting for host to start quiz
         </h2>
       </span>
     </b-card>
-    <b-container v-if="$route.params.runId === 'details'">
+    <b-container v-if="$route.params.questionIndex != 'start'">
       <b-row>
         <b-col md="12">
           <div
@@ -39,9 +39,8 @@ export default {
 	data() {
 		return {
 			runId: 0,
-			QuestionRunId: Number,
 			quiz: {},
-			currentQuestion: Number,
+			currentQuestion: null,
 			result: [],
 			timer: 0,
 		};
@@ -52,21 +51,19 @@ export default {
 		quizService.getQuizById(this.$route.params.id).then((res) => {
 			this.quiz = res;
 		});
-		if (this.runId != 'details') {
-			quizService.setRunId(this.runId);
-		}
-		this.QuestionRunId = quizService.getRunId();
 	},
 	methods: {
 		isActive() {
 			quizService.getCurrentRunId(this.$route.params.id).then((res) => {
 				if (res.isActive == true) {
-					this.$router.push(`/quiz/${this.$route.params.id}/play/details`);
 					this.currentQuestion = res.currentQuestion;
+					this.$router.push(
+						`/quiz/${this.$route.params.id}/play/${this.runId}/${this.currentQuestion}`
+					);
 				}
 				if (res.currentQuestion == 0) {
 					this.$router.push(
-						`/quiz/${this.$route.params.id}/run/details/result`
+						`/quiz/${this.$route.params.id}/run/${this.runId}/${this.currentQuestion}/result`
 					);
 					clearInterval(this.timer);
 				}
@@ -74,7 +71,7 @@ export default {
 		},
 		onTimeover() {
 			quizService
-				.getQuizResult(this.QuestionRunId, this.currentQuestion)
+				.getQuizResult(this.runId, this.currentQuestion)
 				.then((res) => {
 					this.result = res;
 				});
