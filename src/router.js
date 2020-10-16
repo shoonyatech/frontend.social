@@ -199,6 +199,11 @@ const router = new Router({
 			component: () => import('./pages/VLogDetails.vue'),
 		},
 		{
+			path: '/podcasts',
+			name: 'podcasts',
+			component: () => import('./pages/Podcasts.vue'),
+		},
+		{
 			path: '/freelancing',
 			name: 'freelancing',
 			component: () => import('./pages/VLogs.vue'),
