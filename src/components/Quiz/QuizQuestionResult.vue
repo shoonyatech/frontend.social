@@ -1,17 +1,12 @@
 <template>
   <div>
     <h2>Results</h2>
-    <div class="option">
-      Users Who asnwered A Option: {{ result.A[0] }}
-    </div>
-    <div class="option">
-      Users Who asnwered B Option: {{ result.B[0] }}
-    </div>
-    <div class="option">
-      Users Who asnwered C Option: {{ result.C[0] }}
-    </div>
-    <div class="option">
-      Users Who asnwered D Option: {{ result.D[0] }}
+    <div
+      v-for="(option, index) in result"
+      :key="index"
+      class="option"
+    >
+      Users Who asnwered {{ option.key }} option: {{ option.length }}
     </div>
     <br>
   </div>
@@ -31,11 +26,11 @@ export default {
 	data() {
 		return {
 			result: {},
-			runId: Number,
+			runId: null,
 		};
 	},
 	mounted() {
-		this.runId = quizService.getRunId();
+		this.runId = this.$route.params.runId;
 		if (this.questionNo != 0) {
 			this.loadResult(this.runId, this.questionNo, this.$route.params.id);
 		}

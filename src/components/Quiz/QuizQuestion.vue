@@ -63,7 +63,7 @@ export default {
 		};
 	},
 	mounted() {
-		this.runId = quizService.getRunId();
+		this.runId = this.$route.params.runId;
 		if (this.runId != null) {
 			this.updateQuizRun(
 				this.$route.params.id,

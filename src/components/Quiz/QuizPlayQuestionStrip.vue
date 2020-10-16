@@ -20,6 +20,11 @@
             {{ option.key }}) {{ option.value }}
           </div>
         </div>
+      </div>
+    </b-card>
+    <br>
+    <b-card>
+      <div v-if="countdown == 0">
         <section v-if="selectedAnswer != ''">
           <span
             v-if="selectedAnswer == question.answer"
@@ -66,26 +71,32 @@ export default {
 			countdown: null,
 			questionUrl: '',
 			text: '',
-			answer: null,
+			points: null,
 			questionNo: null,
 			runId: null,
 			click: 0,
 		};
 	},
 	mounted() {
-		this.runId = quizService.getRunId();
+		this.runId = this.$route.params.runId;
 		this.loadQuiz(this.$route.params.id);
 		this.countdown = this.question.duration;
 	},
 	methods: {
 		submitAnswer(selectedOption) {
 			this.click = 1;
+			if (selectedOption == this.question.answer) {
+				this.points = 100;
+			} else {
+				this.points = 0;
+			}
 			const payload = {
 				username: this.$store.state.signedInUser.username,
 				quizId: this.$route.params.id,
 				runId: this.runId,
 				questionNo: this.question.questionNo,
 				selectedOption: selectedOption,
+				points: this.points,
 			};
 			quizService
 				.addSubmission(payload)

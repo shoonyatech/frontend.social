@@ -6,7 +6,7 @@
           <h1>{{ quiz.title }}</h1>
         </b-col>
       </b-row>
-      <b-row v-if="$store.getters.isAdmin">
+      <b-row v-if="user != ''">
         <b-col md="12">
           <QuestionStrip
             v-for="(question, index) in quiz.questions"
@@ -53,6 +53,7 @@ export default {
 		return {
 			quiz: {},
 			quizData: '',
+			user: '',
 		};
 	},
 	computed: {
@@ -78,6 +79,11 @@ export default {
 				.getQuizById(quizId)
 				.then((res) => {
 					this.quiz = res;
+					this.quiz.moderators.map((re) => {
+						if (re === this.$store.state.signedInUser.username) {
+							this.user = re;
+						}
+					});
 				})
 				.catch((e) => {});
 		},
@@ -85,7 +91,9 @@ export default {
 			quizService
 				.runQuiz(this.$route.params.id)
 				.then((res) => {
-					this.$router.push(`/quiz/${this.$route.params.id}/run/${res.runId}`);
+					this.$router.push(
+						`/quiz/${this.$route.params.id}/run/${res.runId}/start`
+					);
 				})
 				.catch((e) => {});
 		},
@@ -93,7 +101,9 @@ export default {
 			quizService
 				.getCurrentRunId(this.$route.params.id)
 				.then((res) => {
-					this.$router.push(`/quiz/${this.$route.params.id}/play/${res.runId}`);
+					this.$router.push(
+						`/quiz/${this.$route.params.id}/play/${res.runId}/start`
+					);
 				})
 				.catch((e) => {});
 		},
