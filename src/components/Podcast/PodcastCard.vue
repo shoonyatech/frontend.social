@@ -1,17 +1,15 @@
 <template>
-  <!-- div for searching city -->
-
-    <div class="thumbnail">
+    <div class="card">
       <div class="details">
         <div class="inline-block">
           <h2 class="caption">
             <a :href="podcast.id">{{ podcast.title }}</a>
           </h2>
-          <p class="ml-2">{{ podcast.description }}</p>
+          <p class="ml-2 text-left">{{ podcast.description }}</p>
         </div>
         <div class="text-xs">
             <div
-                v-if="podcast.rating"
+
                 class="podcast-rating"
             >
                     <star-rating
@@ -54,9 +52,9 @@ export default {
 
 <style scoped lang="scss">
 /* style for city thumbnail */
-.thumbnail {
+.card {
 	border: solid var(--fs-primary-color) 2px;
-	height: 12rem;
+	height: 18rem;
 	width: 12rem;
 	min-width: 12rem;
 	color: var(--fs-primary-color);
@@ -68,44 +66,9 @@ export default {
     text-align: center;
 }
 
-.thumbnail .photo {
-	background-color: #114273;
-	height: 5rem;
-	width: 100%;
-	min-height: 5rem;
-	min-width: 100%;
-	position: relative;
-	object-fit: cover;
-
-	&:before {
-		content: ' ';
-		display: inline-block;
-		position: absolute;
-		left: 0px;
-		height: 5rem;
-		width: 100%;
-		background-color: #e6e6e6;
-	}
-
-	&:after {
-		content: '\f127''  ' attr(alt);
-		display: block;
-		font-size: 16px;
-		font-style: normal;
-		font-family: FontAwesome;
-		color: rgb(100, 100, 100);
-		position: absolute;
-		top: 30px;
-		left: 0;
-		width: 100%;
-		text-align: center;
-	}
-}
-
 .details {
 	padding: 0.5rem;
 	margin-top: -0.75rem;
-	text-align: left;
 }
 
 .half-width {
@@ -114,5 +77,9 @@ export default {
 
 .pr-2 {
 	padding-right: 10px;
+}
+
+.btn-apply button {
+	margin-top: 0.8rem;
 }
 </style>
