@@ -6,7 +6,7 @@
 				<b-col md="9">
 					<h1>Podcasts</h1>
 					<div
-						v-infinite-scroll="loadCourses"
+						v-infinite-scroll="loadPodcasts"
 						infinite-scroll-disabled="isDisableInfiniteScroll"
 						infinite-scroll-distance="limit"
 					>
@@ -19,7 +19,7 @@
 								</b-col>
 							</b-row>
 						</div>
-						<div v-else>No courses found!</div>
+						<div v-else>No podcasts found!</div>
 					</div>
 				</b-col>
 
@@ -41,8 +41,7 @@
 
 <script>
 import Filters from '@/components/Filters/Filters';
-//import CourseStrip from '@/components/Course/CourseStrip';
-//import courseService from '@/services/course.service';
+import podcastService from '@/services/podcast.service';
 import eventBus from '@/utilities/eventBus';
 import { ToastType, messages } from '@/constants/constants';
 import PodcastCard from '@/components/Podcast/PodcastCard.vue';
@@ -52,7 +51,6 @@ export default {
 	components: {
 		Filters,
 		PodcastCard,
-		//CourseStrip,
 	},
 	props: {
 		infiniteScroll: {
@@ -114,15 +112,15 @@ export default {
 	},
 	created() {
 		if (!this.infiniteScroll) {
-			this.loadCourses('');
+			this.loadPodcasts('');
 		}
 	},
 	methods: {
 		onSearchParamsChange(param = '') {
 			this.loading = true;
-			this.loadCourses(param);
+			this.loadPodcasts(param);
 		},
-		loadCourses(param, action) {
+		loadPodcasts(param, action) {
 			switch (action) {
 				case 'previous':
 					action = -1;
@@ -138,22 +136,21 @@ export default {
 			this.limit = this.limit || 25;
 			this.page = action + this.page || 1;
 
-			/*
-			courseService.getCourses(param, this.limit, this.page).then((res) => {
-				var courses = res.results;
-				this.skills = res.meta.filters.skills;
+			
+			podcastService.getPodcasts(param, this.limit, this.page).then((res) => {
+				var podcasts = res.results;
 				if (!this.infiniteScroll) {
-					this.courses = courses;
+					this.podcasts = podcasts;
 				} else {
-					this.courses = this.courses.concat(courses);
-					if (courses.length > 0) {
+					this.podcasts = this.podcasts.concat(podcasts);
+					if (podcasts.length > 0) {
 						++this.page;
 					}
 				}
 				this.busy = true;
 				this.loading = false;
             });
-            */
+            
 		},
 	},
 };

@@ -50,6 +50,9 @@
         <div class="button-text">
           <a @click="onCodeChallengeClick()">Code Challenge</a>
         </div>
+        <div class="button-text">
+          <a @click="onPodcastClick()">Podcasts</a>
+        </div>
         <!-- <div class="button-text">
           <a @click="onCourseClick()">Getting Started with Angular</a>
         </div> -->
@@ -158,6 +161,9 @@ export default {
 		},
 		onCodeChallengeClick() {
 			this.$router.push('/challenge');
+		},
+		onPodcastClick() {
+			this.$router.push('/podcasts');
 		},
 		onFreelancingClick() {
 			this.$router.push('/freelancing');
