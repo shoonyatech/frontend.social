@@ -79,9 +79,9 @@ export default {
 				.getQuizById(quizId)
 				.then((res) => {
 					this.quiz = res;
-					this.quiz.moderators.map((re) => {
-						if (re === this.$store.state.signedInUser.username) {
-							this.user = re;
+					this.quiz.moderators.map((moderator) => {
+						if (moderator === this.$store.state.signedInUser.username) {
+							this.user = moderator;
 						}
 					});
 				})

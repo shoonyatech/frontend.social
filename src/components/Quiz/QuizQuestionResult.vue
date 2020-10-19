@@ -1,22 +1,20 @@
 <template>
   <div>
     <h2>Results</h2>
-    <div
-      v-for="(option, index) in result"
-      :key="index"
-      class="option"
-    >
-      Users Who asnwered {{ option.key }} option: {{ option.length }}
-    </div>
+    <QuizBar
+      :result="result"
+      :question-no="questionNo"
+    />
     <br>
   </div>
 </template>
 
 <script>
+import QuizBar from '@/components/Quiz/QuizBar';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'QuestionResult',
-	components: {},
+	components: { QuizBar },
 	props: {
 		questionNo: {
 			type: Number,
@@ -47,25 +45,4 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-/* style for course thumbnail */
-
-.option-container {
-	border-style: solid;
-	padding: 10px;
-	border-color: #dfdfdf;
-	border-width: 1px;
-	margin-bottom: 1px;
-	background-color: rgb(47, 255, 47);
-	color: black;
-}
-.option {
-	border-style: solid;
-	padding: 10px;
-	border-color: #dfdfdf;
-	border-width: 1px;
-	margin-bottom: 1px;
-	background-color: white;
-	color: black;
-}
-</style>
+<style scoped lang="scss"></style>

@@ -48,7 +48,7 @@ export default {
 	mounted() {
 		this.runId = this.$route.params.runId;
 		this.timer = setInterval(this.isActive, 500);
-		quizService.getQuizById(this.$route.params.id).then((res) => {
+		quizService.getQuizByIdPlay(this.$route.params.id).then((res) => {
 			this.quiz = res;
 		});
 	},
