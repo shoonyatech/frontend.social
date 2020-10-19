@@ -14,12 +14,18 @@
         <div
           v-if="option.key == question.answer"
           class="option-container"
+          :style="{
+            backgroundColor: `rgb(47, 255, 47)`,
+          }"
         >
           {{ option.value }}
         </div>
         <div
           v-else
           class="option"
+          :style="{
+            backgroundColor: `${colors[index]}`,
+          }"
         >
           {{ option.value }}
         </div>
@@ -48,6 +54,7 @@ export default {
 	},
 	data() {
 		return {
+			colors: ['yellow', 'red', 'rgb(0,186,240)', 'orange'],
 			questionUrl: '',
 		};
 	},

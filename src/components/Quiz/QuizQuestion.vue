@@ -1,12 +1,19 @@
 <template>
   <div>
     <b-card>
-      <h2>Timer: {{ countdown }}</h2>
+      <div class="timer">
+        {{ countdown }}
+      </div>
       <h2>Question Number: {{ question.questionNo }}</h2>
       <div>
         <vue-markdown :source="questionUrl" />
       </div>
-      <div v-if="countdown != 0">
+      <div>
+        <b-card v-if="countdown == 0">
+          <QuizQuestionResult :question-no="question.questionNo" />
+        </b-card>
+      </div>
+      <div>
         <h2>Options</h2>
         <div
           v-for="(option, index) in question.options"
@@ -15,22 +22,25 @@
           <div
             v-if="option.key == question.answer"
             class="option-container"
+            :style="{
+              backgroundColor: `rgb(47, 255, 47)`,
+            }"
           >
-            {{ option.value }}
+            {{ option.key }}) {{ option.value }}
           </div>
           <div
             v-else
             class="option"
+            :style="{
+              backgroundColor: `${colors[index]}`,
+            }"
           >
-            {{ option.value }}
+            {{ option.key }}) {{ option.value }}
           </div>
         </div>
       </div>
     </b-card>
     <br>
-    <b-card v-if="countdown == 0">
-      <QuizQuestionResult :question-no="question.questionNo" />
-    </b-card>
   </div>
 </template>
 
@@ -54,6 +64,7 @@ export default {
 	},
 	data() {
 		return {
+			colors: ['yellow', 'red', 'rgb(0,186,240)', 'orange'],
 			countdown: null,
 			questionUrl: '',
 			text: '',
@@ -122,5 +133,14 @@ export default {
 	margin-bottom: 1px;
 	background-color: white;
 	color: black;
+}
+.timer {
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	background-color: purple;
+	color: white;
+	font-size: 40px;
+	text-align: center;
 }
 </style>

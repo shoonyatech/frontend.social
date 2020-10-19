@@ -1,7 +1,9 @@
 <template>
   <div>
     <b-card>
-      <h2>Timer: {{ countdown }}</h2>
+      <div class="timer">
+        {{ countdown }}
+      </div>
       <h2>Question Number: {{ question.questionNo }}</h2>
       <div>
         <vue-markdown :source="questionUrl" />
@@ -15,6 +17,9 @@
           <div
             v-if="click == 0"
             class="option"
+            :style="{
+              backgroundColor: `${colors[index]}`,
+            }"
             @click="submitAnswer(option.key)"
           >
             {{ option.key }}) {{ option.value }}
@@ -23,24 +28,22 @@
       </div>
     </b-card>
     <br>
-    <b-card>
-      <div v-if="countdown == 0">
-        <section v-if="selectedAnswer != ''">
-          <span
-            v-if="selectedAnswer == question.answer"
-            class="correctAnswer"
-          >Your Answer is Correct {{ selectedAnswer }}</span>
-          <span
-            v-else
-            class="wrongAnswer"
-          >Your Answer is Wrong i.e {{ selectedAnswer }} , Correct Answer is :
-            {{ question.answer }}</span>
-        </section>
-      </div>
-    </b-card>
-    <br>
     <b-card v-if="countdown == 0">
       <QuizQuestionResult :question-no="question.questionNo" />
+      <div
+        v-for="(option, index) in question.options"
+        :key="index"
+      >
+        <div
+          class="option"
+          :style="{
+            backgroundColor: `${colors[index]}`,
+          }"
+          @click="submitAnswer(option.key)"
+        >
+          {{ option.key }}) {{ option.value }}
+        </div>
+      </div>
     </b-card>
   </div>
 </template>
@@ -67,11 +70,11 @@ export default {
 	},
 	data() {
 		return {
+			colors: ['yellow', 'red', 'rgb(0,186,240)', 'orange'],
 			selectedAnswer: '',
 			countdown: null,
 			questionUrl: '',
 			text: '',
-			points: null,
 			questionNo: null,
 			runId: null,
 			click: 0,
@@ -85,18 +88,12 @@ export default {
 	methods: {
 		submitAnswer(selectedOption) {
 			this.click = 1;
-			if (selectedOption == this.question.answer) {
-				this.points = 100;
-			} else {
-				this.points = 0;
-			}
 			const payload = {
 				username: this.$store.state.signedInUser.username,
 				quizId: this.$route.params.id,
 				runId: this.runId,
 				questionNo: this.question.questionNo,
 				selectedOption: selectedOption,
-				points: this.points,
 			};
 			quizService
 				.addSubmission(payload)
@@ -113,7 +110,7 @@ export default {
 		},
 		loadQuiz(quizId) {
 			quizService
-				.getQuizById(quizId)
+				.getQuizByIdPlay(quizId)
 				.then((res) => {
 					fetch(this.question.questionUrl)
 						.then((response) => response.text())
@@ -173,5 +170,14 @@ export default {
 	margin-bottom: 1px;
 	background-color: white;
 	color: black;
+}
+.timer {
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	background-color: purple;
+	color: white;
+	font-size: 40px;
+	text-align: center;
 }
 </style>
