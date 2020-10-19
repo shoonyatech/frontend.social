@@ -64,37 +64,7 @@ export default {
 	},
 	data() {
 		return {
-			podcasts: [
-				{
-					title: 'Frontend Happy Hour',
-					description:
-						'A podcast featuring a panel of Software Engineers from Netflix, Twitch, & Atlassian talking over drinks about all things Front End development.',
-					episodes: [
-						{
-							title: 'Severless - serving(less) drinks',
-							overview:
-								'Do you remember the days of FTP? In this episode, we are joined by Jerome Hardaway to talk with us about the changes made to hosting websites and how serverless has improved the ways we serve up websites and applications.',
-							url:
-								'https://frontendhappyhour.com/episodes/severless-serving(less)-drinks/',
-							participants: [
-								'Jerome Hardaway',
-								'Ryan Burgess',
-								'Augustus Yuan',
-							],
-						},
-						{
-							title: 'SEO - Searching for our drinks',
-							overview:
-								'Do you remember the days of FTP? In this episode, we are joined by Jerome Hardaway to talk with us about the changes made to hosting websites and how serverless has improved the ways we serve up websites and applications.',
-							url:
-								'https://frontendhappyhour.com/episodes/severless-serving(less)-drinks/',
-							participants: ['Cole Turner', 'Ryan Burgess'],
-						},
-					],
-					skills: ['react', 'angular', 'vue', 'svelte'],
-					url: 'https://frontendhappyhour.com/',
-				},
-			],
+			podcasts: [],
 			skills: [],
 			expertiseLevel: [],
 			jobTypes: [],
