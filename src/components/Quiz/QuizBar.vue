@@ -4,16 +4,20 @@
       v-for="(option, index) in result"
       :key="index"
     >
-      <div
-        class="text"
-        :style="{
-          backgroundColor: `${colors[index]}`,
-        }"
-      >
-        {{ option.key }}
+      <div v-if="option.key == answer">
+        <p
+          class="text"
+          :style="{
+            color: `rgb(0, 250, 21)`,
+            fontSize: '40px',
+          }"
+        >
+          &#x1F5F8;
+        </p>
       </div>
-      <br>
+
       <div
+        v-if="option.length != 0"
         class="bar"
         :style="{
           height: `${option.length * 30}px`,
@@ -22,17 +26,20 @@
       >
         {{ option.length }}
       </div>
-      <br>
-      <div v-if="option.key == answer">
-        <p class="tick">
-          &#x1F5F8;
-        </p>
+      <div
+        class="text"
+        :style="{
+          backgroundColor: `${colors[index]}`,
+        }"
+      >
+        {{ option.key }}
       </div>
     </div>
   </div>
 </template>
 <script>
 import quizService from '@/services/quiz.service';
+import { colorsSet } from './QuizConfig';
 export default {
 	props: {
 		result: {
@@ -46,17 +53,13 @@ export default {
 	},
 	data() {
 		return {
-			colors: ['yellow', 'red', 'rgb(0,186,240)', 'orange'],
-			styleObject: {
-				color: 'red',
-				fontSize: '13px',
-				height: '100px',
-			},
+			colors: [],
 			answer: '',
 		};
 	},
 
 	mounted() {
+		this.colors = colorsSet;
 		if (this.questionNo != 0) {
 			this.loadAnswer(this.$route.params.id, this.questionNo);
 		}
@@ -79,20 +82,18 @@ export default {
 	display: flex;
 	flex-direction: row;
 	color: white;
+	justify-content: center;
+	align-items: flex-end;
 }
 .bar {
 	width: 100px;
 	margin-right: 50px;
 	text-align: center;
+	margin-bottom: 5px;
 }
 .text {
 	margin-right: 50px;
 	width: 100px;
-	text-align: center;
-}
-.tick {
-	font-size: 50px;
-	color: rgb(0, 250, 21);
 	text-align: center;
 }
 </style>

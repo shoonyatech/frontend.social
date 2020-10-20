@@ -1,11 +1,20 @@
 <template>
   <div>
     <b-card>
-      <div class="timer">
+      <div
+        v-if="countdown > 5"
+        class="timer"
+      >
+        {{ countdown }}
+      </div>
+      <div
+        v-else
+        class="timerRed"
+      >
         {{ countdown }}
       </div>
       <h2>Question Number: {{ question.questionNo }}</h2>
-      <div>
+      <div v-if="countdown != 0">
         <vue-markdown :source="questionUrl" />
       </div>
       <div>
@@ -21,16 +30,23 @@
         >
           <div
             v-if="option.key == question.answer"
-            class="option-container"
+            class="float-child"
             :style="{
-              backgroundColor: `rgb(47, 255, 47)`,
+              backgroundColor: `${colors[index]}`,
             }"
           >
             {{ option.key }}) {{ option.value }}
+            <span
+              :style="{
+                color: `rgb(0, 250, 21)`,
+              }"
+            >
+              &#x1F5F8;
+            </span>
           </div>
           <div
             v-else
-            class="option"
+            class="float-child"
             :style="{
               backgroundColor: `${colors[index]}`,
             }"
@@ -38,6 +54,10 @@
             {{ option.key }}) {{ option.value }}
           </div>
         </div>
+        <br>
+      </div>
+      <div v-if="countdown == 0">
+        <vue-markdown :source="questionUrl" />
       </div>
     </b-card>
     <br>
@@ -47,6 +67,7 @@
 <script>
 import VueMarkdown from 'vue-markdown';
 import QuizQuestionResult from '@/components/Quiz/QuizQuestionResult';
+import { colorsSet } from './QuizConfig';
 
 import quizService from '@/services/quiz.service';
 export default {
@@ -64,7 +85,7 @@ export default {
 	},
 	data() {
 		return {
-			colors: ['yellow', 'red', 'rgb(0,186,240)', 'orange'],
+			colors: [],
 			countdown: null,
 			questionUrl: '',
 			text: '',
@@ -74,6 +95,7 @@ export default {
 		};
 	},
 	mounted() {
+		this.colors = colorsSet;
 		this.runId = this.$route.params.runId;
 		if (this.runId != null) {
 			this.updateQuizRun(
@@ -115,30 +137,32 @@ export default {
 
 <style scoped lang="scss">
 /* style for course thumbnail */
-
-.option-container {
-	border-style: solid;
-	padding: 10px;
-	border-color: #dfdfdf;
-	border-width: 1px;
-	margin-bottom: 1px;
-	background-color: rgb(47, 255, 47);
-	color: black;
+.markdown {
+	margin-top: 120px;
 }
-.option {
+.float-child {
+	width: 50%;
 	border-style: solid;
 	padding: 10px;
 	border-color: #dfdfdf;
 	border-width: 1px;
-	margin-bottom: 1px;
-	background-color: white;
 	color: black;
+	float: left;
 }
 .timer {
 	height: 60px;
 	width: 60px;
 	border-radius: 50%;
 	background-color: purple;
+	color: white;
+	font-size: 40px;
+	text-align: center;
+}
+.timerRed {
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	background-color: red;
 	color: white;
 	font-size: 40px;
 	text-align: center;

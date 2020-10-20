@@ -12,32 +12,29 @@
         :key="index"
       >
         <div
-          v-if="option.key == question.answer"
-          class="option-container"
-          :style="{
-            backgroundColor: `rgb(47, 255, 47)`,
-          }"
-        >
-          {{ option.value }}
-        </div>
-        <div
-          v-else
-          class="option"
+          class="float-child"
           :style="{
             backgroundColor: `${colors[index]}`,
           }"
         >
-          {{ option.value }}
+          {{ option.key }}) {{ option.value }}
+          <span
+            v-if="option.key == question.answer"
+            :style="{
+              color: `rgb(0, 250, 21)`,
+            }"
+          >
+            &#x1F5F8;
+          </span>
         </div>
       </div>
     </b-card>
-    <br>
   </div>
 </template>
 
 <script>
 import VueMarkdown from 'vue-markdown';
-
+import { colorsSet } from './QuizConfig';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'AllQuestionStrip',
@@ -54,11 +51,12 @@ export default {
 	},
 	data() {
 		return {
-			colors: ['yellow', 'red', 'rgb(0,186,240)', 'orange'],
+			colors: [],
 			questionUrl: '',
 		};
 	},
 	mounted() {
+		this.colors = colorsSet;
 		this.loadQuiz(this.$route.params.id);
 	},
 	methods: {
@@ -77,23 +75,14 @@ export default {
 
 <style scoped lang="scss">
 /* style for course thumbnail */
-
-.option-container {
+.float-child {
+	width: 50%;
 	border-style: solid;
 	padding: 10px;
 	border-color: #dfdfdf;
 	border-width: 1px;
-	margin-bottom: 1px;
-	background-color: rgb(47, 255, 47);
 	color: black;
-}
-.option {
-	border-style: solid;
-	padding: 10px;
-	border-color: #dfdfdf;
-	border-width: 1px;
-	margin-bottom: 1px;
-	background-color: white;
-	color: black;
+	float: left;
+	font-size: 25px;
 }
 </style>
