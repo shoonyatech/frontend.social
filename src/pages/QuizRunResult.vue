@@ -1,6 +1,7 @@
 <template>
   <div>
-    <h3>Final Results</h3>
+    <h1>Final Results</h1>
+    <br>
     <h3>Your Final Result : {{ points }}</h3>
     <br>
     <b-container>
@@ -9,9 +10,9 @@
         v-for="(Result, index) in FinalResult"
         :key="index"
       >
-        <b-card>
-          <h2>{{ index + 1 }} is</h2>
-          <h1>{{ Result.username }} with {{ Result.points }}</h1>
+        <b-card class="card">
+          <h2>{{ index + 1 }}</h2>
+          <h2>{{ Result.username }} with {{ Result.points }} points</h2>
         </b-card>
       </div>
     </b-container>
@@ -75,5 +76,11 @@ h1 {
 }
 h2 {
 	text-align: center;
+}
+h3 {
+	background-color: rgb(52, 191, 238);
+	font-size: 25px;
+	text-align: center;
+	color: white;
 }
 </style>
