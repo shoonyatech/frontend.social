@@ -10,18 +10,23 @@
         v-for="(Result, index) in FinalResult"
         :key="index"
       >
-        <b-card class="card">
-          <h2>{{ index + 1 }}</h2>
-          <h2>{{ Result.username }} with {{ Result.points }} points</h2>
-        </b-card>
+        <ResultStrip
+          :result="Result"
+          :index="index"
+        />
       </div>
     </b-container>
   </div>
 </template>
 <script>
+import ResultStrip from '@/components/Quiz/ResultStrip';
+import userService from '@/services/user.service';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'QuizRunResult',
+	components: {
+		ResultStrip,
+	},
 	data() {
 		return {
 			runId: null,

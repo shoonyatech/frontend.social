@@ -2,37 +2,10 @@
   <div>
     <b-card>
       <h2>Quiz Run ID: {{ runId }}</h2>
-      <span>
-        <button
-          v-if="$route.params.questionIndex === 'start'"
-          @click="startQuiz"
-        >
-          Start Quiz
-        </button>
-      </span>
     </b-card>
-    <b-container v-if="$route.params.questionIndex != 'start'">
+    <b-container>
       <b-row>
-        <b-col
-          v-if="$route.params.questionIndex === 'start'"
-          md="12"
-        >
-          <div
-            v-for="(question, index) in quiz.questions"
-            :key="index"
-          >
-            <AllQuestionStrip
-              v-if="index === currentQuestion"
-              :question="question"
-              :quiz-id="quiz._id"
-              @timeOver="onTimeover"
-            />
-          </div>
-        </b-col>
-        <b-col
-          v-else
-          md="12"
-        >
+        <b-col md="12">
           <div
             v-for="(question, index) in quiz.questions"
             :key="index"
@@ -50,22 +23,16 @@
     <b-container>
       <span>
         <button
-          v-if="
-            $route.params.questionIndex != 'start' &&
-              currentQuestion < quiz.questions.length - 1
-          "
+          v-if="currentQuestion < quiz.questions.length - 1"
           @click="nextQuestion"
         >
           Next Question
         </button>
         <button
-          v-if="
-            $route.params.questionIndex != 'start' &&
-              currentQuestion + 1 == quiz.questions.length
-          "
+          v-if="currentQuestion + 1 == quiz.questions.length"
           @click="finalResult"
         >
-          End Quiz
+          See Quiz Result
         </button>
       </span>
     </b-container>
@@ -74,11 +41,10 @@
 
 <script>
 import QuizQuestion from '@/components/Quiz/QuizQuestion';
-import AllQuestionStrip from '@/components/Quiz/AllQuestionStrip';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'QuestionStrip',
-	components: { AllQuestionStrip, QuizQuestion },
+	components: { QuizQuestion },
 	props: {},
 	data() {
 		return {
@@ -96,20 +62,13 @@ export default {
 		});
 	},
 	methods: {
-		startQuiz() {
-			this.$router.push(
-				`/quiz/${this.$route.params.id}/run/${this.runId}/${
-					this.currentQuestion + 1
-				}`
-			);
-			this.start = true;
-		},
 		nextQuestion() {
 			this.currentQuestion++;
 		},
 		finalResult() {
+			this.currentQuestion = 0;
 			this.$router.push(
-				`/quiz/${this.$route.params.id}/run/${this.runId}/${this.currentQuestion}/result`
+				`/quiz/${this.$route.params.id}/play/${this.runId}/${this.currentQuestion}/result`
 			);
 		},
 		onTimeover() {

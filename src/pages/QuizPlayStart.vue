@@ -1,15 +1,6 @@
 <template>
   <div>
-    <b-card>
-      <h2>Quiz Run ID: {{ runId }}</h2>
-      <!-- Total Question{{ quiz.questions.length }} -->
-      <span>
-        <h2 v-if="$route.params.questionIndex === 'start'">
-          Waiting for host to start quiz
-        </h2>
-      </span>
-    </b-card>
-    <b-container v-if="$route.params.questionIndex != 'start'">
+    <b-container>
       <b-row>
         <b-col md="12">
           <div
@@ -63,7 +54,7 @@ export default {
 				}
 				if (res.currentQuestion == 0) {
 					this.$router.push(
-						`/quiz/${this.$route.params.id}/run/${this.runId}/${this.currentQuestion}/result`
+						`/quiz/${this.$route.params.id}/play/${this.runId}/${res.currentQuestion}/result`
 					);
 					clearInterval(this.timer);
 				}

@@ -5,14 +5,8 @@
       :key="index"
     >
       <div v-if="option.key == answer">
-        <p
-          class="text"
-          :style="{
-            color: `rgb(0, 250, 21)`,
-            fontSize: '40px',
-          }"
-        >
-          &#x1F5F8;
+        <p class="text">
+          <img src="/images/check-mark.svg">
         </p>
       </div>
 
