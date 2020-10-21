@@ -18,22 +18,14 @@
         <vue-markdown :source="questionUrl" />
       </div>
       <div v-if="countdown != 0">
-        <h2>Options</h2>
-        <div
-          v-for="(option, index) in question.options"
-          :key="index"
-        >
-          <div
-            v-if="click == 0"
-            class="float-child"
-            :style="{
-              backgroundColor: `${colors[index]}`,
-            }"
-            @click="submitAnswer(option.key)"
-          >
-            {{ option.key }}) {{ option.value }}
-          </div>
-        </div>
+        <h2>Choose your Answer</h2>
+        <QuestionOptions
+          :options="question.options"
+          :answer="answer"
+          :show-answer="false"
+          :submit-answers="true"
+          @sendSelected="submitAnswer"
+        />
       </div>
     </b-card>
     <br>
@@ -44,51 +36,31 @@
       >
         <span
           v-if="selectedAnswer == ''"
-          :style="{
-            backgroundColor: `lightblue`,
-          }"
+          class="notSelected"
         >No option selected</span>
-        <span
-          v-if="selectedAnswer == answer && selectedAnswer != ''"
-          :style="{
-            backgroundColor: `rgb(38, 238, 81)`,
-          }"
-        >
-          Your Answer Is Correct
-        </span>
-        <span
-          v-if="selectedAnswer != answer && selectedAnswer != ''"
-          :style="{
-            backgroundColor: `red`,
-          }"
-        >
-          Your answer is incorrect
+        <span v-if="selectedAnswer != ''">
+          <span
+            v-if="selectedAnswer == answer"
+            class="correct"
+          >
+            Your Answer Is Correct
+          </span>
+          <span
+            v-else
+            class="wrong"
+          > Your answer is incorrect </span>
         </span>
       </div>
       <span>
         <QuizQuestionResult :question-no="question.questionNo" />
       </span>
-      <div
-        v-for="(option, index) in question.options"
-        :key="index"
-      >
-        <div
-          class="float-child"
-          :style="{
-            backgroundColor: `${colors[index]}`,
-          }"
-        >
-          {{ option.key }}) {{ option.value }}
-          <span
-            v-if="option.key == answer"
-            :style="{
-              color: `rgb(0, 250, 21)`,
-            }"
-          >
-            &#x1F5F8;
-          </span>
-        </div>
-      </div>
+      <h2>Options</h2>
+      <QuestionOptions
+        :options="question.options"
+        :answer="answer"
+        :show-answer="true"
+        :submit-answers="false"
+      />
       <br>
       <div class="markdown">
         <vue-markdown :source="questionUrl" />
@@ -100,14 +72,14 @@
 <script>
 import VueMarkdown from 'vue-markdown';
 import QuizQuestionResult from '@/components/Quiz/QuizQuestionResult';
-import { colorsSet } from './QuizConfig';
 
+import QuestionOptions from '@/components/Quiz/QuestionOptions';
 import quizService from '@/services/quiz.service';
 import eventBus from '@/utilities/eventBus';
 import { ToastType, messages } from '@/constants/constants';
 export default {
 	name: 'QuizPlayQuestionStrip',
-	components: { VueMarkdown, QuizQuestionResult },
+	components: { VueMarkdown, QuizQuestionResult, QuestionOptions },
 	props: {
 		question: {
 			type: Object,
@@ -120,39 +92,35 @@ export default {
 	},
 	data() {
 		return {
-			colors: [],
 			selectedAnswer: '',
 			countdown: null,
 			questionUrl: '',
 			text: '',
 			questionNo: null,
 			runId: null,
-			click: 0,
 			answer: '',
 			elementVisible: null,
 		};
 	},
 	mounted() {
-		this.colors = colorsSet;
 		this.runId = this.$route.params.runId;
 		this.loadQuiz(this.$route.params.id);
 		this.countdown = this.question.duration;
 	},
 	methods: {
-		submitAnswer(selectedOption) {
-			this.click = 1;
+		submitAnswer(selectedAns) {
 			const payload = {
 				username: this.$store.state.signedInUser.username,
 				quizId: this.$route.params.id,
 				runId: this.runId,
 				questionNo: this.question.questionNo,
-				selectedOption: selectedOption,
+				selectedOption: selectedAns,
 				timer: this.countdown,
 			};
 			quizService
 				.addSubmission(payload)
 				.then((res) => {
-					this.selectedAnswer = selectedOption;
+					this.selectedAnswer = selectedAns;
 				})
 				.catch((e) => {
 					eventBus.$emit('show-toast', {
@@ -200,7 +168,7 @@ export default {
 <style scoped lang="scss">
 /* style for course thumbnail */
 .markdown {
-	margin-top: 120px;
+	margin-top: 200px;
 }
 .float-child {
 	width: 50%;
@@ -225,6 +193,12 @@ export default {
 	font-size: 30px;
 	text-align: center;
 }
+.correct {
+	background-color: rgb(38, 238, 81);
+}
+.wrong {
+	background-color: red;
+}
 .timerRed {
 	height: 60px;
 	width: 60px;
@@ -233,5 +207,8 @@ export default {
 	color: white;
 	font-size: 40px;
 	text-align: center;
+}
+.notSelected {
+	background-color: lightblue;
 }
 </style>

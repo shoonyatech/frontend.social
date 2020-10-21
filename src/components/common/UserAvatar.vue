@@ -1,23 +1,30 @@
 <template>
-  <div class="avatar">
-    <div v-if="user && user.isGuest">
-      <img
-        :src="'/images/avatar.svg'"
-        class="profile-photo"
-        alt="Profile Pic"
+  <div>
+    <div class="avatar">
+      <div v-if="user && user.isGuest">
+        <img
+          :src="'/images/avatar.svg'"
+          class="profile-photo"
+          alt="Profile Pic"
+        ><br>
+      </div>
+      <a
+        v-else
+        :href="`/user/${user.username}`"
+        :title="user.username"
       >
+        <img
+          :src="user.profilePic || '/images/avatar.svg'"
+          class="profile-photo"
+          alt="Profile Pic"
+        ><br>
+      </a>
     </div>
-    <a
-      v-else
-      :href="`/user/${user.username}`"
-      :title="user.username"
-    >
-      <img
-        :src="user.profilePic || '/images/avatar.svg'"
-        class="profile-photo"
-        alt="Profile Pic"
-      >
-    </a>
+    <div v-if="showName == true">
+      <h2 class="name">
+        {{ user.name }}
+      </h2>
+    </div>
   </div>
 </template>
 
@@ -27,6 +34,7 @@ export default {
 
 	props: {
 		user: { type: Object, required: true },
+		showName: { type: Boolean, default: false },
 	},
 
 	methods: {},
@@ -51,5 +59,8 @@ export default {
 	text-align: left;
 	padding: 2px;
 	border-radius: 999px;
+}
+.name {
+	color: black;
 }
 </style>

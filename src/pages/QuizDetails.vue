@@ -91,9 +91,7 @@ export default {
 			quizService
 				.runQuiz(this.$route.params.id)
 				.then((res) => {
-					this.$router.push(
-						`/quiz/${this.$route.params.id}/run/${res.runId}/start`
-					);
+					this.$router.push(`/quiz/${this.$route.params.id}/run/${res.runId}`);
 				})
 				.catch((e) => {});
 		},
@@ -101,9 +99,7 @@ export default {
 			quizService
 				.getCurrentRunId(this.$route.params.id)
 				.then((res) => {
-					this.$router.push(
-						`/quiz/${this.$route.params.id}/play/${res.runId}/start`
-					);
+					this.$router.push(`/quiz/${this.$route.params.id}/play/${res.runId}`);
 				})
 				.catch((e) => {});
 		},

@@ -154,17 +154,27 @@ const router = new Router({
 			component: () => import('./pages/QuizDetails.vue'),
 		},
 		{
+			path: '/quiz/:id/run/:runId',
+			name: 'quizRunHome',
+			component: () => import('./pages/QuizRunHome.vue'),
+		},
+		{
 			path: '/quiz/:id/run/:runId/:questionIndex',
-			name: 'quizRun',
-			component: () => import('./pages/QuizRun.vue'),
+			name: 'quizRunStart',
+			component: () => import('./pages/QuizRunStart.vue'),
+		},
+		{
+			path: '/quiz/:id/play/:runId',
+			name: 'quizPlayHome',
+			component: () => import('./pages/QuizPlayHome.vue'),
 		},
 		{
 			path: '/quiz/:id/play/:runId/:questionIndex',
-			name: 'quizPlay',
-			component: () => import('./pages/QuizPlay.vue'),
+			name: 'quizPlayStart',
+			component: () => import('./pages/QuizPlayStart.vue'),
 		},
 		{
-			path: '/quiz/:id/run/:runId/:questionIndex/result',
+			path: '/quiz/:id/play/:runId/:questionIndex/result',
 			name: 'quizRunResult',
 			component: () => import('./pages/QuizRunResult.vue'),
 		},

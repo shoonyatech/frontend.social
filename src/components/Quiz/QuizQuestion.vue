@@ -24,39 +24,19 @@
       </div>
       <div>
         <h2>Options</h2>
-        <div
-          v-for="(option, index) in question.options"
-          :key="index"
-        >
-          <div
-            v-if="option.key == question.answer"
-            class="float-child"
-            :style="{
-              backgroundColor: `${colors[index]}`,
-            }"
-          >
-            {{ option.key }}) {{ option.value }}
-            <span
-              :style="{
-                color: `rgb(0, 250, 21)`,
-              }"
-            >
-              &#x1F5F8;
-            </span>
-          </div>
-          <div
-            v-else
-            class="float-child"
-            :style="{
-              backgroundColor: `${colors[index]}`,
-            }"
-          >
-            {{ option.key }}) {{ option.value }}
-          </div>
-        </div>
+        <QuestionOptions
+          :options="question.options"
+          :answer="question.answer"
+          :show-answer="true"
+          :submit-answers="false"
+        />
+
         <br>
       </div>
-      <div v-if="countdown == 0">
+      <div
+        v-if="countdown == 0"
+        class="markdown"
+      >
         <vue-markdown :source="questionUrl" />
       </div>
     </b-card>
@@ -67,12 +47,12 @@
 <script>
 import VueMarkdown from 'vue-markdown';
 import QuizQuestionResult from '@/components/Quiz/QuizQuestionResult';
-import { colorsSet } from './QuizConfig';
 
+import QuestionOptions from '@/components/Quiz/QuestionOptions';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'QuestionStrip',
-	components: { VueMarkdown, QuizQuestionResult },
+	components: { VueMarkdown, QuizQuestionResult, QuestionOptions },
 	props: {
 		question: {
 			type: Object,
@@ -85,7 +65,6 @@ export default {
 	},
 	data() {
 		return {
-			colors: [],
 			countdown: null,
 			questionUrl: '',
 			text: '',
@@ -95,7 +74,6 @@ export default {
 		};
 	},
 	mounted() {
-		this.colors = colorsSet;
 		this.runId = this.$route.params.runId;
 		if (this.runId != null) {
 			this.updateQuizRun(
@@ -138,7 +116,7 @@ export default {
 <style scoped lang="scss">
 /* style for course thumbnail */
 .markdown {
-	margin-top: 120px;
+	margin-top: 200px;
 }
 .float-child {
 	width: 50%;
