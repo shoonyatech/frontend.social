@@ -7,21 +7,23 @@
         </router-link>
       </td>
       <td>
-        <img
-          :src="profileData.profilePic"
-          class="profile-photo"
-          alt="Profile Pic"
-        >
+        <div>
+          <UserAvatar :user="profileData" />
+        </div>
       </td>
     </table>
   </div>
 </template>
 <script>
 import userService from '@/services/user.service';
+import UserAvatar from '@/components/common/UserAvatar';
 import eventBus from '@/utilities/eventBus';
 import { ToastType, messages } from '@/constants/constants';
 export default {
 	name: 'UserJobStrip',
+	components: {
+		UserAvatar,
+	},
 	props: {
 		job: {
 			type: Object,

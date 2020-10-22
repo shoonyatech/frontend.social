@@ -144,6 +144,7 @@ export default {
 			this.editedCountry = this.options[this.arrowCounter].country;
 			this.addCity = false;
 			this.arrowCounter = -1;
+			this.options = [];
 			this.$emit('change', {
 				name: this.editedCity,
 				country: this.editedCountry,

@@ -1,8 +1,8 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col md="9">
-        <!-- <a
+	<b-container>
+		<b-row>
+			<b-col md="9">
+				<!-- <a
           href="https://react.geekle.us/"
           name="home_banner"
           target="_blank"
@@ -13,96 +13,78 @@
             alt="Home page banner"
           ></a> -->
 
-        <h1>Find out What's new!</h1>
-        <div class="home">
-          This is a platform for Frontend Developers and Designers. Meet fellow
-          developers and designers in your city meetups, see latest blogs and
-          videos, learn from online courses and find jobs matching your skills!!
-        </div>
-        <UpcomingEvents
-          :infinite-scroll="false"
-          :limit="4"
-        />
-        <LatestArticles
-          :infinite-scroll="false"
-          :limit="4"
-        />
-      </b-col>
-      <b-col md="3">
-        <div
-          v-if="!isSignedIn"
-          class="join-box mb-2"
-        >
-          <span class="join-label">Join for Free</span>
-          <div class="buttons">
-            <SignInButtons />
-          </div>
-        </div>
-        <div class="button-text">
-          <a @click="onVLogClick()">Catch up with...</a>
-        </div>
-        <div class="button-text">
-          <a @click="onFreelancingClick()">All about Freelancing</a>
-        </div>
-        <div class="button-text">
-          <a @click="onToolTipClick()">Tech Tip</a>
-        </div>
-        <div class="button-text">
-          <a @click="onCodeChallengeClick()">Code Challenge</a>
-        </div>
-        <!-- <div class="tool-tip-text">
+				<h1>Find out What's new!</h1>
+				<div class="home">
+					This is a platform for Frontend Developers and Designers. Meet fellow
+					developers and designers in your city meetups, see latest blogs and
+					videos, learn from online courses and find jobs matching your skills!!
+				</div>
+				<UpcomingEvents :infinite-scroll="false" :limit="4" />
+				<LatestArticles :infinite-scroll="false" :limit="4" />
+			</b-col>
+			<b-col md="3">
+				<div v-if="!isSignedIn" class="join-box mb-2">
+					<span class="join-label">Join for Free</span>
+					<div class="buttons">
+						<SignInButtons />
+					</div>
+				</div>
+				<div class="button-text">
+					<a @click="onVLogClick()">Catch up with...</a>
+				</div>
+				<div class="button-text">
+					<a @click="onFreelancingClick()">All about Freelancing</a>
+				</div>
+				<div class="button-text">
+					<a @click="onFreelancerListClick()">List of Freelancers</a>
+				</div>
+				<div class="button-text">
+					<a @click="onToolTipClick()">Tech Tip</a>
+				</div>
+				<div class="button-text">
+					<a @click="onCodeChallengeClick()">Code Challenge</a>
+				</div>
+				<div class="button-text">
+					<a @click="onPodcastClick()">Podcasts</a>
+				</div>
+				<!-- <div class="button-text">
+          <a @click="onCourseClick()">Getting Started with Angular</a>
+        </div> -->
+				<!-- <div class="tool-tip-text">
           <a @click="onBlogClick()">Blogs</a>
         </div> -->
-        <div class="join-box">
-          <span class="join-label">Frontend Newsletter</span>
-          <ul class="text-left">
-            <li class="newsletter-list">
-              Find out online events
-            </li>
-            <li class="newsletter-list">
-              Influencer of the week
-            </li>
-            <li class="newsletter-list">
-              Latest blogs and videos
-            </li>
-            <li class="newsletter-list">
-              Frontend jobs
-            </li>
-            <li class="newsletter-list">
-              Online courses
-            </li>
-          </ul>
-          <form
-            ref="form"
-            @submit.stop.prevent="handleNewsletterSubmit"
-          >
-            <b-form-group
-              invalid-feedback="Email is required"
-              class="buttons-box"
-            >
-              <label
-                for="email"
-                class="hidden"
-              >Email</label>
-              <input
-                id="email"
-                v-model.trim="email"
-                placeholder="Your email"
-                class="w-100 section-control"
-                required
-                :state="emailState"
-              >
-              <button class="w-100 section-control">
-                Subscribe
-              </button>
-            </b-form-group>
-          </form>
-        </div>
-        <ComicStrips />
-      </b-col>
-    </b-row>
-    <Feedback />
-  </b-container>
+				<div class="join-box">
+					<span class="join-label">Frontend Newsletter</span>
+					<ul class="text-left">
+						<li class="newsletter-list">Find out online events</li>
+						<li class="newsletter-list">Influencer of the week</li>
+						<li class="newsletter-list">Latest blogs and videos</li>
+						<li class="newsletter-list">Frontend jobs</li>
+						<li class="newsletter-list">Online courses</li>
+					</ul>
+					<form ref="form" @submit.stop.prevent="handleNewsletterSubmit">
+						<b-form-group
+							invalid-feedback="Email is required"
+							class="buttons-box"
+						>
+							<label for="email" class="hidden">Email</label>
+							<input
+								id="email"
+								v-model.trim="email"
+								placeholder="Your email"
+								class="w-100 section-control"
+								required
+								:state="emailState"
+							/>
+							<button class="w-100 section-control">Subscribe</button>
+						</b-form-group>
+					</form>
+				</div>
+				<ComicStrips />
+			</b-col>
+		</b-row>
+		<Feedback />
+	</b-container>
 </template>
 
 <script>
@@ -128,6 +110,7 @@ export default {
 		return {
 			emailState: null,
 			email: '',
+			unSubscribe: false,
 			loading: true,
 		};
 	},
@@ -155,8 +138,20 @@ export default {
 		onCodeChallengeClick() {
 			this.$router.push('/challenge');
 		},
+		onPodcastClick() {
+			this.$router.push('/podcasts');
+		},
 		onFreelancingClick() {
 			this.$router.push('/freelancing');
+		},
+		onCourseClick() {
+			this.$router.push('/learn/courses/getting-started-with-angular');
+		},
+		onFreelancerProjectsClick() {
+			this.$router.push('/freelancerProjects');
+		},
+		onFreelancerListClick() {
+			this.$router.push('/job/freelancer');
 		},
 		checkSignIn() {
 			setTimeout(() => {
@@ -176,6 +171,7 @@ export default {
 			}
 			const payload = {
 				email: this.email,
+				unSubscribe: this.unSubscribe,
 			};
 			this.loading = true;
 			newsletterService

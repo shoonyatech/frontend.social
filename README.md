@@ -34,6 +34,12 @@ npm install
 npm run serve
 ```
 
+### Run api server on localhost
+
+Api Server : https://github.com/shoonyatech/frontend-social-api
+
+Follow steps in this repo to setup API server on localhost using test DB
+
 ### Run your tests
 
 ```
@@ -67,6 +73,20 @@ Example: feat(news-feed): add news feed feature on landing page
 ```
 git push origin master -f
 ```
+
+## Contribution
+
+<!-- Please make sure to read the [Contributing Guide](https://github.com/shoonyatech/frontend.social/blob/master/.github/CONTRIBUTING.md) before making a pull request.  -->
+
+Thank you to all the people who already contributed to frontend.social!
+
+<a href="https://github.com/shoonyatech/frontend.social/graphs/contributors"><img src="./.github/contributors.svg" /></a>
+
+## Stay in Touch
+
+- [Twitter](https://twitter.com/frontendsocial)
+- [Slack](https://join.slack.com/t/shoonya-tech/shared_invite/zt-i783y3rk-5I97wQmTZ~4zchNZdKJs2w)
+- Mail us at [contact@shoonya.ca](mailto:contact@shoonya.ca)
 
 Create new PR from your GitHub repo to upstream repo
 Star the repo if you like it!

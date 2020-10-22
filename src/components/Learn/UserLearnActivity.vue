@@ -5,19 +5,21 @@
         <a :href="article.url">{{ article.title }} by {{ article.author }}</a>
       </td>
       <td>
-        <img
-          :src="profileData.profilePic"
-          class="profile-photo"
-          alt="Profile Pic"
-        >
+        <div>
+          <UserAvatar :user="profileData" />
+        </div>
       </td>
     </table>
   </div>
 </template>
 <script>
 import userService from '@/services/user.service';
+import UserAvatar from '@/components/common/UserAvatar';
 export default {
 	name: 'UserArticleStrip',
+	components: {
+		UserAvatar,
+	},
 	props: {
 		article: {
 			type: Object,

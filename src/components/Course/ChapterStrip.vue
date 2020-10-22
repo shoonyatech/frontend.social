@@ -1,35 +1,35 @@
 <template>
-  <div>
-    <b-card>
-      <div v-b-toggle="'collapse-' + chapter.chapterNo">
-        Chapter {{ chapter.chapterNo }}: {{ chapter.title }}
-      </div>
-      <b-collapse
-        :id="'collapse-' + chapter.chapterNo"
-        class="mt-2"
-      >
-        <div
-          v-for="(topic, index) in chapter.topics"
-          :key="index"
-        >
-          <router-link
-            :to="
-              '/learn/course/' +
-                courseId +
-                '/' +
-                getUrlFriendlyTitle(chapter.title || '') +
-                '/' +
-                getUrlFriendlyTitle(topic.title || '')
-            "
-          >
-            <div class="topic-container">
-              {{ topic.title }}
-            </div>
-          </router-link>
-        </div>
-      </b-collapse>
-    </b-card>
-  </div>
+	<div>
+		<div class="card">
+			<div v-b-toggle="'collapse-' + chapter.chapterNo">
+				Chapter {{ chapter.chapterNo }}: {{ chapter.title }}
+			</div>
+			<b-collapse :id="'collapse-' + chapter.chapterNo" class="mt-2">
+				<div v-for="(topic, index) in chapter.topics" :key="index">
+					<router-link
+						:to="
+							'/learn/courses/' +
+							courseId +
+							'/' +
+							getUrlFriendlyTitle(chapter.title || '') +
+							'/' +
+							getUrlFriendlyTitle(topic.title || '')
+						"
+					>
+						<div
+							v-if="selectedTopic.title != topic.title"
+							class="topic-container"
+						>
+							{{ topic.title }}
+						</div>
+						<div v-else class="topic-containers">
+							{{ topic.title }}
+						</div>
+					</router-link>
+				</div>
+			</b-collapse>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -46,6 +46,10 @@ export default {
 		courseId: {
 			type: String,
 			required: true,
+		},
+		selectedTopic: {
+			type: Object,
+			default: () => {},
 		},
 	},
 	data() {
@@ -64,6 +68,11 @@ export default {
 
 <style scoped lang="scss">
 /* style for course thumbnail */
+.card {
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	padding: 10px;
+}
 .thumbnail {
 	border: solid #114273 2px;
 	height: 12rem;
@@ -113,10 +122,12 @@ export default {
 }
 
 .topic-container {
-	border-style: solid;
-	padding: 10px;
-	border-color: #dfdfdf;
-	border-width: 1px;
+	margin-bottom: 1px;
+}
+.topic-containers {
+	background-color: #4cbeee;
+	color: white;
+	//padding: 10px;
 	margin-bottom: 1px;
 }
 </style>

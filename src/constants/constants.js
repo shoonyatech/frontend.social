@@ -48,11 +48,36 @@ export const messages = {
 		cityAddFailure:
 			'Error adding new city, Please fill all fields and try again.',
 	},
+	cities: {
+		userErrorTitle: '',
+		userErrorBody: 'There are no developers in your area',
+	},
 	events: {
 		eventsAddSuccess: 'Event added successfully!',
 		eventsUpdateSuccess: 'Event updated successfully!',
 		eventDeletedSuccess: 'Event deleted successfully!',
 		eventsAddFailure: '',
+	},
+	freelancer: {
+		freelancersAddSuccess: 'Freelancer added successfully!',
+		freelancersUpdateSuccess: 'Freelancer updated successfully!',
+		freelancerDeletedSuccess: 'Freelancer deleted successfully!',
+		freelancersAddFailure: '',
+	},
+	freelancerJobApply: {
+		jobApplyAddSuccess: 'Job Apply added successfully!',
+		jobInviteAddSuccess: 'Invited Freelancer Successfully',
+		jobApplyUpdateSuccess: 'Job Apply updated successfully!',
+		jobApplyDeletedSuccess: 'Job Apply deleted successfully!',
+		jobApplyAddFailure: '',
+	},
+	freelancerProjects: {
+		freelancerProjectsAddSuccess: 'Freelancer Projects added successfully!',
+		freelancerProjectsUpdateSuccess:
+			'Freelancer Projects updated successfully!',
+		freelancerProjectsDeletedSuccess:
+			'Freelancer Projects deleted successfully!',
+		freelancerProjectsAddFailure: '',
 	},
 	subscribe: {
 		subscribeSuccess: 'Subscribe successfully!',

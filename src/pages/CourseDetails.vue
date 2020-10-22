@@ -3,8 +3,8 @@
     <b-container>
       <b-breadcrumb :items="items" />
       <b-row v-if="course.rating">
-        <b-col
-          md="6"
+        <!-- <b-col
+          md="9"
           sm="12"
           class="course-rating"
         >
@@ -14,11 +14,12 @@
             :read-only="true"
             :show-rating="false"
           />
-        </b-col>
+        </b-col> -->
       </b-row>
       <b-row>
+        <b-col md="1" />
         <b-col
-          md="6"
+          md="4"
           sm="12"
         >
           <chapter-strip
@@ -29,7 +30,7 @@
           />
         </b-col>
         <b-col
-          md="6"
+          md="7"
           sm="12"
         >
           <youtube
@@ -64,7 +65,12 @@
           sm="12"
         >
           <h1>About Author</h1>
-          {{ course.author.name }}
+          <div class="avatar-container">
+            <UserAvatar :user="profileData" />
+            <div class="name">
+              {{ course.author.name }}
+            </div>
+          </div>
           <div
             ref="description"
             class="course-author-description"
@@ -99,21 +105,32 @@
             :on-save="saveComment"
           />
         </b-col>
-        <b-col md="2" />
+        <b-col md="1" />
       </b-row>
     </b-container>
   </div>
 </template>
 
 <script>
+/** 3P dependency imports */
+// import StarRating from 'vue-star-rating';
+
+/** Component dependencies */
 import Comment from '@/components/Comment/Comment';
 import AddComment from '@/components/Comment/AddComment';
 import ChapterStrip from '@/components/Course/ChapterStrip';
+import UserAvatar from '@/components/common/UserAvatar';
+
+/** Services */
 import commentService from '@/services/comment.service';
 import courseService from '@/services/course.service';
+import userService from '@/services/user.service';
+
+/** Helpers */
 import eventBus from '@/utilities/eventBus';
+
+/** Constants */
 import { ToastType, messages } from '@/constants/constants';
-import StarRating from 'vue-star-rating';
 
 export default {
 	name: 'CourseDetails',
@@ -121,7 +138,8 @@ export default {
 		Comment,
 		AddComment,
 		ChapterStrip,
-		StarRating,
+		// StarRating,
+		UserAvatar,
 	},
 	props: {},
 	data() {
@@ -130,6 +148,7 @@ export default {
 			hideComments: false,
 			showRating: true,
 			allowReply: true,
+			profileData: {},
 			commentId: '',
 			comments: [],
 		};
@@ -142,7 +161,7 @@ export default {
 			return [
 				{
 					text: 'Courses',
-					to: '/learn/course',
+					to: '/learn/courses',
 				},
 				{
 					text: this.course.title,
@@ -163,8 +182,23 @@ export default {
 		loadCourse(courseId) {
 			courseService.getCoursesById(courseId).then((res) => {
 				this.course = res;
+				this.getUserProfile(this.course.author.username);
 				this.getComments();
 			});
+		},
+		getUserProfile(username) {
+			userService
+				.getUserProfile(username)
+				.then((user) => {
+					this.profileData = user;
+				})
+				.catch((e) => {
+					eventBus.$emit('show-toast', {
+						body: e.message,
+						title: messages.generic.error,
+						type: ToastType.ERROR,
+					});
+				});
 		},
 		getComments() {
 			commentService
@@ -231,5 +265,12 @@ h1 {
 	display: flex;
 	justify-content: flex-end;
 	padding-bottom: 5px;
+}
+.avatar-container {
+	display: flex;
+	align-items: flex-start;
+	.name {
+		flex: 1;
+	}
 }
 </style>

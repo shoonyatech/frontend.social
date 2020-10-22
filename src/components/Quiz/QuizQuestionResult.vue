@@ -1,58 +1,48 @@
 <template>
   <div>
-    <b-card>
-      <h2>Result</h2>
-      <div
-        v-for="(option, index) in result"
-        :key="index"
-      >
-        <div class="option-container">
-          {{ option.key }}|{{ option.value }}
-        </div>
-      </div>
-    </b-card>
+    <h2>Results</h2>
+    <QuizBar
+      :result="result"
+      :question-no="questionNo"
+    />
     <br>
   </div>
 </template>
 
 <script>
+import QuizBar from '@/components/Quiz/QuizBar';
+import quizService from '@/services/quiz.service';
 export default {
-	name: 'QuestionStrip',
-	components: {},
+	name: 'QuestionResult',
+	components: { QuizBar },
 	props: {
-		result: {
-			type: Object,
-			required: true,
+		questionNo: {
+			type: Number,
+			default: 0,
 		},
 	},
 	data() {
-		return {};
+		return {
+			result: {},
+			runId: null,
+		};
 	},
-	mounted() {},
-	methods: {},
+	mounted() {
+		this.runId = this.$route.params.runId;
+		if (this.questionNo != 0) {
+			this.loadResult(this.runId, this.questionNo, this.$route.params.id);
+		}
+	},
+	methods: {
+		loadResult(runId, questionNo, quizId) {
+			quizService
+				.getQuestionResult(runId, questionNo, quizId)
+				.then((result) => {
+					this.result = result;
+				});
+		},
+	},
 };
 </script>
 
-<style scoped lang="scss">
-/* style for course thumbnail */
-
-.option-container {
-	border-style: solid;
-	padding: 10px;
-	border-color: #dfdfdf;
-	border-width: 1px;
-	margin-bottom: 1px;
-	background-color: rgb(48, 190, 238);
-	color: white;
-}
-.option-container:hover {
-	border-style: solid;
-	padding: 10px;
-	border-color: #dfdfdf;
-	border-width: 1px;
-	margin-bottom: 1px;
-	background-color: black;
-	color: white;
-	cursor: pointer;
-}
-</style>
+<style scoped lang="scss"></style>

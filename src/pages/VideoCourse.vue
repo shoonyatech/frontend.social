@@ -2,7 +2,7 @@
   <div class="host">
     <b-container>
       <b-breadcrumb :items="items" />
-      <b-row>
+      <!-- <b-row>
         <b-col
           md="6"
           sm="12"
@@ -19,10 +19,24 @@
             :on-click="toggleIsAutoSync"
           />
         </b-col>
-      </b-row>
+      </b-row> -->
       <b-row>
+        <b-col md="1" />
         <b-col
-          md="6"
+          md="4"
+          sm="12"
+        >
+          <chapter-strip
+            v-for="(chapter, index) in course.chapters"
+            :key="index"
+            :chapter="chapter"
+            :course-id="course.uniqueId"
+            :selected-topic="topic"
+          />
+        </b-col>
+        <b-col
+          v-if="topic.videoUrl != null"
+          md="7"
           sm="12"
         >
           <youtube
@@ -32,17 +46,6 @@
             height="400"
             :player-vars="playerVars"
           />
-          <!-- <button @click="getCurrentTime">Get Current Time</button> -->
-        </b-col>
-        <b-col
-          md="6"
-          sm="12"
-        >
-          <CodeEditor
-            v-if="codeEditorURL"
-            :url="codeEditorURL"
-          />
-          <span v-else>No code available for this topic</span>
         </b-col>
       </b-row>
       <b-row>
@@ -63,6 +66,36 @@
             Next
           </button>
         </b-col>
+      </b-row>
+      <br>
+      <b-row>
+        <b-col md="1" />
+        <b-col
+          md="4"
+          sm="12"
+        />
+        <b-col
+          md="7"
+          sm="12"
+        >
+          <div>
+            <vue-markdown
+              v-if="topic.codeLink"
+              class="markdown"
+              :source="url"
+            />
+            <span v-else>No code available for this topic</span>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="12">
+          <br>
+          {{ description }}
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="12" />
       </b-row>
       <b-row
         v-if="!hideComments"
@@ -100,9 +133,10 @@
 </template>
 
 <script>
-import CodeEditor from '@/components/common/CodeEditor';
-import Checkbox from '@/components/Checkbox/Checkbox';
+import VueMarkdown from 'vue-markdown';
+// import Checkbox from '@/components/Checkbox/Checkbox';
 import Comment from '@/components/Comment/Comment';
+import ChapterStrip from '@/components/Course/ChapterStrip';
 import AddComment from '@/components/Comment/AddComment';
 import commentService from '@/services/comment.service';
 import courseService from '@/services/course.service';
@@ -113,10 +147,11 @@ import { getUrlFriendlyTitle } from '@/utilities/utils';
 export default {
 	name: 'VideoCourse',
 	components: {
-		CodeEditor,
-		Checkbox,
+		// Checkbox,
 		Comment,
+		ChapterStrip,
 		AddComment,
+		VueMarkdown,
 	},
 	props: {},
 	data() {
@@ -181,6 +216,8 @@ export default {
 			topic: {},
 			previousLink: null,
 			nextLink: null,
+			url: '',
+			description: '',
 		};
 	},
 	computed: {
@@ -191,11 +228,11 @@ export default {
 			return [
 				{
 					text: 'Courses',
-					to: '/learn/course',
+					to: '/learn/courses',
 				},
 				{
 					text: this.course.title,
-					to: '/learn/course/' + this.course.uniqueId,
+					to: '/learn/courses/' + this.course.uniqueId,
 				},
 				{
 					text: this.topic.title,
@@ -291,7 +328,6 @@ export default {
 		loadTopic(chapterNo, topicUrl, courseId) {
 			courseService.getCoursesById(courseId).then((res) => {
 				this.course = res;
-				// this.topic = res.chapters
 				//   .find((x) => x.chapterNo == chapterNo)
 				//   .topics.find((x) => getUrlFriendlyTitle(x.title) === topicUrl);
 
@@ -308,14 +344,29 @@ export default {
 						getUrlFriendlyTitle(t.title) === topicUrl &&
 						chapterNo === t.chapterTitle
 				);
+
 				this.topic = topics[currentIndex];
+				this.description = this.topic.description;
 				const previousTopic = topics[currentIndex - 1];
 				const nextTopic = topics[currentIndex + 1];
-				this.codeEditorURL = this.topic.codeLink;
+
+				let rawCodeEditorURL = this.topic.codeLink;
+				rawCodeEditorURL = rawCodeEditorURL.replace(
+					'github.com',
+					'gitcdn.link/repo'
+				);
+				let lastSlash = rawCodeEditorURL.lastIndexOf('/');
+
+				this.codeEditorURL = rawCodeEditorURL + '/master/README.md';
+				fetch(this.codeEditorURL)
+					.then((response) => response.text())
+					.then((response) => (this.url = response));
+
+				//this.codeEditorURL = this.topic.codeLink;
 
 				if (previousTopic) {
 					this.previousLink =
-						'/learn/course/' +
+						'/learn/courses/' +
 						courseId +
 						'/' +
 						previousTopic.chapterTitle +
@@ -325,7 +376,7 @@ export default {
 
 				if (nextTopic) {
 					this.nextLink =
-						'/learn/course/' +
+						'/learn/courses/' +
 						courseId +
 						'/' +
 						nextTopic.chapterTitle +
@@ -353,5 +404,9 @@ export default {
 }
 .comment-section {
 	margin-top: 20px;
+}
+.markdown {
+	height: 400px;
+	overflow: scroll;
 }
 </style>

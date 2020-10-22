@@ -38,6 +38,36 @@ const router = new Router({
 			component: () => import('./pages/JobDetails.vue'),
 		},
 		{
+			path: '/job/freelancer',
+			name: 'freelancer',
+			component: () => import('./pages/Freelancer.vue'),
+		},
+		{
+			path: '/freelancerProjects',
+			name: 'freelancerProjects',
+			component: () => import('./pages/FreelancerProjects.vue'),
+		},
+		{
+			path: '/freelancerProjects/hire/:id',
+			name: 'FreelancingProjectsForm',
+			component: () => import('./pages/FreelancingProjectsForm.vue'),
+		},
+		{
+			path: '/freelancerProjects/:id',
+			name: 'freelancerProjectsDetails',
+			component: () => import('./pages/freelancerProjectsDetails.vue'),
+		},
+		{
+			path: '/job/freelancer/:username',
+			name: 'freelancerDetails',
+			component: () => import('./pages/FreelancerDetails.vue'),
+		},
+		{
+			path: '/job/freelancer/register/:id',
+			name: 'FreelancingForm',
+			component: () => import('./pages/FreelancingForm.vue'),
+		},
+		{
 			path: '/job/form/:id',
 			name: 'jobForm',
 			component: () => import('./pages/JobForm.vue'),
@@ -124,17 +154,17 @@ const router = new Router({
 			component: () => import('./pages/Zoom.vue'),
 		},
 		{
-			path: '/learn/course/:id',
+			path: '/learn/courses/:id',
 			name: 'courseDetails',
 			component: () => import('./pages/CourseDetails.vue'),
 		},
 		{
-			path: '/learn/course',
+			path: '/learn/courses',
 			name: 'course',
 			component: () => import('./pages/Courses.vue'),
 		},
 		{
-			path: '/learn/course/:courseid/:chapterno/:topicurl',
+			path: '/learn/courses/:courseid/:chapterno/:topicurl',
 			name: 'videocourse',
 			component: () => import('./pages/VideoCourse.vue'),
 		},
@@ -155,13 +185,28 @@ const router = new Router({
 		},
 		{
 			path: '/quiz/:id/run/:runId',
-			name: 'quizRun',
-			component: () => import('./pages/QuizRun.vue'),
+			name: 'quizRunHome',
+			component: () => import('./pages/QuizRunHome.vue'),
+		},
+		{
+			path: '/quiz/:id/run/:runId/:questionIndex',
+			name: 'quizRunStart',
+			component: () => import('./pages/QuizRunStart.vue'),
 		},
 		{
 			path: '/quiz/:id/play/:runId',
-			name: 'quizPlay',
-			component: () => import('./pages/QuizPlay.vue'),
+			name: 'quizPlayHome',
+			component: () => import('./pages/QuizPlayHome.vue'),
+		},
+		{
+			path: '/quiz/:id/play/:runId/:questionIndex',
+			name: 'quizPlayStart',
+			component: () => import('./pages/QuizPlayStart.vue'),
+		},
+		{
+			path: '/quiz/:id/play/:runId/:questionIndex/result',
+			name: 'quizRunResult',
+			component: () => import('./pages/QuizRunResult.vue'),
 		},
 		{
 			path: '/blog/:id/:blogname',
@@ -192,6 +237,11 @@ const router = new Router({
 			path: '/catchup/:id',
 			name: 'catchupDetails',
 			component: () => import('./pages/VLogDetails.vue'),
+		},
+		{
+			path: '/podcasts',
+			name: 'podcasts',
+			component: () => import('./pages/Podcasts.vue'),
 		},
 		{
 			path: '/freelancing',

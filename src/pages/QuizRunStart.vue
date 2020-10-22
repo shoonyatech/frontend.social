@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card>
-      <h2>{{ quiz.title }}</h2>
+      <h2>Quiz Run ID: {{ runId }}</h2>
     </b-card>
     <b-container>
       <b-row>
@@ -16,24 +16,35 @@
               :quiz-id="quiz._id"
               @timeOver="onTimeover"
             />
-            <QuizQuestionResult
-              v-if="index === currentQuestion"
-              result="result"
-            />
           </div>
         </b-col>
       </b-row>
+    </b-container>
+    <b-container>
+      <span>
+        <button
+          v-if="currentQuestion < quiz.questions.length - 1"
+          @click="nextQuestion"
+        >
+          Next Question
+        </button>
+        <button
+          v-if="currentQuestion + 1 == quiz.questions.length"
+          @click="finalResult"
+        >
+          See Quiz Result
+        </button>
+      </span>
     </b-container>
   </div>
 </template>
 
 <script>
 import QuizQuestion from '@/components/Quiz/QuizQuestion';
-import QuizQuestionResult from '@/components/Quiz/QuizQuestionResult';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'QuestionStrip',
-	components: { QuizQuestion, QuizQuestionResult },
+	components: { QuizQuestion },
 	props: {},
 	data() {
 		return {
@@ -41,6 +52,7 @@ export default {
 			quiz: {},
 			currentQuestion: 0,
 			result: [],
+			start: false,
 		};
 	},
 	mounted() {
@@ -48,18 +60,16 @@ export default {
 		quizService.getQuizById(this.$route.params.id).then((res) => {
 			this.quiz = res;
 		});
-		setInterval(() => {
-			quizService.getQuizRun(this.$route.params.id).then((res) => {
-				this.quiz = res;
-			});
-		}, 3000);
 	},
 	methods: {
-		startQuiz() {
-			this.$router.push(`/quiz/${this.$route.params.id}/run/details`);
-		},
 		nextQuestion() {
 			this.currentQuestion++;
+		},
+		finalResult() {
+			this.currentQuestion = 0;
+			this.$router.push(
+				`/quiz/${this.$route.params.id}/play/${this.runId}/${this.currentQuestion}/result`
+			);
 		},
 		onTimeover() {
 			quizService

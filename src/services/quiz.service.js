@@ -8,26 +8,40 @@ export default {
 			? httpClient.get('quiz?skill=' + skill + pagination)
 			: httpClient.get('quiz?' + pagination);
 	},
-	addQuiz: (quiz) => {
-		return httpClient.post('quiz', quiz);
-	},
 	getQuizById: (id) => {
 		return httpClient.get(`quiz/${id}`);
 	},
-	updateQuiz: (id, quiz) => {
-		return httpClient.put(`quiz/${id}`, quiz);
+	getQuizByIdPlay: (id) => {
+		return httpClient.get(`quizPlay/${id}`);
 	},
 	runQuiz: (quizId) => {
 		return httpClient.post('quiz-run', { quizId: quizId });
 	},
-	getQuizRun: (runId) => {
-		return httpClient.get(`quiz-run/${runId}`);
-	},
 	getQuizResult: (runId, questionIndex) => {
 		return httpClient.get(`quiz-run/${runId}/${questionIndex}`);
 	},
-	setQuizQuestionIndex: (runId, questionIndex) => {
-		return httpClient.put('quiz-run', { runId, questionIndex });
-		c;
+	updateQuizRun: (quizId, runId, questionIndex) => {
+		return httpClient.put(`/quiz-run/${quizId}/${runId}/${questionIndex}`);
+	},
+	getQuestionResult: (runId, questionIndex, quizId) => {
+		return httpClient.get(
+			`/quiz-run/result/${quizId}/${runId}/${questionIndex}`
+		);
+	},
+	getCurrentRunId: (quizId) => {
+		return httpClient.get(`/quiz-run/${quizId}`);
+	},
+	addSubmission: (payload) => {
+		return httpClient.post(`quiz-run/play`, payload);
+	},
+
+	getUserResult: (quizId, runId, username) => {
+		return httpClient.get(`/quiz-run/results/${quizId}/${runId}/${username}`);
+	},
+	getFinalQuizResults: (quizId, runId) => {
+		return httpClient.get(`/quiz-run/results/${quizId}/${runId}`);
+	},
+	getAnswer: (quizId, questionNo) => {
+		return httpClient.get(`/quiz-run/answer/${quizId}/${questionNo}`);
 	},
 };

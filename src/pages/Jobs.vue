@@ -1,72 +1,74 @@
 <template>
-  <div class="jobs-container">
-    <Loader v-show="loading" />
-    <b-container>
-      <b-row>
-        <b-col md="9">
-          <h1>
-            <span>Frontend Jobs</span>
-            <button
-              v-if="!showAddJobDialog"
-              @click="showDialog()"
-            >
-              + Add Job
-            </button>
-          </h1>
-          <div
-            v-if="!showAddJobDialog"
-            class="jobs"
-          >
-            <JobStrip
-              v-for="job in jobs"
-              :id="job._id"
-              :key="job.id"
-              :role="job.title"
-              :job-description="job.description"
-              :expertise="job.level"
-              :required-skills="job.skills"
-              :link="job.link"
-              :city="job.city"
-              :country="job.country"
-              :company="job.company"
-              :is-remote="job.isRemote"
-              :can-modify="canModify(job)"
-              @delete="onDelete($event)"
-            />
-            <div class="center-content">
-              <button
-                class="mt-4"
-                @click="showDialog()"
-              >
-                + Add Job
-              </button>
-            </div>
-          </div>
-        </b-col>
-        <b-col md="3">
-          <div
-            v-if="!showAddJobDialog"
-            class="filters-wrapper"
-          >
-            <Filters
-              :on-search-input-change="searchJobsWithSearchTerm"
-              :on-search-params-change="onSearchParamsChange"
-              :set-initial-query="setInitialQuery"
-              :skills="skills"
-              :job-types="jobTypes"
-            />
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
-  </div>
+	<div class="jobs-container">
+		<Loader v-show="loading" />
+		<b-container>
+			<b-row>
+				<!-- <b-col
+          md="12"
+          sm="1"
+        >
+          <span>Are you looking for freelance work? </span>
+          <button @click="registerFreelancer()">
+            Register as a Freelancer
+          </button>
+          OR
+          <button @click="hireFreelancer()">
+            Post a Project
+          </button>
+        </b-col> -->
+				<b-col md="9">
+					<h1>
+						<br />
+						<span>Frontend Jobs</span>
+
+						<button v-if="!showAddJobDialog" @click="showDialog()">
+							+ Add Job
+						</button>
+					</h1>
+					<div v-if="!showAddJobDialog" class="jobs">
+						<JobStrip
+							v-for="job in jobs"
+							:id="job._id"
+							:key="job.id"
+							:role="job.title"
+							:job-description="job.description"
+							:expertise="job.level"
+							:required-skills="job.skills"
+							:link="job.link"
+							:city="job.city"
+							:country="job.country"
+							:company="job.company"
+							:is-remote="job.isRemote"
+							:can-modify="canModify(job)"
+							@delete="onDelete($event)"
+						/>
+						<div class="center-content">
+							<button class="mt-4" @click="showDialog()">+ Add Job</button>
+						</div>
+					</div>
+				</b-col>
+				<b-col md="3">
+					<br />
+					<div v-if="!showAddJobDialog" class="filters-wrapper">
+						<Filters
+							:on-search-input-change="searchJobsWithSearchTerm"
+							:on-search-params-change="onSearchParamsChange"
+							:set-initial-query="setInitialQuery"
+							:skills="skills"
+							:job-types="jobTypes"
+						/>
+					</div>
+				</b-col>
+			</b-row>
+		</b-container>
+	</div>
 </template>
 
 <script>
 import JobStrip from '@/components/Job/JobStrip';
 import Filters from '@/components/Filters/Filters';
 import jobService from '@/services/job.service';
-
+import freelancerService from '@/services/freelancer.service';
 export default {
 	name: 'Jobs',
 	components: {
@@ -170,6 +172,29 @@ export default {
 				this.$router.push('/signin');
 			} else {
 				this.$router.push('/job/form/new');
+			}
+		},
+		hireFreelancer() {
+			if (this.signedInUser == null) {
+				this.$router.push('/signin');
+			} else {
+				this.$router.push('/freelancerProjects/hire/new');
+			}
+		},
+		registerFreelancer() {
+			if (this.signedInUser == null) {
+				this.$router.push('/signin');
+			} else {
+				freelancerService
+					.getFreelancerByUsername(this.$store.state.signedInUser.username)
+					.then((freelancers) => {
+						this.$router.push(
+							`/job/freelancer/register/${freelancers.username}`
+						);
+					})
+					.catch((err) => {
+						this.$router.push('/job/freelancer/register/new');
+					});
 			}
 		},
 		scroll(jobs) {

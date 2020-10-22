@@ -6,7 +6,7 @@
           <h1>{{ quiz.title }}</h1>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row v-if="user != ''">
         <b-col md="12">
           <QuestionStrip
             v-for="(question, index) in quiz.questions"
@@ -24,6 +24,16 @@
           </button>
         </b-col>
       </b-row>
+      <b-row v-else>
+        <b-col
+          md="12"
+          class="button"
+        >
+          <button @click="enterQuiz">
+            Enter in this quiz
+          </button>
+        </b-col>
+      </b-row>
     </b-container>
   </div>
 </template>
@@ -31,7 +41,7 @@
 <script>
 import quizService from '@/services/quiz.service';
 import eventBus from '@/utilities/eventBus';
-import QuestionStrip from '@/components/Quiz/QuizQuestion';
+import QuestionStrip from '@/components/Quiz/AllQuestionStrip';
 import { ToastType, messages } from '@/constants/constants';
 export default {
 	name: 'QuizDetails',
@@ -43,6 +53,7 @@ export default {
 		return {
 			quiz: {},
 			quizData: '',
+			user: '',
 		};
 	},
 	computed: {
@@ -64,14 +75,33 @@ export default {
 	created() {},
 	methods: {
 		loadQuiz(quizId) {
-			quizService.getQuizById(quizId).then((res) => {
-				this.quiz = res;
-			});
+			quizService
+				.getQuizById(quizId)
+				.then((res) => {
+					this.quiz = res;
+					this.quiz.moderators.map((moderator) => {
+						if (moderator === this.$store.state.signedInUser.username) {
+							this.user = moderator;
+						}
+					});
+				})
+				.catch((e) => {});
 		},
 		runQuiz() {
-			quizService.runQuiz(this.$route.params.id).then((res) => {
-				this.$router.push(`/quiz/${this.$route.params.id}/run/${res.uniqueId}`);
-			});
+			quizService
+				.runQuiz(this.$route.params.id)
+				.then((res) => {
+					this.$router.push(`/quiz/${this.$route.params.id}/run/${res.runId}`);
+				})
+				.catch((e) => {});
+		},
+		enterQuiz() {
+			quizService
+				.getCurrentRunId(this.$route.params.id)
+				.then((res) => {
+					this.$router.push(`/quiz/${this.$route.params.id}/play/${res.runId}`);
+				})
+				.catch((e) => {});
 		},
 	},
 };

@@ -1,20 +1,43 @@
 <template>
   <div>
     <b-card>
-      <h2>{{ countdown }}</h2>
-
-      <div>
+      <div
+        v-if="countdown > 5"
+        class="timer"
+      >
+        {{ countdown }}
+      </div>
+      <div
+        v-else
+        class="timerRed"
+      >
+        {{ countdown }}
+      </div>
+      <h2>Question Number: {{ question.questionNo }}</h2>
+      <div v-if="countdown != 0">
         <vue-markdown :source="questionUrl" />
       </div>
+      <div>
+        <b-card v-if="countdown == 0">
+          <QuizQuestionResult :question-no="question.questionNo" />
+        </b-card>
+      </div>
+      <div>
+        <h2>Options</h2>
+        <QuestionOptions
+          :options="question.options"
+          :answer="question.answer"
+          :show-answer="true"
+          :submit-answers="false"
+        />
 
-      <h2>Options</h2>
+        <br>
+      </div>
       <div
-        v-for="(option, index) in clicked.options"
-        :key="index"
+        v-if="countdown == 0"
+        class="markdown"
       >
-        <div class="option-container">
-          {{ option.key }}|{{ option.value }}
-        </div>
+        <vue-markdown :source="questionUrl" />
       </div>
     </b-card>
     <br>
@@ -23,11 +46,13 @@
 
 <script>
 import VueMarkdown from 'vue-markdown';
+import QuizQuestionResult from '@/components/Quiz/QuizQuestionResult';
 
+import QuestionOptions from '@/components/Quiz/QuestionOptions';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'QuestionStrip',
-	components: { VueMarkdown },
+	components: { VueMarkdown, QuizQuestionResult, QuestionOptions },
 	props: {
 		question: {
 			type: Object,
@@ -40,19 +65,33 @@ export default {
 	},
 	data() {
 		return {
-			countdown: 0,
+			countdown: null,
 			questionUrl: '',
 			text: '',
-			clicked: {},
 			answer: null,
+			questionNo: null,
+			runId: null,
 		};
 	},
 	mounted() {
+		this.runId = this.$route.params.runId;
+		if (this.runId != null) {
+			this.updateQuizRun(
+				this.$route.params.id,
+				this.runId,
+				this.question.questionNo
+			);
+		}
 		this.loadQuiz(this.$route.params.id);
-		this.clicked = { ...this.$props.question, clicked: false };
 		this.countdown = this.question.duration;
 	},
 	methods: {
+		updateQuizRun(quizId, runId, currentQuestion) {
+			quizService
+				.updateQuizRun(quizId, runId, currentQuestion)
+				.then((res) => {})
+				.catch((e) => {});
+		},
 		loadQuiz(quizId) {
 			quizService.getQuizById(quizId).then((res) => {
 				fetch(this.question.questionUrl)
@@ -76,24 +115,34 @@ export default {
 
 <style scoped lang="scss">
 /* style for course thumbnail */
-
-.option-container {
-	border-style: solid;
-	padding: 10px;
-	border-color: #dfdfdf;
-	border-width: 1px;
-	margin-bottom: 1px;
-	background-color: rgb(48, 190, 238);
-	color: white;
+.markdown {
+	margin-top: 200px;
 }
-.option-container:hover {
+.float-child {
+	width: 50%;
 	border-style: solid;
 	padding: 10px;
 	border-color: #dfdfdf;
 	border-width: 1px;
-	margin-bottom: 1px;
-	background-color: black;
+	color: black;
+	float: left;
+}
+.timer {
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	background-color: purple;
 	color: white;
-	cursor: pointer;
+	font-size: 40px;
+	text-align: center;
+}
+.timerRed {
+	height: 60px;
+	width: 60px;
+	border-radius: 50%;
+	background-color: red;
+	color: white;
+	font-size: 40px;
+	text-align: center;
 }
 </style>

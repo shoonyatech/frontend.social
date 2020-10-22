@@ -41,7 +41,7 @@
           class="tool-box mb-5 col-xs-9"
         >
           <h2 class="caption">
-            {{ tool.name }}
+            <a :href="tool.link">{{ tool.name }}</a>
           </h2>
           <SkillTags
             v-if="tool.technologies"
@@ -94,174 +94,174 @@ import commentService from '@/services/comment.service';
 import eventService from '@/services/event.service';
 
 export default {
-	name: 'Tool',
-	components: {
-		SkillTags,
-		AddComment,
-		Comment,
-	},
-	props: {
-		index: {
-			type: Number,
-			required: true,
-		},
-		toolId: {
-			type: String,
-			required: true,
-		},
-		tool: {
-			type: Object,
-			required: true,
-		},
-		onUpVote: {
-			type: Function,
-			required: true,
-		},
-		onDownVote: {
-			type: Function,
-			required: true,
-		},
-	},
-	data() {
-		return {
-			comments: [],
-			showRating: true,
-			allowReply: false,
-			commentId: '',
-		};
-	},
-	computed: {
-		signedInUser() {
-			return this.$store.state.signedInUser;
-		},
-	},
-	created() {
-		this.getComments();
-	},
-	methods: {
-		upRating() {
-			if (this.comment.canVote === false) {
-				return eventBus.$emit('show-toast', {
-					body: messages.rate.rateAlreadyAdded,
-					title: messages.generic.error,
-					type: ToastType.ERROR,
-				});
-			} else {
-				var payload = {
-					name: this.comment.name,
-					section: this.comment.section,
-					icon: this.comment.icon,
-					upRating: this.comment.upRating + 1,
-					downRating: this.comment.downRating,
-					review: this.comment.review,
-					technologies: this.comment.technologies,
-				};
-				toolService
-					.upRate(this.comment._id, payload)
-					.then((response) => {
-						this.sections.splice(index, 1, response);
-						this.addUserToRate(this.comment._id, 1);
-						eventBus.$emit('show-toast', {
-							body: messages.rate.rateAddSuccess,
-							title: messages.generic.success,
-						});
-					})
-					.catch((e) => {
-						eventBus.$emit('show-toast', {
-							body: e.message,
-							title: messages.generic.error,
-							type: ToastType.ERROR,
-						});
-					});
-			}
-		},
-		downRating(section, index) {
-			if (this.comment.canVote === false) {
-				return eventBus.$emit('show-toast', {
-					body: messages.rate.rateAlreadyAdded,
-					title: messages.generic.error,
-					type: ToastType.ERROR,
-				});
-			} else {
-				var payload = {
-					name: this.comment.name,
-					section: this.comment.section,
-					icon: this.comment.icon,
-					upRating: this.comment.upRating - 1,
-					downRating: this.comment.downRating,
-					review: this.comment.review,
-					technologies: this.comment.technologies,
-				};
-				toolService
-					.downRate(this.comment._id, payload)
-					.then((response) => {
-						this.sections.splice(index, 1, response);
-						this.addUserToRate(this.comment._id, -1);
-						eventBus.$emit('show-toast', {
-							body: messages.rate.rateDeleteSuccess,
-							title: messages.generic.success,
-						});
-					})
-					.catch(() => {
-						eventBus.$emit('show-toast', {
-							body: e.message,
-							title: messages.generic.error,
-							type: ToastType.ERROR,
-						});
-					});
-			}
-		},
-		getComments() {
-			commentService
-				.getComment(this.toolId)
-				.then((response) => {
-					this.comments = response;
-				})
-				.catch(() => {
-					eventBus.$emit('show-toast', {
-						body: e.message,
-						title: messages.generic.error,
-						type: ToastType.ERROR,
-					});
-				});
-		},
-		saveComment(response, index) {
-			if (this.commentId != '') {
-				this.comments.splice(index, 1, response);
-				this.commentId = '';
-			} else {
-				this.comments.push(response);
-			}
+  name: 'Tool',
+  components: {
+    SkillTags,
+    AddComment,
+    Comment,
+  },
+  props: {
+    index: {
+      type: Number,
+      required: true,
+    },
+    toolId: {
+      type: String,
+      required: true,
+    },
+    tool: {
+      type: Object,
+      required: true,
+    },
+    onUpVote: {
+      type: Function,
+      required: true,
+    },
+    onDownVote: {
+      type: Function,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      comments: [],
+      showRating: true,
+      allowReply: false,
+      commentId: '',
+    };
+  },
+  computed: {
+    signedInUser() {
+      return this.$store.state.signedInUser;
+    },
+  },
+  created() {
+    this.getComments();
+  },
+  methods: {
+    upRating() {
+      if (this.comment.canVote === false) {
+        return eventBus.$emit('show-toast', {
+          body: messages.rate.rateAlreadyAdded,
+          title: messages.generic.error,
+          type: ToastType.ERROR,
+        });
+      } else {
+        var payload = {
+          name: this.comment.name,
+          section: this.comment.section,
+          icon: this.comment.icon,
+          upRating: this.comment.upRating + 1,
+          downRating: this.comment.downRating,
+          review: this.comment.review,
+          technologies: this.comment.technologies,
+        };
+        toolService
+          .upRate(this.comment._id, payload)
+          .then((response) => {
+            this.sections.splice(index, 1, response);
+            this.addUserToRate(this.comment._id, 1);
+            eventBus.$emit('show-toast', {
+              body: messages.rate.rateAddSuccess,
+              title: messages.generic.success,
+            });
+          })
+          .catch((e) => {
+            eventBus.$emit('show-toast', {
+              body: e.message,
+              title: messages.generic.error,
+              type: ToastType.ERROR,
+            });
+          });
+      }
+    },
+    downRating(section, index) {
+      if (this.comment.canVote === false) {
+        return eventBus.$emit('show-toast', {
+          body: messages.rate.rateAlreadyAdded,
+          title: messages.generic.error,
+          type: ToastType.ERROR,
+        });
+      } else {
+        var payload = {
+          name: this.comment.name,
+          section: this.comment.section,
+          icon: this.comment.icon,
+          upRating: this.comment.upRating - 1,
+          downRating: this.comment.downRating,
+          review: this.comment.review,
+          technologies: this.comment.technologies,
+        };
+        toolService
+          .downRate(this.comment._id, payload)
+          .then((response) => {
+            this.sections.splice(index, 1, response);
+            this.addUserToRate(this.comment._id, -1);
+            eventBus.$emit('show-toast', {
+              body: messages.rate.rateDeleteSuccess,
+              title: messages.generic.success,
+            });
+          })
+          .catch(() => {
+            eventBus.$emit('show-toast', {
+              body: e.message,
+              title: messages.generic.error,
+              type: ToastType.ERROR,
+            });
+          });
+      }
+    },
+    getComments() {
+      commentService
+        .getComment(this.toolId)
+        .then((response) => {
+          this.comments = response;
+        })
+        .catch(() => {
+          eventBus.$emit('show-toast', {
+            body: e.message,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
+        });
+    },
+    saveComment(response, index) {
+      if (this.commentId != '') {
+        this.comments.splice(index, 1, response);
+        this.commentId = '';
+      } else {
+        this.comments.push(response);
+      }
 
-			eventBus.$emit('show-toast', {
-				body: messages.comment.commentAddSuccess,
-				title: messages.generic.success,
-			});
-		},
-		deleteComment(index) {
-			console.log(index);
-			this.comments.splice(index, 1);
-		},
-		editComment(commentId) {
-			this.commentId = commentId;
-		},
-		cancelComment() {},
-	},
+      eventBus.$emit('show-toast', {
+        body: messages.comment.commentAddSuccess,
+        title: messages.generic.success,
+      });
+    },
+    deleteComment(index) {
+      console.log(index);
+      this.comments.splice(index, 1);
+    },
+    editComment(commentId) {
+      this.commentId = commentId;
+    },
+    cancelComment() {},
+  },
 };
 </script>
 <style lang="scss" scoped>
 .tool-box {
-	border-bottom: 1px solid #114273;
+  border-bottom: 1px solid #114273;
 }
 .up-down-arrow {
-	height: 25px;
-	width: auto;
+  height: 25px;
+  width: auto;
 }
 .cursor-pointer {
-	cursor: pointer;
+  cursor: pointer;
 }
 .disabled {
-	pointer-events: none;
-	opacity: 0.5;
+  pointer-events: none;
+  opacity: 0.5;
 }
 </style>

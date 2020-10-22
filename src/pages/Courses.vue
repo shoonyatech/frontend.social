@@ -3,23 +3,25 @@
     <Loader v-show="loading" />
     <b-container>
       <b-row>
-        <!-- v-infinite-scroll="loadCourses('')"
-        infinite-scroll-disabled="true"
-        infinite-scroll-distance="limit"-->
         <b-col md="9">
-          <h1>
-            Courses
-            <span
-              v-if="!infiniteScroll"
-              class="navigation-button"
-            />
-          </h1>
-          <course-strip
-            v-for="(course, index) in courses"
-            :key="index"
-            :course="course"
-            class="course-card"
-          />
+          <h1>Courses</h1>
+          <div
+            v-infinite-scroll="loadCourses"
+            infinite-scroll-disabled="isDisableInfiniteScroll"
+            infinite-scroll-distance="limit"
+          >
+            <div v-if="courses.length">
+              <course-strip
+                v-for="(course, index) in courses"
+                :key="index"
+                :course="course"
+                class="course-card"
+              />
+            </div>
+            <div v-else>
+              No courses found!
+            </div>
+          </div>
         </b-col>
 
         <b-col md="3">
@@ -58,7 +60,7 @@ export default {
 		},
 		limit: {
 			type: Number,
-			default: 10,
+			default: 25,
 		},
 	},
 	data() {
@@ -80,11 +82,9 @@ export default {
 		},
 	},
 	created() {
-		setTimeout(() => {
-			if (!this.infiniteScroll) {
-				this.loadCourses('');
-			}
-		}, 500);
+		if (!this.infiniteScroll) {
+			this.loadCourses('');
+		}
 	},
 	methods: {
 		onSearchParamsChange(param = '') {
@@ -103,16 +103,13 @@ export default {
 					action = 0;
 					break;
 			}
-
 			this.busy = false;
-			this.limit = this.limit || 10;
+			this.limit = this.limit || 25;
 			this.page = action + this.page || 1;
 
 			courseService.getCourses(param, this.limit, this.page).then((res) => {
 				var courses = res.results;
-
 				this.skills = res.meta.filters.skills;
-
 				if (!this.infiniteScroll) {
 					this.courses = courses;
 				} else {
@@ -135,7 +132,6 @@ export default {
 }
 
 .events {
-	margin: 20px 10px;
 	text-align: left;
 	width: 100%;
 }
@@ -157,7 +153,9 @@ export default {
 
 .course-card {
 	margin: 0.5rem;
-	display: inline-flex;
+	display: flex;
+	flex-direction: column;
 	text-align: center;
+	width: 100%;
 }
 </style>
