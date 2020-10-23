@@ -356,6 +356,7 @@
 </template>
 
 <script>
+import config from '@/config/config.js';
 import axios from 'axios';
 import userService from '@/services/user.service';
 import KeyValue from '@/components/common/KeyValue';
@@ -384,8 +385,8 @@ export default {
 	},
 	data() {
 		return {
-			cloudinaryUrl: 'https://api.cloudinary.com/v1_1/dfsq4jnnq/upload',
-			cloudinaryUploadPreset: 'tlfd2hsy',
+			cloudinaryUrl: config.cloudinaryUrl,
+			cloudinaryUploadPreset: config.cloudinaryUploadPreset,
 			profile: {},
 			profilePic: '',
 			fullName: '',
