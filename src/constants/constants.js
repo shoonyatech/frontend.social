@@ -58,6 +58,10 @@ export const messages = {
 		eventDeletedSuccess: 'Event deleted successfully!',
 		eventsAddFailure: '',
 	},
+	profilePicUpdate: {
+		profilePicUpdateSuccess: 'Profile Pic updated successfully!',
+		profilePicUpdateFailure: 'Error occured updating profile pic ',
+	},
 	freelancer: {
 		freelancersAddSuccess: 'Freelancer added successfully!',
 		freelancersUpdateSuccess: 'Freelancer updated successfully!',
