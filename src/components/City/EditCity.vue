@@ -3,7 +3,7 @@
     <div v-if="editMode">
       <div class="input-group">
         <input
-          v-model="editedCity"
+          v-model="city"
           :class="{ 'left-input-width': addCity, 'left-input': !addCity }"
           placeholder="City"
           @input="onSearchCityChange"
@@ -38,6 +38,7 @@
       </div>
       <country-select
         v-model="editedCountry"
+        :placeholder="country || 'Select Country'"
         :country="editedCountry"
         class="left-input"
         @input="onSearchCityChange"
