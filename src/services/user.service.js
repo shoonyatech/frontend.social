@@ -60,4 +60,8 @@ export default {
 	redeemRewardPoints(redeemAmount) {
 		return httpClient.post('redeem', { redeemAmount });
 	},
+
+	updateUserProfilePic(profile) {
+		return httpClient.put('profile/profilePic', profile);
+	},
 };

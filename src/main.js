@@ -19,6 +19,7 @@ import CKEditor from '@ckeditor/ckeditor5-vue';
 import Loader from '@/components/common/Loader';
 import infiniteScroll from 'vue-infinite-scroll';
 import './registerServiceWorker';
+import Cloudinary, { CldImage, CldTransformation } from 'cloudinary-vue';
 
 Vue.use(CKEditor);
 Vue.use(infiniteScroll);
@@ -30,7 +31,13 @@ Vue.use(VueAxios, axios);
 Vue.use(VueAuthenticate, authOptions);
 Vue.use(VueYoutube);
 Vue.component('Loader', Loader);
-
+Vue.use(Cloudinary, {
+	configuration: { cloudName: 'dfsq4jnnq' },
+	components: {
+		CldImage,
+		CldTransformation,
+	},
+});
 Vue.use(VueMoment, {
 	moment,
 });

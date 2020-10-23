@@ -1,4 +1,3 @@
-j
 <template>
   <div class="profile">
     <Loader v-show="loading" />
@@ -9,11 +8,41 @@ j
           sm="12"
           class="photo-col"
         >
-          <img
-            :src="profile.profilePic"
-            class="profile-photo"
-            alt="profile"
+          <Section
+            v-if="isEditable"
+            title="Profile Image"
+            :on-edit="editProfilePic"
+            :on-save="saveProfilePic"
+            :on-cancel="cancelProfilePic"
+            :is-editable="isEditable"
           >
+            <a :href="profile.profilePic">
+              <img
+                :src="profile.profilePic"
+                class="user-profile-photo"
+                alt="profile"
+              >
+            </a>
+
+            <input
+              v-if="editModeProfilePic"
+              id="file-upload"
+              type="file"
+              class="image-input"
+              @change="image"
+            >
+          </Section>
+          <a
+            v-else
+            :href="profile.profilePic"
+          >
+            <img
+              :src="profile.profilePic"
+              class="profile-photo"
+              alt="profile"
+            >
+          </a>
+
           <Section
             title="About me"
             class="about-me"
@@ -327,6 +356,7 @@ j
 </template>
 
 <script>
+import axios from 'axios';
 import userService from '@/services/user.service';
 import KeyValue from '@/components/common/KeyValue';
 import EditEventList from '@/components/Events/EditEventList';
@@ -354,6 +384,8 @@ export default {
 	},
 	data() {
 		return {
+			cloudinaryUrl: 'https://api.cloudinary.com/v1_1/dfsq4jnnq/upload',
+			cloudinaryUploadPreset: 'tlfd2hsy',
 			profile: {},
 			profilePic: '',
 			fullName: '',
@@ -362,6 +394,7 @@ export default {
 			events: [],
 			referrals: [],
 			editModeAboutMe: false,
+			editModeProfilePic: false,
 			editModeSocials: false,
 			editModeSkills: false,
 			editModeEvents: false,
@@ -374,6 +407,7 @@ export default {
 			showRewardTransactions: false,
 			pointsToRedeem: null,
 			newActivity: [],
+			file: {},
 		};
 	},
 	computed: {
@@ -444,6 +478,9 @@ export default {
 		}
 	},
 	methods: {
+		image() {
+			this.file = event.target.files[0];
+		},
 		onSocialChange: function (social) {
 			let updatedSocial = this.profile.social.find(
 				(s) => s.label == social.label
@@ -509,6 +546,77 @@ export default {
 				});
 			this.editModeAboutMe = false;
 		},
+
+		editProfilePic: function (event) {
+			this.editModeProfilePic = true;
+		},
+		saveProfilePic: function (event) {
+			this.loading = true;
+
+			var formData = new FormData();
+			formData.append('file', this.file);
+			formData.append('upload_preset', this.cloudinaryUploadPreset);
+			axios({
+				url: this.cloudinaryUrl,
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				data: formData,
+			})
+				.then((res) => {
+					this.profile = { ...this.profile, profilePic: res.data.secure_url };
+					const image = {
+						imageUrl: res.data.secure_url,
+						userId: this.profile._id,
+					};
+					userService
+						.updateUserProfilePic(image)
+						.then((image) => {
+							eventBus.$emit('show-toast', {
+								body: messages.profilePicUpdate.profilePicUpdateSuccess,
+								title: messages.generic.success,
+							});
+
+							this.loading = false;
+						})
+						.catch(() => {
+							eventBus.$emit('show-toast', {
+								body: messages.profilePicUpdate.profilePicUpdateFailure,
+								title: messages.generic.error,
+								type: ToastType.ERROR,
+							});
+
+							this.loading = false;
+						});
+				})
+				.catch(() => {
+					eventBus.$emit('show-toast', {
+						body: messages.profilePicUpdate.profilePicUpdateFailure,
+						title: messages.generic.error,
+						type: ToastType.ERROR,
+					});
+
+					this.loading = false;
+				});
+			this.editModeProfilePic = false;
+		},
+		cancelProfilePic: function (event) {
+			this.loading = true;
+			userService
+				.getLoggedInUserProfile()
+				.then((user) => {
+					this.profile = user;
+					this.loading = false;
+				})
+				.catch((e) => {
+					userService.signout();
+					this.$router.push('/');
+					this.loading = false;
+				});
+			this.editModeProfilePic = false;
+		},
+
 		editSocials: function (event) {
 			this.editModeSocials = true;
 		},
@@ -734,7 +842,10 @@ export default {
 	text-align: left;
 	padding: 5px;
 }
-
+.user-profile-photo {
+	max-width: 100%;
+	text-align: left;
+}
 .user-name {
 	font-weight: 700;
 }
@@ -828,7 +939,10 @@ export default {
 .left-input {
 	width: 100%;
 }
-
+.image-input {
+	width: 100%;
+	font-size: 15px;
+}
 .photo-col {
 	margin-bottom: 40px;
 }
