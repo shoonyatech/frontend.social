@@ -28,6 +28,8 @@ export default {
 			clientSecret: '',
 		},
 	},
-	cloudinaryUploadPreset: 'tlfd2hsy',
-	cloudinaryUrl: 'https://api.cloudinary.com/v1_1/dfsq4jnnq/upload',
+	cloudinaryUploadPreset: process.env.CLOUDINARY_UPLOAD_PRESET || 'tlfd2hsy',
+	cloudinaryUrl:
+		process.env.CLOUDINARY_BASE_URL ||
+		'https://api.cloudinary.com/v1_1/dfsq4jnnq/upload',
 };
