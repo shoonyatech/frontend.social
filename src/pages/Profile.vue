@@ -42,7 +42,22 @@
               alt="profile"
             >
           </a>
-
+          <div 
+            v-if="profile.badges && profile.badges.length" 
+            class="profile-badges"
+          >
+            <div 
+              v-for="item in profile.badges"
+              :key="item" 
+              class="badges"
+            >
+              <img 
+                :src="getBadgeImage(item)" 
+                :alt="item" 
+              >
+              <span>{{ item }}</span>
+            </div>
+          </div>			
           <Section
             title="About me"
             class="about-me"
@@ -482,6 +497,9 @@ export default {
 		image() {
 			this.file = event.target.files[0];
 		},
+		getBadgeImage: function (name) {
+			return `/images/badges/${name}.svg`;
+		},
 		onSocialChange: function (social) {
 			let updatedSocial = this.profile.social.find(
 				(s) => s.label == social.label
@@ -843,6 +861,43 @@ export default {
 	text-align: left;
 	padding: 5px;
 }
+
+.profile-badges {
+	margin-top: 12px;
+	display: flex;
+	flex-wrap: wrap;
+	.badges {
+		position: relative;
+		margin-top: 10px;
+		width: 50px;
+		height: 50px;
+		img {
+			max-width: 50px;
+			max-height: 50px;
+		}
+		&:not(:last-of-type) {
+			margin-right: 5px;
+		}
+		span {
+			position: absolute;
+			top: -21px;
+			left: 0px;
+			min-width: 100%;
+			padding: 0px 6px;
+			display: none;
+			font-size: 14px;
+			text-align: center;
+			background-color: #114273;
+			color: white;
+		}
+		&:hover {
+			span {
+				display: inline-block;
+			}
+		}
+	}
+}
+
 .user-profile-photo {
 	max-width: 100%;
 	text-align: left;
