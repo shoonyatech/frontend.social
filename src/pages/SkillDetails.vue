@@ -28,6 +28,12 @@
           class="filters-wrapper"
         >
           <LatestTweets :tip="skill" />
+          <br>
+          <h1>Related Tweets</h1>
+          <Twitter
+            :username="getTwitterUsername()"
+            :limit="20"
+          />
         </b-col>
       </b-row>
     </b-container>
@@ -47,6 +53,8 @@ import SkillTags from '@/components/Skills/SkillTags';
 import LatestJobsFromCity from '@/components/Job/LatestJobsFromCity';
 import LatestTweets from '@/components/tips/LatestTweets';
 import TechnologyCourse from '@/components/Course/TechnologyCourse';
+
+import Twitter from '@/components/Twitter/Twitter.vue';
 export default {
 	name: 'Skills',
 	components: {
@@ -56,6 +64,7 @@ export default {
 		SkillTags,
 		LatestJobsFromCity,
 		LatestTweets,
+		Twitter,
 	},
 	data() {
 		return {
@@ -84,6 +93,9 @@ export default {
 	methods: {
 		title() {
 			return capitalize.words(this.skill);
+		},
+		getTwitterUsername() {
+			return this.skill;
 		},
 	},
 };
