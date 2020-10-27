@@ -18,7 +18,6 @@
         <vue-markdown :source="questionUrl" />
       </div>
       <div v-if="countdown != 0">
-        <h2>Choose your Answer</h2>
         <QuestionOptions
           :options="question.options"
           :answer="answer"
@@ -152,7 +151,7 @@ export default {
 								} else {
 									this.getAnswer();
 									this.elementVisible = true;
-									setTimeout(() => (this.elementVisible = false), 4000);
+									setTimeout(() => (this.elementVisible = false), 2000);
 									this.$emit('timeOver');
 									clearInterval(timer);
 								}
@@ -192,12 +191,17 @@ export default {
 .answer {
 	font-size: 30px;
 	text-align: center;
+	color: white;
 }
 .correct {
 	background-color: rgb(38, 238, 81);
+	padding: 20px;
+	border-radius: 20px;
 }
 .wrong {
 	background-color: red;
+	padding: 20px;
+	border-radius: 20px;
 }
 .timerRed {
 	height: 60px;
@@ -210,5 +214,7 @@ export default {
 }
 .notSelected {
 	background-color: lightblue;
+	padding: 20px;
+	border-radius: 20px;
 }
 </style>

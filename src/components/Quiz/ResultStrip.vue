@@ -1,15 +1,11 @@
 <template>
   <div>
-    <b-card>
-      <h2>
-        {{ index + 1 }}
-        <UserAvatar
-          :user="profileData"
-          :show-name="true"
-        />
-        with {{ result.points }} points
-      </h2>
-    </b-card>
+    <h2>
+      <UserAvatar
+        :user="profileData"
+        :show-name="true"
+      />
+    </h2>
   </div>
 </template>
 <script>

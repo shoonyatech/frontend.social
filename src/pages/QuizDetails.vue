@@ -72,7 +72,11 @@ export default {
 	mounted() {
 		this.loadQuiz(this.$route.params.id);
 	},
-	created() {},
+	created() {
+		if (this.signedInUser == null) {
+			this.$router.push('/signin');
+		}
+	},
 	methods: {
 		loadQuiz(quizId) {
 			quizService
