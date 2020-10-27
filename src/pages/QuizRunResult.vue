@@ -6,26 +6,20 @@
     <br>
     <b-container>
       <h1>Winners Are</h1>
-      <div
-        v-for="(Result, index) in FinalResult"
-        :key="index"
-      >
-        <ResultStrip
-          :result="Result"
-          :index="index"
-        />
+      <div>
+        <ResultBar :result="FinalResult" />
       </div>
     </b-container>
   </div>
 </template>
 <script>
-import ResultStrip from '@/components/Quiz/ResultStrip';
 import userService from '@/services/user.service';
 import quizService from '@/services/quiz.service';
+import ResultBar from '@/components/Quiz/ResultBar';
 export default {
 	name: 'QuizRunResult',
 	components: {
-		ResultStrip,
+		ResultBar,
 	},
 	data() {
 		return {
@@ -79,9 +73,7 @@ export default {
 h1 {
 	text-align: center;
 }
-h2 {
-	text-align: center;
-}
+
 h3 {
 	background-color: rgb(52, 191, 238);
 	font-size: 25px;

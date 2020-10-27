@@ -3,7 +3,7 @@
     <b-container>
       <h2>Quiz Run ID: {{ runId }}</h2>
       <h2>
-        <a>{{ `http://localhost:8080/quiz/${quizId}/play/${runId}` }}</a>
+        <a>{{ `https://www.frontend.social/quiz/${quizId}/play/${runId}` }}</a>
       </h2>
       <span>
         <button @click="startQuiz">Start Quiz</button>

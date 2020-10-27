@@ -1,5 +1,8 @@
 <template>
   <div>
+    <h2 v-if="click == 0 && submitAnswers == true">
+      Choose your Answer
+    </h2>
     <div
       v-for="(option, index) in options"
       :key="index"
