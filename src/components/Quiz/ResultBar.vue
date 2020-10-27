@@ -59,9 +59,6 @@ export default {
 			color: ['#FFC54B', '#E0EDF3', '#FB963F'],
 		};
 	},
-	created() {
-		console.log(this.result);
-	},
 	methods: {},
 };
 </script>
@@ -84,5 +81,6 @@ export default {
 	margin-right: 50px;
 	width: 100px;
 	text-align: center;
+	color: black;
 }
 </style>
