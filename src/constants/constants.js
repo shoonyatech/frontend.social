@@ -9,6 +9,13 @@ export const messages = {
 			'Error adding new job, Please fill all fields and try again.',
 		jobUpdateSuccess: 'Job updated successfully!',
 	},
+	quiz: {
+		QuizAddSuccess: 'Quiz added successfully!',
+		QuizDeletedSuccess: 'Quiz deleted successfully!',
+		QuizAddFailure:
+			'Error adding new Quiz, Please fill all fields and try again.',
+		QuizUpdateSuccess: 'Quiz updated successfully!',
+	},
 	challenge: {
 		challengeAddSuccess: 'Challenge added successfully!',
 		challengeAddFailure: 'Error adding new Challenge',

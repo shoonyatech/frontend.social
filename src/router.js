@@ -209,6 +209,11 @@ const router = new Router({
 			component: () => import('./pages/QuizRunResult.vue'),
 		},
 		{
+			path: '/quiz/form/:id',
+			name: 'quizForm',
+			component: () => import('./pages/QuizForm.vue'),
+		},
+		{
 			path: '/blog/:id/:blogname',
 			name: 'blogDetails',
 			component: () => import('./pages/BlogDetails.vue'),

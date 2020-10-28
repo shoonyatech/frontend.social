@@ -7,14 +7,35 @@
     >
       <h1>
         <span>Quiz</span>
+
+        <button
+          v-if="!showAddQuizDialog"
+          @click="showDialog()"
+        >
+          + Add Quiz
+        </button>
       </h1>
-      <div class="quizs">
+      <div
+        v-if="!showAddQuizDialog"
+        class="quizs"
+      >
         <div v-if="quizs.length">
           <QuizStrip
             v-for="(quiz, index) in quizs"
             :key="index"
             :quiz="quiz"
+            :can-modify="canModify(quiz)"
+            @delete="onDeleteQuiz"
+            @edit="onEditEvent"
           />
+          <div class="center-content">
+            <button
+              class="mt-4"
+              @click="showDialog()"
+            >
+              + Add Quiz
+            </button>
+          </div>
         </div>
         <div v-else>
           No quizs found!
@@ -29,6 +50,8 @@ import QuizStrip from '@/components/Quiz/QuizStrip';
 
 import quizService from '@/services/quiz.service';
 
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages } from '@/constants/constants';
 export default {
 	name: 'LatestQuiz',
 	components: { QuizStrip },
@@ -57,6 +80,43 @@ export default {
 	},
 
 	methods: {
+		canModify(quiz) {
+			if (!this.signedInUser) return false;
+
+			if (this.$store.getters.isAdmin) return true;
+
+			const username = this.signedInUser.username.toLowerCase();
+			const admins = quiz.adminUsers || [];
+			return (
+				(quiz.createdBy &&
+					quiz.createdBy.username.toLowerCase() === username) ||
+				admins.some((x) => x.username.toLowerCase() === username)
+			);
+		},
+		onDeleteQuiz(quiz) {
+			this.loading = true;
+			quizService
+				.deleteQuiz(quiz._id)
+				.then(() => {
+					eventBus.$emit('show-toast', {
+						body: messages.quiz.QuizDeletedSuccess,
+						title: messages.generic.success,
+					});
+					this.quizs = this.quizs.filter((e) => e._id !== event._id);
+					this.loading = false;
+				})
+				.catch((e) => {
+					eventBus.$emit('show-toast', {
+						body: e.message,
+						title: messages.generic.error,
+						type: ToastType.ERROR,
+					});
+					this.loading = false;
+				});
+		},
+		onEditEvent(quiz) {
+			this.$router.push(`/quiz/form/${quiz._id}`);
+		},
 		refreshPage() {
 			this.showAddQuizDialog = false;
 			this.loads('refresh');
@@ -65,7 +125,7 @@ export default {
 			if (this.signedInUser == null) {
 				this.$router.push('/signin');
 			} else {
-				this.showAddQuizDialog = true;
+				this.$router.push('/quiz/form/new');
 			}
 		},
 		loads(action) {
