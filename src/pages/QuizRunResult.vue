@@ -26,6 +26,7 @@ export default {
 			runId: null,
 			currentQuestion: 0,
 			points: 0,
+			Result: [],
 			FinalResult: [],
 		};
 	},
@@ -40,7 +41,27 @@ export default {
 			quizService
 				.getFinalQuizResults(this.$route.params.id, this.$route.params.runId)
 				.then((result) => {
-					this.FinalResult = result;
+					this.Result = result;
+					result.map((re, index) => {
+						if (index == 0) {
+							this.FinalResult.splice(1, 0, {
+								username: `${re.username}`,
+								points: `${re.points}`,
+							});
+						}
+						if (index == 1) {
+							this.FinalResult.splice(0, 0, {
+								username: `${re.username}`,
+								points: `${re.points}`,
+							});
+						}
+						if (index == 2) {
+							this.FinalResult.splice(2, 0, {
+								username: `${re.username}`,
+								points: `${re.points}`,
+							});
+						}
+					});
 				})
 				.catch((e) => {});
 		},

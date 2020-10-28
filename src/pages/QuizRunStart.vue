@@ -21,7 +21,7 @@
       </b-row>
     </b-container>
     <b-container>
-      <span>
+      <span v-if="quiz.questions != null">
         <button
           v-if="currentQuestion < quiz.questions.length - 1"
           @click="nextQuestion"

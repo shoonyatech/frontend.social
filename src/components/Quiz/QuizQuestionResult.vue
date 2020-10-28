@@ -23,7 +23,7 @@ export default {
 	},
 	data() {
 		return {
-			result: {},
+			result: [],
 			runId: null,
 		};
 	},

@@ -23,6 +23,16 @@ export default {
 			timer: 0,
 		};
 	},
+	computed: {
+		signedInUser() {
+			return this.$store.state.signedInUser;
+		},
+	},
+	created() {
+		if (this.signedInUser == null) {
+			this.$router.push('/signin');
+		}
+	},
 	mounted() {
 		this.runId = this.$route.params.runId;
 		this.timer = setInterval(this.isActive, 500);

@@ -6,7 +6,7 @@
     <section v-else>
       <Timeline
         :id="username"
-        :options="{ tweetLimit: `${this.limit}`, width: '600', height: '500' }"
+        :options="{ tweetLimit: `${limit}`, width: '600', height: '500' }"
         source-type="profile"
       />
     </section>
