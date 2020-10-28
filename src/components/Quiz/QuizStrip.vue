@@ -6,6 +6,30 @@
           <router-link :to="'../quiz/' + quiz._id">
             <span>{{ quiz.title }}</span>
           </router-link>
+          <div>
+            <span
+              v-if="canModify"
+              class="event-action"
+              @click.prevent="editQuiz(quiz)"
+            >
+              <img
+                :src="`/images/edit.svg`"
+                class="icon-button"
+                alt="edit"
+              >
+            </span>
+            <span
+              v-if="canModify"
+              class="event-action"
+              @click.prevent="deleteQuiz(quiz)"
+            >
+              <img
+                :src="`/images/delete.svg`"
+                class="icon-button"
+                alt="delete"
+              >
+            </span>
+          </div>
         </b-col>
       </b-row>
       <b-row>
@@ -32,6 +56,18 @@ export default {
 		quiz: {
 			type: Object,
 			default: () => {},
+		},
+		canModify: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	methods: {
+		deleteQuiz(quiz) {
+			this.$emit('delete', quiz);
+		},
+		editQuiz(quiz) {
+			this.$emit('edit', quiz);
 		},
 	},
 };

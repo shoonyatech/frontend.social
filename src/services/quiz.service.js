@@ -1,6 +1,15 @@
 import httpClient from './http-client';
 
 export default {
+	addQuiz: (payload) => {
+		return httpClient.post('quiz', payload);
+	},
+	deleteQuiz: (id) => {
+		return httpClient.delete(`quiz/${id}`);
+	},
+	updateQuiz: (id, payload) => {
+		return httpClient.put('quiz/' + id, payload);
+	},
 	getLatestQuiz: (skill, limit = 100, page = 1) => {
 		var pagination = '&limit=' + limit + '&page=' + page;
 

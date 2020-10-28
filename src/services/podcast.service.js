@@ -4,14 +4,14 @@ export default {
 	getPodcasts: (searchText = '', limit = 100, page = 1) => {
 		var pagination = '&limit=' + limit + '&page=' + page;
 
-		const podcastQuery = `podcasts?${searchText}`;
+		const podcastQuery = `podcast?${searchText}`;
 		return httpClient.get(podcastQuery + pagination);
 	},
 	getPodcastById: (id) => {
-		return httpClient.get(`podcasts/${id}`);
+		return httpClient.get(`podcast/${id}`);
 	},
 
 	addPodcast: (payload) => {
-		return httpClient.post('podcasts', payload);
+		return httpClient.post('podcast', payload);
 	},
 };
