@@ -3,7 +3,7 @@
     <b-container>
       <h2>Quiz Run ID: {{ runId }}</h2>
       <h2>
-        <a>{{ `https://www.frontend.social/quiz/${quizId}/play/${runId}` }}</a>
+        <a>{{ `${url}/quiz/${quizId}/play/${runId}` }}</a>
       </h2>
       <span>
         <button @click="startQuiz">Start Quiz</button>
@@ -22,7 +22,19 @@ export default {
 			runId: 0,
 			quizId: 0,
 			currentQuestion: 0,
+			url: '',
 		};
+	},
+	computed: {
+		signedInUser() {
+			return this.$store.state.signedInUser;
+		},
+	},
+	created() {
+		if (this.signedInUser == null) {
+			this.$router.push('/signin');
+		}
+		this.url = window.location.origin;
 	},
 	mounted() {
 		this.runId = this.$route.params.runId;

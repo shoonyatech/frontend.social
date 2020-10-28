@@ -12,12 +12,12 @@
           />
         </p>
       </div>
-      <div v-if="index == 0">
+      <div v-if="index == 1">
         <p class="text">
           <img src="/images/gold-medal.svg">
         </p>
       </div>
-      <div v-if="index == 1">
+      <div v-if="index == 0">
         <p class="text">
           <img src="/images/silver-medal.svg">
         </p>
@@ -56,7 +56,7 @@ export default {
 	},
 	data() {
 		return {
-			color: ['#FFC54B', '#E0EDF3', '#FB963F'],
+			color: ['#E0EDF3', '#FFC54B', '#FB963F'],
 		};
 	},
 	methods: {},
