@@ -15,7 +15,12 @@
       </div>
       <h2>Question Number: {{ question.questionNo }}</h2>
       <div v-if="countdown != 0">
-        <vue-markdown :source="questionUrl" />
+        <div v-html="question.questionText">
+          <br>
+        </div>
+        <div class="image">
+          <img :src="question.questionImage">
+        </div>
       </div>
       <div v-if="countdown != 0">
         <QuestionOptions
@@ -62,14 +67,18 @@
       />
       <br>
       <div class="markdown">
-        <vue-markdown :source="questionUrl" />
+        <div v-html="question.questionText">
+          <br>
+        </div>
+        <div class="image">
+          <img :src="question.questionImage">
+        </div>
       </div>
     </b-card>
   </div>
 </template>
 
 <script>
-import VueMarkdown from 'vue-markdown';
 import QuizQuestionResult from '@/components/Quiz/QuizQuestionResult';
 
 import QuestionOptions from '@/components/Quiz/QuestionOptions';
@@ -78,7 +87,7 @@ import eventBus from '@/utilities/eventBus';
 import { ToastType, messages } from '@/constants/constants';
 export default {
 	name: 'QuizPlayQuestionStrip',
-	components: { VueMarkdown, QuizQuestionResult, QuestionOptions },
+	components: { QuizQuestionResult, QuestionOptions },
 	props: {
 		question: {
 			type: Object,
@@ -93,7 +102,7 @@ export default {
 		return {
 			selectedAnswer: '',
 			countdown: null,
-			questionUrl: '',
+			questionText: '',
 			text: '',
 			questionNo: null,
 			runId: null,
@@ -141,10 +150,10 @@ export default {
 			quizService
 				.getQuizByIdPlay(quizId)
 				.then((res) => {
-					fetch(this.question.questionUrl)
+					fetch(this.question.questionText)
 						.then((response) => response.text())
 						.then((response) => {
-							this.questionUrl = response;
+							this.questionText = response;
 							let timer = setInterval(() => {
 								if (this.countdown > 0) {
 									this.countdown--;
@@ -216,5 +225,10 @@ export default {
 	background-color: lightblue;
 	padding: 20px;
 	border-radius: 20px;
+}
+.image {
+	img {
+		width: 50%;
+	}
 }
 </style>

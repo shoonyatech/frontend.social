@@ -15,7 +15,12 @@
       </div>
       <h2>Question Number: {{ question.questionNo }}</h2>
       <div v-if="countdown != 0">
-        <vue-markdown :source="questionUrl" />
+        <div v-html="question.questionText">
+          <br>
+        </div>
+        <div class="image">
+          <img :src="question.questionImage">
+        </div>
       </div>
       <div>
         <b-card v-if="countdown == 0">
@@ -37,7 +42,12 @@
         v-if="countdown == 0"
         class="markdown"
       >
-        <vue-markdown :source="questionUrl" />
+        <div v-html="question.questionText">
+          <br>
+        </div>
+        <div class="image">
+          <img :src="question.questionImage">
+        </div>
       </div>
     </b-card>
     <br>
@@ -45,14 +55,13 @@
 </template>
 
 <script>
-import VueMarkdown from 'vue-markdown';
 import QuizQuestionResult from '@/components/Quiz/QuizQuestionResult';
 
 import QuestionOptions from '@/components/Quiz/QuestionOptions';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'QuestionStrip',
-	components: { VueMarkdown, QuizQuestionResult, QuestionOptions },
+	components: { QuizQuestionResult, QuestionOptions },
 	props: {
 		question: {
 			type: Object,
@@ -66,7 +75,7 @@ export default {
 	data() {
 		return {
 			countdown: null,
-			questionUrl: '',
+			questionText: '',
 			text: '',
 			answer: null,
 			questionNo: null,
@@ -94,10 +103,10 @@ export default {
 		},
 		loadQuiz(quizId) {
 			quizService.getQuizById(quizId).then((res) => {
-				fetch(this.question.questionUrl)
+				fetch(this.question.questionText)
 					.then((response) => response.text())
 					.then((response) => {
-						this.questionUrl = response;
+						this.questionText = response;
 						let timer = setInterval(() => {
 							if (this.countdown > 0) {
 								this.countdown--;
@@ -144,5 +153,10 @@ export default {
 	color: white;
 	font-size: 40px;
 	text-align: center;
+}
+.image {
+	img {
+		width: 50%;
+	}
 }
 </style>

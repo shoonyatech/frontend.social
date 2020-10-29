@@ -1,63 +1,31 @@
 <template>
-  <!-- add quiz container -->
-  <div class="add-quiz-wrapper">
-    <Loader v-if="loading" />
-    <div
-      v-else
-      class="form-container"
-    >
-      <form
-        id="addQuizForm"
-        @submit.prevent="processForm"
-      >
-        <div class="quiz-title form-field">
-          <div class="form-label">
-            Title
-          </div>
-          <input
-            v-model="quiz.title"
-            type="text"
-            required
-          >
-        </div>
-        <div class="relatedSkills form-field">
-          <div class="form-label">
-            relatedSkills
-          </div>
-          <input
-            v-model="quiz.relatedSkills"
-            type="text"
-          >
-        </div>
-        <div class="relatedSkills form-field">
-          <div class="form-label">
-            Moderators
-          </div>
-          <input
-            v-model="quiz.moderators"
-            type="text"
-          >
-        </div>
+	<!-- add quiz container -->
+	<div class="add-quiz-wrapper">
+		<Loader v-if="loading" />
+		<div v-else class="form-container">
+			<form id="addQuizForm" @submit.prevent="processForm">
+				<div class="quiz-title form-field">
+					<div class="form-label">Title</div>
+					<input v-model="quiz.title" type="text" required />
+				</div>
+				<div class="relatedSkills form-field">
+					<div class="form-label">Skills</div>
+					<input v-model="quiz.relatedSkills" type="text" />
+				</div>
 
-        <QuizMultiValue
-          label="Question"
-          :is-editable="true"
-          @change="onQuestionChange"
-        />
-        <div class="action-links">
-          <button
-            type="submit"
-            class="btn-add-quiz"
-          >
-            Save
-          </button>
-          <button @click.prevent.stop="close()">
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
+				<QuizMultiValue
+					label="Questions"
+					:is-editable="true"
+					:values="quiz.questions"
+					@change="onQuestionChange"
+				/>
+				<div class="action-links">
+					<button type="submit" class="btn-add-quiz">Save</button>
+					<button @click.prevent.stop="close()">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -79,7 +47,7 @@ export default {
 				title: '',
 				relatedSkills: '',
 				moderators: '',
-				questions: [],
+				questions: [''],
 			},
 			loading: false,
 
@@ -122,8 +90,7 @@ export default {
 		intializeQuizDetail(quizDetails) {
 			this.quiz.title = quizDetails.title || '';
 			this.quiz.relatedSkills = (quizDetails.relatedSkills || []).join(', ');
-			this.quiz.moderators = (quizDetails.moderators || []).join(',');
-			this.quiz.questions = (quizDetails.questions || []).join(',');
+			this.quiz.questions = quizDetails.questions || [];
 		},
 		canModify(quizDetails) {
 			if (!this.signedInUser) return false;
@@ -144,6 +111,7 @@ export default {
 			}
 		},
 		processForm(event) {
+			this.quiz.moderators = this.signedInUser.username;
 			const quizId = this.$route.params.id;
 			if (quizId !== 'new') {
 				quizService
@@ -183,10 +151,6 @@ export default {
 				.split(',')
 				.map((x) => x.trim());
 			return relatedSkills ? relatedSkills : [];
-		},
-		getModerators() {
-			const moderators = this.quiz.moderators.split(',').map((x) => x.trim());
-			return moderators ? moderators : [];
 		},
 	},
 };

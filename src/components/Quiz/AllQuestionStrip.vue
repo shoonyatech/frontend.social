@@ -1,30 +1,32 @@
 <template>
-	<div>
-		<b-card>
-			<h2>Question Number: {{ question.questionNo }}</h2>
-			<div>
-				<vue-markdown :source="questionUrl" />
-			</div>
+  <div>
+    <b-card>
+      <h2>Question Number: {{ question.questionNo }}</h2>
 
-			<h2>Options</h2>
-			<QuestionOptions
-				:options="question.options"
-				:answer="question.answer"
-				:show-answer="true"
-				:submit-answer="false"
-			/>
-		</b-card>
-	</div>
+      <div v-html="question.questionText">
+        <br>
+      </div>
+      <div class="image">
+        <img :src="question.questionImage">
+      </div>
+      <h2>Options</h2>
+      <QuestionOptions
+        :options="question.options"
+        :answer="question.answer"
+        :show-answer="true"
+        :submit-answer="false"
+      />
+    </b-card>
+  </div>
 </template>
 
 <script>
-import VueMarkdown from 'vue-markdown';
 import { colorsSet } from './QuizConfig';
 import QuestionOptions from '@/components/Quiz/QuestionOptions';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'AllQuestionStrip',
-	components: { VueMarkdown, QuestionOptions },
+	components: { QuestionOptions },
 	props: {
 		question: {
 			type: Object,
@@ -38,7 +40,7 @@ export default {
 	data() {
 		return {
 			colors: [],
-			questionUrl: '',
+			questionText: '',
 		};
 	},
 	mounted() {
@@ -48,10 +50,10 @@ export default {
 	methods: {
 		loadQuiz(quizId) {
 			quizService.getQuizById(quizId).then((res) => {
-				fetch(this.question.questionUrl)
+				fetch(this.question.questionText)
 					.then((response) => response.text())
 					.then((response) => {
-						this.questionUrl = response;
+						this.questionText = response;
 					});
 			});
 		},
@@ -77,5 +79,10 @@ export default {
 	fill: #11c232;
 	padding-left: 5px;
 	padding-right: 5px;
+}
+.image {
+	img {
+		width: 50%;
+	}
 }
 </style>

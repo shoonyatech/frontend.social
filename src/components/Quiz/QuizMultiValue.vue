@@ -2,13 +2,13 @@
   <div class="host">
     <b-row>
       <b-col
-        md="3"
+        md="2"
         sm="12"
       >
         <span class="label">{{ label }}</span>
       </b-col>
       <b-col
-        md="9"
+        md="10"
         sm="12"
       >
         <div class="value-list">
@@ -49,7 +49,7 @@
             class="add"
             @click.prevent="add"
           >
-            +
+            Add Question +
           </button>
         </div>
       </b-col>
