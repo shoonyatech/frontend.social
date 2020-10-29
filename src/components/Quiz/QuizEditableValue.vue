@@ -3,26 +3,20 @@
     v-if="isEditable"
     class="input-area"
   >
-    <div>
-      <textarea
-        v-if="multiline"
-        v-model="editedValue"
-        class="editable-value"
-        :placeholder="placeholder"
-        @change="onChange"
+    <br>
+    Question Number :{{ index + 1 }}
+    <div class="relatedSkills form-field">
+      <div class="form-label">Question</div>
+      <ckeditor
+        v-model="question.questionText"
+        :editor="editor"
+        :config="editorConfig"
+        class="editor"
+        @change="onQuestionTextChange"
       />
     </div>
     <div class="relatedSkills form-field">
-      <div>Question URL</div>
-      <input
-        v-model="question.questionUrl"
-        class="editable-value"
-        type="text"
-        @change="onQuestionUrlChange"
-      >
-    </div>
-    <div class="relatedSkills form-field">
-      <div>Duration</div>
+      <div class="form-label">Duration</div>
       <input
         v-model="question.duration"
         class="editable-value"
@@ -30,13 +24,18 @@
         @change="onQuestionDurationChange"
       >
     </div>
-    <div class="relatedSkills form-field">
-      <div>Question Number</div>
-      <input
-        v-model="question.questionNo"
-        class="editable-value"
-        type="text"
-        @change="onQuestionNumberChange"
+    <div class="form-field">
+      <div class="form-label">Question Image</div>
+      <div><input
+        type="file"
+        class="image-input"
+        @change="image"
+      ></div>
+    </div>
+    <div>
+      <img
+        :src="question.questionImage"
+        class="user-profile-photo"
       >
     </div>
     <br>
@@ -44,21 +43,33 @@
     <div
       v-for="(option, index) in key"
       :key="index"
+      class="wrapper"
     >
-      <Checkbox
-        :id="option"
-        :is-checked="isChecked"
-        :label="option"
-        :on-click="toggleCheckbox"
-      />
-
-      <input
-        class="editable-value"
-        type="text"
-        @change="setOption($event, index, option)"
-      >
+      <div v-if="option == question.answer">
+        <Checkbox
+          :id="option"
+          :is-checked="true"
+          :label="option"
+          :on-click="toggleCheckbox"
+        />
+      </div>
+      <div v-else>
+        <Checkbox
+          :id="option"
+          :is-checked="isChecked"
+          :label="option"
+          :on-click="toggleCheckbox"
+        />
+      </div>
+      <div class="input-option">
+        <input
+          v-model="inputOption[index]"
+          class="editable-value"
+          type="text"
+          @change="setOption($event, index, option)"
+        >
+      </div>
     </div>
-
     <div>
       <button @click.prevent="save()">Done</button>
     </div>
@@ -66,7 +77,12 @@
 </template>
 
 <script>
+import config from '@/config/config.js';
 import Checkbox from '@/components/Checkbox/Checkbox';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import axios from 'axios';
+import eventBus from '@/utilities/eventBus';
+import { ToastType, messages } from '@/constants/constants';
 
 export default {
 	components: { Checkbox },
@@ -86,6 +102,10 @@ export default {
 		index: {
 			type: Number,
 			default: -1,
+		},
+		questionNuber: {
+			type: Number,
+			default: 1,
 		},
 		isEditable: {
 			type: Boolean,
@@ -107,12 +127,19 @@ export default {
 	},
 	data() {
 		return {
+			file: {},
+			editor: ClassicEditor,
+			editorConfig: {},
+			cloudinaryUrl: config.cloudinaryUrl,
+			cloudinaryUploadPreset: config.cloudinaryUploadPreset,
 			isChecked: false,
 			editedValue: this.value,
 			key: ['A', 'B', 'C', 'D'],
+			inputOption: [],
 			question: {
 				questionNo: 0,
-				questionUrl: '',
+				questionText: '',
+				questionImage: '',
 				options: [],
 				answer: '',
 				duration: 0,
@@ -137,16 +164,25 @@ export default {
 			],
 		};
 	},
+	created() {
+		if (this.value.options != undefined) {
+			this.question = this.value;
+			this.value.options.map((re) => {
+				this.inputOption.push(re.value);
+			});
+		}
+	},
 	methods: {
-		onQuestionUrlChange(e) {
-			this.question.questionUrl = e.target.value;
+		image() {
+			this.file = event.target.files[0];
+		},
+		onQuestionTextChange(e) {
+			this.question.questionText = e.target.value;
 		},
 		onQuestionDurationChange(e) {
 			this.question.duration = e.target.value;
 		},
-		onQuestionNumberChange(e) {
-			this.question.questionNo = e.target.value;
-		},
+
 		rightAnswer(option) {
 			this.question.answer = option;
 		},
@@ -159,7 +195,27 @@ export default {
 			this.rightAnswer(id);
 			this[id] = !this[id];
 		},
-		save: function () {
+		save() {
+			var formData = new FormData();
+			formData.append('file', this.file);
+			formData.append('upload_preset', this.cloudinaryUploadPreset);
+			axios({
+				url: this.cloudinaryUrl,
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+				data: formData,
+			})
+				.then((re) => {
+					this.question.questionImage = re.data.secure_url;
+					eventBus.$emit('show-toast', {
+						body: messages.picUpdate.picUpdateSuccess,
+						title: messages.generic.success,
+					});
+				})
+				.catch((e) => {});
+			this.question.questionNo = this.index + 1;
 			if (this.index === -1) {
 				this.$emit('change', this.question);
 			} else {
@@ -171,16 +227,30 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.readonly-value {
-	border-bottom: 1px solid var(--fs-primary-color);
-	flex: 1 1 auto;
-	margin: 2px auto;
-	min-width: 15rem;
+.user-profile-photo {
+	max-width: 100%;
+	text-align: left;
+}
+.image-input {
 	width: 100%;
-	font-size: inherit;
-	line-height: inherit;
-	height: 1.5rem;
-	padding: 0 10px;
+	font-size: 15px;
+}
+.form-field {
+	display: flex;
+	margin-bottom: 10px;
+}
+.form-label {
+	width: 150px;
+	color: #114273;
+	min-width: 7rem;
+}
+.wrapper {
+	display: flex;
+
+	.input-option {
+		width: 100%;
+		padding: 0 10px;
+	}
 }
 
 .editable-value {
@@ -193,20 +263,6 @@ export default {
 	height: 1.5rem;
 	padding: 0 10px;
 }
-
-textarea {
-	min-height: 5rem;
-}
-
-.auto-option {
-	border-bottom: dotted 1px #114273;
-	cursor: pointer;
-
-	&:hover {
-		background-color: #1142736c;
-	}
-}
-
 .input-area {
 	flex-direction: column;
 }

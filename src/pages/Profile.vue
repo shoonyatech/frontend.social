@@ -42,22 +42,22 @@
               alt="profile"
             >
           </a>
-          <div 
-            v-if="profile.badges && profile.badges.length" 
+          <div
+            v-if="profile.badges && profile.badges.length"
             class="profile-badges"
           >
-            <div 
+            <div
               v-for="item in profile.badges"
-              :key="item" 
+              :key="item"
               class="badges"
             >
-              <img 
-                :src="getBadgeImage(item)" 
-                :alt="item" 
+              <img
+                :src="getBadgeImage(item)"
+                :alt="item"
               >
               <span>{{ item }}</span>
             </div>
-          </div>			
+          </div>
           <Section
             title="About me"
             class="about-me"
@@ -593,7 +593,7 @@ export default {
 						.updateUserProfilePic(image)
 						.then((image) => {
 							eventBus.$emit('show-toast', {
-								body: messages.profilePicUpdate.profilePicUpdateSuccess,
+								body: messages.picUpdate.picUpdateSuccess,
 								title: messages.generic.success,
 							});
 
@@ -601,7 +601,7 @@ export default {
 						})
 						.catch(() => {
 							eventBus.$emit('show-toast', {
-								body: messages.profilePicUpdate.profilePicUpdateFailure,
+								body: messages.picUpdate.picUpdateFailure,
 								title: messages.generic.error,
 								type: ToastType.ERROR,
 							});
@@ -611,7 +611,7 @@ export default {
 				})
 				.catch(() => {
 					eventBus.$emit('show-toast', {
-						body: messages.profilePicUpdate.profilePicUpdateFailure,
+						body: messages.picUpdate.picUpdateFailure,
 						title: messages.generic.error,
 						type: ToastType.ERROR,
 					});

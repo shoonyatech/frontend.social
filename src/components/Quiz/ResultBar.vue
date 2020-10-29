@@ -12,20 +12,22 @@
           />
         </p>
       </div>
-      <div v-if="index == 1">
-        <p class="text">
-          <img src="/images/gold-medal.svg">
-        </p>
-      </div>
-      <div v-if="index == 0">
-        <p class="text">
-          <img src="/images/silver-medal.svg">
-        </p>
-      </div>
-      <div v-if="index == 2">
-        <p class="text">
-          <img src="/images/bronze-medal.svg">
-        </p>
+      <div v-if="showMedal">
+        <div v-if="index == 1">
+          <p class="text">
+            <img src="/images/gold-medal.svg">
+          </p>
+        </div>
+        <div v-if="index == 0">
+          <p class="text">
+            <img src="/images/silver-medal.svg">
+          </p>
+        </div>
+        <div v-if="index == 2">
+          <p class="text">
+            <img src="/images/bronze-medal.svg">
+          </p>
+        </div>
       </div>
       <div
         class="bar"
@@ -53,10 +55,14 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+		showMedal: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
-			color: ['#E0EDF3', '#FFC54B', '#FB963F'],
+			color: ['#E0EDF3', '#FFC54B', '#FB963F', 'yellow', 'lightpink'],
 		};
 	},
 	methods: {},

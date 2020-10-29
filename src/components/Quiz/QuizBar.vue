@@ -1,32 +1,35 @@
 <template>
-	<div class="barchart">
-		<div v-for="(option, index) in result" :key="index">
-			<div v-if="option.key == answer">
-				<p class="text">
-					<img src="/images/check-mark.svg" />
-				</p>
-			</div>
+  <div class="barchart">
+    <div
+      v-for="(option, index) in result"
+      :key="index"
+    >
+      <div v-if="option.key == answer">
+        <p class="text">
+          <img src="/images/check-mark.svg">
+        </p>
+      </div>
 
-			<div
-				v-if="option.length != 0"
-				class="bar"
-				:style="{
-					height: `${option.length * 30}px`,
-					backgroundColor: `${colors[index]}`,
-				}"
-			>
-				{{ option.length }}
-			</div>
-			<div
-				class="text"
-				:style="{
-					backgroundColor: `${colors[index]}`,
-				}"
-			>
-				{{ option.key }}
-			</div>
-		</div>
-	</div>
+      <div
+        v-if="option.length != 0"
+        class="bar"
+        :style="{
+          height: `${option.length * 30}px`,
+          backgroundColor: `${colors[index]}`,
+        }"
+      >
+        {{ option.length }}
+      </div>
+      <div
+        class="text"
+        :style="{
+          backgroundColor: `${colors[index]}`,
+        }"
+      >
+        {{ option.key }}
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 import quizService from '@/services/quiz.service';

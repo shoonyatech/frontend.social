@@ -50,6 +50,11 @@ export default {
 	getFinalQuizResults: (quizId, runId) => {
 		return httpClient.get(`/quiz-run/results/${quizId}/${runId}`);
 	},
+	getPerQuizQuestionResults: (quizId, runId, questionNo) => {
+		return httpClient.get(
+			`/quiz-run/question-results/${quizId}/${runId}/${questionNo}`
+		);
+	},
 	getAnswer: (quizId, questionNo) => {
 		return httpClient.get(`/quiz-run/answer/${quizId}/${questionNo}`);
 	},

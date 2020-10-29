@@ -2,12 +2,17 @@
   <div>
     <h1>Final Results</h1>
     <br>
-    <h3>Your Final Result : {{ points }}</h3>
+    <h3 v-if="!isModerator">
+      Your Final Result : {{ points }}
+    </h3>
     <br>
     <b-container>
-      <h1>Winners Are</h1>
+      <h1>Congrats to our winners!</h1>
       <div>
-        <ResultBar :result="FinalResult" />
+        <ResultBar
+          :result="FinalResult"
+          :show-medal="true"
+        />
       </div>
     </b-container>
   </div>
@@ -28,6 +33,7 @@ export default {
 			points: 0,
 			Result: [],
 			FinalResult: [],
+			isModerator: false,
 		};
 	},
 	mounted() {
@@ -35,6 +41,16 @@ export default {
 		this.getResult();
 		this.getFinalResults();
 		this.updateQuizRun();
+		quizService
+			.getQuizById(this.$route.params.id)
+			.then((res) => {
+				res.moderators.map((moderator) => {
+					if (moderator === this.$store.state.signedInUser.username) {
+						this.isModerator = true;
+					}
+				});
+			})
+			.catch((e) => {});
 	},
 	methods: {
 		getFinalResults() {
