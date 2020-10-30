@@ -6,13 +6,30 @@
         <h2>Waiting for host to start quiz</h2>
       </span>
     </b-card>
+    <b-container>
+      <br>
+      <h1>
+        <span>All Participants</span><button>Total :{{ total }}</button>
+      </h1>
+
+      <div
+        v-for="(participant, index) in participants"
+        :key="index"
+      >
+        <ResultStrip :result="participant" />
+      </div>
+    </b-container>
   </div>
 </template>
 
 <script>
+import ResultStrip from '@/components/Quiz/ResultStrip';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'QuestionStrip',
+	components: {
+		ResultStrip,
+	},
 	props: {},
 	data() {
 		return {
@@ -21,6 +38,9 @@ export default {
 			currentQuestion: null,
 			result: [],
 			timer: 0,
+			participants: {},
+			participantTimer: 0,
+			total: 0,
 		};
 	},
 	computed: {
@@ -31,6 +51,14 @@ export default {
 	created() {
 		if (this.signedInUser == null) {
 			this.$router.push('/signin');
+		} else {
+			this.addParticipants(
+				this.$route.params.id,
+				this.$route.params.runId,
+				this.signedInUser.username
+			);
+
+			this.participantTimer = setInterval(() => this.getParticipants(), 1000);
 		}
 	},
 	mounted() {
@@ -38,9 +66,32 @@ export default {
 		this.timer = setInterval(this.isActive, 500);
 	},
 	methods: {
+		addParticipants(quizId, runId, username) {
+			const payload = {
+				quizId: quizId,
+				runId: runId,
+				username: username,
+			};
+			quizService
+				.addParticipants(payload)
+				.then((re) => {})
+				.catch({});
+		},
+		getParticipants() {
+			quizService
+				.getParticipants(this.$route.params.id, this.$route.params.runId)
+				.then((re) => {
+					this.participants = re;
+					if (re.length > 0) {
+						this.total = re.length;
+					}
+				})
+				.catch({});
+		},
 		isActive() {
 			quizService.getCurrentRunId(this.$route.params.id).then((res) => {
 				if (res.isActive == true) {
+					clearInterval(this.participantTimer);
 					this.currentQuestion = res.currentQuestion;
 					this.$router.push(
 						`/quiz/${this.$route.params.id}/play/${this.runId}/${this.currentQuestion}`

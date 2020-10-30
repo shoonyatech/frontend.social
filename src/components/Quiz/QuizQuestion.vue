@@ -24,7 +24,10 @@
       </div>
       <div>
         <b-card v-if="countdown == 0">
-          <QuizQuestionResult :question-no="question.questionNo" />
+          <QuizQuestionResult
+            :question-no="question.questionNo"
+            :is-moderator="true"
+          />
         </b-card>
       </div>
       <div>

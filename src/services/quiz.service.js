@@ -43,7 +43,12 @@ export default {
 	addSubmission: (payload) => {
 		return httpClient.post(`quiz-run/play`, payload);
 	},
-
+	addParticipants: (payload) => {
+		return httpClient.post(`quiz-participants`, payload);
+	},
+	getParticipants: (quizId, runId) => {
+		return httpClient.get(`/quiz-participants/${quizId}/${runId}`);
+	},
 	getUserResult: (quizId, runId, username) => {
 		return httpClient.get(`/quiz-run/results/${quizId}/${runId}/${username}`);
 	},

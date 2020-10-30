@@ -1,11 +1,9 @@
 <template>
   <div>
-    <div>
-      <h1>Top Participants</h1>
-      <ResultBar
-        :result="topUser"
-        :show-medal="false"
-      />
+    <div class="score">
+      <h1 v-if="!isModerator">
+        Your Score:{{ points }}
+      </h1>
     </div>
     <div>
       <h1>Results</h1>
@@ -14,6 +12,13 @@
         :question-no="questionNo"
       />
       <br>
+    </div>
+    <div>
+      <h1>Leadership board</h1>
+      <ResultBar
+        :result="topUser"
+        :show-medal="false"
+      />
     </div>
   </div>
 </template>
@@ -30,12 +35,17 @@ export default {
 			type: Number,
 			default: 0,
 		},
+		isModerator: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
 			result: [],
 			topUser: [],
 			runId: null,
+			points: 0,
 		};
 	},
 	mounted() {
@@ -47,9 +57,22 @@ export default {
 				this.$route.params.id,
 				this.questionNo
 			);
+			this.getResult();
 		}
 	},
 	methods: {
+		getResult() {
+			quizService
+				.getUserResult(
+					this.$route.params.id,
+					this.$route.params.runId,
+					this.$store.state.signedInUser.username
+				)
+				.then((result) => {
+					this.points = result.points;
+				})
+				.catch((e) => {});
+		},
 		loadResult(runId, questionNo, quizId) {
 			quizService
 				.getQuestionResult(runId, questionNo, quizId)
@@ -68,4 +91,8 @@ export default {
 };
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.score {
+	text-align: center;
+}
+</style>
