@@ -56,7 +56,10 @@
         </span>
       </div>
       <span>
-        <QuizQuestionResult :question-no="question.questionNo" />
+        <QuizQuestionResult
+          :question-no="question.questionNo"
+          :is-moderator="false"
+        />
       </span>
       <h2>Options</h2>
       <QuestionOptions

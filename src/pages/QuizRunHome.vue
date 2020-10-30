@@ -9,13 +9,30 @@
         <button @click="startQuiz">Start Quiz</button>
       </span>
     </b-container>
+    <b-container>
+      <br>
+      <h1>
+        <span>All Participants</span><button>Total :{{ total }}</button>
+      </h1>
+
+      <div
+        v-for="(participant, index) in participants"
+        :key="index"
+      >
+        <ResultStrip :result="participant" />
+      </div>
+    </b-container>
   </div>
 </template>
 
 <script>
+import ResultStrip from '@/components/Quiz/ResultStrip';
 import quizService from '@/services/quiz.service';
 export default {
 	name: 'QuizRunHome',
+	components: {
+		ResultStrip,
+	},
 	props: {},
 	data() {
 		return {
@@ -23,6 +40,9 @@ export default {
 			quizId: 0,
 			currentQuestion: 0,
 			url: '',
+			participants: {},
+			timer: 0,
+			total: 0,
 		};
 	},
 	computed: {
@@ -33,15 +53,32 @@ export default {
 	created() {
 		if (this.signedInUser == null) {
 			this.$router.push('/signin');
+		} else {
+			this.timer = setInterval(() => this.getParticipants(), 1000);
 		}
 		this.url = window.location.origin;
+	},
+	destroyed() {
+		clearInterval(this.timer);
 	},
 	mounted() {
 		this.runId = this.$route.params.runId;
 		this.quizId = this.$route.params.id;
 	},
 	methods: {
+		getParticipants() {
+			quizService
+				.getParticipants(this.$route.params.id, this.$route.params.runId)
+				.then((re) => {
+					this.participants = re;
+					if (re.length > 0) {
+						this.total = re.length;
+					}
+				})
+				.catch({});
+		},
 		startQuiz() {
+			clearInterval(this.timer);
 			this.$router.push(
 				`/quiz/${this.$route.params.id}/run/${this.runId}/${
 					this.currentQuestion + 1
