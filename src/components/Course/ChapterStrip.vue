@@ -1,35 +1,44 @@
 <template>
-	<div>
-		<div class="card">
-			<div v-b-toggle="'collapse-' + chapter.chapterNo">
-				Chapter {{ chapter.chapterNo }}: {{ chapter.title }}
-			</div>
-			<b-collapse :id="'collapse-' + chapter.chapterNo" class="mt-2">
-				<div v-for="(topic, index) in chapter.topics" :key="index">
-					<router-link
-						:to="
-							'/learn/courses/' +
-							courseId +
-							'/' +
-							getUrlFriendlyTitle(chapter.title || '') +
-							'/' +
-							getUrlFriendlyTitle(topic.title || '')
-						"
-					>
-						<div
-							v-if="selectedTopic.title != topic.title"
-							class="topic-container"
-						>
-							{{ topic.title }}
-						</div>
-						<div v-else class="topic-containers">
-							{{ topic.title }}
-						</div>
-					</router-link>
-				</div>
-			</b-collapse>
-		</div>
-	</div>
+  <div>
+    <div class="card">
+      <div v-b-toggle="'collapse-' + chapter.chapterNo">
+        Chapter {{ chapter.chapterNo }}: {{ chapter.title }}
+      </div>
+      <b-collapse
+        :id="'collapse-' + chapter.chapterNo"
+        class="mt-2"
+      >
+        <div
+          v-for="(topic, index) in chapter.topics"
+          :key="index"
+        >
+          <router-link
+            :to="
+              '/learn/courses/' +
+                courseId +
+                '/' +
+                getUrlFriendlyTitle(chapter.title || '') +
+                '/' +
+                getUrlFriendlyTitle(topic.title || '')
+            "
+          >
+            <div
+              v-if="selectedTopic && selectedTopic.title != topic.title"
+              class="topic-container"
+            >
+              {{ topic.title }}
+            </div>
+            <div
+              v-else
+              class="topic-containers"
+            >
+              {{ topic.title }}
+            </div>
+          </router-link>
+        </div>
+      </b-collapse>
+    </div>
+  </div>
 </template>
 
 <script>
