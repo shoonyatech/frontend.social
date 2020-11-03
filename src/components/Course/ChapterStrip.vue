@@ -25,7 +25,7 @@
             <div
               v-if="
                 (selectedTopic && selectedTopic.title != topic.title) ||
-                  rout == undefined
+                  route == null
               "
               class="topic-container"
             >
@@ -67,11 +67,11 @@ export default {
 	data() {
 		return {
 			showSections: false,
-			rout: '',
+			route: '',
 		};
 	},
 	created() {
-		this.rout = this.$route.params.chapterno;
+		this.route = this.$route.params.chapterno;
 	},
 	methods: {
 		toggleShowSections() {
