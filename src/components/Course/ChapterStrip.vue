@@ -23,7 +23,10 @@
             "
           >
             <div
-              v-if="selectedTopic && selectedTopic.title != topic.title"
+              v-if="
+                (selectedTopic && selectedTopic.title != topic.title) ||
+                  rout == undefined
+              "
               class="topic-container"
             >
               {{ topic.title }}
@@ -64,7 +67,11 @@ export default {
 	data() {
 		return {
 			showSections: false,
+			rout: '',
 		};
+	},
+	created() {
+		this.rout = this.$route.params.chapterno;
 	},
 	methods: {
 		toggleShowSections() {
@@ -132,11 +139,12 @@ export default {
 
 .topic-container {
 	margin-bottom: 1px;
+	padding-left: 10%;
 }
 .topic-containers {
 	background-color: #4cbeee;
 	color: white;
-	//padding: 10px;
+	padding-left: 10%;
 	margin-bottom: 1px;
 }
 </style>

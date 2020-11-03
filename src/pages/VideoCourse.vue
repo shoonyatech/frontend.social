@@ -35,68 +35,58 @@
           />
         </b-col>
         <b-col
-          v-if="topic.videoUrl != null"
           md="7"
           sm="12"
         >
+          <b-row>
+            <b-col md="12">
+              {{ description }}
+              <br><br>
+            </b-col>
+          </b-row>
           <youtube
+            v-if="topic.videoUrl != null"
             ref="youtube"
             :video-id="topic.videoUrl"
             width="100%"
             height="400"
             :player-vars="playerVars"
           />
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="6">
-          <button
-            v-if="previousLink"
-            @click="onPrevious()"
-          >
-            Previous
-          </button>
-        </b-col>
-        <b-col md="6">
-          <button
-            v-if="nextLink"
-            style="float: right"
-            @click="onNext()"
-          >
-            Next
-          </button>
+          <b-row>
+            <b-col md="6">
+              <button
+                v-if="previousLink"
+                @click="onPrevious()"
+              >
+                Previous
+              </button>
+            </b-col>
+            <b-col md="6">
+              <button
+                v-if="nextLink"
+                style="float: right"
+                @click="onNext()"
+              >
+                Next
+              </button>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <div>
+                <br>
+                <vue-markdown
+                  v-if="topic.codeLink"
+                  class="markdown"
+                  :source="url"
+                />
+                <span v-else>No code available for this topic</span>
+              </div>
+            </b-col>
+          </b-row>
         </b-col>
       </b-row>
       <br>
-      <b-row>
-        <b-col md="1" />
-        <b-col
-          md="4"
-          sm="12"
-        />
-        <b-col
-          md="7"
-          sm="12"
-        >
-          <div>
-            <vue-markdown
-              v-if="topic.codeLink"
-              class="markdown"
-              :source="url"
-            />
-            <span v-else>No code available for this topic</span>
-          </div>
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="12">
-          <br>
-          {{ description }}
-        </b-col>
-      </b-row>
-      <b-row>
-        <b-col md="12" />
-      </b-row>
       <b-row
         v-if="!hideComments"
         class="comment-section"
@@ -220,6 +210,7 @@ export default {
 			description: '',
 		};
 	},
+
 	computed: {
 		signedInUser() {
 			return this.$store.state.signedInUser;
