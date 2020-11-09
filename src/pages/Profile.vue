@@ -184,6 +184,94 @@
             />
           </Section>
           <Section
+            ref="programmingSkills"
+            title="Programming Skills"
+            class="programmingSkills"
+            :on-edit="editprogrammingSkills"
+            :on-save="saveprogrammingSkills"
+            :on-cancel="cancelprogrammingSkills"
+            :is-editable="isEditable"
+          >
+            <div>
+              <b-row
+                v-for="item in profile.programmingSkills"
+                :key="item.label"
+              >
+                <b-col
+                  md="6"
+                  sm="12"
+                >
+                  {{ item.label }}
+                </b-col>
+                <b-col
+                  md="6"
+                  sm="12"
+                  class="programmingSkillsValues"
+                >
+                  <div v-if="!editModeprogrammingSkills">
+                    <span
+                      v-for="(value, index) in item.values"
+                      :key="index"
+                      :style="{
+                        fontSize: value.level > 3 ? '20px' : '15px',
+                        fontWeight: value.level > 3 ? 'bold' : 'normal',
+                      }"
+                    >
+                      <span v-if="value.skill != ''">
+                        <span>{{ value.skill }}</span>
+                        <span v-if="index + 1 != item.values.length">,</span>
+                      </span>
+                      <span v-else>-</span>
+                    </span>
+                  </div>
+                  <div v-else>
+                    <span
+                      v-for="(value, index) in item.values"
+                      :key="value.skill"
+                      class="skill-control"
+                    >
+                      <ProgrammingSkills
+                        :name="value.skill"
+                        :rating="value.level"
+                        :label="item.label"
+                        :max="4"
+                        :is-editable="editModeprogrammingSkills"
+                        :index="index"
+                        @change="onProgrammingSkillChange"
+                      />
+                      <span
+                        v-if="!editModeprogrammingSkills"
+                        class="skills-delete-placeholder"
+                      />
+                      <div
+                        v-if="editModeprogrammingSkills"
+                        class="skills-delete"
+                        :data-index="index"
+                        @click="deleteProgrammingSkill(index, item.label)"
+                      >
+                        <img
+                          :src="`/images/delete.svg`"
+                          class="icon-button"
+                          alt="delete"
+                        >
+                      </div>
+                      <div class="add-container">
+                        <button
+                          v-if="editModeprogrammingSkills"
+                          class="add"
+                          @click="addProgrammingSkills(item.label)"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </span>
+                  </div>
+                </b-col>
+              </b-row>
+            </div>
+          </Section>
+
+          <Section
             ref="mySkills"
             title="My skills"
             class="my-skills"
@@ -378,6 +466,7 @@ import KeyValue from '@/components/common/KeyValue';
 import EditEventList from '@/components/Events/EditEventList';
 import EditCity from '@/components/City/EditCity';
 import SkillLevel from '@/components/Profile/SkillLevel';
+import ProgrammingSkills from '@/components/Profile/ProgrammingSkills';
 import Section from '@/components/common/Section';
 import EventMeetings from '@/components/Events/EventMeetings.vue';
 import eventBus from '@/utilities/eventBus';
@@ -397,6 +486,7 @@ export default {
 		EventMeetings,
 		RewardPointsTransactions,
 		Twitter,
+		ProgrammingSkills,
 	},
 	data() {
 		return {
@@ -411,6 +501,7 @@ export default {
 			referrals: [],
 			editModeAboutMe: false,
 			editModeProfilePic: false,
+			editModeprogrammingSkills: false,
 			editModeSocials: false,
 			editModeSkills: false,
 			editModeEvents: false,
@@ -508,6 +599,27 @@ export default {
 				updatedSocial.value = social.value;
 			}
 		},
+		onProgrammingSkillChange: function ({ index, skill }) {
+			const programSkills = {
+				skill: skill.name,
+				level: skill.rating,
+			};
+			this.profile.programmingSkills.map((re) => {
+				if (re.label == skill.label) {
+					re.values.map((value, indexNumber) => {
+						if (index < re.values.length) {
+							re.values[index] = programSkills;
+						} else {
+							re.values.push(programSkills);
+						}
+					});
+				}
+			});
+			this.profile = {
+				...this.profile,
+				programmingSkills: this.profile.programmingSkills,
+			};
+		},
 		onSkillChange: function ({ index, skill }) {
 			if (index < this.profile.skills.length) {
 				this.profile.skills[index] = skill;
@@ -523,11 +635,39 @@ export default {
 				return s2.rating - s1.rating;
 			});
 		},
+
 		addSkill: function (event) {
 			this.profile.skills.push({});
 		},
 		deleteSkill: function (index) {
 			this.profile.skills.splice(index, 1);
+		},
+		addProgrammingSkills(label) {
+			this.profile.programmingSkills.map((re) => {
+				if (re.label == label) {
+					re.values.push({ level: 1, skill: '' });
+				}
+			});
+		},
+		deleteProgrammingSkill: function (index, label) {
+			this.profile.programmingSkills.map((re) => {
+				if (re.label == label) {
+					re.values.map((value, indexNumber) => {
+						if (index == indexNumber) {
+							if (index > 0) {
+								re.values.splice(index, 1);
+							} else {
+								re.values[index].skill = '';
+								re.values[index].level = 1;
+							}
+						}
+					});
+				}
+			});
+			this.profile = {
+				...this.profile,
+				programmingSkills: this.profile.programmingSkills,
+			};
 		},
 		onEventChange: function (eventIds) {
 			this.profile.eventIds = eventIds;
@@ -634,6 +774,36 @@ export default {
 					this.loading = false;
 				});
 			this.editModeProfilePic = false;
+		},
+		editprogrammingSkills: function (event) {
+			this.editModeprogrammingSkills = true;
+		},
+		saveprogrammingSkills: function (event) {
+			this.loading = true;
+			this.editModeprogrammingSkills = false;
+			try {
+				userService.updateUserProfile(this.profile);
+				this.loading = false;
+			} catch (e) {
+				alert(e.message);
+				this.loading = false;
+			}
+		},
+		cancelprogrammingSkills: function (event) {
+			this.loading = true;
+			userService
+				.getLoggedInUserProfile()
+				.then((user) => {
+					this.$refs.portfolio.refresh();
+					this.profile = user;
+					this.editModeprogrammingSkills = false;
+					this.loading = false;
+				})
+				.catch((e) => {
+					userService.signout();
+					this.$router.push('/');
+					this.loading = false;
+				});
 		},
 
 		editSocials: function (event) {
@@ -1008,7 +1178,8 @@ export default {
 .my-skills,
 .events-attended,
 .reward-points,
-.referral-link {
+.referral-link,
+.programmingSkills {
 	margin-top: 20px;
 }
 
@@ -1043,7 +1214,8 @@ export default {
 	font-size: 15px;
 }
 
-.portfolio {
+.portfolio,
+.programmingSkillsValues {
 	word-break: break-all;
 }
 .activityDate {
