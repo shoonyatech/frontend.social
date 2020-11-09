@@ -1,25 +1,29 @@
 <template>
   <div>
-    <div class="card">
+    <div class="card1">
       <div v-b-toggle="'collapse-' + chapter.chapterNo">
         Chapter {{ chapter.chapterNo }}: {{ chapter.title }}
       </div>
-      <b-collapse
-        :id="'collapse-' + chapter.chapterNo"
-        class="mt-2"
-      >
-        <div
-          v-for="(topic, index) in chapter.topics"
-          :key="index"
+
+      <div>
+        <b-collapse
+          :id="'collapse-' + chapter.chapterNo"
+          :visible="
+            currentChapter === getUrlFriendlyTitle(chapter.title || '')
+              ? true
+              : false
+          "
+          class="mt-2"
         >
-          <router-link
-            :to="
-              '/learn/courses/' +
-                courseId +
-                '/' +
-                getUrlFriendlyTitle(chapter.title || '') +
-                '/' +
+          <div
+            v-for="(topic, index) in chapter.topics"
+            :key="index"
+            @click="
+              changeRoute(
+                courseId,
+                getUrlFriendlyTitle(chapter.title || ''),
                 getUrlFriendlyTitle(topic.title || '')
+              )
             "
           >
             <div
@@ -37,9 +41,9 @@
             >
               {{ topic.title }}
             </div>
-          </router-link>
-        </div>
-      </b-collapse>
+          </div>
+        </b-collapse>
+      </div>
     </div>
   </div>
 </template>
@@ -63,6 +67,10 @@ export default {
 			type: Object,
 			default: () => {},
 		},
+		currentChapter: {
+			type: String,
+			default: '',
+		},
 	},
 	data() {
 		return {
@@ -74,6 +82,14 @@ export default {
 		this.route = this.$route.params.chapterno;
 	},
 	methods: {
+		changeRoute(courseId, title, topicTitle) {
+			window.history.replaceState(
+				{},
+				'',
+				`/learn/courses/${courseId}/${title}/${topicTitle}`
+			);
+			this.$emit('changeRoute', courseId, title, topicTitle);
+		},
 		toggleShowSections() {
 			this.showSections = !this.showSections;
 		},
@@ -84,9 +100,8 @@ export default {
 
 <style scoped lang="scss">
 /* style for course thumbnail */
-.card {
+.card1 {
 	border: 1px solid lightgray;
-	border-radius: 10px;
 	padding: 10px;
 }
 .thumbnail {
@@ -140,6 +155,13 @@ export default {
 .topic-container {
 	margin-bottom: 1px;
 	padding-left: 10%;
+}
+.topic-container:hover {
+	margin-bottom: 1px;
+	padding-left: 10%;
+	cursor: pointer;
+	background-color: #4cbeee;
+	color: white;
 }
 .topic-containers {
 	background-color: #4cbeee;

@@ -27,6 +27,7 @@
             :key="index"
             :chapter="chapter"
             :course-id="course.uniqueId"
+            @changeRoute="routeChange"
           />
         </b-col>
         <b-col
@@ -179,6 +180,9 @@ export default {
 	},
 
 	methods: {
+		routeChange(courseId, title, topicTitle) {
+			this.$router.push(`/learn/courses/${courseId}/${title}/${topicTitle}`);
+		},
 		loadCourse(courseId) {
 			courseService.getCoursesById(courseId).then((res) => {
 				this.course = res;

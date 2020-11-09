@@ -32,6 +32,8 @@
             :chapter="chapter"
             :course-id="course.uniqueId"
             :selected-topic="topic"
+            :current-chapter="selectedChapter"
+            @changeRoute="routeChange"
           />
         </b-col>
         <b-col
@@ -52,10 +54,13 @@
             height="400"
             :player-vars="playerVars"
           />
+          <div v-if="topic.videoUrl == null">
+            <b-card><h2>Coming soon...</h2></b-card>
+          </div>
           <b-row>
             <b-col md="6">
               <button
-                v-if="previousLink"
+                v-if="course.chapters[0].topics[0].title != topic.title"
                 @click="onPrevious()"
               >
                 Previous
@@ -63,7 +68,10 @@
             </b-col>
             <b-col md="6">
               <button
-                v-if="nextLink"
+                v-if="
+                  course.chapters[course.chapters.length - 1].topics[0].title !=
+                    topic.title
+                "
                 style="float: right"
                 @click="onNext()"
               >
@@ -208,6 +216,7 @@ export default {
 			nextLink: null,
 			url: '',
 			description: '',
+			selectedChapter: '',
 		};
 	},
 
@@ -241,11 +250,15 @@ export default {
 	},
 	created() {
 		this.setTimer();
+		this.selectedChapter = this.$route.params.chapterno;
 	},
 	beforeDestroy() {
 		clearInterval(this.timer);
 	},
 	methods: {
+		routeChange(courseId, title, topicTitle) {
+			this.loadTopic(title, topicTitle, courseId);
+		},
 		getCurrentTime() {
 			var that = this;
 			this.$refs.youtube.player.getCurrentTime().then(function (value) {
@@ -379,10 +392,29 @@ export default {
 			});
 		},
 		onPrevious() {
-			this.$router.push(this.previousLink);
+			var user = this.previousLink;
+			user = user.slice(15, this.previousLink.length);
+			const strCopy = user.split('/');
+			this.selectedChapter = strCopy[1];
+			window.history.replaceState(
+				{},
+				'',
+				`/learn/courses/${strCopy[0]}/${strCopy[1]}/${strCopy[2]}`
+			);
+			this.routeChange(strCopy[0], strCopy[1], strCopy[2]);
 		},
 		onNext() {
-			this.$router.push(this.nextLink);
+			var user = this.nextLink;
+			user = user.slice(15, this.nextLink.length);
+			const strCopy = user.split('/');
+
+			this.selectedChapter = strCopy[1];
+			window.history.replaceState(
+				{},
+				'',
+				`/learn/courses/${strCopy[0]}/${strCopy[1]}/${strCopy[2]}`
+			);
+			this.routeChange(strCopy[0], strCopy[1], strCopy[2]);
 		},
 	},
 };
