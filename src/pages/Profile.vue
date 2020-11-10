@@ -186,10 +186,10 @@
           <Section
             ref="programmingSkills"
             title="Programming Skills"
-            class="programmingSkills"
-            :on-edit="editprogrammingSkills"
-            :on-save="saveprogrammingSkills"
-            :on-cancel="cancelprogrammingSkills"
+            class="programming-skills"
+            :on-edit="editProgrammingSkills"
+            :on-save="saveProgrammingSkills"
+            :on-cancel="cancelProgrammingSkills"
             :is-editable="isEditable"
           >
             <div>
@@ -206,25 +206,42 @@
                 <b-col
                   md="6"
                   sm="12"
-                  class="programmingSkillsValues"
+                  class="programming-skills-values"
                 >
                   <div v-if="!editModeprogrammingSkills">
                     <span
                       v-for="(value, index) in item.values"
                       :key="index"
                       :style="{
-                        fontSize: value.level > 3 ? '20px' : '15px',
-                        fontWeight: value.level > 3 ? 'bold' : 'normal',
+                        fontWeight: value.level > 3 ? '700' : 'normal',
+                        color: value.level > 3 ? '' : 'gray',
+                        color: value.level == 5 ? 'black' : '',
+                        fontSize:
+                          value.level > 2
+                            ? `${value.level * 5}px`
+                            : `${value.level * 11}px`,
                       }"
                     >
                       <span v-if="value.skill != ''">
-                        <span>{{ value.skill }}</span>
-                        <span v-if="index + 1 != item.values.length">,</span>
+                        <span
+                          v-if="value.level == 3"
+                          :style="{ fontSize: '20px' }"
+                        >{{ value.skill }}</span><span
+                          v-else-if="value.level == 2"
+                          :style="{ fontSize: '15px' }"
+                        >{{ value.skill }}</span>
+                        <span v-else>{{ value.skill }}</span>
+                        <span v-if="index + 1 != item.values.length">, </span>
                       </span>
                       <span v-else>-</span>
                     </span>
                   </div>
                   <div v-else>
+                    <div class="skill-header">
+                      <span class="skill-name" />
+                      <span class="skill-rating">expertise</span>
+                      <span class="skills-delete-placeholder" />
+                    </div>
                     <span
                       v-for="(value, index) in item.values"
                       :key="value.skill"
@@ -476,701 +493,761 @@ import RewardPointsTransactions from '@/components/Profile/RewardPointsTransacti
 import Twitter from '@/components/Twitter/Twitter.vue';
 import moment from 'moment';
 export default {
-	components: {
-		KeyValue,
-		EditEventList,
-		EditCity,
-		SkillLevel,
-		Section,
-		UserAvatar,
-		EventMeetings,
-		RewardPointsTransactions,
-		Twitter,
-		ProgrammingSkills,
-	},
-	data() {
-		return {
-			cloudinaryUrl: config.cloudinaryUrl,
-			cloudinaryUploadPreset: config.cloudinaryUploadPreset,
-			profile: {},
-			profilePic: '',
-			fullName: '',
-			social: [],
-			skills: [],
-			events: [],
-			referrals: [],
-			editModeAboutMe: false,
-			editModeProfilePic: false,
-			editModeprogrammingSkills: false,
-			editModeSocials: false,
-			editModeSkills: false,
-			editModeEvents: false,
-			username: null,
-			publicProfile: null,
-			loading: false,
-			editModeActivity: false,
-			activities: [],
-			rewardPointsTransactions: [],
-			showRewardTransactions: false,
-			pointsToRedeem: null,
-			newActivity: [],
-			file: {},
-		};
-	},
-	computed: {
-		isEditable() {
-			return this.$store.state.signedInUser &&
-				this.$store.state.signedInUser.username === this.profile.username
-				? true
-				: false;
-		},
-		referralLink() {
-			return (
-				window.origin + '?referrer=' + this.$store.state.signedInUser.username
-			);
-		},
-		rewardPoints() {
-			return this.rewardPointsTransactions.reduce((acc, val) => {
-				if (val.credited) {
-					return acc + val.credited;
-				} else if (val.debited) {
-					return acc - val.debited;
-				}
-				return acc;
-			}, 0);
-		},
-	},
-	created() {
-		this.username = this.$route.params.username;
-		const msg = this.$route.query.msg;
+  components: {
+    KeyValue,
+    EditEventList,
+    EditCity,
+    SkillLevel,
+    Section,
+    UserAvatar,
+    EventMeetings,
+    RewardPointsTransactions,
+    Twitter,
+    ProgrammingSkills,
+  },
+  data() {
+    return {
+      cloudinaryUrl: config.cloudinaryUrl,
+      cloudinaryUploadPreset: config.cloudinaryUploadPreset,
+      profile: {},
+      profilePic: '',
+      fullName: '',
+      social: [],
+      skills: [],
+      events: [],
+      referrals: [],
+      editModeAboutMe: false,
+      editModeProfilePic: false,
+      editModeprogrammingSkills: false,
+      editModeSocials: false,
+      editModeSkills: false,
+      editModeEvents: false,
+      username: null,
+      publicProfile: null,
+      loading: false,
+      editModeActivity: false,
+      activities: [],
+      rewardPointsTransactions: [],
+      showRewardTransactions: false,
+      pointsToRedeem: null,
+      newActivity: [],
+      file: {},
+    };
+  },
+  computed: {
+    isEditable() {
+      return this.$store.state.signedInUser &&
+        this.$store.state.signedInUser.username === this.profile.username
+        ? true
+        : false;
+    },
+    referralLink() {
+      return (
+        window.origin + '?referrer=' + this.$store.state.signedInUser.username
+      );
+    },
+    rewardPoints() {
+      return this.rewardPointsTransactions.reduce((acc, val) => {
+        if (val.credited) {
+          return acc + val.credited;
+        } else if (val.debited) {
+          return acc - val.debited;
+        }
+        return acc;
+      }, 0);
+    },
+  },
+  created() {
+    this.username = this.$route.params.username;
+    const msg = this.$route.query.msg;
 
-		if (msg === 'set-city') {
-			alert(
-				'Please update your city so that we can show you event details from your city'
-			);
-		}
+    if (msg === 'set-city') {
+      alert(
+        'Please update your city so that we can show you event details from your city'
+      );
+    }
 
-		if (this.username == null) {
-			this.loading = true;
-			userService
-				.getLoggedInUserProfile()
-				.then((user) => {
-					user.skills = this.sortSkills(user.skills);
-					this.getReferrals();
-					this.getRewardPoints();
-					this.profile = user;
-					this.getActivities(this.profile.username);
-					this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
-					this.loading = false;
-				})
-				.catch((e) => {
-					userService.signout();
-					this.$router.push('/');
-				});
-		} else {
-			this.loading = true;
-			userService
-				.getUserProfile(this.username)
-				.then((user) => {
-					user.skills = this.sortSkills(user.skills);
-					this.getActivities(this.username);
-					this.profile = user;
-					this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
-					this.loading = false;
-				})
-				.catch((e) => {
-					alert('User ' + this.username + ' not found');
-					this.loading = false;
-				});
-		}
-	},
-	methods: {
-		image() {
-			this.file = event.target.files[0];
-		},
-		getBadgeImage: function (name) {
-			return `/images/badges/${name}.svg`;
-		},
-		onSocialChange: function (social) {
-			let updatedSocial = this.profile.social.find(
-				(s) => s.label == social.label
-			);
-			if (updatedSocial) {
-				updatedSocial.value = social.value;
-			}
-		},
-		onProgrammingSkillChange: function ({ index, skill }) {
-			const programSkills = {
-				skill: skill.name,
-				level: skill.rating,
-			};
-			this.profile.programmingSkills.map((re) => {
-				if (re.label == skill.label) {
-					re.values.map((value, indexNumber) => {
-						if (index < re.values.length) {
-							re.values[index] = programSkills;
-						} else {
-							re.values.push(programSkills);
-						}
-					});
-				}
-			});
-			this.profile = {
-				...this.profile,
-				programmingSkills: this.profile.programmingSkills,
-			};
-		},
-		onSkillChange: function ({ index, skill }) {
-			if (index < this.profile.skills.length) {
-				this.profile.skills[index] = skill;
-			} else {
-				this.profile.skills.push(skill);
-			}
-		},
-		sortSkills(skills = []) {
-			return skills.sort((s1, s2) => {
-				if (s1.rating === s2.rating) {
-					return s2.noOfYears - s1.noOfYears;
-				}
-				return s2.rating - s1.rating;
-			});
-		},
+    if (this.username == null) {
+      this.loading = true;
+      userService
+        .getLoggedInUserProfile()
+        .then((user) => {
+          user.skills = this.sortSkills(user.skills);
+          if (user.programmingSkills.length == 0) {
+            let Skills = [
+              { label: 'Languages', values: [{ skill: '', level: 1 }] },
+              {
+                label: 'Frameworks & Libraries',
+                values: [{ skill: '', level: 1 }],
+              },
+              {
+                label: 'Testing Frameworks & Libraries',
+                values: [{ skill: '', level: 1 }],
+              },
+              {
+                label: 'SDLC Methodologies',
+                values: [{ skill: '', level: 1 }],
+              },
+              { label: 'Databases', values: [{ skill: '', level: 1 }] },
+              { label: 'DI Tool', values: [{ skill: '', level: 1 }] },
+              { label: 'ORM', values: [{ skill: '', level: 1 }] },
+              { label: 'Operating Systems', values: [{ skill: '', level: 1 }] },
+              { label: 'Tracking Tools', values: [{ skill: '', level: 1 }] },
+              { label: 'CI/CD', values: [{ skill: '', level: 1 }] },
+              { label: 'Source Controls', values: [{ skill: '', level: 1 }] },
+              { label: 'MOdeling Language', values: [{ skill: '', level: 1 }] },
+              { label: 'Cloud Platforms', values: [{ skill: '', level: 1 }] },
+              { label: 'Mobile Platforms', values: [{ skill: '', level: 1 }] },
+              { label: 'Protocols', values: [{ skill: '', level: 1 }] },
+            ];
+            user.programmingSkills = Skills;
+          }
 
-		addSkill: function (event) {
-			this.profile.skills.push({});
-		},
-		deleteSkill: function (index) {
-			this.profile.skills.splice(index, 1);
-		},
-		addProgrammingSkills(label) {
-			this.profile.programmingSkills.map((re) => {
-				if (re.label == label) {
-					re.values.push({ level: 1, skill: '' });
-				}
-			});
-		},
-		deleteProgrammingSkill: function (index, label) {
-			this.profile.programmingSkills.map((re) => {
-				if (re.label == label) {
-					re.values.map((value, indexNumber) => {
-						if (index == indexNumber) {
-							if (index > 0) {
-								re.values.splice(index, 1);
-							} else {
-								re.values[index].skill = '';
-								re.values[index].level = 1;
-							}
-						}
-					});
-				}
-			});
-			this.profile = {
-				...this.profile,
-				programmingSkills: this.profile.programmingSkills,
-			};
-		},
-		onEventChange: function (eventIds) {
-			this.profile.eventIds = eventIds;
-		},
-		onCityChange: function (city) {
-			this.profile.city = city.name;
-			this.profile.country = city.country;
-		},
-		editAboutMe: function (event) {
-			this.editModeAboutMe = true;
-		},
-		saveAboutMe: function (event) {
-			this.loading = true;
-			this.editModeAboutMe = false;
-			try {
-				userService.updateUserProfile(this.profile);
-				this.loading = false;
-			} catch (e) {
-				alert(e.message);
-				this.loading = false;
-			}
-		},
-		cancelAboutMe: function (event) {
-			this.loading = true;
-			userService
-				.getLoggedInUserProfile()
-				.then((user) => {
-					this.profile = user;
-					this.loading = false;
-				})
-				.catch((e) => {
-					userService.signout();
-					this.$router.push('/');
-					this.loading = false;
-				});
-			this.editModeAboutMe = false;
-		},
+          this.getReferrals();
+          this.getRewardPoints();
+          this.profile = user;
 
-		editProfilePic: function (event) {
-			this.editModeProfilePic = true;
-		},
-		saveProfilePic: function (event) {
-			this.loading = true;
+          this.getActivities(this.profile.username);
+          this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
+          this.loading = false;
+        })
+        .catch((e) => {
+          userService.signout();
+          this.$router.push('/');
+        });
+    } else {
+      this.loading = true;
+      userService
+        .getUserProfile(this.username)
+        .then((user) => {
+          if (user.programmingSkills.length == 0) {
+            let Skills = [
+              { label: 'Languages', values: [{ skill: '', level: 1 }] },
+              {
+                label: 'Frameworks & Libraries',
+                values: [{ skill: '', level: 1 }],
+              },
+              {
+                label: 'Testing Frameworks & Libraries',
+                values: [{ skill: '', level: 1 }],
+              },
+              {
+                label: 'SDLC Methodologies',
+                values: [{ skill: '', level: 1 }],
+              },
+              { label: 'Databases', values: [{ skill: '', level: 1 }] },
+              { label: 'DI Tool', values: [{ skill: '', level: 1 }] },
+              { label: 'ORM', values: [{ skill: '', level: 1 }] },
+              { label: 'Operating Systems', values: [{ skill: '', level: 1 }] },
+              { label: 'Tracking Tools', values: [{ skill: '', level: 1 }] },
+              { label: 'CI/CD', values: [{ skill: '', level: 1 }] },
+              { label: 'Source Controls', values: [{ skill: '', level: 1 }] },
+              { label: 'MOdeling Language', values: [{ skill: '', level: 1 }] },
+              { label: 'Cloud Platforms', values: [{ skill: '', level: 1 }] },
+              { label: 'Mobile Platforms', values: [{ skill: '', level: 1 }] },
+              { label: 'Protocols', values: [{ skill: '', level: 1 }] },
+            ];
+            user.programmingSkills = Skills;
+          }
+          user.skills = this.sortSkills(user.skills);
+          this.getActivities(this.username);
+          this.profile = user;
+          this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
+          this.loading = false;
+        })
+        .catch((e) => {
+          alert('User ' + this.username + ' not found');
+          this.loading = false;
+        });
+    }
+  },
+  methods: {
+    image() {
+      this.file = event.target.files[0];
+    },
+    getBadgeImage: function (name) {
+      return `/images/badges/${name}.svg`;
+    },
+    onSocialChange: function (social) {
+      let updatedSocial = this.profile.social.find(
+        (s) => s.label == social.label
+      );
+      if (updatedSocial) {
+        updatedSocial.value = social.value;
+      }
+    },
+    onProgrammingSkillChange: function ({ index, skill }) {
+      const programSkills = {
+        skill: skill.name,
+        level: skill.rating,
+      };
+      this.profile.programmingSkills.map((re) => {
+        if (re.label == skill.label) {
+          re.values.map((value, indexNumber) => {
+            if (index < re.values.length) {
+              re.values[index] = programSkills;
+            } else {
+              re.values.push(programSkills);
+            }
+          });
+        }
+      });
+      this.profile = {
+        ...this.profile,
+        programmingSkills: this.profile.programmingSkills,
+      };
+    },
+    onSkillChange: function ({ index, skill }) {
+      if (index < this.profile.skills.length) {
+        this.profile.skills[index] = skill;
+      } else {
+        this.profile.skills.push(skill);
+      }
+    },
+    sortSkills(skills = []) {
+      return skills.sort((s1, s2) => {
+        if (s1.rating === s2.rating) {
+          return s2.noOfYears - s1.noOfYears;
+        }
+        return s2.rating - s1.rating;
+      });
+    },
 
-			var formData = new FormData();
-			formData.append('file', this.file);
-			formData.append('upload_preset', this.cloudinaryUploadPreset);
-			axios({
-				url: this.cloudinaryUrl,
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-				},
-				data: formData,
-			})
-				.then((res) => {
-					this.profile = { ...this.profile, profilePic: res.data.secure_url };
-					const image = {
-						imageUrl: res.data.secure_url,
-						userId: this.profile._id,
-					};
-					userService
-						.updateUserProfilePic(image)
-						.then((image) => {
-							eventBus.$emit('show-toast', {
-								body: messages.picUpdate.picUpdateSuccess,
-								title: messages.generic.success,
-							});
+    addSkill: function (event) {
+      this.profile.skills.push({});
+    },
+    deleteSkill: function (index) {
+      this.profile.skills.splice(index, 1);
+    },
+    addProgrammingSkills(label) {
+      this.profile.programmingSkills.map((re) => {
+        if (re.label == label) {
+          re.values.push({ level: 1, skill: '' });
+        }
+      });
+    },
+    deleteProgrammingSkill: function (index, label) {
+      this.profile.programmingSkills.map((re) => {
+        if (re.label == label) {
+          re.values.map((value, indexNumber) => {
+            if (index == indexNumber) {
+              if (index > 0) {
+                re.values.splice(index, 1);
+              } else {
+                re.values[index].skill = '';
+                re.values[index].level = 1;
+              }
+            }
+          });
+        }
+      });
+      this.profile = {
+        ...this.profile,
+        programmingSkills: this.profile.programmingSkills,
+      };
+    },
+    onEventChange: function (eventIds) {
+      this.profile.eventIds = eventIds;
+    },
+    onCityChange: function (city) {
+      this.profile.city = city.name;
+      this.profile.country = city.country;
+    },
+    editAboutMe: function (event) {
+      this.editModeAboutMe = true;
+    },
+    saveAboutMe: function (event) {
+      this.loading = true;
+      this.editModeAboutMe = false;
+      try {
+        userService.updateUserProfile(this.profile);
+        this.loading = false;
+      } catch (e) {
+        alert(e.message);
+        this.loading = false;
+      }
+    },
+    cancelAboutMe: function (event) {
+      this.loading = true;
+      userService
+        .getLoggedInUserProfile()
+        .then((user) => {
+          this.profile = user;
+          this.loading = false;
+        })
+        .catch((e) => {
+          userService.signout();
+          this.$router.push('/');
+          this.loading = false;
+        });
+      this.editModeAboutMe = false;
+    },
 
-							this.loading = false;
-						})
-						.catch(() => {
-							eventBus.$emit('show-toast', {
-								body: messages.picUpdate.picUpdateFailure,
-								title: messages.generic.error,
-								type: ToastType.ERROR,
-							});
+    editProfilePic: function (event) {
+      this.editModeProfilePic = true;
+    },
+    saveProfilePic: function (event) {
+      this.loading = true;
 
-							this.loading = false;
-						});
-				})
-				.catch(() => {
-					eventBus.$emit('show-toast', {
-						body: messages.picUpdate.picUpdateFailure,
-						title: messages.generic.error,
-						type: ToastType.ERROR,
-					});
+      var formData = new FormData();
+      formData.append('file', this.file);
+      formData.append('upload_preset', this.cloudinaryUploadPreset);
+      axios({
+        url: this.cloudinaryUrl,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        data: formData,
+      })
+        .then((res) => {
+          this.profile = { ...this.profile, profilePic: res.data.secure_url };
+          const image = {
+            imageUrl: res.data.secure_url,
+            userId: this.profile._id,
+          };
+          userService
+            .updateUserProfilePic(image)
+            .then((image) => {
+              eventBus.$emit('show-toast', {
+                body: messages.picUpdate.picUpdateSuccess,
+                title: messages.generic.success,
+              });
 
-					this.loading = false;
-				});
-			this.editModeProfilePic = false;
-		},
-		cancelProfilePic: function (event) {
-			this.loading = true;
-			userService
-				.getLoggedInUserProfile()
-				.then((user) => {
-					this.profile = user;
-					this.loading = false;
-				})
-				.catch((e) => {
-					userService.signout();
-					this.$router.push('/');
-					this.loading = false;
-				});
-			this.editModeProfilePic = false;
-		},
-		editprogrammingSkills: function (event) {
-			this.editModeprogrammingSkills = true;
-		},
-		saveprogrammingSkills: function (event) {
-			this.loading = true;
-			this.editModeprogrammingSkills = false;
-			try {
-				userService.updateUserProfile(this.profile);
-				this.loading = false;
-			} catch (e) {
-				alert(e.message);
-				this.loading = false;
-			}
-		},
-		cancelprogrammingSkills: function (event) {
-			this.loading = true;
-			userService
-				.getLoggedInUserProfile()
-				.then((user) => {
-					this.$refs.portfolio.refresh();
-					this.profile = user;
-					this.editModeprogrammingSkills = false;
-					this.loading = false;
-				})
-				.catch((e) => {
-					userService.signout();
-					this.$router.push('/');
-					this.loading = false;
-				});
-		},
+              this.loading = false;
+            })
+            .catch(() => {
+              eventBus.$emit('show-toast', {
+                body: messages.picUpdate.picUpdateFailure,
+                title: messages.generic.error,
+                type: ToastType.ERROR,
+              });
 
-		editSocials: function (event) {
-			this.editModeSocials = true;
-		},
-		saveSocials: function (event) {
-			this.loading = true;
-			this.editModeSocials = false;
-			try {
-				userService.updateUserProfile(this.profile);
-				this.loading = false;
-			} catch (e) {
-				alert(e.message);
-				this.loading = false;
-			}
-		},
-		cancelSocials: function (event) {
-			this.loading = true;
-			userService
-				.getLoggedInUserProfile()
-				.then((user) => {
-					this.$refs.portfolio.refresh();
-					this.profile = user;
-					this.editModeSocials = false;
-					this.loading = false;
-				})
-				.catch((e) => {
-					userService.signout();
-					this.$router.push('/');
-					this.loading = false;
-				});
-		},
-		getTwitterUsername() {
-			if (this.profile.social != null) {
-				const username = this.profile.social.find((p) => p.label === 'Twitter');
-				if (username) {
-					if (
-						username.value.match(
-							'^https?://(www\.)?twitter\.com/(#!/)?([^/]+)(/\w+)*$'
-						)
-					) {
-						var user = username.value;
-						user = user.slice(20, user.length);
-						return user;
-					}
-					if (username.value.match('@')) {
-						var user = username.value;
-						user = user.slice(1, user.length);
-						return user;
-					}
-					return username.value;
-				}
-			} else return '';
-		},
-		editSkills: function (event) {
-			this.editModeSkills = true;
-			if (!this.profile.skills.length) {
-				this.profile.skills.push({
-					name: '',
-					noOfYears: '',
-					expertiseLevel: 0,
-				});
-			}
-		},
-		saveSkills: function (event) {
-			this.editModeSkills = false;
-			if (
-				this.profile.skills.length === 1 &&
-				!this.profile.skills[0].name.length
-			) {
-				this.profile.skills = [];
-			}
-			this.$store.dispatch(
-				'createAndUpdateSkills',
-				this.profile.skills.map((x) => x.name)
-			);
-			this.profile.skills = this.sortSkills(this.profile.skills);
-			try {
-				userService.updateUserProfile(this.profile);
-			} catch (e) {
-				eventBus.$emit('show-toast', {
-					body: e.message,
-					title: messages.generic.error,
-					type: ToastType.ERROR,
-				});
-			}
-		},
-		cancelSkills: function (event) {
-			userService
-				.getLoggedInUserProfile()
-				.then((user) => {
-					this.$refs.mySkills.refresh();
-					this.profile = user;
-					this.editModeSkills = false;
-				})
-				.catch((e) => {
-					userService.signout();
-					this.$router.push('/');
-				});
-		},
-		editEvents: function (event) {
-			this.editModeEvents = true;
-		},
-		saveEvents: function (event) {
-			this.loading = true;
-			this.editModeEvents = false;
-			try {
-				userService.updateUserProfile(this.profile);
-				this.loading = false;
-			} catch (e) {
-				alert(e.message);
-				this.loading = false;
-			}
-		},
-		cancelEvents: function (event) {
-			this.loading = true;
-			userService
-				.getLoggedInUserProfile()
-				.then((user) => {
-					this.$refs.eventsAttended.refresh();
-					this.profile = user;
-					this.editModeEvents = false;
-					this.loading = false;
-				})
-				.catch((e) => {
-					userService.signout();
-					this.$router.push('/');
-					this.loading = false;
-				});
-		},
-		getActivities(profile) {
-			let finalDate;
-			userService
-				.getActivities(profile)
-				.then((response) => {
-					this.activities = response;
-					this.activities.map((re) => {
-						let data = moment(re.createdAt);
-						let date = data._d;
-						let createdAt =
-							date.getDate() +
-							'-' +
-							(date.getMonth() + 1) +
-							'-' +
-							date.getFullYear();
-						this.newActivity.push({ ...re, createdAt: createdAt });
-					});
-				})
-				.catch((e) => {
-					this.$router.push('/');
-				});
-		},
-		getActivityType(type) {
-			switch (type) {
-				case 'c':
-					return 'Created';
-				case 'd':
-					return 'Deleted';
-			}
-		},
-		getModel(model) {
-			switch (model) {
-				case 't':
-					return 'Tip';
-				case 'e':
-					return 'Event';
-				case 'j':
-					return 'Job';
-				case 'a':
-					return 'Article';
-			}
-		},
-		getReferrals() {
-			userService
-				.getReferrals()
-				.then((response) => {
-					this.referrals = response.filter((x) => x != null);
-				})
-				.catch((e) => {
-					console.log('failed to fetch referals');
-				});
-		},
-		getRewardPoints() {
-			userService.getRewardPoints().then((response) => {
-				this.rewardPointsTransactions = response;
-			});
-		},
-		redeemRewardPoints() {
-			if (this.pointsToRedeem == 0 || this.pointsToRedeem > this.rewardPoints) {
-				eventBus.$emit('show-toast', {
-					body: messages.rewardPoints.invalidAmount,
-					title: messages.generic.error,
-					type: ToastType.ERROR,
-				});
-				return;
-			}
+              this.loading = false;
+            });
+        })
+        .catch(() => {
+          eventBus.$emit('show-toast', {
+            body: messages.picUpdate.picUpdateFailure,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
 
-			userService
-				.redeemRewardPoints(this.pointsToRedeem)
-				.then(() => {
-					eventBus.$emit('show-toast', {
-						body: messages.rewardPoints.success,
-						title: messages.generic.success,
-					});
+          this.loading = false;
+        });
+      this.editModeProfilePic = false;
+    },
+    cancelProfilePic: function (event) {
+      this.loading = true;
+      userService
+        .getLoggedInUserProfile()
+        .then((user) => {
+          this.profile = user;
+          this.loading = false;
+        })
+        .catch((e) => {
+          userService.signout();
+          this.$router.push('/');
+          this.loading = false;
+        });
+      this.editModeProfilePic = false;
+    },
+    editProgrammingSkills: function (event) {
+      this.editModeprogrammingSkills = true;
+    },
+    saveProgrammingSkills: function (event) {
+      this.loading = true;
+      this.editModeprogrammingSkills = false;
+      try {
+        userService.updateUserProfile(this.profile);
+        this.loading = false;
+      } catch (e) {
+        alert(e.message);
+        this.loading = false;
+      }
+    },
+    cancelProgrammingSkills: function (event) {
+      this.loading = true;
+      userService
+        .getLoggedInUserProfile()
+        .then((user) => {
+          this.$refs.portfolio.refresh();
+          this.profile = user;
+          this.editModeprogrammingSkills = false;
+          this.loading = false;
+        })
+        .catch((e) => {
+          userService.signout();
+          this.$router.push('/');
+          this.loading = false;
+        });
+    },
 
-					this.pointsToRedeem = null;
-					this.getRewardPoints();
-				})
-				.catch(() => {
-					eventBus.$emit('show-toast', {
-						body: messages.rewardPoints.error,
-						title: messages.generic.error,
-						type: ToastType.ERROR,
-					});
-				});
-		},
-	},
+    editSocials: function (event) {
+      this.editModeSocials = true;
+    },
+    saveSocials: function (event) {
+      this.loading = true;
+      this.editModeSocials = false;
+      try {
+        userService.updateUserProfile(this.profile);
+        this.loading = false;
+      } catch (e) {
+        alert(e.message);
+        this.loading = false;
+      }
+    },
+    cancelSocials: function (event) {
+      this.loading = true;
+      userService
+        .getLoggedInUserProfile()
+        .then((user) => {
+          this.$refs.portfolio.refresh();
+          this.profile = user;
+          this.editModeSocials = false;
+          this.loading = false;
+        })
+        .catch((e) => {
+          userService.signout();
+          this.$router.push('/');
+          this.loading = false;
+        });
+    },
+    getTwitterUsername() {
+      if (this.profile.social != null) {
+        const username = this.profile.social.find((p) => p.label === 'Twitter');
+        if (username) {
+          if (
+            username.value.match(
+              '^https?://(www\.)?twitter\.com/(#!/)?([^/]+)(/\w+)*$'
+            )
+          ) {
+            var user = username.value;
+            user = user.slice(20, user.length);
+            return user;
+          }
+          if (username.value.match('@')) {
+            var user = username.value;
+            user = user.slice(1, user.length);
+            return user;
+          }
+          return username.value;
+        }
+      } else return '';
+    },
+    editSkills: function (event) {
+      this.editModeSkills = true;
+      if (!this.profile.skills.length) {
+        this.profile.skills.push({
+          name: '',
+          noOfYears: '',
+          expertiseLevel: 0,
+        });
+      }
+    },
+    saveSkills: function (event) {
+      this.editModeSkills = false;
+      if (
+        this.profile.skills.length === 1 &&
+        !this.profile.skills[0].name.length
+      ) {
+        this.profile.skills = [];
+      }
+      this.$store.dispatch(
+        'createAndUpdateSkills',
+        this.profile.skills.map((x) => x.name)
+      );
+      this.profile.skills = this.sortSkills(this.profile.skills);
+      try {
+        userService.updateUserProfile(this.profile);
+      } catch (e) {
+        eventBus.$emit('show-toast', {
+          body: e.message,
+          title: messages.generic.error,
+          type: ToastType.ERROR,
+        });
+      }
+    },
+    cancelSkills: function (event) {
+      userService
+        .getLoggedInUserProfile()
+        .then((user) => {
+          this.$refs.mySkills.refresh();
+          this.profile = user;
+          this.editModeSkills = false;
+        })
+        .catch((e) => {
+          userService.signout();
+          this.$router.push('/');
+        });
+    },
+    editEvents: function (event) {
+      this.editModeEvents = true;
+    },
+    saveEvents: function (event) {
+      this.loading = true;
+      this.editModeEvents = false;
+      try {
+        userService.updateUserProfile(this.profile);
+        this.loading = false;
+      } catch (e) {
+        alert(e.message);
+        this.loading = false;
+      }
+    },
+    cancelEvents: function (event) {
+      this.loading = true;
+      userService
+        .getLoggedInUserProfile()
+        .then((user) => {
+          this.$refs.eventsAttended.refresh();
+          this.profile = user;
+          this.editModeEvents = false;
+          this.loading = false;
+        })
+        .catch((e) => {
+          userService.signout();
+          this.$router.push('/');
+          this.loading = false;
+        });
+    },
+    getActivities(profile) {
+      let finalDate;
+      userService
+        .getActivities(profile)
+        .then((response) => {
+          this.activities = response;
+          this.activities.map((re) => {
+            let data = moment(re.createdAt);
+            let date = data._d;
+            let createdAt =
+              date.getDate() +
+              '-' +
+              (date.getMonth() + 1) +
+              '-' +
+              date.getFullYear();
+            this.newActivity.push({ ...re, createdAt: createdAt });
+          });
+        })
+        .catch((e) => {
+          this.$router.push('/');
+        });
+    },
+    getActivityType(type) {
+      switch (type) {
+        case 'c':
+          return 'Created';
+        case 'd':
+          return 'Deleted';
+      }
+    },
+    getModel(model) {
+      switch (model) {
+        case 't':
+          return 'Tip';
+        case 'e':
+          return 'Event';
+        case 'j':
+          return 'Job';
+        case 'a':
+          return 'Article';
+      }
+    },
+    getReferrals() {
+      userService
+        .getReferrals()
+        .then((response) => {
+          this.referrals = response.filter((x) => x != null);
+        })
+        .catch((e) => {
+          console.log('failed to fetch referals');
+        });
+    },
+    getRewardPoints() {
+      userService.getRewardPoints().then((response) => {
+        this.rewardPointsTransactions = response;
+      });
+    },
+    redeemRewardPoints() {
+      if (this.pointsToRedeem == 0 || this.pointsToRedeem > this.rewardPoints) {
+        eventBus.$emit('show-toast', {
+          body: messages.rewardPoints.invalidAmount,
+          title: messages.generic.error,
+          type: ToastType.ERROR,
+        });
+        return;
+      }
+
+      userService
+        .redeemRewardPoints(this.pointsToRedeem)
+        .then(() => {
+          eventBus.$emit('show-toast', {
+            body: messages.rewardPoints.success,
+            title: messages.generic.success,
+          });
+
+          this.pointsToRedeem = null;
+          this.getRewardPoints();
+        })
+        .catch(() => {
+          eventBus.$emit('show-toast', {
+            body: messages.rewardPoints.error,
+            title: messages.generic.error,
+            type: ToastType.ERROR,
+          });
+        });
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .profile-photo {
-	max-width: 100%;
-	background-color: #114273;
-	text-align: left;
-	padding: 5px;
+  max-width: 100%;
+  background-color: #114273;
+  text-align: left;
+  padding: 5px;
 }
 
 .profile-badges {
-	margin-top: 12px;
-	display: flex;
-	flex-wrap: wrap;
-	.badges {
-		position: relative;
-		margin-top: 10px;
-		width: 50px;
-		height: 50px;
-		img {
-			max-width: 50px;
-			max-height: 50px;
-		}
-		&:not(:last-of-type) {
-			margin-right: 5px;
-		}
-		span {
-			position: absolute;
-			top: -21px;
-			left: 0px;
-			min-width: 100%;
-			padding: 0px 6px;
-			display: none;
-			font-size: 14px;
-			text-align: center;
-			background-color: #114273;
-			color: white;
-		}
-		&:hover {
-			span {
-				display: inline-block;
-			}
-		}
-	}
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  .badges {
+    position: relative;
+    margin-top: 10px;
+    width: 50px;
+    height: 50px;
+    img {
+      max-width: 50px;
+      max-height: 50px;
+    }
+    &:not(:last-of-type) {
+      margin-right: 5px;
+    }
+    span {
+      position: absolute;
+      top: -21px;
+      left: 0px;
+      min-width: 100%;
+      padding: 0px 6px;
+      display: none;
+      font-size: 14px;
+      text-align: center;
+      background-color: #114273;
+      color: white;
+    }
+    &:hover {
+      span {
+        display: inline-block;
+      }
+    }
+  }
 }
 
 .user-profile-photo {
-	max-width: 100%;
-	text-align: left;
+  max-width: 100%;
+  text-align: left;
 }
 .user-name {
-	font-weight: 700;
+  font-weight: 700;
 }
 
 .row {
-	margin-top: 20px;
+  margin-top: 20px;
 }
 
 .skills-label {
-	width: 7rem;
-	text-align: left;
+  width: 7rem;
+  text-align: left;
 }
 
 .buttons {
-	width: 100%;
-	text-align: right;
+  width: 100%;
+  text-align: right;
 }
 
 .skill-header {
-	display: flex;
-	width: 100%;
-	text-align: left;
+  display: flex;
+  width: 100%;
+  text-align: left;
 }
 
 .skill-name {
-	flex: 0 0 auto;
-	width: 6rem;
-	margin-right: 0.5rem;
+  flex: 0 0 auto;
+  width: 6rem;
+  margin-right: 0.5rem;
 }
 
 .skill-years {
-	flex: 0 0 auto;
-	width: 2rem;
-	margin-right: 0.5rem;
+  flex: 0 0 auto;
+  width: 2rem;
+  margin-right: 0.5rem;
 }
 
 .skill-rating {
-	flex: 1 1 auto;
-	margin: 2px auto;
-	width: 100%;
-	text-align: center;
+  flex: 1 1 auto;
+  margin: 2px auto;
+  width: 100%;
+  text-align: center;
 }
 
 .skill-rating-icon {
-	flex: 1 1 auto;
-	width: 20%;
-	display: inline-block;
-	text-align: center;
+  flex: 1 1 auto;
+  width: 20%;
+  display: inline-block;
+  text-align: center;
 }
 
 .skills-actions {
-	width: 100%;
-	text-align: right;
-	padding-top: 20px;
+  width: 100%;
+  text-align: right;
+  padding-top: 20px;
 }
 
 .skills-delete {
-	flex: 0 0 auto;
-	margin-left: 10px;
-	padding: 0;
-	background-color: transparent;
+  flex: 0 0 auto;
+  margin-left: 10px;
+  padding: 0;
+  background-color: transparent;
 }
 
 .skills-delete-placeholder {
-	flex: 0 0 auto;
-	display: inline-block;
-	margin-left: 10px;
-	width: 30px;
+  flex: 0 0 auto;
+  display: inline-block;
+  margin-left: 10px;
+  width: 30px;
 }
 
 .skills {
-	display: flex;
+  display: flex;
 }
 
 .skill-list {
-	flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 .skill-control {
-	display: flex;
+  display: flex;
 }
 
 .buttons {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .save-button {
-	margin-right: 10px;
+  margin-right: 10px;
 }
 
 .left-input {
-	width: 100%;
+  width: 100%;
 }
 .image-input {
-	width: 100%;
-	font-size: 15px;
+  width: 100%;
+  font-size: 15px;
 }
 .photo-col {
-	margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 .about-me,
@@ -1179,47 +1256,47 @@ export default {
 .events-attended,
 .reward-points,
 .referral-link,
-.programmingSkills {
-	margin-top: 20px;
+.programming-skills {
+  margin-top: 20px;
 }
 
 .events-attended,
 .user-referrals-section,
 .private-video-section {
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .user-public-profile,
 .user-referral-link {
-	word-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .user-referrals {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .reward-points-options {
-	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 
-	button {
-		margin: 2px;
-	}
+  button {
+    margin: 2px;
+  }
 }
 
 .small-text {
-	font-size: 15px;
+  font-size: 15px;
 }
 
 .portfolio,
-.programmingSkillsValues {
-	word-break: break-all;
+.programming-skills-values {
+  word-break: break-all;
 }
 .activityDate {
-	font-size: 20px;
-	color: #8f8f8f;
+  font-size: 20px;
+  color: #8f8f8f;
 }
 </style>
