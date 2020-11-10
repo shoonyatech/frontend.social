@@ -4,7 +4,7 @@
       <EditableValue
         :value="name"
         :is-editable="isEditable"
-        :placeholder="'Enter Skill'"
+        :placeholder="'Skill'"
         @change="onNameChange"
       />
     </span>
@@ -43,119 +43,119 @@
 import EditableValue from '@/components/common/EditableValue';
 
 export default {
-	components: { EditableValue },
-	props: {
-		name: {
-			type: String,
-			default: '',
-		},
-		label: {
-			type: String,
-			default: '',
-		},
+  components: { EditableValue },
+  props: {
+    name: {
+      type: String,
+      default: '',
+    },
+    label: {
+      type: String,
+      default: '',
+    },
 
-		rating: {
-			type: Number,
-			default: 0,
-		},
-		max: {
-			type: Number,
-			default: 10,
-		},
-		index: {
-			type: Number,
-			default: 0,
-		},
-		isEditable: {
-			type: Boolean,
-			default: false,
-		},
-	},
-	data() {
-		return {
-			skill: {},
-		};
-	},
-	computed: {
-		skills() {
-			return this.$store.state.skills;
-		},
-	},
-	created() {
-		this.skill = {
-			label: this.label,
-			name: this.name,
-			rating: this.rating,
-		};
-	},
-	methods: {
-		onNameChange: function (val) {
-			this.skill.name = val;
-			this.$emit('change', { index: this.index, skill: this.skill });
-		},
-		onRatingChange: function (rating) {
-			if (this.isEditable) {
-				this.skill.rating = rating;
-				this.$emit('change', { index: this.index, skill: this.skill });
-			}
-		},
-	},
+    rating: {
+      type: Number,
+      default: 0,
+    },
+    max: {
+      type: Number,
+      default: 10,
+    },
+    index: {
+      type: Number,
+      default: 0,
+    },
+    isEditable: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      skill: {},
+    };
+  },
+  computed: {
+    skills() {
+      return this.$store.state.skills;
+    },
+  },
+  created() {
+    this.skill = {
+      label: this.label,
+      name: this.name,
+      rating: this.rating,
+    };
+  },
+  methods: {
+    onNameChange: function (val) {
+      this.skill.name = val;
+      this.$emit('change', { index: this.index, skill: this.skill });
+    },
+    onRatingChange: function (rating) {
+      if (this.isEditable) {
+        this.skill.rating = rating;
+        this.$emit('change', { index: this.index, skill: this.skill });
+      }
+    },
+  },
 };
 </script>
 
 <style scoped lang="scss">
 .host {
-	display: flex;
-	width: 100%;
-	text-align: left;
+  display: flex;
+  width: 100%;
+  text-align: left;
 }
 
 .skill-name {
-	flex: 0 0 auto;
-	width: 6rem;
-	margin-right: 0.5rem;
+  flex: 0 0 auto;
+  width: 6rem;
+  margin-right: 0.5rem;
 }
 
 .skill-years {
-	flex: 0 0 auto;
-	width: 2rem;
-	margin-right: 0.5rem;
+  flex: 0 0 auto;
+  width: 2rem;
+  margin-right: 0.5rem;
 }
 
 .editable-value {
-	border: 3px solid #114273;
-	flex: 1 1 auto;
-	margin: 2px auto;
-	width: 100%;
-	font-size: inherit;
-	line-height: inherit;
-	height: 1.5rem;
-	padding: 0 10px;
+  border: 3px solid #114273;
+  flex: 1 1 auto;
+  margin: 2px auto;
+  width: 100%;
+  font-size: inherit;
+  line-height: inherit;
+  height: 1.5rem;
+  padding: 0 10px;
 }
 
 .skill-rating {
-	flex: 1 1 auto;
-	margin: 2px auto;
-	width: 100%;
+  flex: 1 1 auto;
+  margin: 2px auto;
+  width: 100%;
 }
 
 .skill-rating-icon {
-	flex: 1 1 auto;
-	width: 20%;
-	display: inline-block;
-	text-align: center;
-	opacity: 0.2;
+  flex: 1 1 auto;
+  width: 20%;
+  display: inline-block;
+  text-align: center;
+  opacity: 0.2;
 
-	&.editable {
-		cursor: pointer;
+  &.editable {
+    cursor: pointer;
 
-		&:hover {
-			opacity: 0.6;
-		}
-	}
+    &:hover {
+      opacity: 0.6;
+    }
+  }
 }
 
 .selected {
-	opacity: 1;
+  opacity: 1;
 }
 </style>
