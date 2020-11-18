@@ -166,6 +166,91 @@
           sm="12"
         >
           <Section
+            v-if="profile.experienceTimeline != null"
+            ref="portfolio"
+            title="Experience Timeline"
+            class="portfolio"
+            :on-edit="editExperienceTimeline"
+            :on-save="saveExperienceTimeline"
+            :on-cancel="cancelExperienceTimeline"
+            :is-editable="isEditable"
+          >
+            <div
+              v-if="
+                !editModeExperienceTimeline &&
+                  profile.experienceTimeline.length > 0
+              "
+            >
+              <Charts
+                :skills="profile.experienceTimeline[1].skills"
+                class="chart"
+              />
+            </div>
+            <div v-else>
+              <div
+                v-for="(item, indexSkill) in profile.experienceTimeline[1]
+                  .skills"
+                :key="item.label"
+              >
+                <br>
+                <span class="skill-control">
+                  <ExperienceTimelineSkill
+                    :label="item.skill"
+                    :max="4"
+                    :is-editable="editModeExperienceTimeline"
+                    :index="indexSkill"
+                    @change="onExperienceTimelineSkillChange"
+                  />
+                  <span
+                    v-if="!editModeExperienceTimeline"
+                    class="skills-delete-placeholder"
+                  />
+                  <div
+                    v-if="editModeExperienceTimeline"
+                    class="skills-delete"
+                    :data-index="indexSkill"
+                    @click="deleteExperienceTimeline(indexSkill, item.skill)"
+                  >
+                    <img
+                      :src="`/images/delete.svg`"
+                      class="icon-button"
+                      alt="delete"
+                    >
+                  </div>
+                  <div class="add-container">
+                    <button
+                      v-if="editModeExperienceTimeline"
+                      class="add"
+                      @click="addExperienceTimeline(item.skill)"
+                    >
+                      +
+                    </button>
+                  </div>
+                </span>
+                <div class="skill-header">
+                  <span class="skill-rating">expertise</span>
+                  <span class="skill-rating">Tags</span>
+                  <span class="skills-delete-placeholder" />
+                </div>
+                <span
+                  v-for="(time, index) in item.timeline"
+                  :key="time.label"
+                >
+                  <ExperienceTimeline
+                    :name="time.year"
+                    :rating="time.expertise"
+                    :label="item.skill"
+                    :tags="time.tags"
+                    :max="4"
+                    :is-editable="editModeExperienceTimeline"
+                    :index="index"
+                    @change="onExperienceTimelineChange"
+                  />
+                </span>
+              </div>
+            </div>
+          </Section><br>
+          <Section
             ref="portfolio"
             title="Portfolio and Social links"
             class="portfolio"
@@ -483,6 +568,8 @@ import KeyValue from '@/components/common/KeyValue';
 import EditEventList from '@/components/Events/EditEventList';
 import EditCity from '@/components/City/EditCity';
 import SkillLevel from '@/components/Profile/SkillLevel';
+import ExperienceTimeline from '@/components/Profile/ExperienceTimeline';
+import ExperienceTimelineSkill from '@/components/Profile/ExperienceTimelineSkill';
 import ProgrammingSkills from '@/components/Profile/ProgrammingSkills';
 import Section from '@/components/common/Section';
 import EventMeetings from '@/components/Events/EventMeetings.vue';
@@ -492,6 +579,7 @@ import UserAvatar from '@/components/common/UserAvatar';
 import RewardPointsTransactions from '@/components/Profile/RewardPointsTransactions.vue';
 import Twitter from '@/components/Twitter/Twitter.vue';
 import moment from 'moment';
+import Charts from '@/components/Profile/ExperienceChart.vue';
 export default {
   components: {
     KeyValue,
@@ -504,6 +592,9 @@ export default {
     RewardPointsTransactions,
     Twitter,
     ProgrammingSkills,
+    ExperienceTimeline,
+    ExperienceTimelineSkill,
+    Charts,
   },
   data() {
     return {
@@ -519,6 +610,7 @@ export default {
       editModeAboutMe: false,
       editModeProfilePic: false,
       editModeprogrammingSkills: false,
+      editModeExperienceTimeline: false,
       editModeSocials: false,
       editModeSkills: false,
       editModeEvents: false,
@@ -531,7 +623,9 @@ export default {
       showRewardTransactions: false,
       pointsToRedeem: null,
       newActivity: [],
+      experienceTimeline: [],
       file: {},
+      previousSkill: '',
     };
   },
   computed: {
@@ -573,6 +667,28 @@ export default {
         .getLoggedInUserProfile()
         .then((user) => {
           user.skills = this.sortSkills(user.skills);
+          if (user.experienceTimeline.length == 0) {
+            let experience = [
+              { start: '2014', end: '2020' },
+              {
+                skills: [
+                  {
+                    skill: '',
+                    timeline: [
+                      { year: 2014, expertise: 0, tags: [''] },
+                      { year: 2015, expertise: 0, tags: [''] },
+                      { year: 2016, expertise: 0, tags: [''] },
+                      { year: 2017, expertise: 0, tags: [''] },
+                      { year: 2018, expertise: 0, tags: [''] },
+                      { year: 2019, expertise: 0, tags: [''] },
+                      { year: 2020, expertise: 0, tags: [''] },
+                    ],
+                  },
+                ],
+              },
+            ];
+            user.experienceTimeline = experience;
+          }
           if (user.programmingSkills.length == 0) {
             let Skills = [
               { label: 'Languages', values: [{ skill: '', level: 1 }] },
@@ -606,8 +722,7 @@ export default {
           this.getReferrals();
           this.getRewardPoints();
           this.profile = user;
-
-          this.getActivities(this.profile.username);
+          this.getActivities('profile', this.profile.username);
           this.publicProfile = `https://www.frontend.social/user/${this.profile.username}`;
           this.loading = false;
         })
@@ -620,6 +735,28 @@ export default {
       userService
         .getUserProfile(this.username)
         .then((user) => {
+          if (user.experienceTimeline.length == 0) {
+            let experience = [
+              { start: '2014', end: '2020' },
+              {
+                skills: [
+                  {
+                    skill: '',
+                    timeline: [
+                      { year: 2014, expertise: 0, tags: [''] },
+                      { year: 2015, expertise: 0, tags: [''] },
+                      { year: 2016, expertise: 0, tags: [''] },
+                      { year: 2017, expertise: 0, tags: [''] },
+                      { year: 2018, expertise: 0, tags: [''] },
+                      { year: 2019, expertise: 0, tags: [''] },
+                      { year: 2020, expertise: 0, tags: [''] },
+                    ],
+                  },
+                ],
+              },
+            ];
+            user.experienceTimeline = experience;
+          }
           if (user.programmingSkills.length == 0) {
             let Skills = [
               { label: 'Languages', values: [{ skill: '', level: 1 }] },
@@ -697,6 +834,41 @@ export default {
         programmingSkills: this.profile.programmingSkills,
       };
     },
+    onExperienceTimelineSkillChange: function ({ index, skill }) {
+      this.profile.experienceTimeline[1].skills.map((skills) => {
+        if (skill.previousLabel == skills.skill) {
+          skills.skill = skill.label;
+          this.previousSkill = skill.label;
+        }
+      });
+      this.profile = {
+        ...this.profile,
+        experienceTimeline: this.profile.experienceTimeline,
+      };
+    },
+    onExperienceTimelineChange: function ({ index, skill }) {
+      if (skill.label == '') {
+        skill.label = this.previousSkill;
+      }
+      const experienceTime = {
+        year: skill.name,
+        expertise: skill.rating,
+        tags: skill.tags,
+      };
+      this.profile.experienceTimeline[1].skills.map((skills) => {
+        if (skill.label == skills.skill) {
+          skills.timeline.map((time, indexSkill) => {
+            if (time.year == skill.name) {
+              skills.timeline[index] = experienceTime;
+            }
+          });
+        }
+      });
+      this.profile = {
+        ...this.profile,
+        experienceTimeline: this.profile.experienceTimeline,
+      };
+    },
     onSkillChange: function ({ index, skill }) {
       if (index < this.profile.skills.length) {
         this.profile.skills[index] = skill;
@@ -718,6 +890,45 @@ export default {
     },
     deleteSkill: function (index) {
       this.profile.skills.splice(index, 1);
+    },
+    addExperienceTimeline(label) {
+      this.profile.experienceTimeline[1].skills.push({
+        skill: '',
+        timeline: [
+          { year: 2014, expertise: 0, tags: [''] },
+          { year: 2015, expertise: 0, tags: [''] },
+          { year: 2016, expertise: 0, tags: [''] },
+          { year: 2017, expertise: 0, tags: [''] },
+          { year: 2018, expertise: 0, tags: [''] },
+          { year: 2019, expertise: 0, tags: [''] },
+          { year: 2020, expertise: 0, tags: [''] },
+        ],
+      });
+    },
+    deleteExperienceTimeline: function (index, label) {
+      this.profile.experienceTimeline[1].skills.map((re, indexNumber) => {
+        if (re.skill == label) {
+          if (index > 0) {
+            this.profile.experienceTimeline[1].skills.splice(index, 1);
+          } else {
+            re.skill = '';
+            re.timeline = [
+              { year: 2014, expertise: 0, tags: [''] },
+              { year: 2015, expertise: 0, tags: [''] },
+              { year: 2016, expertise: 0, tags: [''] },
+              { year: 2017, expertise: 0, tags: [''] },
+              { year: 2018, expertise: 0, tags: [''] },
+              { year: 2019, expertise: 0, tags: [''] },
+              { year: 2020, expertise: 0, tags: [''] },
+            ];
+          }
+        }
+      });
+
+      this.profile = {
+        ...this.profile,
+        experienceTimeline: this.profile.experienceTimeline,
+      };
     },
     addProgrammingSkills(label) {
       this.profile.programmingSkills.map((re) => {
@@ -874,6 +1085,36 @@ export default {
           this.$refs.portfolio.refresh();
           this.profile = user;
           this.editModeprogrammingSkills = false;
+          this.loading = false;
+        })
+        .catch((e) => {
+          userService.signout();
+          this.$router.push('/');
+          this.loading = false;
+        });
+    },
+    editExperienceTimeline: function (event) {
+      this.editModeExperienceTimeline = true;
+    },
+    saveExperienceTimeline: function (event) {
+      this.loading = true;
+      this.editModeExperienceTimeline = false;
+      try {
+        userService.updateUserProfile(this.profile);
+        this.loading = false;
+      } catch (e) {
+        alert(e.message);
+        this.loading = false;
+      }
+    },
+    cancelExperienceTimeline: function (event) {
+      this.loading = true;
+      userService
+        .getLoggedInUserProfile()
+        .then((user) => {
+          this.$refs.portfolio.refresh();
+          this.profile = user;
+          this.editModeExperienceTimeline = false;
           this.loading = false;
         })
         .catch((e) => {
@@ -1108,7 +1349,9 @@ export default {
   text-align: left;
   padding: 5px;
 }
-
+.chart {
+  margin: 10px;
+}
 .profile-badges {
   margin-top: 12px;
   display: flex;
