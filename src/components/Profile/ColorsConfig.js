@@ -24,4 +24,5 @@ const transparentColor = [
   'rgb(126, 51, 255,0.5)',
   'rgb(255, 202, 51,0.5)',
 ];
-export { colorsSet, transparentColor };
+const fontColorSet = '#2583CD';
+export { colorsSet, transparentColor, fontColorSet };

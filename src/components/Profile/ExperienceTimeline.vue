@@ -1,34 +1,14 @@
 <template>
   <div class="host">
-    <span class="skill-name">
-      {{ name }}
-    </span>
+    <span class="skill-name"> {{ name }}</span>
     <span class="skill-rating">
       <span
+        v-for="(value, i) in 5"
+        :key="i"
         class="skill-rating-icon"
-        :class="{ selected: skill.rating === 1, editable: isEditable }"
-        @click="onRatingChange(1)"
-      >1</span>
-      <span
-        class="skill-rating-icon"
-        :class="{ selected: skill.rating === 2, editable: isEditable }"
-        @click="onRatingChange(2)"
-      >2</span>
-      <span
-        class="skill-rating-icon"
-        :class="{ selected: skill.rating === 3, editable: isEditable }"
-        @click="onRatingChange(3)"
-      >3</span>
-      <span
-        class="skill-rating-icon"
-        :class="{ selected: skill.rating === 4, editable: isEditable }"
-        @click="onRatingChange(4)"
-      >4</span>
-      <span
-        class="skill-rating-icon"
-        :class="{ selected: skill.rating === 5, editable: isEditable }"
-        @click="onRatingChange(5)"
-      >5</span>
+        :class="{ selected: skill.rating === value, editable: isEditable }"
+        @click="onRatingChange(value)"
+      >{{ value }}</span>
     </span>
     <span class="skill-tag">
       <key-multi-value
