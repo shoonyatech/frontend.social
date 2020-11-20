@@ -3,11 +3,7 @@
     <Loader v-show="loading" />
     <b-container>
       <b-row>
-        <b-col
-          md="3"
-          sm="12"
-          class="photo-col"
-        >
+        <b-col md="3" sm="12" class="photo-col">
           <Section
             v-if="isEditable"
             title="Profile Image"
@@ -21,7 +17,7 @@
                 :src="profile.profilePic"
                 class="user-profile-photo"
                 alt="profile"
-              >
+              />
             </a>
 
             <input
@@ -30,31 +26,21 @@
               type="file"
               class="image-input"
               @change="image"
-            >
+            />
           </Section>
-          <a
-            v-else
-            :href="profile.profilePic"
-          >
+          <a v-else :href="profile.profilePic">
             <img
               :src="profile.profilePic"
               class="profile-photo"
               alt="profile"
-            >
+            />
           </a>
           <div
             v-if="profile.badges && profile.badges.length"
             class="profile-badges"
           >
-            <div
-              v-for="item in profile.badges"
-              :key="item"
-              class="badges"
-            >
-              <img
-                :src="getBadgeImage(item)"
-                :alt="item"
-              >
+            <div v-for="item in profile.badges" :key="item" class="badges">
+              <img :src="getBadgeImage(item)" :alt="item" />
               <span>{{ item }}</span>
             </div>
           </div>
@@ -70,11 +56,8 @@
               v-if="editModeAboutMe"
               v-model="profile.name"
               class="left-input"
-            >
-            <div
-              v-else
-              class="user-name"
-            >
+            />
+            <div v-else class="user-name">
               {{ profile.name }}
             </div>
             <div>
@@ -82,13 +65,8 @@
                 v-if="editModeAboutMe"
                 v-model="profile.username"
                 class="left-input"
-              >
-              <div
-                v-else
-                class="user-username"
-              >
-                @{{ profile.username }}
-              </div>
+              />
+              <div v-else class="user-username">@{{ profile.username }}</div>
             </div>
             <div>
               <div v-if="editModeAboutMe">
@@ -98,7 +76,7 @@
                     class="radio-input"
                     type="radio"
                     value="dev"
-                  >
+                  />
                   <span class="radio-label">Dev</span>
                 </span>
                 <span class="radio">
@@ -107,14 +85,11 @@
                     class="radio-input"
                     type="radio"
                     value="designer"
-                  >
+                  />
                   <span class="radio-label">Designer</span>
                 </span>
               </div>
-              <div
-                v-else
-                class="user-name"
-              >
+              <div v-else class="user-name">
                 <span class="light-text">I am a</span>
                 <span>
                   {{ profile.category == 'dev' ? 'Developer' : 'Designer' }}
@@ -141,7 +116,8 @@
                 :href="publicProfile"
                 target="_blank"
                 rel="noopener"
-              >{{ publicProfile }}</a>
+                >{{ publicProfile }}</a
+              >
             </div>
           </Section>
           <Section
@@ -157,14 +133,12 @@
                 :href="referralLink"
                 target="_blank"
                 rel="noopener"
-              >{{ referralLink }}</a>
+                >{{ referralLink }}</a
+              >
             </div>
           </Section>
         </b-col>
-        <b-col
-          md="9"
-          sm="12"
-        >
+        <b-col md="9" sm="12">
           <Section
             v-if="profile.experienceTimeline != null"
             ref="portfolio"
@@ -178,21 +152,31 @@
             <div
               v-if="
                 !editModeExperienceTimeline &&
-                  profile.experienceTimeline.length > 0
+                profile.experienceTimeline.length > 0
               "
             >
               <Charts
+                :start="profile.experienceTimeline[0].start"
+                :end="profile.experienceTimeline[0].end"
                 :skills="profile.experienceTimeline[1].skills"
                 class="chart"
               />
             </div>
             <div v-else>
+              <ExperienceTimelineSkill
+                :start="profile.experienceTimeline[0].start"
+                :end="profile.experienceTimeline[0].end"
+                :max="4"
+                :start-date-edit="true"
+                :is-editable="editModeExperienceTimeline"
+                @change="onExperienceTimelineStartDateChange"
+              />
               <div
                 v-for="(item, indexSkill) in profile.experienceTimeline[1]
                   .skills"
                 :key="item.label"
               >
-                <br>
+                <br />
                 <span class="skill-control">
                   <ExperienceTimelineSkill
                     :label="item.skill"
@@ -215,7 +199,7 @@
                       :src="`/images/delete.svg`"
                       class="icon-button"
                       alt="delete"
-                    >
+                    />
                   </div>
                   <div class="add-container">
                     <button
@@ -232,10 +216,7 @@
                   <span class="skill-rating">Tags</span>
                   <span class="skills-delete-placeholder" />
                 </div>
-                <span
-                  v-for="(time, index) in item.timeline"
-                  :key="time.label"
-                >
+                <span v-for="(time, index) in item.timeline" :key="time.label">
                   <ExperienceTimeline
                     :name="time.year"
                     :rating="time.expertise"
@@ -248,8 +229,8 @@
                   />
                 </span>
               </div>
-            </div>
-          </Section><br>
+            </div> </Section
+          ><br />
           <Section
             ref="portfolio"
             title="Portfolio and Social links"
@@ -282,17 +263,10 @@
                 v-for="item in profile.programmingSkills"
                 :key="item.label"
               >
-                <b-col
-                  md="6"
-                  sm="12"
-                >
+                <b-col md="6" sm="12">
                   {{ item.label }}
                 </b-col>
-                <b-col
-                  md="6"
-                  sm="12"
-                  class="programming-skills-values"
-                >
+                <b-col md="6" sm="12" class="programming-skills-values">
                   <div v-if="!editModeprogrammingSkills">
                     <span
                       v-for="(value, index) in item.values"
@@ -311,10 +285,12 @@
                         <span
                           v-if="value.level == 3"
                           :style="{ fontSize: '20px' }"
-                        >{{ value.skill }}</span><span
+                          >{{ value.skill }}</span
+                        ><span
                           v-else-if="value.level == 2"
                           :style="{ fontSize: '15px' }"
-                        >{{ value.skill }}</span>
+                          >{{ value.skill }}</span
+                        >
                         <span v-else>{{ value.skill }}</span>
                         <span v-if="index + 1 != item.values.length">, </span>
                       </span>
@@ -355,7 +331,7 @@
                           :src="`/images/delete.svg`"
                           class="icon-button"
                           alt="delete"
-                        >
+                        />
                       </div>
                       <div class="add-container">
                         <button
@@ -418,7 +394,7 @@
                     :src="`/images/delete.svg`"
                     class="icon-button"
                     alt="delete"
-                  >
+                  />
                 </div>
               </span>
             </div>
@@ -444,7 +420,7 @@
                   v-model="pointsToRedeem"
                   type="number"
                   :disabled="rewardPoints < 1000"
-                >
+                />
                 <button
                   :disabled="!pointsToRedeem || rewardPoints < 1000"
                   @click="redeemRewardPoints()"
@@ -491,23 +467,18 @@
             class="events-attended"
             :is-editable="editModeActivity && isEditable"
           >
-            <div
-              v-for="(activity, index) in newActivity"
-              :key="index"
-            >
+            <div v-for="(activity, index) in newActivity" :key="index">
               <section v-if="index > 0">
                 <span
                   v-if="
                     newActivity[index].createdAt !=
-                      newActivity[index - 1].createdAt
+                    newActivity[index - 1].createdAt
                   "
                   class="activityDate"
-                ><br>{{ activity.createdAt }}</span>
+                  ><br />{{ activity.createdAt }}</span
+                >
               </section>
-              <section
-                v-if="index === 0"
-                class="activityDate"
-              >
+              <section v-if="index === 0" class="activityDate">
                 {{ activity.createdAt }}
               </section>
               -
@@ -669,24 +640,28 @@ export default {
           user.skills = this.sortSkills(user.skills);
           if (user.experienceTimeline.length == 0) {
             let experience = [
-              { start: '2014', end: '2020' },
+              { start: '', end: '' },
               {
                 skills: [
                   {
                     skill: '',
-                    timeline: [
-                      { year: 2014, expertise: 0, tags: [''] },
-                      { year: 2015, expertise: 0, tags: [''] },
-                      { year: 2016, expertise: 0, tags: [''] },
-                      { year: 2017, expertise: 0, tags: [''] },
-                      { year: 2018, expertise: 0, tags: [''] },
-                      { year: 2019, expertise: 0, tags: [''] },
-                      { year: 2020, expertise: 0, tags: [''] },
-                    ],
+                    timeline: [],
                   },
                 ],
               },
             ];
+            var d = new Date();
+            d = d.getFullYear();
+            experience[0].end = d;
+            experience[0].start = d - 7;
+            for (let year = d - 7; year <= d; year++) {
+              const timeline = {
+                year: year,
+                expertise: 0,
+                tags: [''],
+              };
+              experience[1].skills[0].timeline.push(timeline);
+            }
             user.experienceTimeline = experience;
           }
           if (user.programmingSkills.length == 0) {
@@ -737,24 +712,28 @@ export default {
         .then((user) => {
           if (user.experienceTimeline.length == 0) {
             let experience = [
-              { start: '2014', end: '2020' },
+              { start: '', end: '' },
               {
                 skills: [
                   {
                     skill: '',
-                    timeline: [
-                      { year: 2014, expertise: 0, tags: [''] },
-                      { year: 2015, expertise: 0, tags: [''] },
-                      { year: 2016, expertise: 0, tags: [''] },
-                      { year: 2017, expertise: 0, tags: [''] },
-                      { year: 2018, expertise: 0, tags: [''] },
-                      { year: 2019, expertise: 0, tags: [''] },
-                      { year: 2020, expertise: 0, tags: [''] },
-                    ],
+                    timeline: [],
                   },
                 ],
               },
             ];
+            var d = new Date();
+            d = d.getFullYear();
+            experience[0].end = d;
+            experience[0].start = d - 7;
+            for (let year = d - 7; year <= d; year++) {
+              const timeline = {
+                year: year,
+                expertise: 0,
+                tags: [''],
+              };
+              experience[1].skills[0].timeline.push(timeline);
+            }
             user.experienceTimeline = experience;
           }
           if (user.programmingSkills.length == 0) {
@@ -846,6 +825,68 @@ export default {
         experienceTimeline: this.profile.experienceTimeline,
       };
     },
+    onExperienceTimelineStartDateChange: function ({ indexSent, year }) {
+      year.start = parseInt(year.start);
+      year.end = parseInt(year.end);
+      this.profile.experienceTimeline[0].start = year.start;
+      this.profile.experienceTimeline[0].end = year.end;
+      this.profile.experienceTimeline[1].skills.map((re, ind) => {
+        re.timeline.map((res, index) => {
+          if (index == 0) {
+            if (res.year < year.start) {
+              this.profile.experienceTimeline[1].skills[ind].timeline.splice(
+                0,
+                year.start - res.year
+              );
+            }
+            if (res.year > year.start) {
+              let oldData = this.profile.experienceTimeline[1].skills[ind]
+                .timeline;
+              this.profile.experienceTimeline[1].skills[ind].timeline = [];
+              for (let i = 0; i < res.year - year.start; i++) {
+                let data = {
+                  year: year.start + i,
+                  tags: [''],
+                  expertise: 0,
+                };
+                this.profile.experienceTimeline[1].skills[ind].timeline.push(
+                  data
+                );
+              }
+              for (let i = 0; i < oldData.length; i++) {
+                this.profile.experienceTimeline[1].skills[ind].timeline.push(
+                  oldData[i]
+                );
+              }
+            }
+          }
+          if (index == re.timeline.length - 1) {
+            if (res.year < year.end) {
+              for (let i = 1; i <= year.end - res.year; i++) {
+                let data = {
+                  year: res.year + i,
+                  tags: [''],
+                  expertise: 0,
+                };
+                this.profile.experienceTimeline[1].skills[ind].timeline.push(
+                  data
+                );
+              }
+            }
+            if (res.year > year.end) {
+              this.profile.experienceTimeline[1].skills[ind].timeline.splice(
+                re.timeline.length - (res.year - year.end),
+                res.year - year.end
+              );
+            }
+          }
+        });
+      });
+      this.profile = {
+        ...this.profile,
+        experienceTimeline: this.profile.experienceTimeline,
+      };
+    },
     onExperienceTimelineChange: function ({ index, skill }) {
       if (skill.label == '') {
         skill.label = this.previousSkill;
@@ -892,39 +933,48 @@ export default {
       this.profile.skills.splice(index, 1);
     },
     addExperienceTimeline(label) {
+      const timeLine = [];
+      for (
+        let year = this.profile.experienceTimeline[0].start;
+        year <= this.profile.experienceTimeline[0].end;
+        year++
+      ) {
+        const timeline = {
+          year: year,
+          expertise: 0,
+          tags: [''],
+        };
+        timeLine.push(timeline);
+      }
       this.profile.experienceTimeline[1].skills.push({
         skill: '',
-        timeline: [
-          { year: 2014, expertise: 0, tags: [''] },
-          { year: 2015, expertise: 0, tags: [''] },
-          { year: 2016, expertise: 0, tags: [''] },
-          { year: 2017, expertise: 0, tags: [''] },
-          { year: 2018, expertise: 0, tags: [''] },
-          { year: 2019, expertise: 0, tags: [''] },
-          { year: 2020, expertise: 0, tags: [''] },
-        ],
+        timeline: timeLine,
       });
     },
     deleteExperienceTimeline: function (index, label) {
+      const timeLine = [];
+      for (
+        let year = this.profile.experienceTimeline[0].start;
+        year <= this.profile.experienceTimeline[0].end;
+        year++
+      ) {
+        const timeline = {
+          year: year,
+          expertise: 0,
+          tags: [''],
+        };
+        timeLine.push(timeline);
+      }
       this.profile.experienceTimeline[1].skills.map((re, indexNumber) => {
         if (re.skill == label) {
           if (index > 0) {
             this.profile.experienceTimeline[1].skills.splice(index, 1);
           } else {
             re.skill = '';
-            re.timeline = [
-              { year: 2014, expertise: 0, tags: [''] },
-              { year: 2015, expertise: 0, tags: [''] },
-              { year: 2016, expertise: 0, tags: [''] },
-              { year: 2017, expertise: 0, tags: [''] },
-              { year: 2018, expertise: 0, tags: [''] },
-              { year: 2019, expertise: 0, tags: [''] },
-              { year: 2020, expertise: 0, tags: [''] },
-            ];
+            re.timeline = timeLine;
           }
         }
       });
-
       this.profile = {
         ...this.profile,
         experienceTimeline: this.profile.experienceTimeline,

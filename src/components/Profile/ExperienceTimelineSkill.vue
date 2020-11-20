@@ -1,11 +1,33 @@
 <template>
-  <div class="host">
+  <div
+    v-if="!startDateEdit"
+    class="host"
+  >
     <span class="skill-name">
       <EditableValue
         :value="label"
         :is-editable="isEditable"
         :placeholder="'Skill'"
         @change="onNameChange"
+      />
+    </span>
+  </div>
+  <div
+    v-else
+    class="host"
+  >
+    <span class="skill-name">
+      <EditableValue
+        :value="start"
+        :is-editable="isEditable"
+        :placeholder="'Start Year'"
+        @change="onStartChange"
+      />
+      <EditableValue
+        :value="end"
+        :is-editable="isEditable"
+        :placeholder="'End Year'"
+        @change="onEndChange"
       />
     </span>
   </div>
@@ -25,7 +47,18 @@ export default {
       type: String,
       default: '',
     },
-
+    startDateEdit: {
+      type: Boolean,
+      default: false,
+    },
+    start: {
+      type: Number,
+      default: 0,
+    },
+    end: {
+      type: Number,
+      default: 0,
+    },
     index: {
       type: Number,
       default: 0,
@@ -38,6 +71,7 @@ export default {
   data() {
     return {
       skill: {},
+      year: {},
     };
   },
   computed: {
@@ -50,11 +84,33 @@ export default {
       label: this.label,
       previousLabel: this.label,
     };
+    this.year = {
+      start: this.start,
+      end: this.end,
+    };
   },
   methods: {
     onNameChange: function (val) {
       this.skill.label = val;
       this.$emit('change', { index: this.index, skill: this.skill });
+    },
+    onEndChange: function (val) {
+      var d = new Date();
+      d = d.getFullYear();
+      if (val <= d) {
+        this.year.end = val;
+      } else {
+        this.year.end = this.end;
+      }
+      this.$emit('change', { index: this.index, year: this.year });
+    },
+    onStartChange: function (val) {
+      if (val < this.end) {
+        this.year.start = val;
+      } else {
+        this.year.start = this.start;
+      }
+      this.$emit('change', { index: this.index, year: this.year });
     },
   },
 };

@@ -2,7 +2,7 @@
 <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
 <script>
 import { Line } from 'vue-chartjs';
-import { colorsSet, transparentColor } from './ColorsConfig';
+import { colorsSet, transparentColor, fontColorSet } from './ColorsConfig';
 export default {
   name: 'Charts',
   props: {
@@ -10,10 +10,18 @@ export default {
       type: Array,
       default: () => [],
     },
+    start: {
+      type: Number,
+      default: 0,
+    },
+    end: {
+      type: Number,
+      default: 0,
+    },
   },
   data: () => ({
     chartdata: {
-      labels: [2014, 2015, 2016, 2017, 2018, 2019, 2020],
+      labels: [],
       datasets: [],
     },
     options: {
@@ -60,15 +68,12 @@ export default {
               drawOnChartArea: false,
             },
             ticks: {
-              suggestedMin: 0,
               fontSize: 18,
               padding: 20,
-              fontColor: '#2583CD',
+              fontColor: fontColorSet,
               textAlign: 'center',
               callback: function (label, index, labels) {
                 switch (label) {
-                  case 0:
-                    return label;
                   case 1:
                     label = 'Just started';
                     return label;
@@ -96,7 +101,7 @@ export default {
             },
             ticks: {
               padding: 20,
-              fontColor: '#2583CD',
+              fontColor: fontColorSet,
             },
           },
         ],
@@ -106,6 +111,9 @@ export default {
   extends: Line,
 
   mounted() {
+    for (let year = this.start; year <= this.end; year++) {
+      this.chartdata.labels.push(year);
+    }
     this.getDataSet();
     this.getBubbleDataSet();
     this.renderChart(this.chartdata, this.options);
