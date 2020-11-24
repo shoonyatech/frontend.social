@@ -95,9 +95,9 @@ export default {
       this.$emit('change', { index: this.index, skill: this.skill });
     },
     onEndChange: function (val) {
-      var d = new Date();
-      d = d.getFullYear();
-      if (val <= d) {
+      var currentYear = new Date();
+      currentYear = currentYear.getFullYear();
+      if (val <= currentYear) {
         this.year.end = val;
       } else {
         this.year.end = this.end;
