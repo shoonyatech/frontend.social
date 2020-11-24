@@ -3,7 +3,11 @@
     <Loader v-show="loading" />
     <b-container>
       <b-row>
-        <b-col md="3" sm="12" class="photo-col">
+        <b-col
+          md="3"
+          sm="12"
+          class="photo-col"
+        >
           <Section
             v-if="isEditable"
             title="Profile Image"
@@ -17,7 +21,7 @@
                 :src="profile.profilePic"
                 class="user-profile-photo"
                 alt="profile"
-              />
+              >
             </a>
 
             <input
@@ -26,21 +30,31 @@
               type="file"
               class="image-input"
               @change="image"
-            />
+            >
           </Section>
-          <a v-else :href="profile.profilePic">
+          <a
+            v-else
+            :href="profile.profilePic"
+          >
             <img
               :src="profile.profilePic"
               class="profile-photo"
               alt="profile"
-            />
+            >
           </a>
           <div
             v-if="profile.badges && profile.badges.length"
             class="profile-badges"
           >
-            <div v-for="item in profile.badges" :key="item" class="badges">
-              <img :src="getBadgeImage(item)" :alt="item" />
+            <div
+              v-for="item in profile.badges"
+              :key="item"
+              class="badges"
+            >
+              <img
+                :src="getBadgeImage(item)"
+                :alt="item"
+              >
               <span>{{ item }}</span>
             </div>
           </div>
@@ -56,8 +70,11 @@
               v-if="editModeAboutMe"
               v-model="profile.name"
               class="left-input"
-            />
-            <div v-else class="user-name">
+            >
+            <div
+              v-else
+              class="user-name"
+            >
               {{ profile.name }}
             </div>
             <div>
@@ -65,8 +82,13 @@
                 v-if="editModeAboutMe"
                 v-model="profile.username"
                 class="left-input"
-              />
-              <div v-else class="user-username">@{{ profile.username }}</div>
+              >
+              <div
+                v-else
+                class="user-username"
+              >
+                @{{ profile.username }}
+              </div>
             </div>
             <div>
               <div v-if="editModeAboutMe">
@@ -76,7 +98,7 @@
                     class="radio-input"
                     type="radio"
                     value="dev"
-                  />
+                  >
                   <span class="radio-label">Dev</span>
                 </span>
                 <span class="radio">
@@ -85,11 +107,14 @@
                     class="radio-input"
                     type="radio"
                     value="designer"
-                  />
+                  >
                   <span class="radio-label">Designer</span>
                 </span>
               </div>
-              <div v-else class="user-name">
+              <div
+                v-else
+                class="user-name"
+              >
                 <span class="light-text">I am a</span>
                 <span>
                   {{ profile.category == 'dev' ? 'Developer' : 'Designer' }}
@@ -116,8 +141,7 @@
                 :href="publicProfile"
                 target="_blank"
                 rel="noopener"
-                >{{ publicProfile }}</a
-              >
+              >{{ publicProfile }}</a>
             </div>
           </Section>
           <Section
@@ -133,12 +157,14 @@
                 :href="referralLink"
                 target="_blank"
                 rel="noopener"
-                >{{ referralLink }}</a
-              >
+              >{{ referralLink }}</a>
             </div>
           </Section>
         </b-col>
-        <b-col md="9" sm="12">
+        <b-col
+          md="9"
+          sm="12"
+        >
           <Section
             v-if="profile.experienceTimeline != null"
             ref="portfolio"
@@ -152,7 +178,7 @@
             <div
               v-if="
                 !editModeExperienceTimeline &&
-                profile.experienceTimeline.length > 0
+                  profile.experienceTimeline.length > 0
               "
             >
               <Charts
@@ -176,7 +202,7 @@
                   .skills"
                 :key="item.label"
               >
-                <br />
+                <br>
                 <span class="skill-control">
                   <ExperienceTimelineSkill
                     :label="item.skill"
@@ -199,7 +225,7 @@
                       :src="`/images/delete.svg`"
                       class="icon-button"
                       alt="delete"
-                    />
+                    >
                   </div>
                   <div class="add-container">
                     <button
@@ -216,7 +242,10 @@
                   <span class="skill-rating">Tags</span>
                   <span class="skills-delete-placeholder" />
                 </div>
-                <span v-for="(time, index) in item.timeline" :key="time.label">
+                <span
+                  v-for="(time, index) in item.timeline"
+                  :key="time.label"
+                >
                   <ExperienceTimeline
                     :name="time.year"
                     :rating="time.expertise"
@@ -229,8 +258,8 @@
                   />
                 </span>
               </div>
-            </div> </Section
-          ><br />
+            </div>
+          </Section><br>
           <Section
             ref="portfolio"
             title="Portfolio and Social links"
@@ -263,10 +292,17 @@
                 v-for="item in profile.programmingSkills"
                 :key="item.label"
               >
-                <b-col md="6" sm="12">
+                <b-col
+                  md="6"
+                  sm="12"
+                >
                   {{ item.label }}
                 </b-col>
-                <b-col md="6" sm="12" class="programming-skills-values">
+                <b-col
+                  md="6"
+                  sm="12"
+                  class="programming-skills-values"
+                >
                   <div v-if="!editModeprogrammingSkills">
                     <span
                       v-for="(value, index) in item.values"
@@ -285,12 +321,10 @@
                         <span
                           v-if="value.level == 3"
                           :style="{ fontSize: '20px' }"
-                          >{{ value.skill }}</span
-                        ><span
+                        >{{ value.skill }}</span><span
                           v-else-if="value.level == 2"
                           :style="{ fontSize: '15px' }"
-                          >{{ value.skill }}</span
-                        >
+                        >{{ value.skill }}</span>
                         <span v-else>{{ value.skill }}</span>
                         <span v-if="index + 1 != item.values.length">, </span>
                       </span>
@@ -331,7 +365,7 @@
                           :src="`/images/delete.svg`"
                           class="icon-button"
                           alt="delete"
-                        />
+                        >
                       </div>
                       <div class="add-container">
                         <button
@@ -394,7 +428,7 @@
                     :src="`/images/delete.svg`"
                     class="icon-button"
                     alt="delete"
-                  />
+                  >
                 </div>
               </span>
             </div>
@@ -420,7 +454,7 @@
                   v-model="pointsToRedeem"
                   type="number"
                   :disabled="rewardPoints < 1000"
-                />
+                >
                 <button
                   :disabled="!pointsToRedeem || rewardPoints < 1000"
                   @click="redeemRewardPoints()"
@@ -467,18 +501,23 @@
             class="events-attended"
             :is-editable="editModeActivity && isEditable"
           >
-            <div v-for="(activity, index) in newActivity" :key="index">
+            <div
+              v-for="(activity, index) in newActivity"
+              :key="index"
+            >
               <section v-if="index > 0">
                 <span
                   v-if="
                     newActivity[index].createdAt !=
-                    newActivity[index - 1].createdAt
+                      newActivity[index - 1].createdAt
                   "
                   class="activityDate"
-                  ><br />{{ activity.createdAt }}</span
-                >
+                ><br>{{ activity.createdAt }}</span>
               </section>
-              <section v-if="index === 0" class="activityDate">
+              <section
+                v-if="index === 0"
+                class="activityDate"
+              >
                 {{ activity.createdAt }}
               </section>
               -
@@ -650,11 +689,11 @@ export default {
                 ],
               },
             ];
-            var d = new Date();
-            d = d.getFullYear();
-            experience[0].end = d;
-            experience[0].start = d - 7;
-            for (let year = d - 7; year <= d; year++) {
+            var currentYear = new Date();
+            currentYear = currentYear.getFullYear();
+            experience[0].end = currentYear;
+            experience[0].start = currentYear - 7;
+            for (let year = currentYear - 7; year <= currentYear; year++) {
               const timeline = {
                 year: year,
                 expertise: 0,
@@ -722,11 +761,11 @@ export default {
                 ],
               },
             ];
-            var d = new Date();
-            d = d.getFullYear();
-            experience[0].end = d;
-            experience[0].start = d - 7;
-            for (let year = d - 7; year <= d; year++) {
+            var currentYear = new Date();
+            currentYear = currentYear.getFullYear();
+            experience[0].end = currentYear;
+            experience[0].start = currentYear - 7;
+            for (let year = currentYear - 7; year <= currentYear; year++) {
               const timeline = {
                 year: year,
                 expertise: 0,
