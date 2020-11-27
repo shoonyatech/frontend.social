@@ -2,7 +2,12 @@
 <script src="https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js"></script>
 <script>
 import { Line } from 'vue-chartjs';
-import { colorsSet, transparentColor, fontColorSet } from './ColorsConfig';
+import {
+  colorsSet,
+  transparentColor,
+  fontColorSet,
+  chartAxis,
+} from './ColorsConfig';
 export default {
   name: 'Charts',
   props: {
@@ -75,20 +80,15 @@ export default {
               callback: function (label, index, labels) {
                 switch (label) {
                   case 1:
-                    label = 'Just started';
-                    return label;
+                    return chartAxis[label];
                   case 2:
-                    label = 'Picking up';
-                    return label;
+                    return chartAxis[label];
                   case 3:
-                    label = 'Average';
-                    return label;
+                    return chartAxis[label];
                   case 4:
-                    label = 'Good';
-                    return label;
+                    return chartAxis[label];
                   case 5:
-                    label = 'Expert';
-                    return label;
+                    return chartAxis[label];
                 }
               },
             },

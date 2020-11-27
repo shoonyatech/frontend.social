@@ -166,6 +166,25 @@
           sm="12"
         >
           <Section
+            ref="portfolio"
+            title="Portfolio and Social links"
+            class="portfolio"
+            :on-edit="editSocials"
+            :on-save="saveSocials"
+            :on-cancel="cancelSocials"
+            :is-editable="isEditable"
+          >
+            <KeyValue
+              v-for="item in profile.social"
+              :key="item.label"
+              :label="item.label"
+              :value="item.value"
+              :is-editable="editModeSocials"
+              @change="onSocialChange"
+            />
+          </Section>
+          <br>
+          <Section
             v-if="profile.experienceTimeline != null"
             ref="portfolio"
             title="Experience Timeline"
@@ -259,24 +278,6 @@
                 </span>
               </div>
             </div>
-          </Section><br>
-          <Section
-            ref="portfolio"
-            title="Portfolio and Social links"
-            class="portfolio"
-            :on-edit="editSocials"
-            :on-save="saveSocials"
-            :on-cancel="cancelSocials"
-            :is-editable="isEditable"
-          >
-            <KeyValue
-              v-for="item in profile.social"
-              :key="item.label"
-              :label="item.label"
-              :value="item.value"
-              :is-editable="editModeSocials"
-              @change="onSocialChange"
-            />
           </Section>
           <Section
             ref="programmingSkills"
@@ -725,7 +726,7 @@ export default {
               { label: 'Tracking Tools', values: [{ skill: '', level: 1 }] },
               { label: 'CI/CD', values: [{ skill: '', level: 1 }] },
               { label: 'Source Controls', values: [{ skill: '', level: 1 }] },
-              { label: 'MOdeling Language', values: [{ skill: '', level: 1 }] },
+              { label: 'Modeling Language', values: [{ skill: '', level: 1 }] },
               { label: 'Cloud Platforms', values: [{ skill: '', level: 1 }] },
               { label: 'Mobile Platforms', values: [{ skill: '', level: 1 }] },
               { label: 'Protocols', values: [{ skill: '', level: 1 }] },
@@ -797,7 +798,7 @@ export default {
               { label: 'Tracking Tools', values: [{ skill: '', level: 1 }] },
               { label: 'CI/CD', values: [{ skill: '', level: 1 }] },
               { label: 'Source Controls', values: [{ skill: '', level: 1 }] },
-              { label: 'MOdeling Language', values: [{ skill: '', level: 1 }] },
+              { label: 'Modeling Language', values: [{ skill: '', level: 1 }] },
               { label: 'Cloud Platforms', values: [{ skill: '', level: 1 }] },
               { label: 'Mobile Platforms', values: [{ skill: '', level: 1 }] },
               { label: 'Protocols', values: [{ skill: '', level: 1 }] },
