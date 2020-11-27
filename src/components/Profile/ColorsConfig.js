@@ -25,4 +25,12 @@ const transparentColor = [
   'rgb(255, 202, 51,0.5)',
 ];
 const fontColorSet = '#2583CD';
-export { colorsSet, transparentColor, fontColorSet };
+const chartAxis = [
+  '0',
+  'Just started',
+  'Picking up',
+  'Average',
+  'Good',
+  'Expert',
+];
+export { colorsSet, transparentColor, fontColorSet, chartAxis };
