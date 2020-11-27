@@ -77,19 +77,8 @@ export default {
               padding: 20,
               fontColor: fontColorSet,
               textAlign: 'center',
-              callback: function (label, index, labels) {
-                switch (label) {
-                  case 1:
-                    return chartAxis[label];
-                  case 2:
-                    return chartAxis[label];
-                  case 3:
-                    return chartAxis[label];
-                  case 4:
-                    return chartAxis[label];
-                  case 5:
-                    return chartAxis[label];
-                }
+              callback: function (labelIndex, index, labels) {
+                return chartAxis[labelIndex];
               },
             },
           },
