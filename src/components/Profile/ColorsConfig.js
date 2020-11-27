@@ -26,7 +26,7 @@ const transparentColor = [
 ];
 const fontColorSet = '#2583CD';
 const chartAxis = [
-  '0',
+  '',
   'Just started',
   'Picking up',
   'Average',
