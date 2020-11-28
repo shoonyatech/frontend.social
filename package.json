@@ -78,6 +78,7 @@
     "sass": "^1.25.0",
     "sass-loader": "^7.1.0",
     "vue-chartjs": "^3.5.1",
+    "vue-sidebar-menu": "^4.7.4",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
