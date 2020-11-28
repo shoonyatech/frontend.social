@@ -9,19 +9,22 @@
     >
       {{ `${showFilters ? 'Hide' : 'Show'} Filters` }}
     </div>
-    <div class="filter-panel">
-      <input
-        placeholder="Search keyword"
-        class="filter-input"
-        @input="handleInputChange"
-      >
-      <EditCity
-        v-show="!hideCity"
-        :edit-mode="true"
-        :city="city"
-        :country="country"
-        @change="onCityChange"
-      />
+    <b-card class="filter-panel">
+      <div class="d-block d-md-none">
+        <input
+          placeholder="Enter keyword"
+          class="filter-input"
+          @input="handleInputChange"
+        >
+        <EditCity
+          v-show="!hideCity"
+          :edit-mode="true"
+          :city="city"
+          :country="country"
+          @change="onCityChange"
+        />
+      </div>
+
       <div
         v-show="skills.length > 0"
         class="skills-filter"
@@ -40,6 +43,7 @@
           :on-click="handleSkillSelection"
         />
       </div>
+      <hr>
       <div
         v-show="jobTypes.length > 0"
         class="job-type-time"
@@ -58,6 +62,7 @@
           :on-click="handleJobSelection"
         />
       </div>
+      <hr>
       <div
         v-show="expertiseLevel.length > 0"
         class="expertise-level-filters"
@@ -77,7 +82,7 @@
           :on-click="handleLevelSelection"
         />
       </div>
-    </div>
+    </b-card>
   </div>
 </template>
 
@@ -86,208 +91,207 @@ import Facet from '../Filter/Filter';
 import { filtersSet } from './FiltersConfig';
 import EditCity from '../City/EditCity';
 const getSelectedFilters = (filters = []) => {
-	let selectedSkills = [];
-	filters.forEach((item) => {
-		if (item.selected) {
-			selectedSkills.push(item.id);
-		}
-	});
-	return selectedSkills;
+  let selectedSkills = [];
+  filters.forEach((item) => {
+    if (item.selected) {
+      selectedSkills.push(item.id);
+    }
+  });
+  return selectedSkills;
 };
 
 const resetFilters = (queryString = '') => {
-	const filters = ['skills', 'level', 'jobTypes'];
-	let queryParams = queryString.split('&');
-	const queryParamWithoutFilters = queryParams.filter((item) => {
-		const [key] = item.split('=');
-		return queryParams.includes(key);
-	});
-	return queryParamWithoutFilters.join('&');
+  const filters = ['skills', 'level', 'jobTypes'];
+  let queryParams = queryString.split('&');
+  const queryParamWithoutFilters = queryParams.filter((item) => {
+    const [key] = item.split('=');
+    return queryParams.includes(key);
+  });
+  return queryParamWithoutFilters.join('&');
 };
 export default {
-	name: 'Filters',
-	components: {
-		Facet,
-		EditCity,
-	},
-	props: {
-		onSearchInputChange: {
-			type: Function,
-			default: () => {},
-		},
-		onSearchParamsChange: {
-			type: Function,
-			default: () => {},
-		},
-		setInitialQuery: {
-			type: Function,
-			default: () => {},
-		},
-		skills: {
-			type: Array,
-			required: true,
-		},
-		jobTypes: {
-			type: Array,
-			required: true,
-		},
-		expertiseLevel: {
-			type: Array,
-			required: false,
-			default: function () {
-				const { beginner, expert, intermediate } = filtersSet;
-				return [beginner, intermediate, expert];
-			},
-		},
-		hideCity: {
-			type: Boolean,
-			default: false,
-		},
-	},
-	data: function () {
-		let selectedLevel;
-		return {
-			filterTypes: {
-				CHECKBOX: 'checkbox',
-				RADIO: 'radio',
-			},
-			showFilters: true,
-			selectedLevel,
-			city: null,
-			country: null,
-		};
-	},
-	mounted() {
-		const initialQuery = this.getAppliedFacetsQuery();
-		this.setInitialQuery(initialQuery);
-	},
-	methods: {
-		handleInputChange(e) {
-			const searchText = e.target.value || '';
-			const searchTextQuery = searchText.length
-				? `searchText=${searchText}`
-				: '';
-			const searchQuery = `${searchTextQuery}${this.getAppliedFacetsQuery()}`;
-			this.onSearchParamsChange(searchQuery);
-		},
-		toggleFilterViewVisibilityInMobile() {
-			this.showFilters = !this.showFilters;
-		},
-		handleSkillSelection(id) {
-			let currentSkill = this.skills.find((item) => item.id === id);
-			currentSkill.selected = !currentSkill.selected;
-			const searchQuery = this.getAppliedFacetsQuery();
-			this.onSearchParamsChange(searchQuery);
-		},
-		handleJobSelection(id) {
-			let currentJob = this.jobTypes.find((item) => item.id === id);
-			currentJob.selected = !currentJob.selected;
-			const searchQuery = this.getAppliedFacetsQuery();
-			this.onSearchParamsChange(searchQuery);
-		},
-		handleLevelSelection(id) {
-			if (this.selectedLevel !== filtersSet[id].level) {
-				this.selectedLevel = filtersSet[id].level;
-			}
-			const searchQuery = this.getAppliedFacetsQuery();
-			this.onSearchParamsChange(searchQuery, 'level', this.selectedLevel);
-		},
-		getAppliedFacetsQuery: function () {
-			let [, currentQuery = ''] = window.location.search.split('?');
+  name: 'Filters',
+  components: {
+    Facet,
+    EditCity,
+  },
+  props: {
+    onSearchInputChange: {
+      type: Function,
+      default: () => {},
+    },
+    onSearchParamsChange: {
+      type: Function,
+      default: () => {},
+    },
+    setInitialQuery: {
+      type: Function,
+      default: () => {},
+    },
+    skills: {
+      type: Array,
+      required: true,
+    },
+    jobTypes: {
+      type: Array,
+      required: true,
+    },
+    expertiseLevel: {
+      type: Array,
+      required: false,
+      default: function () {
+        const { beginner, expert, intermediate } = filtersSet;
+        return [beginner, intermediate, expert];
+      },
+    },
+    hideCity: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data: function () {
+    let selectedLevel;
+    return {
+      filterTypes: {
+        CHECKBOX: 'checkbox',
+        RADIO: 'radio',
+      },
+      showFilters: true,
+      selectedLevel,
+      city: null,
+      country: null,
+    };
+  },
+  mounted() {
+    const initialQuery = this.getAppliedFacetsQuery();
+    this.setInitialQuery(initialQuery);
+  },
+  methods: {
+    handleInputChange(e) {
+      const searchText = e.target.value || '';
+      const searchTextQuery = searchText.length
+        ? `searchText=${searchText}`
+        : '';
+      const searchQuery = `${searchTextQuery}${this.getAppliedFacetsQuery()}`;
+      this.onSearchParamsChange(searchQuery);
+    },
+    toggleFilterViewVisibilityInMobile() {
+      this.showFilters = !this.showFilters;
+    },
+    handleSkillSelection(id) {
+      let currentSkill = this.skills.find((item) => item.id === id);
+      currentSkill.selected = !currentSkill.selected;
+      const searchQuery = this.getAppliedFacetsQuery();
+      this.onSearchParamsChange(searchQuery);
+    },
+    handleJobSelection(id) {
+      let currentJob = this.jobTypes.find((item) => item.id === id);
+      currentJob.selected = !currentJob.selected;
+      const searchQuery = this.getAppliedFacetsQuery();
+      this.onSearchParamsChange(searchQuery);
+    },
+    handleLevelSelection(id) {
+      if (this.selectedLevel !== filtersSet[id].level) {
+        this.selectedLevel = filtersSet[id].level;
+      }
+      const searchQuery = this.getAppliedFacetsQuery();
+      this.onSearchParamsChange(searchQuery, 'level', this.selectedLevel);
+    },
+    getAppliedFacetsQuery: function () {
+      let [, currentQuery = ''] = window.location.search.split('?');
 
-			let queryString = resetFilters(currentQuery);
-			const selectedSkills = getSelectedFilters(this.skills);
-			if (selectedSkills.length) {
-				queryString += `&skills=${selectedSkills.join(',')}`;
-			}
-			const selectedJobTypes = getSelectedFilters(this.jobTypes);
-			if (selectedJobTypes.length) {
-				queryString += `&jobTypes=${selectedJobTypes.join(',')}`;
-			}
+      let queryString = resetFilters(currentQuery);
+      const selectedSkills = getSelectedFilters(this.skills);
+      if (selectedSkills.length) {
+        queryString += `&skills=${selectedSkills.join(',')}`;
+      }
+      const selectedJobTypes = getSelectedFilters(this.jobTypes);
+      if (selectedJobTypes.length) {
+        queryString += `&jobTypes=${selectedJobTypes.join(',')}`;
+      }
 
-			const selectedlevel =
-				this.expertiseLevel.find((item) => item.level === this.selectedLevel) ||
-				{};
-			if (selectedlevel.query) {
-				queryString += selectedlevel.query;
-			}
-			if (this.city) {
-				queryString += `&city=${this.city}`;
-			}
-			if (this.country) {
-				queryString += `&country=${this.country}`;
-			}
-			return queryString;
-		},
-		onCityChange: function (city) {
-			this.city = city.name;
-			this.country = city.country;
-			const searchQuery = this.getAppliedFacetsQuery();
-			this.onSearchParamsChange(searchQuery);
-		},
-	},
+      const selectedlevel =
+        this.expertiseLevel.find((item) => item.level === this.selectedLevel) ||
+        {};
+      if (selectedlevel.query) {
+        queryString += selectedlevel.query;
+      }
+      if (this.city) {
+        queryString += `&city=${this.city}`;
+      }
+      if (this.country) {
+        queryString += `&country=${this.country}`;
+      }
+      return queryString;
+    },
+    onCityChange: function (city) {
+      this.city = city.name;
+      this.country = city.country;
+      const searchQuery = this.getAppliedFacetsQuery();
+      this.onSearchParamsChange(searchQuery);
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .filter-panel {
-	padding: 20px;
-	overflow-y: auto;
+  padding: 20px;
+  overflow-y: auto;
 }
 
 .filter-input {
-	width: 100%;
+  width: 100%;
 }
 
 .filter-search-box {
-	margin: 5px;
-	border: 2px solid #114273;
+  margin: 5px;
+  border: 2px solid #114273;
 
-	input {
-		width: 100%;
-		padding: 10px;
-		cursor: pointer;
-		border: none;
+  input {
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    border: none;
 
-		&:focus {
-			outline: none;
-		}
-	}
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 .filter-label {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .expand-button {
-	height: 1.5rem;
-	background-color: #114273;
-	color: white;
-	text-align: center;
+  width: 100%;
+  height: 1.5rem;
+  background-color: #114273;
+  color: white;
+  text-align: center;
 }
 
 @media screen and (max-width: 768px) {
-	.filters {
-		background-color: white;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		z-index: 100;
+  .filters {
+    background-color: white;
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    overflow-y: hidden;
+    transition-property: max-height;
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
 
-		overflow-y: hidden;
+    &.closed {
+      max-height: 1.5rem;
+    }
+  }
 
-		transition-property: max-height;
-		transition-duration: 0.25s;
-		transition-timing-function: ease-out;
-
-		&.closed {
-			max-height: 1.5rem;
-		}
-	}
-
-	.filter-panel {
-		height: 20rem;
-	}
+  .filter-panel {
+    height: 20rem;
+  }
 }
 </style>

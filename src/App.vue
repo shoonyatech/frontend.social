@@ -136,7 +136,7 @@ export default {
 }
 
 .theme-light {
-  --fs-bg: #fff;
+  --fs-bg: #f5f5f5;
   --fs-primary-color: #2c3e50;
   --fs-secondary-color: #114273; //#114273;
   --fs-link-color: #1d8db1;
@@ -173,7 +173,6 @@ body {
   .main {
     min-height: 83vh;
     padding-top: 87px;
-
     @media screen and (max-width: 759px) {
       padding-top: 70px;
     }
@@ -236,10 +235,8 @@ body {
 }
 
 h1 {
-  font-size: 1.2rem;
-  text-align: left;
+  font-size: 1.5rem;
   width: 100%;
-  border-bottom: 1px solid #114273;
   padding-bottom: 7px;
 }
 
@@ -266,7 +263,6 @@ a {
 }
 
 a:hover {
-  background-color: #11427334;
   text-decoration: none;
 }
 
@@ -287,8 +283,6 @@ button {
 }
 
 button:hover {
-  background-color: #38628c;
-
   &.error {
     background-color: rgba(212, 68, 68, 0.733);
   }
