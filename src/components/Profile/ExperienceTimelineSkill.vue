@@ -125,7 +125,7 @@ export default {
 
 .skill-name {
   flex: 0 0 auto;
-  width: 15rem;
+  width: 100%;
   margin-right: 0.5rem;
 }
 

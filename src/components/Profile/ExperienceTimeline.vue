@@ -1,7 +1,16 @@
 <template>
   <div class="host">
     <span class="skill-name"> {{ name }}</span>
-    <span class="skill-rating">
+    <span class="skill-rating desktop">
+      <span
+        v-for="(value, i) in 5"
+        :key="i"
+        class="skill-rating-icon"
+        :class="{ selected: skill.rating === value, editable: isEditable }"
+        @click="onRatingChange(value)"
+      >{{ value }}</span>
+    </span>
+    <span class="skill-rating-mobile mobile">
       <span
         v-for="(value, i) in 5"
         :key="i"
@@ -87,6 +96,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.mobile {
+  display: none !important;
+}
+@media screen and (max-width: 759px) {
+  .desktop {
+    display: none !important;
+  }
+
+  .mobile {
+    display: flex !important;
+  }
+}
 .host {
   display: flex;
   width: 100%;
@@ -95,11 +116,12 @@ export default {
 
 .skill-name {
   flex: 0 0 auto;
-  width: 6rem;
+  width: 25%;
   margin-right: 0.5rem;
 }
 
 .skill-tag {
+  width: 30%;
   flex: 0 0 auto;
   margin-right: 0.5rem;
 }
@@ -118,6 +140,12 @@ export default {
   flex: 1 1 auto;
   margin: 2px auto;
   width: 100%;
+}
+.skill-rating-mobile {
+  flex: 1 1 auto;
+  margin: 2px auto;
+  width: 100%;
+  flex-direction: column;
 }
 
 .skill-rating-icon {
