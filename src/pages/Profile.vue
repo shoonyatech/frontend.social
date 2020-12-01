@@ -2,243 +2,280 @@
   <div class="profile">
     <Loader v-show="loading" />
     <b-container>
-      <b-row>
-        <b-col
-          md="3"
-          sm="12"
-          class="photo-col"
-        >
-          <Section
-            v-if="isEditable"
-            title="Profile Image"
-            :on-edit="editProfilePic"
-            :on-save="saveProfilePic"
-            :on-cancel="cancelProfilePic"
-            :is-editable="isEditable"
+      <b-card class="card">
+        <b-row>
+          <b-col
+            md="3"
+            sm="12"
           >
-            <a :href="profile.profilePic">
+            <Section
+              v-if="isEditable"
+              title="Profile Image"
+              :on-edit="editProfilePic"
+              :on-save="saveProfilePic"
+              :on-cancel="cancelProfilePic"
+              :is-editable="isEditable"
+            >
+              <a :href="profile.profilePic">
+                <img
+                  :src="profile.profilePic"
+                  class="user-profile-photo"
+                  alt="profile"
+                >
+              </a>
+
+              <input
+                v-if="editModeProfilePic"
+                id="file-upload"
+                type="file"
+                class="image-input"
+                @change="image"
+              >
+            </Section>
+            <a
+              v-else
+              :href="profile.profilePic"
+            >
               <img
                 :src="profile.profilePic"
-                class="user-profile-photo"
+                class="profile-photo"
                 alt="profile"
               >
             </a>
-
-            <input
-              v-if="editModeProfilePic"
-              id="file-upload"
-              type="file"
-              class="image-input"
-              @change="image"
-            >
-          </Section>
-          <a
-            v-else
-            :href="profile.profilePic"
-          >
-            <img
-              :src="profile.profilePic"
-              class="profile-photo"
-              alt="profile"
-            >
-          </a>
-          <div
-            v-if="profile.badges && profile.badges.length"
-            class="profile-badges"
-          >
             <div
-              v-for="item in profile.badges"
-              :key="item"
-              class="badges"
+              v-if="profile.badges && profile.badges.length"
+              class="profile-badges"
             >
-              <img
-                :src="getBadgeImage(item)"
-                :alt="item"
+              <div
+                v-for="item in profile.badges"
+                :key="item"
+                class="badges"
               >
-              <span>{{ item }}</span>
+                <img
+                  :src="getBadgeImage(item)"
+                  :alt="item"
+                >
+                <span>{{ item }}</span>
+              </div>
             </div>
-          </div>
-          <Section
-            title="About me"
-            class="about-me"
-            :on-edit="editAboutMe"
-            :on-save="saveAboutMe"
-            :on-cancel="cancelAboutMe"
-            :is-editable="isEditable"
+          </b-col>
+          <b-col
+            md="5"
+            sm="12"
           >
-            <input
-              v-if="editModeAboutMe"
-              v-model="profile.name"
-              class="left-input"
+            <Section
+              title="About me"
+              class="about-me"
+              :on-edit="editAboutMe"
+              :on-save="saveAboutMe"
+              :on-cancel="cancelAboutMe"
+              :is-editable="isEditable"
             >
-            <div
-              v-else
-              class="user-name"
-            >
-              {{ profile.name }}
-            </div>
-            <div>
               <input
                 v-if="editModeAboutMe"
-                v-model="profile.username"
+                v-model="profile.name"
                 class="left-input"
               >
               <div
                 v-else
-                class="user-username"
-              >
-                @{{ profile.username }}
-              </div>
-            </div>
-            <div>
-              <div v-if="editModeAboutMe">
-                <span class="radio">
-                  <input
-                    v-model="profile.category"
-                    class="radio-input"
-                    type="radio"
-                    value="dev"
-                  >
-                  <span class="radio-label">Dev</span>
-                </span>
-                <span class="radio">
-                  <input
-                    v-model="profile.category"
-                    class="radio-input"
-                    type="radio"
-                    value="designer"
-                  >
-                  <span class="radio-label">Designer</span>
-                </span>
-              </div>
-              <div
-                v-else
                 class="user-name"
               >
-                <span class="light-text">I am a</span>
-                <span>
-                  {{ profile.category == 'dev' ? 'Developer' : 'Designer' }}
-                </span>
+                {{ profile.name }}
               </div>
-            </div>
-            <edit-city
-              :edit-mode="editModeAboutMe"
-              :city="profile.city"
-              :country="profile.country"
-              :show-error="!username"
-              @change="onCityChange"
-            />
-          </Section>
-          <Section
-            title="Public Profile"
-            class="public-profile"
-            :is-editable="false"
+              <div>
+                <input
+                  v-if="editModeAboutMe"
+                  v-model="profile.username"
+                  class="left-input"
+                >
+                <div
+                  v-else
+                  class="user-username"
+                >
+                  @{{ profile.username }}
+                </div>
+              </div>
+              <div>
+                <div v-if="editModeAboutMe">
+                  <span class="radio">
+                    <input
+                      v-model="profile.category"
+                      class="radio-input"
+                      type="radio"
+                      value="dev"
+                    >
+                    <span class="radio-label">Dev</span>
+                  </span>
+                  <span class="radio">
+                    <input
+                      v-model="profile.category"
+                      class="radio-input"
+                      type="radio"
+                      value="designer"
+                    >
+                    <span class="radio-label">Designer</span>
+                  </span>
+                </div>
+                <div
+                  v-else
+                  class="user-name"
+                >
+                  <span class="light-text">I am a</span>
+                  <span>
+                    {{ profile.category == 'dev' ? 'Developer' : 'Designer' }}
+                  </span>
+                </div>
+              </div>
+              <edit-city
+                :edit-mode="editModeAboutMe"
+                :city="profile.city"
+                :country="profile.country"
+                :show-error="!username"
+                @change="onCityChange"
+              />
+            </Section>
+            <Section
+              ref="portfolio"
+              title="Portfolio and Social links"
+              class="portfolio"
+              :on-edit="editSocials"
+              :on-save="saveSocials"
+              :on-cancel="cancelSocials"
+              :is-editable="isEditable"
+            >
+              <span v-if="editModeSocials">
+                <KeyValue
+                  v-for="item in profile.social"
+                  :key="item.label"
+                  :label="item.label"
+                  :value="item.value"
+                  :is-editable="editModeSocials"
+                  @change="onSocialChange"
+                /></span>
+              <span v-else>
+                <span
+                  v-for="item in profile.social"
+                  :key="item.label"
+                >
+                  <a
+                    v-if="item.value != ''"
+                    class="social"
+                    name="item.label"
+                    rel="noopener"
+                    :href="item.value"
+                    target="_blank"
+                  ><img
+                     v-if="item.label === 'Github'"
+                     class="social-image"
+                     src="/images/github.svg"
+                   >
+                    <img
+                      v-if="item.label === 'Twitter'"
+                      class="social-image"
+                      src="/images/twitter.svg"
+                    ><img
+                      v-if="item.label === 'LinkedIn'"
+                      class="social-image"
+                      src="/images/slack.svg"
+                    ><img
+                      v-if="item.label === 'Bitbucket'"
+                      class="social-image"
+                      src="/images/bitbucket.svg"
+                    ><img
+                      v-if="item.label === 'Medium'"
+                      class="social-image"
+                      src="/images/medium.svg"
+                    ><img
+                      v-if="item.label === 'Website'"
+                      class="social-image"
+                      src="/images/web.svg"
+                    ><img
+                      v-if="item.label === 'Stack Overflow'"
+                      class="social-image"
+                      src="/images/stack-overflow.svg"
+                    >
+                  </a>
+                </span>
+              </span>
+            </Section>
+          </b-col>
+          <b-col
+            md="4"
+            sm="12"
           >
-            <div>
-              <a
-                name="publicprofile"
-                class="user-public-profile"
-                :href="publicProfile"
-                target="_blank"
-                rel="noopener"
-              >{{ publicProfile }}</a>
-            </div>
-          </Section>
-          <Section
-            v-if="!username"
-            title="Referral link"
-            class="referral-link"
-            :is-editable="false"
-          >
-            <div>
-              <a
-                name="referrallink"
-                class="user-referral-link"
-                :href="referralLink"
-                target="_blank"
-                rel="noopener"
-              >{{ referralLink }}</a>
-            </div>
-          </Section>
-        </b-col>
+            <Section
+              title="Public Profile"
+              class="public-profile"
+              :is-editable="false"
+            >
+              <div>
+                <a
+                  name="publicprofile"
+                  class="user-public-profile"
+                  :href="publicProfile"
+                  target="_blank"
+                  rel="noopener"
+                >{{ publicProfile }}</a>
+              </div>
+            </Section>
+            <Section
+              v-if="!username"
+              title="Referral link"
+              class="referral-link"
+              :is-editable="false"
+            >
+              <div>
+                <a
+                  name="referrallink"
+                  class="user-referral-link"
+                  :href="referralLink"
+                  target="_blank"
+                  rel="noopener"
+                >{{ referralLink }}</a>
+              </div>
+            </Section>
+          </b-col>
+        </b-row>
+      </b-card>
+      <b-row>
         <b-col
-          md="9"
+          md="6"
           sm="12"
         >
-          <Section
-            ref="portfolio"
-            title="Portfolio and Social links"
-            class="portfolio"
-            :on-edit="editSocials"
-            :on-save="saveSocials"
-            :on-cancel="cancelSocials"
-            :is-editable="isEditable"
-          >
-            <KeyValue
-              v-for="item in profile.social"
-              :key="item.label"
-              :label="item.label"
-              :value="item.value"
-              :is-editable="editModeSocials"
-              @change="onSocialChange"
-            />
-          </Section>
-          <br>
-          <Section
-            v-if="profile.experienceTimeline != null"
-            ref="portfolio"
-            title="Experience Timeline"
-            class="portfolio"
-            :on-edit="editExperienceTimeline"
-            :on-save="saveExperienceTimeline"
-            :on-cancel="cancelExperienceTimeline"
-            :is-editable="isEditable"
-          >
-            <div
-              v-if="
-                !editModeExperienceTimeline &&
-                  profile.experienceTimeline.length > 0
-              "
+          <b-card>
+            <Section
+              ref="mySkills"
+              title="My skills"
+              class="my-skills"
+              :on-edit="editSkills"
+              :on-save="saveSkills"
+              :on-cancel="cancelSkills"
+              :is-editable="isEditable"
             >
-              <Charts
-                :start="profile.experienceTimeline[0].start"
-                :end="profile.experienceTimeline[0].end"
-                :skills="profile.experienceTimeline[1].skills"
-                class="chart"
-              />
-            </div>
-            <div v-else>
-              <ExperienceTimelineSkill
-                :start="profile.experienceTimeline[0].start"
-                :end="profile.experienceTimeline[0].end"
-                :max="4"
-                :start-date-edit="true"
-                :is-editable="editModeExperienceTimeline"
-                @change="onExperienceTimelineStartDateChange"
-              />
-              <div
-                v-for="(item, indexSkill) in profile.experienceTimeline[1]
-                  .skills"
-                :key="item.label"
-              >
-                <br>
-                <span class="skill-control">
-                  <ExperienceTimelineSkill
-                    :label="item.skill"
+              <div class="skill-list">
+                <span
+                  v-for="(skill, index) in profile.skills"
+                  :key="skill.name"
+                  class="skill-control"
+                >
+                  <SkillLevel
+                    :name="skill.name"
+                    :no-of-years="skill.noOfYears"
+                    :rating="skill.rating"
                     :max="4"
-                    :is-editable="editModeExperienceTimeline"
-                    :index="indexSkill"
-                    @change="onExperienceTimelineSkillChange"
+                    :is-editable="editModeSkills"
+                    :index="index"
+                    @change="onSkillChange"
                   />
                   <span
-                    v-if="!editModeExperienceTimeline"
+                    v-if="!editModeSkills"
                     class="skills-delete-placeholder"
                   />
                   <div
-                    v-if="editModeExperienceTimeline"
+                    v-if="editModeSkills"
                     class="skills-delete"
-                    :data-index="indexSkill"
-                    @click="deleteExperienceTimeline(indexSkill, item.skill)"
+                    :data-index="index"
+                    @click="deleteSkill(index)"
                   >
                     <img
                       :src="`/images/delete.svg`"
@@ -246,325 +283,378 @@
                       alt="delete"
                     >
                   </div>
-                  <div class="add-container">
-                    <button
-                      v-if="editModeExperienceTimeline"
-                      class="add"
-                      @click="addExperienceTimeline(item.skill)"
-                    >
-                      +
-                    </button>
-                  </div>
-                </span>
-                <div class="skill-header">
-                  <span class="skill-rating">expertise</span>
-                  <span class="skill-rating">Tags</span>
-                  <span class="skills-delete-placeholder" />
-                </div>
-                <span
-                  v-for="(time, index) in item.timeline"
-                  :key="time.label"
-                >
-                  <ExperienceTimeline
-                    :name="time.year"
-                    :rating="time.expertise"
-                    :label="item.skill"
-                    :tags="time.tags"
-                    :max="4"
-                    :is-editable="editModeExperienceTimeline"
-                    :index="index"
-                    @change="onExperienceTimelineChange"
-                  />
                 </span>
               </div>
-            </div>
-          </Section>
-          <Section
-            ref="programmingSkills"
-            title="Programming Skills"
-            class="programming-skills"
-            :on-edit="editProgrammingSkills"
-            :on-save="saveProgrammingSkills"
-            :on-cancel="cancelProgrammingSkills"
-            :is-editable="isEditable"
-          >
-            <div>
-              <b-row
-                v-for="item in profile.programmingSkills"
-                :key="item.label"
-              >
-                <b-col
-                  md="6"
-                  sm="12"
-                >
-                  {{ item.label }}
-                </b-col>
-                <b-col
-                  md="6"
-                  sm="12"
-                  class="programming-skills-values"
-                >
-                  <div v-if="!editModeprogrammingSkills">
-                    <span
-                      v-for="(value, index) in item.values"
-                      :key="index"
-                      :style="{
-                        fontWeight: value.level > 3 ? '700' : 'normal',
-                        color: value.level > 3 ? '' : 'gray',
-                        color: value.level == 5 ? 'black' : '',
-                        fontSize:
-                          value.level > 2
-                            ? `${value.level * 5}px`
-                            : `${value.level * 11}px`,
-                      }"
-                    >
-                      <span v-if="value.skill != ''">
-                        <span
-                          v-if="value.level == 3"
-                          :style="{ fontSize: '20px' }"
-                        >{{ value.skill }}</span><span
-                          v-else-if="value.level == 2"
-                          :style="{ fontSize: '15px' }"
-                        >{{ value.skill }}</span>
-                        <span v-else>{{ value.skill }}</span>
-                        <span v-if="index + 1 != item.values.length">, </span>
-                      </span>
-                      <span v-else>-</span>
-                    </span>
-                  </div>
-                  <div v-else>
-                    <div class="skill-header">
-                      <span class="skill-name" />
-                      <span class="skill-rating">expertise</span>
-                      <span class="skills-delete-placeholder" />
-                    </div>
-                    <span
-                      v-for="(value, index) in item.values"
-                      :key="value.skill"
-                      class="skill-control"
-                    >
-                      <ProgrammingSkills
-                        :name="value.skill"
-                        :rating="value.level"
-                        :label="item.label"
-                        :max="4"
-                        :is-editable="editModeprogrammingSkills"
-                        :index="index"
-                        @change="onProgrammingSkillChange"
-                      />
-                      <span
-                        v-if="!editModeprogrammingSkills"
-                        class="skills-delete-placeholder"
-                      />
-                      <div
-                        v-if="editModeprogrammingSkills"
-                        class="skills-delete"
-                        :data-index="index"
-                        @click="deleteProgrammingSkill(index, item.label)"
-                      >
-                        <img
-                          :src="`/images/delete.svg`"
-                          class="icon-button"
-                          alt="delete"
-                        >
-                      </div>
-                      <div class="add-container">
-                        <button
-                          v-if="editModeprogrammingSkills"
-                          class="add"
-                          @click="addProgrammingSkills(item.label)"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </span>
-                  </div>
-                </b-col>
-              </b-row>
-            </div>
-          </Section>
-
-          <Section
-            ref="mySkills"
-            title="My skills"
-            class="my-skills"
-            :on-edit="editSkills"
-            :on-save="saveSkills"
-            :on-cancel="cancelSkills"
-            :is-editable="isEditable"
-          >
-            <div class="skill-list">
-              <div class="skill-header">
-                <span class="skill-name" />
-                <span class="skill-years">yrs</span>
-                <span class="skill-rating">expertise</span>
-                <span class="skills-delete-placeholder" />
-              </div>
-
-              <span
-                v-for="(skill, index) in profile.skills"
-                :key="skill.name"
-                class="skill-control"
-              >
-                <SkillLevel
-                  :name="skill.name"
-                  :no-of-years="skill.noOfYears"
-                  :rating="skill.rating"
-                  :max="4"
-                  :is-editable="editModeSkills"
-                  :index="index"
-                  @change="onSkillChange"
-                />
-                <span
-                  v-if="!editModeSkills"
-                  class="skills-delete-placeholder"
-                />
-                <div
-                  v-if="editModeSkills"
-                  class="skills-delete"
-                  :data-index="index"
-                  @click="deleteSkill(index)"
-                >
-                  <img
-                    :src="`/images/delete.svg`"
-                    class="icon-button"
-                    alt="delete"
-                  >
-                </div>
-              </span>
-            </div>
-            <div class="skills-actions">
-              <button
-                v-if="editModeSkills"
-                class="skills-add"
-                @click="addSkill"
-              >
-                +
-              </button>
-            </div>
-          </Section>
-          <Section
-            v-if="!username"
-            :title="`Reward Points: ${rewardPoints}`"
-            class="reward-points"
-            :is-editable="false"
-          >
-            <div class="reward-points-options">
-              <div>
-                <input
-                  v-model="pointsToRedeem"
-                  type="number"
-                  :disabled="rewardPoints < 1000"
-                >
+              <div class="skills-actions">
                 <button
-                  :disabled="!pointsToRedeem || rewardPoints < 1000"
-                  @click="redeemRewardPoints()"
+                  v-if="editModeSkills"
+                  class="skills-add"
+                  @click="addSkill"
                 >
-                  Redeem
+                  +
                 </button>
               </div>
-              <button @click="showRewardTransactions = !showRewardTransactions">
-                Transactions
-              </button>
-            </div>
-            <div class="small-text">
-              (You can Redeem only if reward points more than 1000)
-            </div>
-            <b-collapse
-              id="collapse-1"
-              v-model="showRewardTransactions"
-              class="mt-2"
+            </Section>
+          </b-card>
+        </b-col>
+        <b-col
+          md="6"
+          sm="12"
+        >
+          <b-card>
+            <Section
+              v-if="!username"
+              :title="`Reward Points: ${rewardPoints}`"
+              class="reward-points"
+              :is-editable="false"
             >
-              <b-card>
-                <RewardPointsTransactions :values="rewardPointsTransactions" />
-              </b-card>
-            </b-collapse>
-          </Section>
-          <Section
-            ref="eventsAttended"
-            title="Events attended"
-            class="events-attended"
-            :on-edit="editEvents"
-            :on-save="saveEvents"
-            :on-cancel="cancelEvents"
-            :is-editable="isEditable"
-          >
-            <EditEventList
-              v-if="profile.eventIds"
-              label="Events attended"
-              :event-ids="profile.eventIds"
-              :is-editable="editModeEvents"
-              @change="onEventChange"
-            />
-          </Section>
-          <Section
-            title="Activities"
-            class="events-attended"
-            :is-editable="editModeActivity && isEditable"
-          >
-            <div
-              v-for="(activity, index) in newActivity"
-              :key="index"
-            >
-              <section v-if="index > 0">
-                <span
-                  v-if="
-                    newActivity[index].createdAt !=
-                      newActivity[index - 1].createdAt
-                  "
-                  class="activityDate"
-                ><br>{{ activity.createdAt }}</span>
-              </section>
-              <section
-                v-if="index === 0"
-                class="activityDate"
+              <div class="reward-points-options">
+                <div>
+                  <input
+                    v-model="pointsToRedeem"
+                    class="redeem-input"
+                    type="number"
+                    :disabled="rewardPoints < 1000"
+                  >
+                  <button
+                    :disabled="!pointsToRedeem || rewardPoints < 1000"
+                    @click="redeemRewardPoints()"
+                  >
+                    Redeem
+                  </button>
+                </div>
+                <button
+                  @click="showRewardTransactions = !showRewardTransactions"
+                >
+                  Transactions
+                </button>
+              </div>
+              <div class="small-text">
+                (You can Redeem only if reward points more than 1000)
+              </div>
+              <b-collapse
+                id="collapse-1"
+                v-model="showRewardTransactions"
+                class="mt-2"
               >
-                {{ activity.createdAt }}
-              </section>
-              -
-              {{ getActivityType(activity.activityType) }}
-              {{ getModel(activity.model) }}
-              <a :href="activity.pageLink">{{ activity.title }}</a>
-            </div>
-          </Section>
-
-          <Section
-            v-if="!username"
-            title="Referrals"
-            class="user-referrals-section"
-            :is-editable="false"
-          >
-            <div class="user-referrals">
-              <user-avatar
-                v-for="referral in referrals"
-                :key="referral.username"
-                :user="referral"
+                <b-card>
+                  <RewardPointsTransactions
+                    :values="rewardPointsTransactions"
+                  />
+                </b-card>
+              </b-collapse>
+            </Section>
+          </b-card>
+          <br>
+          <b-card>
+            <Section
+              v-if="!username"
+              title="Referrals"
+              class="user-referrals-section"
+              :is-editable="false"
+            >
+              <div class="user-referrals">
+                <user-avatar
+                  v-for="referral in referrals"
+                  :key="referral.username"
+                  :user="referral"
+                />
+              </div>
+            </Section>
+          </b-card>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col
+          md="12"
+          sm="12"
+        >
+          <b-card class="card">
+            <Section
+              ref="programmingSkills"
+              title="Programming Skills"
+              class="programming-skills"
+              :on-edit="editProgrammingSkills"
+              :on-save="saveProgrammingSkills"
+              :on-cancel="cancelProgrammingSkills"
+              :is-editable="isEditable"
+            >
+              <div>
+                <b-row
+                  v-for="item in profile.programmingSkills"
+                  :key="item.label"
+                >
+                  <b-col>
+                    <span> {{ item.label }}</span>
+                  </b-col>
+                  <b-col class="programming-skills-values">
+                    <div v-if="!editModeprogrammingSkills">
+                      <span
+                        v-for="(value, index) in item.values"
+                        :key="index"
+                        :style="{
+                          fontWeight: value.level > 3 ? '700' : 'normal',
+                          color: value.level > 3 ? '' : 'gray',
+                          color: value.level == 5 ? 'black' : '',
+                          fontSize:
+                            value.level > 2
+                              ? `${value.level * 5}px`
+                              : `${value.level * 11}px`,
+                        }"
+                      >
+                        <span v-if="value.skill != ''">
+                          <span
+                            v-if="value.level == 3"
+                            :style="{ fontSize: '20px' }"
+                          >{{ value.skill }}</span><span
+                            v-else-if="value.level == 2"
+                            :style="{ fontSize: '15px' }"
+                          >{{ value.skill }}</span>
+                          <span v-else>{{ value.skill }}</span>
+                          <span v-if="index + 1 != item.values.length">, </span>
+                        </span>
+                        <span v-else>-</span>
+                      </span>
+                    </div>
+                    <div v-else>
+                      <div class="skill-header">
+                        <span class="skill-name" />
+                        <span class="skill-rating">expertise</span>
+                        <span class="skills-delete-placeholder" />
+                      </div>
+                      <span
+                        v-for="(value, index) in item.values"
+                        :key="value.skill"
+                        class="skill-control"
+                      >
+                        <ProgrammingSkills
+                          :name="value.skill"
+                          :rating="value.level"
+                          :label="item.label"
+                          :max="4"
+                          :is-editable="editModeprogrammingSkills"
+                          :index="index"
+                          @change="onProgrammingSkillChange"
+                        />
+                        <span
+                          v-if="!editModeprogrammingSkills"
+                          class="skills-delete-placeholder"
+                        />
+                        <div
+                          v-if="editModeprogrammingSkills"
+                          class="skills-delete"
+                          :data-index="index"
+                          @click="deleteProgrammingSkill(index, item.label)"
+                        >
+                          <img
+                            :src="`/images/delete.svg`"
+                            class="icon-button"
+                            alt="delete"
+                          >
+                        </div>
+                        <div class="add-container">
+                          <button
+                            v-if="editModeprogrammingSkills"
+                            class="add"
+                            @click="addProgrammingSkills(item.label)"
+                          >
+                            +
+                          </button>
+                        </div>
+                      </span>
+                    </div>
+                  </b-col>
+                </b-row>
+              </div>
+            </Section>
+          </b-card>
+        </b-col>
+      </b-row>
+      <br>
+      <b-row>
+        <b-col>
+          <b-card class="card">
+            <Section
+              v-if="profile.experienceTimeline != null"
+              ref="portfolio"
+              title="Experience Timeline"
+              class="portfolio"
+              :on-edit="editExperienceTimeline"
+              :on-save="saveExperienceTimeline"
+              :on-cancel="cancelExperienceTimeline"
+              :is-editable="isEditable"
+            >
+              <div
+                v-if="
+                  !editModeExperienceTimeline &&
+                    profile.experienceTimeline.length > 0
+                "
+              >
+                <Charts
+                  :start="profile.experienceTimeline[0].start"
+                  :end="profile.experienceTimeline[0].end"
+                  :skills="profile.experienceTimeline[1].skills"
+                  class="chart"
+                />
+              </div>
+              <div v-else>
+                <ExperienceTimelineSkill
+                  :start="profile.experienceTimeline[0].start"
+                  :end="profile.experienceTimeline[0].end"
+                  :max="4"
+                  :start-date-edit="true"
+                  :is-editable="editModeExperienceTimeline"
+                  @change="onExperienceTimelineStartDateChange"
+                />
+                <div
+                  v-for="(item, indexSkill) in profile.experienceTimeline[1]
+                    .skills"
+                  :key="item.label"
+                >
+                  <br>
+                  <span class="skill-control">
+                    <ExperienceTimelineSkill
+                      :label="item.skill"
+                      :max="4"
+                      :is-editable="editModeExperienceTimeline"
+                      :index="indexSkill"
+                      @change="onExperienceTimelineSkillChange"
+                    />
+                    <span
+                      v-if="!editModeExperienceTimeline"
+                      class="skills-delete-placeholder"
+                    />
+                    <div
+                      v-if="editModeExperienceTimeline"
+                      class="skills-delete"
+                      :data-index="indexSkill"
+                      @click="deleteExperienceTimeline(indexSkill, item.skill)"
+                    >
+                      <img
+                        :src="`/images/delete.svg`"
+                        class="icon-button"
+                        alt="delete"
+                      >
+                    </div>
+                    <div class="add-container">
+                      <button
+                        v-if="editModeExperienceTimeline"
+                        class="add"
+                        @click="addExperienceTimeline(item.skill)"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </span>
+                  <div class="skill-header">
+                    <span class="skill-rating">expertise</span>
+                    <span class="skill-rating">Tags</span>
+                    <span class="skills-delete-placeholder" />
+                  </div>
+                  <span
+                    v-for="(time, index) in item.timeline"
+                    :key="time.label"
+                  >
+                    <ExperienceTimeline
+                      :name="time.year"
+                      :rating="time.expertise"
+                      :label="item.skill"
+                      :tags="time.tags"
+                      :max="4"
+                      :is-editable="editModeExperienceTimeline"
+                      :index="index"
+                      @change="onExperienceTimelineChange"
+                    />
+                  </span>
+                </div>
+              </div>
+            </Section>
+          </b-card>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-card class="card">
+            <Section
+              ref="eventsAttended"
+              title="Events attended"
+              class="events-attended"
+              :on-edit="editEvents"
+              :on-save="saveEvents"
+              :on-cancel="cancelEvents"
+              :is-editable="isEditable"
+            >
+              <EditEventList
+                v-if="profile.eventIds"
+                label="Events attended"
+                :event-ids="profile.eventIds"
+                :is-editable="editModeEvents"
+                @change="onEventChange"
               />
-            </div>
-          </Section>
-
-          <Section
-            v-if="profile._id"
-            :title="`${profile.name}'s Video Rooms (Click to Join call)`"
-            class="private-video-section"
-            :is-editable="false"
-          >
-            <EventMeetings
-              :id="profile._id"
-              type="USER"
-              :is-editable="!username"
-              :admins="[]"
-            />
-          </Section>
-          <Section
-            title="Tweets"
-            class="user-referrals-section"
-            :is-editable="false"
-          >
-            <div>
-              <Twitter :username="getTwitterUsername()" />
-            </div>
-          </Section>
+            </Section>
+          </b-card>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-card class="card">
+            <Section
+              v-if="profile._id"
+              :title="`${profile.name}'s Video Rooms (Click to Join call)`"
+              class="private-video-section"
+              :is-editable="false"
+            >
+              <EventMeetings
+                :id="profile._id"
+                type="USER"
+                :is-editable="!username"
+                :admins="[]"
+              />
+            </Section>
+          </b-card><br>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-card>
+            <Section
+              title="Activities"
+              class="events-attended"
+              :is-editable="editModeActivity && isEditable"
+            >
+              <div
+                v-for="(activity, index) in newActivity"
+                :key="index"
+              >
+                <section v-if="index > 0">
+                  <span
+                    v-if="
+                      newActivity[index].createdAt !=
+                        newActivity[index - 1].createdAt
+                    "
+                    class="activityDate"
+                  ><br>{{ activity.createdAt }}</span>
+                </section>
+                <section
+                  v-if="index === 0"
+                  class="activityDate"
+                >
+                  {{ activity.createdAt }}
+                </section>
+                -
+                {{ getActivityType(activity.activityType) }}
+                {{ getModel(activity.model) }}
+                <a :href="activity.pageLink">{{ activity.title }}</a>
+              </div>
+            </Section>
+          </b-card>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <b-card>
+            <Twitter :username="getTwitterUsername()" />
+          </b-card>
         </b-col>
       </b-row>
     </b-container>
@@ -1433,6 +1523,23 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.profile {
+  display: flex;
+  width: 100%;
+  text-align: left;
+}
+.redeem-input {
+  height: 52px;
+}
+button {
+  padding: 10px;
+}
+b-card {
+  margin: 10px;
+}
+.card {
+  width: 100%;
+}
 .profile-photo {
   max-width: 100%;
   background-color: #114273;
@@ -1479,11 +1586,12 @@ export default {
 }
 
 .user-profile-photo {
-  max-width: 100%;
+  width: 100%;
   text-align: left;
 }
 .user-name {
   font-weight: 700;
+  margin-bottom: 20px;
 }
 
 .row {
@@ -1590,7 +1698,7 @@ export default {
 .reward-points,
 .referral-link,
 .programming-skills {
-  margin-top: 20px;
+  width: 100%;
 }
 
 .events-attended,
@@ -1614,7 +1722,9 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-
+  input {
+    width: 50%;
+  }
   button {
     margin: 2px;
   }
@@ -1626,10 +1736,17 @@ export default {
 
 .portfolio,
 .programming-skills-values {
-  word-break: break-all;
+  width: 100%;
 }
 .activityDate {
   font-size: 20px;
   color: #8f8f8f;
+}
+.social {
+  .social-image {
+    height: 30px;
+    width: 30px;
+    margin: 5px;
+  }
 }
 </style>
