@@ -85,8 +85,8 @@
     ><span
        v-if="skill.rating < 3"
        class="red"
-     >{{ (skill.rating / 5) * 100 }}%</span>
-      <span v-else>{{ (skill.rating / 5) * 100 }}%</span>
+     >{{ skill.rating }}/5</span>
+      <span v-else>{{ skill.rating }}/5</span>
     </span>
   </div>
 </template>
