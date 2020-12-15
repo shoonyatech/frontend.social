@@ -176,7 +176,7 @@
                     ><img
                       v-if="item.label === 'LinkedIn'"
                       class="social-image"
-                      src="/images/slack.svg"
+                      src="/images/linkedin.svg"
                     ><img
                       v-if="item.label === 'Bitbucket'"
                       class="social-image"
@@ -238,10 +238,7 @@
         </b-row>
       </b-card>
       <b-row>
-        <b-col
-          md="6"
-          sm="12"
-        >
+        <b-col>
           <b-card>
             <Section
               ref="mySkills"
@@ -297,13 +294,9 @@
             </Section>
           </b-card>
         </b-col>
-        <b-col
-          md="6"
-          sm="12"
-        >
+        <b-col v-if="!username">
           <b-card>
             <Section
-              v-if="!username"
               :title="`Reward Points: ${rewardPoints}`"
               class="reward-points"
               :is-editable="false"
@@ -348,7 +341,6 @@
           <br>
           <b-card>
             <Section
-              v-if="!username"
               title="Referrals"
               class="user-referrals-section"
               :is-editable="false"
@@ -653,6 +645,11 @@
       <b-row>
         <b-col>
           <b-card>
+            <Section
+              title="Tweets"
+              class="events-attended"
+              :is-editable="false"
+            />
             <Twitter :username="getTwitterUsername()" />
           </b-card>
         </b-col>
