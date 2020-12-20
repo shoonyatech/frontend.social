@@ -13,10 +13,10 @@
             alt="Home page banner"
           ></a> -->
 
-        <h1>Welcome Fellow Frontend Developers and Designers!</h1>
+        <h1>Hola Frontend Developers and Designers!</h1>
         <h2>
-          Meet your fellow and richen your knowledge , skills, and get your
-          dream job here.
+          Find frontend jobs, learn from courses, checkout online events and
+          hangout with other devs and designers!
         </h2>
         <div class="home desktop">
           <b-card
