@@ -2,7 +2,7 @@
   <b-container>
     <b-row>
       <b-col md="9">
-        <!-- <a
+        <a
           href="https://react.geekle.us/"
           name="home_banner"
           target="_blank"
@@ -11,13 +11,8 @@
             class="home-banner-top"
             src="/images/React_banner.png"
             alt="Home page banner"
-          ></a> -->
+          ></a>
 
-        <h1>Hola Frontend Developers and Designers!</h1>
-        <h2>
-          Find frontend jobs, learn from courses, checkout online events and
-          hangout with other devs and designers!
-        </h2>
         <div class="home desktop">
           <b-card
             :style="{
@@ -64,7 +59,7 @@
           >
             <span>Code Challenge</span>
           </b-card>
-          <b-card
+          <!-- <b-card
             :style="{
               backgroundImage: `url(${imagesUrl[5]})`,
             }"
@@ -72,7 +67,7 @@
             @click="onPodcastClick()"
           >
             <span>Podcasts</span>
-          </b-card>
+          </b-card> -->
         </div>
         <div class="home mobile">
           <div>
