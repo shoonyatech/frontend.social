@@ -31,7 +31,7 @@
     "heroku-ssl-redirect": "0.0.4",
     "leaflet": "^1.7.1",
     "leaflet-gesture-handling": "^1.2.1",
-    "moment-timezone": "^0.5.27",
+    "moment-timezone": "^0.5.35",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.0",
